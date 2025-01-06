@@ -1,7 +1,3 @@
-[[headers]]
-  for = "/*.tsx"
-  [headers.values]
-    Content-Type = "application/javascript"
 
 [[redirects]]
   from = "/*"
