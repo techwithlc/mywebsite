@@ -52,11 +52,11 @@ function App() {
                 embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
               },
               {
-                title: 'Project Beta',
-                description: 'Cloud-native microservices architecture',
-                tech: ['Docker', 'Kubernetes', 'AWS'],
-                spotifyEmbed: false,
-                image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80'
+                title: 'Google 台灣面試分享',
+                description: '分享我在 Google 台灣的面試經驗與心得',
+                tech: ['Career', 'Interview', 'Google'],
+                mediumEmbed: true,
+                embedUrl: 'https://medium.com/embed/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
               }
             ].map((project) => (
               <div key={project.title} className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
@@ -68,6 +68,16 @@ function App() {
                     frameBorder="0" 
                     allowFullScreen 
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    className="w-full"
+                  />
+                ) : project.mediumEmbed ? (
+                  <iframe 
+                    src={project.embedUrl}
+                    width="100%"
+                    height="352"
+                    frameBorder="0"
+                    allowFullScreen
                     loading="lazy"
                     className="w-full"
                   />
