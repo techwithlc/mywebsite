@@ -134,7 +134,7 @@ function App() {
                className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
               <Linkedin className="w-6 h-6" />
             </a>
-            <a href="kuanlunlawrence.chen@gmail.com"
+            <a href="mailto:kuanlunlawrence.chen@gmail.com"
                className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
               <Mail className="w-6 h-6" />
             </a>
