@@ -45,10 +45,10 @@ function App() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
-                title: 'Project Alpha',
-                description: 'A modern web application built with React and GraphQL',
-                tech: ['React', 'GraphQL', 'Node.js'],
-                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
+                title: 'Podcast',
+                description: '歡迎收聽歐趴，讓你人生一路 All Pa',
+                tech: ['Podcast', 'Tech', 'Oversea'],
+                image: 'https://open.spotify.com/show/0dfTD5n0Rfuco9z24BhaS0?si=da4a4a8a4f2b4623?auto=format&fit=crop&w=800&q=80'
               },
               {
                 title: 'Project Beta',
