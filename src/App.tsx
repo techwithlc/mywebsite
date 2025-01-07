@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2 } from 'lucide-react';
+import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Google } from 'lucide-react';
 
 function App() {
   return (
@@ -56,7 +56,6 @@ function App() {
                 description: '分享我在 Google 台灣的面試經驗與心得',
                 tech: ['Career', 'Interview', 'Google'],
                 mediumEmbed: false,
-                image: 'https://miro.medium.com/max/1200/1*vuXxZ3_UUGwsJ2tY-pcmgg.jpeg',
                 link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
               }
             ].map((project) => (
@@ -73,8 +72,12 @@ function App() {
                     className="w-full"
                   />
                 ) : (
-                  <a href={project.link} target="_blank" rel="noopener noreferrer">
-                    <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" 
+                     className="flex items-center justify-center bg-white h-48">
+                    <div className="flex flex-col items-center gap-4">
+                      <Google className="w-20 h-20" />
+                      <span className="text-gray-800 font-medium">Read on Medium</span>
+                    </div>
                   </a>
                 )}
                 <div className="p-6">
