@@ -29,7 +29,7 @@ function App() {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-12 text-center">Tech Stack</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            {['React', 'TypeScript', 'Node.js', 'AWS', 'Azure', 'GCP', 'Networking', 'Linux','AI'].map((tech) => (
+            {['React', 'TypeScript','AWS', 'Azure', 'GCP', 'Networking', 'Linux','AI'].map((tech) => (
               <div key={tech} className="bg-gray-700/50 p-6 rounded-lg text-center hover:bg-gray-700 transition-colors">
                 <p className="font-medium">{tech}</p>
               </div>
@@ -56,7 +56,7 @@ function App() {
                 description: '分享我在 Google 台灣的面試經驗與心得',
                 tech: ['Career', 'Interview', 'Google'],
                 mediumEmbed: true,
-                embedUrl: 'https://medium.com/embed/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
+                embedUrl: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
               }
             ].map((project) => (
               <div key={project.title} className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
