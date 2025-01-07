@@ -8,11 +8,10 @@ function App() {
       <header className="container mx-auto px-6 py-16 md:py-32">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-            Building the Future with Code
+            Building the Future with AI
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-8">
-            Full-stack developer passionate about creating innovative solutions
-            and pushing the boundaries of technology.
+          Cloud computing trailblazer passionate about driving innovation and transforming the future of technology.
           </p>
           <div className="flex gap-4">
             <a href="#contact" className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg font-medium transition-colors">
@@ -82,15 +81,15 @@ function App() {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-12 text-center">Get in Touch</h2>
           <div className="flex justify-center gap-8">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" 
+            <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" 
                className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
               <Github className="w-6 h-6" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
                className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
               <Linkedin className="w-6 h-6" />
             </a>
-            <a href="mailto:your.email@example.com"
+            <a href="kuanlunlawrence.chen@gmail.com"
                className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
               <Mail className="w-6 h-6" />
             </a>
@@ -100,7 +99,7 @@ function App() {
 
       <footer className="border-t border-gray-800 py-8 mt-20">
         <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} Your Name. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} techwithlc. All rights reserved.</p>
         </div>
       </footer>
     </div>
