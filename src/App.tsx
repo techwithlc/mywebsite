@@ -99,7 +99,7 @@ function App() {
 
       <footer className="border-t border-gray-800 py-8 mt-20">
         <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} techwithlc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} TechwithLc. All rights reserved.</p>
         </div>
       </footer>
     </div>
