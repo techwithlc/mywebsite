@@ -29,7 +29,7 @@ function App() {
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold mb-12 text-center">Tech Stack</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-            {['React', 'TypeScript', 'Node.js', 'AWS', 'Docker', 'PostgreSQL', 'GraphQL', 'Next.js'].map((tech) => (
+            {['React', 'TypeScript', 'Node.js', 'AWS', 'Azure', 'GCP', 'Networking', 'Linux','AI'].map((tech) => (
               <div key={tech} className="bg-gray-700/50 p-6 rounded-lg text-center hover:bg-gray-700 transition-colors">
                 <p className="font-medium">{tech}</p>
               </div>
