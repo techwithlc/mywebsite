@@ -45,20 +45,35 @@ function App() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {[
               {
-                title: 'Podcast',
+                title: 'Podcast - 歐趴',
                 description: '歡迎收聽歐趴，讓你人生一路 All Pa',
                 tech: ['Podcast', 'Tech', 'Oversea'],
-                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
+                spotifyEmbed: true,
+                embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
               },
               {
                 title: 'Project Beta',
                 description: 'Cloud-native microservices architecture',
                 tech: ['Docker', 'Kubernetes', 'AWS'],
+                spotifyEmbed: false,
                 image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80'
               }
             ].map((project) => (
               <div key={project.title} className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
-                <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                {project.spotifyEmbed ? (
+                  <iframe 
+                    src={project.embedUrl}
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowFullScreen 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    className="w-full"
+                  />
+                ) : (
+                  <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                )}
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                   <p className="text-gray-300 mb-4">{project.description}</p>
