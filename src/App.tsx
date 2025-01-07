@@ -55,8 +55,9 @@ function App() {
                 title: 'Google 台灣面試分享',
                 description: '分享我在 Google 台灣的面試經驗與心得',
                 tech: ['Career', 'Interview', 'Google'],
-                mediumEmbed: true,
-                embedUrl: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
+                mediumEmbed: false,
+                image: 'https://miro.medium.com/max/1200/1*vuXxZ3_UUGwsJ2tY-pcmgg.jpeg',
+                link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
               }
             ].map((project) => (
               <div key={project.title} className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
@@ -71,21 +72,20 @@ function App() {
                     loading="lazy"
                     className="w-full"
                   />
-                ) : project.mediumEmbed ? (
-                  <iframe 
-                    src={project.embedUrl}
-                    width="100%"
-                    height="352"
-                    frameBorder="0"
-                    allowFullScreen
-                    loading="lazy"
-                    className="w-full"
-                  />
                 ) : (
-                  <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                  <a href={project.link} target="_blank" rel="noopener noreferrer">
+                    <img src={project.image} alt={project.title} className="w-full h-48 object-cover" />
+                  </a>
                 )}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={!project.spotifyEmbed ? "hover:text-blue-400 transition-colors" : ""}
+                  >
+                    <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                  </a>
                   <p className="text-gray-300 mb-4">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((t) => (
