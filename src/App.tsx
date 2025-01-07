@@ -48,7 +48,7 @@ function App() {
                 title: 'Podcast',
                 description: '歡迎收聽歐趴，讓你人生一路 All Pa',
                 tech: ['Podcast', 'Tech', 'Oversea'],
-                image: 'https://open.spotify.com/show/0dfTD5n0Rfuco9z24BhaS0?si=da4a4a8a4f2b4623'
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
               },
               {
                 title: 'Project Beta',
