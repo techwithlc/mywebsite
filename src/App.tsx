@@ -327,14 +327,14 @@ function App() {
         {/* Enhanced Projects Section */}
         <section id="projects" className="py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-12">
+            <div className="max-w-6xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Featured Work</span>
               <h2 className="text-3xl font-bold mt-2">Latest Projects</h2>
               <p className="text-gray-400 mt-4">
                 Exploring innovative solutions in cloud computing and artificial intelligence
               </p>
             </div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {[
                 {
                   title: 'Tech Podcast - 歐趴',
@@ -348,7 +348,7 @@ function App() {
                   description: 'Tech tutorials, cloud computing insights, and career development tips',
                   tech: ['YouTube', 'Tech Content', 'Tutorials'],
                   youtubeEmbed: true,
-                  embedUrl: 'https://www.youtube.com/embed/videoseries?list=UU@techwithlc'
+                  embedUrl: 'https://www.youtube.com/embed/?listType=user_uploads&list=@techwithlc'
                 },
                 {
                   title: 'Google Taiwan Interview Experience',
