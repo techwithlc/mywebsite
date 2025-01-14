@@ -88,12 +88,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      {/* Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 bg-gray-900/90 backdrop-blur-sm z-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      {/* Enhanced Navigation with Sticky Header */}
+      <nav className="fixed top-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <a href="#" className="text-2xl font-bold text-blue-500">TechwithLC</a>
+            <a href="#" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                <Code2 className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
+                TechwithLC
+              </span>
+            </a>
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
@@ -133,30 +140,49 @@ function App() {
 
       {/* Add padding to account for fixed navbar */}
       <div className="pt-20">
-        {/* Enhanced Hero Section with Animation and Strong CTA */}
-        <header className="container mx-auto px-6 py-16 md:py-32 relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse"></div>
+        {/* Enhanced Hero Section with Better Visual Hierarchy */}
+        <header className="container mx-auto px-6 py-16 md:py-32 relative">
+          {/* Background Animation */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -inset-[10px] opacity-30">
+              <div className="w-full h-full bg-gradient-to-br from-blue-600 via-cyan-500 to-blue-400 blur-3xl animate-pulse" />
+            </div>
           </div>
-          <div className="max-w-4xl mx-auto animate-fadeIn relative">
-            <span className="text-blue-400 font-medium mb-4 block">Welcome to TechwithLC</span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-              Building the Future with AI & Cloud Technology
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-              Join me on this journey of innovation and transformation.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#projects" 
-                 className="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-lg font-medium transition-all hover:transform hover:scale-105 flex items-center gap-2">
-                <Terminal className="w-5 h-5" />
-                Explore Projects
-              </a>
-              <a href="#contact" 
-                 className="border-2 border-blue-500 hover:bg-blue-500/10 px-8 py-4 rounded-lg font-medium transition-all hover:transform hover:scale-105 flex items-center gap-2">
-                <Mail className="w-5 h-5" />
-                Get in Touch
-              </a>
+          
+          {/* Content */}
+          <div className="max-w-4xl mx-auto relative">
+            <div className="space-y-6 text-center md:text-left">
+              <div className="inline-block px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20 mb-4">
+                <span className="text-blue-400 font-medium">Welcome to TechwithLC</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                Building the Future with{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+                  AI & Cloud Technology
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto md:mx-0">
+                Join me on this journey of innovation and transformation.
+              </p>
+
+              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                <a href="#projects" 
+                   className="group bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-4 rounded-lg font-medium transition-all hover:shadow-lg hover:shadow-blue-500/25">
+                  <span className="flex items-center gap-2">
+                    <Terminal className="w-5 h-5" />
+                    Explore Projects
+                  </span>
+                </a>
+                <a href="#contact" 
+                   className="group px-8 py-4 rounded-lg font-medium border border-blue-500/50 hover:bg-blue-500/10 transition-all">
+                  <span className="flex items-center gap-2">
+                    <Mail className="w-5 h-5" />
+                    Get in Touch
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </header>
@@ -173,19 +199,54 @@ function App() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
               {[
-                { name: 'React', icon: '⚛️' },
-                { name: 'TypeScript', icon: '📘' },
-                { name: 'AWS', icon: '☁️' },
-                { name: 'Azure', icon: '🌥️' },
-                { name: 'GCP', icon: '🌐' },
-                { name: 'Networking', icon: '🔌' },
-                { name: 'Linux', icon: '🐧' },
-                { name: 'AI', icon: '🤖' }
+                { 
+                  name: 'React', 
+                  icon: '⚛️',
+                  description: 'Frontend Development'
+                },
+                { 
+                  name: 'TypeScript', 
+                  icon: '📘',
+                  description: 'Type-Safe Code'
+                },
+                { 
+                  name: 'AWS', 
+                  icon: '☁️',
+                  description: 'Cloud Infrastructure'
+                },
+                { 
+                  name: 'Azure', 
+                  icon: '🌥️',
+                  description: 'Cloud Services'
+                },
+                { 
+                  name: 'GCP', 
+                  icon: '🌐',
+                  description: 'Cloud Platform'
+                },
+                { 
+                  name: 'Networking', 
+                  icon: '🔌',
+                  description: 'Infrastructure'
+                },
+                { 
+                  name: 'Linux', 
+                  icon: '🐧',
+                  description: 'System Admin'
+                },
+                { 
+                  name: 'AI', 
+                  icon: '🤖',
+                  description: 'Machine Learning'
+                }
               ].map((tech) => (
                 <div key={tech.name} 
-                     className="bg-gray-700/50 p-6 rounded-lg text-center hover:bg-gray-700 transition-all hover:transform hover:scale-105 cursor-pointer">
-                  <div className="text-2xl mb-2">{tech.icon}</div>
-                  <p className="font-medium">{tech.name}</p>
+                     className="bg-gray-700/50 p-6 rounded-lg text-center hover:bg-gray-700 transition-all hover:transform hover:scale-105 cursor-pointer group">
+                  <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform">
+                    {tech.icon}
+                  </div>
+                  <h3 className="font-medium text-lg mb-1">{tech.name}</h3>
+                  <p className="text-sm text-gray-400">{tech.description}</p>
                 </div>
               ))}
             </div>
@@ -263,28 +324,35 @@ function App() {
           </div>
         )}
 
-        {/* Featured Projects */}
+        {/* Enhanced Projects Section */}
         <section id="projects" className="py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold mb-12 text-center">Featured Projects</h2>
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="text-blue-400 font-medium">Featured Work</span>
+              <h2 className="text-3xl font-bold mt-2">Latest Projects</h2>
+              <p className="text-gray-400 mt-4">
+                Exploring innovative solutions in cloud computing and artificial intelligence
+              </p>
+            </div>
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {[
                 {
-                  title: 'Podcast - 歐趴',
-                  description: '歡迎收聽歐趴，讓你人生一路 All Pa',
-                  tech: ['Podcast', 'Tech', 'Oversea'],
+                  title: 'Tech Podcast - 歐趴',
+                  description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa',
+                  tech: ['Podcast', 'Tech Trends', 'Innovation'],
                   spotifyEmbed: true,
                   embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
                 },
                 {
-                  title: 'Google 台灣面試分享',
-                  description: '分享我在 Google 台灣的面試經驗與心得',
-                  tech: ['Career', 'Interview', 'Google'],
+                  title: 'Google Taiwan Interview Experience',
+                  description: '深入分享 Google 台灣的面試過程與寶貴經驗',
+                  tech: ['Career Growth', 'Interview Tips', 'Google'],
                   mediumEmbed: false,
                   link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
                 }
               ].map((project) => (
-                <div key={project.title} className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-transform">
+                <div key={project.title} 
+                     className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
                   {project.spotifyEmbed ? (
                     <iframe 
                       src={project.embedUrl}
@@ -297,10 +365,11 @@ function App() {
                       className="w-full"
                     />
                   ) : (
-
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" 
-                       className="flex items-center justify-center bg-white h-48">
-                      <div className="flex flex-col items-center gap-4">
+                    <a href={project.link} 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       className="block bg-gradient-to-br from-gray-100 to-white h-48 relative group overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center transition-transform group-hover:scale-110">
                         <svg viewBox="0 0 24 24" className="w-20 h-20">
                           <path
                             fill="#4285F4"
@@ -319,6 +388,8 @@ function App() {
                             d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
                           />
                         </svg>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent">
                         <span className="text-gray-800 font-medium">Read on Medium</span>
                       </div>
                     </a>
@@ -330,12 +401,15 @@ function App() {
                       rel="noopener noreferrer"
                       className={!project.spotifyEmbed ? "hover:text-blue-400 transition-colors" : ""}
                     >
-                      <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                        {project.title}
+                      </h3>
                     </a>
                     <p className="text-gray-300 mb-4">{project.description}</p>
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((t) => (
-                        <span key={t} className="bg-blue-500/20 text-blue-300 px-3 py-1 rounded-full text-sm">
+                        <span key={t} 
+                              className="bg-blue-500/10 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/20">
                           {t}
                         </span>
                       ))}
@@ -347,28 +421,75 @@ function App() {
           </div>
         </section>
 
-        {/* Contact */}
+        {/* Enhanced Contact Section */}
         <section id="contact" className="bg-gray-800/50 py-20">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold mb-12 text-center">Get in Touch</h2>
-            <div className="flex justify-center gap-8">
-              <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" 
-                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="text-blue-400 font-medium">Get in Touch</span>
+              <h2 className="text-3xl font-bold mt-2">Let's Connect</h2>
+              <p className="text-gray-400 mt-4">
+                Feel free to reach out for collaborations or just a friendly chat
+              </p>
+            </div>
+            <div className="flex justify-center gap-6">
+              <a href="https://github.com/techwithlc" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
                 <Github className="w-6 h-6" />
               </a>
-              <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
-                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
+              <a href="https://www.linkedin.com/in/klunlawrencechen/" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
                 <Linkedin className="w-6 h-6" />
               </a>
               <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kuanlunlawrence.chen@gmail.com" 
                  target="_blank" 
                  rel="noopener noreferrer"
-                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-colors">
+                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
                 <Mail className="w-6 h-6" />
               </a>
             </div>
           </div>
         </section>
+
+        {/* Enhanced Newsletter Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="bg-gradient-to-br from-gray-800/50 to-gray-800/30 rounded-2xl p-8 max-w-2xl mx-auto">
+              <div className="text-center mb-8">
+                <span className="text-blue-400 font-medium">Newsletter</span>
+                <h3 className="text-2xl font-bold mt-2">Stay Updated</h3>
+                <p className="text-gray-400 mt-4">
+                  Get the latest insights on cloud computing, AI, and tech trends delivered to your inbox
+                </p>
+              </div>
+              <form className="flex flex-col md:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all whitespace-nowrap"
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        {/* Simplified Footer */}
+        <footer className="border-t border-gray-800 py-8">
+          <div className="container mx-auto px-6">
+            <div className="text-center text-gray-400">
+              <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
 
         {/* Scroll to Top Button */}
         {showScrollTop && (
@@ -380,41 +501,7 @@ function App() {
             <ArrowUp className="w-6 h-6" />
           </button>
         )}
-
-        {/* Newsletter Signup */}
-        <section className="py-20">
-          <div className="container mx-auto px-6">
-            <div className="bg-gray-800/50 rounded-2xl p-8 max-w-2xl mx-auto text-center">
-              <h3 className="text-2xl font-bold mb-4">Stay Updated</h3>
-              <p className="text-gray-300 mb-6">
-                Subscribe to my newsletter for the latest tech insights and updates.
-              </p>
-              <form className="flex flex-col md:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:border-blue-500 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-500 px-6 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
       </div>
-
-      {/* Simplified Footer */}
-      <footer className="border-t border-gray-800 py-8">
-        <div className="container mx-auto px-6">
-          <div className="text-center text-gray-400">
-            <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
