@@ -144,7 +144,6 @@ function App() {
               Building the Future with AI & Cloud Technology
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-              Exploring the intersection of Cloud Computing, AI, and modern development. 
               Join me on this journey of innovation and transformation.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -408,32 +407,10 @@ function App() {
         </section>
       </div>
 
-      {/* Enhanced Footer with Social Links */}
-      <footer className="border-t border-gray-800 py-12 mt-20">
+      {/* Simplified Footer */}
+      <footer className="border-t border-gray-800 py-8">
         <div className="container mx-auto px-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="text-xl font-bold mb-4">TechwithLC</h3>
-              <p className="text-gray-400">
-                Building the future with AI & Cloud Technology
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <a href="https://github.com/techwithlc" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-gray-400 hover:text-blue-400 transition-colors">
-                <Github className="w-6 h-6" />
-              </a>
-              <a href="https://www.linkedin.com/in/klunlawrencechen/" 
-                 target="_blank" 
-                 rel="noopener noreferrer"
-                 className="text-gray-400 hover:text-blue-400 transition-colors">
-                <Linkedin className="w-6 h-6" />
-              </a>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+          <div className="text-center text-gray-400">
             <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
           </div>
         </div>
