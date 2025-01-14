@@ -344,6 +344,13 @@ function App() {
                   embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
                 },
                 {
+                  title: 'TechwithLC YouTube',
+                  description: 'Tech tutorials, cloud computing insights, and career development tips',
+                  tech: ['YouTube', 'Tech Content', 'Tutorials'],
+                  youtubeEmbed: true,
+                  embedUrl: 'https://www.youtube.com/embed/videoseries?list=UU@techwithlc'
+                },
+                {
                   title: 'Google Taiwan Interview Experience',
                   description: '深入分享 Google 台灣的面試過程與寶貴經驗',
                   tech: ['Career Growth', 'Interview Tips', 'Google'],
@@ -361,6 +368,17 @@ function App() {
                       frameBorder="0" 
                       allowFullScreen 
                       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                      loading="lazy"
+                      className="w-full"
+                    />
+                  ) : project.youtubeEmbed ? (
+                    <iframe
+                      src="https://www.youtube.com/embed/?listType=user_uploads&list=@techwithlc"
+                      width="100%"
+                      height="352"
+                      frameBorder="0"
+                      allowFullScreen
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       loading="lazy"
                       className="w-full"
                     />
@@ -396,10 +414,10 @@ function App() {
                   )}
                   <div className="p-6">
                     <a 
-                      href={project.link} 
+                      href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className={!project.spotifyEmbed ? "hover:text-blue-400 transition-colors" : ""}
+                      className="hover:text-blue-400 transition-colors"
                     >
                       <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
                         {project.title}
