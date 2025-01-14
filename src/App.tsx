@@ -10,6 +10,7 @@ function App() {
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [showShareTooltip, setShowShareTooltip] = useState(false);
 
   // Handle scroll to top button visibility
   useEffect(() => {
@@ -62,6 +63,27 @@ function App() {
       setFeedbackStatus('error');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'TechwithLC',
+      text: 'Building the Future with AI & Cloud Technology',
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback to copying URL
+        await navigator.clipboard.writeText(window.location.href);
+        setShowShareTooltip(true);
+        setTimeout(() => setShowShareTooltip(false), 2000);
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
     }
   };
 
@@ -122,7 +144,7 @@ function App() {
               Building the Future with AI & Cloud Technology
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-              Exploring the intersection of cloud computing, artificial intelligence, and modern development. 
+              Exploring the intersection of Cloud Computing, AI, and modern development. 
               Join me on this journey of innovation and transformation.
             </p>
             <div className="flex flex-wrap gap-4">
@@ -172,13 +194,20 @@ function App() {
         </section>
 
         {/* Social Share Floating Button */}
-        <button 
-          onClick={() => {/* Add share functionality */}}
-          className="fixed bottom-24 right-8 bg-blue-500 p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors z-50"
-          aria-label="Share"
-        >
-          <Share2 className="w-6 h-6" />
-        </button>
+        <div className="fixed bottom-24 right-8 z-50">
+          <button 
+            onClick={handleShare}
+            className="bg-blue-500 p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors relative"
+            aria-label="Share"
+          >
+            <Share2 className="w-6 h-6" />
+          </button>
+          {showShareTooltip && (
+            <div className="absolute bottom-full mb-2 right-0 bg-gray-800 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap">
+              Copied to clipboard!
+            </div>
+          )}
+        </div>
 
         {/* Feedback Button */}
         <button
@@ -382,40 +411,30 @@ function App() {
       {/* Enhanced Footer with Social Links */}
       <footer className="border-t border-gray-800 py-12 mt-20">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-xl font-bold mb-4">Tech with LC</h3>
+              <h3 className="text-xl font-bold mb-4">TechwithLC</h3>
               <p className="text-gray-400">
-                Exploring the frontiers of technology and sharing knowledge with the community.
+                Building the future with AI & Cloud Technology
               </p>
             </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                {navItems.map(item => (
-                  <li key={item.label}>
-                    <a href={item.href} className="text-gray-400 hover:text-blue-400 transition-colors">
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">Connect</h3>
-              <div className="flex gap-4">
-                <a href="https://github.com/techwithlc" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="text-gray-400 hover:text-blue-400 transition-colors">
-                  <Github className="w-6 h-6" />
-                </a>
-                {/* Add other social links */}
-              </div>
+            <div className="flex gap-4">
+              <a href="https://github.com/techwithlc" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="text-gray-400 hover:text-blue-400 transition-colors">
+                <Github className="w-6 h-6" />
+              </a>
+              <a href="https://www.linkedin.com/in/klunlawrencechen/" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 className="text-gray-400 hover:text-blue-400 transition-colors">
+                <Linkedin className="w-6 h-6" />
+              </a>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>© {new Date().getFullYear()} Tech with LC. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
           </div>
         </div>
       </footer>
