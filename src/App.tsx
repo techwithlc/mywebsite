@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Menu, X, ArrowUp, Share2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { EMAIL_CONFIG } from './config/email';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,14 +36,19 @@ function App() {
     
     setIsSubmitting(true);
     try {
+      console.log('Sending feedback with config:', {
+        serviceId: EMAIL_CONFIG.SERVICE_ID,
+        templateId: EMAIL_CONFIG.TEMPLATE_ID,
+        publicKey: EMAIL_CONFIG.PUBLIC_KEY?.slice(0, 5) + '...' // Log only first 5 chars for security
+      });
+
       await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
+        EMAIL_CONFIG.SERVICE_ID,
+        EMAIL_CONFIG.TEMPLATE_ID,
         {
           message: feedbackMessage,
           from_name: 'Website Visitor',
-        },
-        'YOUR_PUBLIC_KEY'
+        }
       );
       
       setFeedbackStatus('success');
@@ -52,6 +58,7 @@ function App() {
         setFeedbackStatus('idle');
       }, 2000);
     } catch (error) {
+      console.error('Failed to send feedback:', error);
       setFeedbackStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -110,7 +117,7 @@ function App() {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse"></div>
           </div>
           <div className="max-w-4xl mx-auto animate-fadeIn relative">
-            <span className="text-blue-400 font-medium mb-4 block">Welcome to Tech with LC</span>
+            <span className="text-blue-400 font-medium mb-4 block">Welcome to TechwithLC</span>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
               Building the Future with AI & Cloud Technology
             </h1>
