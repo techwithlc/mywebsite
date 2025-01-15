@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUp, Github, Linkedin, Share2, Mail } from 'lucide-react';
+import { Menu, X, ArrowUp, Github, Linkedin, Share2, Mail, Code2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
 
@@ -19,7 +19,6 @@ function App() {
 
   const handleShare = async () => {
     try {
-      // Track share event
       window.gtag('event', 'share', {
         method: navigator.share ? 'web_share' : 'copy_link',
         content_type: 'website',
@@ -69,7 +68,6 @@ function App() {
               <a href="#contact" className="hover:text-blue-400 transition-colors">Contact</a>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2"
@@ -113,7 +111,60 @@ function App() {
         </div>
       </header>
 
-      {/* Rest of your sections... */}
+      {/* Your existing sections here... */}
+
+      {/* Footer with your content */}
+      <footer className="border-t border-gray-800/20 py-16">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Learn Cloud & AI</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Cloud Computing Basics</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Cloud Security</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">System Design</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AWS Certification Guide</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Tech Topics</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">DevOps & CI/CD</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Docker & Kubernetes</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AI Development</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Machine Learning</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4">My Content</h3>
+              <ul className="space-y-2">
+                <li><a href="https://medium.com/@awslc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Medium Blog</a></li>
+                <li><a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">YouTube Channel</a></li>
+                <li><a href="https://open.spotify.com/show/0dfTD5n0Rfuco9z24BhaS0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Tech Podcast</a></li>
+                <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Open Source Projects</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Connect</h3>
+              <ul className="space-y-2">
+                <li><a href="#contact" className="text-gray-400 hover:text-blue-400 transition-colors">Contact Me</a></li>
+                <li><a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">LinkedIn</a></li>
+                <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">GitHub</a></li>
+                <li><a href="mailto:kuanlunlawrence.chen@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">Email</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-gray-800/20 pt-8">
+            <div className="text-gray-400 text-sm text-center">
+              <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Floating Buttons */}
       <div className="fixed bottom-24 right-8 z-50 flex flex-col gap-4">
@@ -127,7 +178,6 @@ function App() {
           <ArrowUp className="w-6 h-6" />
         </button>
 
-        {/* Share Button */}
         <button 
           onClick={handleShare}
           className="bg-blue-500 p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors relative"
