@@ -11,6 +11,39 @@ export const translations = {
       title: 'Building the Future with AI & Cloud Technology',
       subtitle: 'Join me on this journey of innovation and transformation'
     },
+    techStack: {
+      title: 'Tech Stack',
+      subtitle: 'Technologies I work with',
+      description: 'Leveraging cutting-edge technologies to build scalable solutions'
+    },
+    projects: {
+      title: 'Latest Projects',
+      subtitle: 'Featured Work',
+      description: 'Exploring innovative solutions in cloud computing and artificial intelligence',
+      podcast: {
+        title: 'Tech Podcast - 歐趴',
+        description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa'
+      },
+      youtube: {
+        title: 'TechwithLC YouTube',
+        description: 'Tech tutorials, cloud computing insights, and career development tips'
+      },
+      interview: {
+        title: 'Google Taiwan Interview Experience',
+        description: '深入分享 Google 台灣的面試過程與寶貴經驗'
+      }
+    },
+    contact: {
+      title: 'Get in Touch',
+      subtitle: 'Let\'s Connect',
+      description: 'Feel free to reach out for collaborations or just a friendly chat'
+    },
+    newsletter: {
+      title: 'Stay Updated',
+      description: 'Get the latest insights on cloud computing, AI, and tech trends',
+      button: 'Subscribe',
+      placeholder: 'Enter your email'
+    },
     footer: {
       learn: {
         title: 'Learn Cloud & AI',
@@ -53,6 +86,39 @@ export const translations = {
       welcome: '歡迎來到 TechwithLC',
       title: '用 AI 與雲端技術打造未來',
       subtitle: '一起探索創新與轉型之旅'
+    },
+    techStack: {
+      title: '技術棧',
+      subtitle: '專業技術',
+      description: '運用前沿技術打造可擴展的解決方案'
+    },
+    projects: {
+      title: '最新專案',
+      subtitle: '精選作品',
+      description: '探索雲端運算與人工智慧的創新解決方案',
+      podcast: {
+        title: '科技播客 - 歐趴',
+        description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa'
+      },
+      youtube: {
+        title: 'TechwithLC YouTube',
+        description: '技術教學、雲端運算見解與職涯發展建議'
+      },
+      interview: {
+        title: 'Google 台灣面試經驗',
+        description: '深入分享 Google 台灣的面試過程與寶貴經驗'
+      }
+    },
+    contact: {
+      title: '聯絡方式',
+      subtitle: '保持聯繫',
+      description: '歡迎討論合作機會或交流想法'
+    },
+    newsletter: {
+      title: '訂閱更新',
+      description: '獲取最新的雲端運算、AI 和技術趨勢資訊',
+      button: '訂閱',
+      placeholder: '輸入您的電子郵件'
     },
     footer: {
       learn: {

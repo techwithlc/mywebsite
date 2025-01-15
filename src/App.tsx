@@ -112,13 +112,10 @@ function App() {
             
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
-              {navItems.map(item => (
-                <a key={item.label} 
-                   href={item.href}
-                   className="hover:text-blue-400 transition-colors">
-                  {item.label}
-                </a>
-              ))}
+              <a href="#" className="hover:text-blue-400 transition-colors">{t.nav.home}</a>
+              <a href="#tech" className="hover:text-blue-400 transition-colors">{t.nav.techStack}</a>
+              <a href="#projects" className="hover:text-blue-400 transition-colors">{t.nav.projects}</a>
+              <a href="#contact" className="hover:text-blue-400 transition-colors">{t.nav.contact}</a>
             </div>
 
             {/* Mobile Menu Button */}
@@ -127,6 +124,18 @@ function App() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X /> : <Menu />}
+            </button>
+
+            {/* Language Switch - Now in Navigation */}
+            <button 
+              onClick={toggleLanguage}
+              className="px-4 py-2 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all flex items-center gap-2"
+              aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
+            >
+              <span>{language === 'en' ? '繁體中文' : 'English'}</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </button>
           </div>
         </div>
@@ -152,18 +161,15 @@ function App() {
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6 text-center md:text-left">
               <div className="inline-block px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20 mb-4">
-                <span className="text-blue-400 font-medium">Welcome to TechwithLC</span>
+                <span className="text-blue-400 font-medium">{t.hero.welcome}</span>
               </div>
               
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-                Building the Future with{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
-                  AI & Cloud Technology
-                </span>
+                {t.hero.title}
               </h1>
               
               <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto md:mx-0">
-                Join me on this journey of innovation and transformation.
+                {t.hero.subtitle}
               </p>
 
               <div className="flex flex-wrap gap-4 justify-center md:justify-start">
