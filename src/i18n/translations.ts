@@ -13,25 +13,25 @@ export const translations = {
     },
     footer: {
       learn: {
-        title: 'Learn About Cloud',
-        whatIsCloud: 'What is Cloud Computing?',
+        title: 'Learn Cloud & AI',
+        whatIsCloud: 'Cloud Computing Basics',
         cloudSecurity: 'Cloud Security',
-        cloudArchitecture: 'Cloud Architecture',
-        cloudCertification: 'Cloud Certification'
+        cloudArchitecture: 'System Design',
+        cloudCertification: 'AWS Certification Guide'
       },
       tech: {
-        title: 'Technology Topics',
-        devops: 'DevOps Practices',
-        containers: 'Container Technology',
-        ai: 'Artificial Intelligence',
+        title: 'Tech Topics',
+        devops: 'DevOps & CI/CD',
+        containers: 'Docker & Kubernetes',
+        ai: 'AI Development',
         ml: 'Machine Learning'
       },
       resources: {
-        title: 'Resources',
-        blog: 'Tech Blog',
+        title: 'My Content',
+        blog: 'Medium Blog',
         youtube: 'YouTube Channel',
-        podcast: 'Podcast',
-        github: 'GitHub Projects'
+        podcast: 'Tech Podcast',
+        github: 'Open Source Projects'
       },
       connect: {
         title: 'Connect',
@@ -56,25 +56,25 @@ export const translations = {
     },
     footer: {
       learn: {
-        title: '學習雲端技術',
-        whatIsCloud: '什麼是雲端運算？',
+        title: '學習雲端與 AI',
+        whatIsCloud: '雲端運算基礎',
         cloudSecurity: '雲端安全',
-        cloudArchitecture: '雲端架構',
-        cloudCertification: '雲端認證'
+        cloudArchitecture: '系統設計',
+        cloudCertification: 'AWS 認證指南'
       },
       tech: {
         title: '技術主題',
-        devops: 'DevOps 實務',
-        containers: '容器技術',
-        ai: '人工智慧',
+        devops: 'DevOps 與 CI/CD',
+        containers: 'Docker 與 Kubernetes',
+        ai: 'AI 開發',
         ml: '機器學習'
       },
       resources: {
-        title: '資源中心',
-        blog: '技術部落格',
+        title: '內容分享',
+        blog: 'Medium 部落格',
         youtube: 'YouTube 頻道',
-        podcast: '播客節目',
-        github: 'GitHub 專案'
+        podcast: '科技播客',
+        github: '開源專案'
       },
       connect: {
         title: '聯絡方式',

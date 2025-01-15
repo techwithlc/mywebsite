@@ -507,6 +507,7 @@ function App() {
               <button 
                 onClick={toggleLanguage}
                 className="px-4 py-2 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all flex items-center gap-2"
+                aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
               >
                 <span>{language === 'en' ? '繁體中文' : 'English'}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -528,44 +529,37 @@ function App() {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-4">Technology Topics</h3>
+                <h3 className="text-lg font-semibold mb-4">{t.footer.tech.title}</h3>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What Is DevOps?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What Is a Container?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What Is a Data Lake?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What is Artificial Intelligence (AI)?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What is Generative AI?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What is Machine Learning (ML)?</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.tech.devops}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.tech.containers}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.tech.ai}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.tech.ml}</a></li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-4">Developers</h3>
+                <h3 className="text-lg font-semibold mb-4">{t.footer.resources.title}</h3>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Developer Center</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">SDKs & Tools</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">.NET on AWS</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Python on AWS</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Java on AWS</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">PHP on AWS</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">JavaScript on AWS</a></li>
+                  <li><a href="https://medium.com/@awslc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.blog}</a></li>
+                  <li><a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.youtube}</a></li>
+                  <li><a href="https://open.spotify.com/show/0dfTD5n0Rfuco9z24BhaS0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.podcast}</a></li>
+                  <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.github}</a></li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-4">Help & Support</h3>
+                <h3 className="text-lg font-semibold mb-4">{t.footer.connect.title}</h3>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Contact Us</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Get Expert Help</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">File a Support Ticket</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AWS re:Post</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">Knowledge Center</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AWS Support Overview</a></li>
+                  <li><a href="#contact" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.contact}</a></li>
+                  <li><a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.linkedin}</a></li>
+                  <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.github}</a></li>
+                  <li><a href="mailto:kuanlunlawrence.chen@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.email}</a></li>
                 </ul>
               </div>
             </div>
 
-            {/* Copyright and Legal */}
+            {/* Copyright */}
             <div className="border-t border-gray-800/20 pt-8">
               <div className="text-gray-400 text-sm text-center">
                 <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
