@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Menu, X, ArrowUp, Share2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
+import { useLanguage } from './contexts/LanguageContext';
 
 function App() {
+  const { t, language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -497,16 +499,16 @@ function App() {
           </div>
         </section>
 
-        {/* Enhanced Footer with Links and Language Switch */}
+        {/* Enhanced Footer with Language Switch */}
         <footer className="border-t border-gray-800/20 py-16">
           <div className="container mx-auto px-6">
             {/* Language Switch */}
             <div className="flex justify-end mb-8">
               <button 
-                onClick={() => {/* Add language switch logic */}}
+                onClick={toggleLanguage}
                 className="px-4 py-2 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all flex items-center gap-2"
               >
-                <span>繁體中文</span>
+                <span>{language === 'en' ? '繁體中文' : 'English'}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -516,12 +518,12 @@ function App() {
             {/* Footer Links Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
               <div>
-                <h3 className="text-lg font-semibold mb-4">Learn About AWS</h3>
+                <h3 className="text-lg font-semibold mb-4">{t.footer.learn.title}</h3>
                 <ul className="space-y-2">
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What Is AWS?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">What Is Cloud Computing?</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AWS Accessibility</a></li>
-                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">AWS Inclusion, Diversity & Equity</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.learn.whatIsCloud}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.learn.cloudSecurity}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.learn.cloudArchitecture}</a></li>
+                  <li><a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.learn.cloudCertification}</a></li>
                 </ul>
               </div>
 
@@ -565,9 +567,8 @@ function App() {
 
             {/* Copyright and Legal */}
             <div className="border-t border-gray-800/20 pt-8">
-              <div className="text-gray-400 text-sm">
-                <p className="mb-4">© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
-                <p>TechwithLC is an Equal Opportunity Platform: We welcome individuals of all backgrounds, experiences, and perspectives.</p>
+              <div className="text-gray-400 text-sm text-center">
+                <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import App from './App';
 import './index.css';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 // Add error handling for initialization
 try {
@@ -16,7 +17,9 @@ try {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <LanguageProvider>
+      <App />
+    </LanguageProvider>
   </React.StrictMode>
 );
 
