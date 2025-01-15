@@ -88,9 +88,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Navigation - now with consistent dark background */}
-      <nav className="fixed top-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800/50">
+    <div className="min-h-screen bg-[#232f3e] text-white relative overflow-hidden">
+      {/* Subtle background lighting effect */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-blue-500/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-1/2 h-1/2 bg-cyan-500/5 rounded-full blur-[100px]" />
+      </div>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 bg-[#232f3e]/95 backdrop-blur-sm z-50 border-b border-gray-800/20">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <a href="#" className="flex items-center gap-2">
@@ -138,8 +144,8 @@ function App() {
         )}
       </nav>
 
-      <div className="pt-20">
-        {/* Hero Section - clean dark background */}
+      <div className="relative pt-20">
+        {/* Hero Section */}
         <header className="container mx-auto px-6 py-16 md:py-32">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6 text-center md:text-left">
@@ -178,8 +184,8 @@ function App() {
           </div>
         </header>
 
-        {/* Tech Stack - now with consistent background */}
-        <section id="tech" className="border-t border-gray-800/50 py-20">
+        {/* Sections with consistent styling */}
+        <section id="tech" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Technologies & Skills</span>
@@ -315,8 +321,8 @@ function App() {
           </div>
         )}
 
-        {/* Projects Section - consistent dark background */}
-        <section id="projects" className="border-t border-gray-800/50 py-20">
+        {/* Projects Section */}
+        <section id="projects" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Featured Work</span>
@@ -430,8 +436,8 @@ function App() {
           </div>
         </section>
 
-        {/* Contact Section - consistent styling */}
-        <section id="contact" className="border-t border-gray-800/50 py-20">
+        {/* Contact Section */}
+        <section id="contact" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Get in Touch</span>
@@ -463,10 +469,10 @@ function App() {
           </div>
         </section>
 
-        {/* Newsletter Section - clean dark background */}
-        <section className="border-t border-gray-800/50 py-20">
+        {/* Newsletter Section */}
+        <section className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
               <div className="text-center mb-8">
                 <span className="text-blue-400 font-medium">Newsletter</span>
                 <h3 className="text-2xl font-bold mt-2">Stay Updated</h3>
@@ -491,8 +497,8 @@ function App() {
           </div>
         </section>
 
-        {/* Footer - consistent dark theme */}
-        <footer className="border-t border-gray-800/50 py-8">
+        {/* Footer */}
+        <footer className="border-t border-gray-800/20 py-8">
           <div className="container mx-auto px-6">
             <div className="text-center text-gray-400">
               <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
