@@ -88,8 +88,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      {/* Enhanced Navigation with Sticky Header */}
+    <div className="min-h-screen bg-gray-900 text-white">
+      {/* Navigation - now with consistent dark background */}
       <nav className="fixed top-0 left-0 right-0 bg-gray-900/95 backdrop-blur-sm z-50 border-b border-gray-800/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
@@ -138,19 +138,10 @@ function App() {
         )}
       </nav>
 
-      {/* Add padding to account for fixed navbar */}
       <div className="pt-20">
-        {/* Enhanced Hero Section with Better Visual Hierarchy */}
-        <header className="container mx-auto px-6 py-16 md:py-32 relative">
-          {/* Background Animation */}
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute -inset-[10px] opacity-30">
-              <div className="w-full h-full bg-gradient-to-br from-blue-600 via-cyan-500 to-blue-400 blur-3xl animate-pulse" />
-            </div>
-          </div>
-          
-          {/* Content */}
-          <div className="max-w-4xl mx-auto relative">
+        {/* Hero Section - clean dark background */}
+        <header className="container mx-auto px-6 py-16 md:py-32">
+          <div className="max-w-4xl mx-auto">
             <div className="space-y-6 text-center md:text-left">
               <div className="inline-block px-4 py-2 bg-blue-500/10 rounded-full border border-blue-500/20 mb-4">
                 <span className="text-blue-400 font-medium">Welcome to TechwithLC</span>
@@ -187,8 +178,8 @@ function App() {
           </div>
         </header>
 
-        {/* Enhanced Tech Stack Section */}
-        <section id="tech" className="bg-gray-800/50 py-20">
+        {/* Tech Stack - now with consistent background */}
+        <section id="tech" className="border-t border-gray-800/50 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Technologies & Skills</span>
@@ -324,8 +315,8 @@ function App() {
           </div>
         )}
 
-        {/* Enhanced Projects Section */}
-        <section id="projects" className="py-20">
+        {/* Projects Section - consistent dark background */}
+        <section id="projects" className="border-t border-gray-800/50 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Featured Work</span>
@@ -439,8 +430,8 @@ function App() {
           </div>
         </section>
 
-        {/* Enhanced Contact Section */}
-        <section id="contact" className="bg-gray-800/50 py-20">
+        {/* Contact Section - consistent styling */}
+        <section id="contact" className="border-t border-gray-800/50 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">Get in Touch</span>
@@ -472,10 +463,10 @@ function App() {
           </div>
         </section>
 
-        {/* Enhanced Newsletter Section */}
-        <section className="py-20">
+        {/* Newsletter Section - clean dark background */}
+        <section className="border-t border-gray-800/50 py-20">
           <div className="container mx-auto px-6">
-            <div className="bg-gradient-to-br from-gray-800/50 to-gray-800/30 rounded-2xl p-8 max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto">
               <div className="text-center mb-8">
                 <span className="text-blue-400 font-medium">Newsletter</span>
                 <h3 className="text-2xl font-bold mt-2">Stay Updated</h3>
@@ -483,15 +474,15 @@ function App() {
                   Get the latest insights on cloud computing, AI, and tech trends delivered to your inbox
                 </p>
               </div>
-              <form className="flex flex-col md:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+              <form className="flex flex-col md:flex-row gap-4">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
                 />
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all whitespace-nowrap"
+                  className="bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap"
                 >
                   Subscribe
                 </button>
@@ -500,8 +491,8 @@ function App() {
           </div>
         </section>
 
-        {/* Simplified Footer */}
-        <footer className="border-t border-gray-800 py-8">
+        {/* Footer - consistent dark theme */}
+        <footer className="border-t border-gray-800/50 py-8">
           <div className="container mx-auto px-6">
             <div className="text-center text-gray-400">
               <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
