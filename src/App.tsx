@@ -468,8 +468,8 @@ function App() {
           <div className="container mx-auto px-6">
             <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
               <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
                 <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
-                <h3 className="text-2xl font-bold mt-2">{t.newsletter.subtitle}</h3>
                 <p className="text-gray-400 mt-4">
                   {t.newsletter.description}
                 </p>
