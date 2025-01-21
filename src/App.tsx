@@ -466,14 +466,14 @@ function App() {
         {/* Newsletter Section */}
         <section className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
+              <h2 className="text-3xl font-bold mt-2">Stay Updated</h2>
+              <p className="text-gray-400 mt-4">
+                {t.newsletter.description}
+              </p>
+            </div>
             <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
-                <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
-                <p className="text-gray-400 mt-4">
-                  {t.newsletter.description}
-                </p>
-              </div>
               <form className="flex flex-col md:flex-row gap-4">
                 <input
                   type="email"
