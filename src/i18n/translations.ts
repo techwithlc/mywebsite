@@ -22,7 +22,7 @@ export const translations = {
       description: 'Exploring innovative solutions in cloud computing and artificial intelligence',
       podcast: {
         title: 'Tech Podcast - 歐趴',
-        description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa'
+        description: 'Exploring tech trends and sharing innovative ideas'
       },
       youtube: {
         title: 'TechwithLC YouTube',
@@ -30,7 +30,7 @@ export const translations = {
       },
       interview: {
         title: 'Google Taiwan Interview Experience',
-        description: '深入分享 Google 台灣的面試過程與寶貴經驗'
+        description: 'In-depth sharing of Google Taiwan interview process and valuable experience'
       }
     },
     contact: {
