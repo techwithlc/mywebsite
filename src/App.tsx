@@ -118,7 +118,7 @@ function App() {
               className="px-4 py-2 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all flex items-center gap-2"
               aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
             >
-              <span>{language === 'en' ? '繁體中文' : 'English'}</span>
+              <span>{language === 'en' ? 'Chinese' : 'English'}</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
