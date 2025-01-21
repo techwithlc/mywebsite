@@ -573,17 +573,6 @@ function App() {
             </div>
           </div>
         </footer>
-
-        {/* Scroll to Top Button */}
-        {showScrollTop && (
-          <button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 bg-blue-500 p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors z-50"
-            aria-label="Scroll to top"
-          >
-            <ArrowUp className="w-6 h-6" />
-          </button>
-        )}
       </div>
     </div>
   );

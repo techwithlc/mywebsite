@@ -17,6 +17,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'en' ? 'zh' : 'en');
+    document.documentElement.lang = language === 'en' ? 'zh' : 'en';
   };
 
   const value = {
