@@ -40,6 +40,7 @@ export const translations = {
     },
     newsletter: {
       title: 'Newsletter',
+      subtitle: 'Stay Updated',
       description: 'Get the latest insights on cloud computing, AI, and tech trends',
       button: 'Subscribe',
       placeholder: 'Enter your email'
@@ -124,6 +125,7 @@ export const translations = {
     },
     newsletter: {
       title: '訂閱更新',
+      subtitle: '保持更新',
       description: '獲取最新的雲端運算、AI 和技術趨勢資訊',
       button: '訂閱',
       placeholder: '輸入您的電子郵件'

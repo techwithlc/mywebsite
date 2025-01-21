@@ -486,7 +486,7 @@ function App() {
                   type="submit"
                   className="bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap"
                 >
-                  {t.buttons.subscribe}
+                  {t.newsletter.button}
                 </button>
               </form>
             </div>
