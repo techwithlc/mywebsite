@@ -73,6 +73,14 @@ export const translations = {
         github: 'GitHub',
         email: 'Email'
       }
+    },
+    buttons: {
+      exploreProjects: 'Explore Projects',
+      getInTouch: 'Get in Touch',
+      subscribe: 'Subscribe'
+    },
+    youtube: {
+      description: 'Tech tutorials, cloud computing insights, and career development tips'
     }
   },
   zh: {
@@ -149,6 +157,14 @@ export const translations = {
         github: 'GitHub',
         email: '電子郵件'
       }
+    },
+    buttons: {
+      exploreProjects: '探索專案',
+      getInTouch: '聯絡我們',
+      subscribe: '訂閱'
+    },
+    youtube: {
+      description: '技術教學、雲端運算見解與職涯發展建議'
     }
   }
 }; 

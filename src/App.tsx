@@ -163,14 +163,14 @@ function App() {
                    className="group bg-gradient-to-r from-blue-500 to-cyan-500 px-8 py-4 rounded-lg font-medium transition-all hover:shadow-lg hover:shadow-blue-500/25">
                   <span className="flex items-center gap-2">
                     <Terminal className="w-5 h-5" />
-                    Explore Projects
+                    {t.buttons.exploreProjects}
                   </span>
                 </a>
                 <a href="#contact" 
                    className="group px-8 py-4 rounded-lg font-medium border border-blue-500/50 hover:bg-blue-500/10 transition-all">
                   <span className="flex items-center gap-2">
                     <Mail className="w-5 h-5" />
-                    Get in Touch
+                    {t.buttons.getInTouch}
                   </span>
                 </a>
               </div>
@@ -414,7 +414,9 @@ function App() {
                         {project.title}
                       </h3>
                     </a>
-                    <p className="text-gray-300 mb-4">{project.description}</p>
+                    <p className="text-gray-300 mb-4">
+                      {project.youtubeEmbed ? t.youtube.description : project.description}
+                    </p>
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((t) => (
                         <span key={t} 
@@ -468,7 +470,7 @@ function App() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
-              <h2 className="text-3xl font-bold mt-2">Stay Updated</h2>
+              <h2 className="text-3xl font-bold mt-2">{t.newsletter.subtitle}</h2>
               <p className="text-gray-400 mt-4">
                 {t.newsletter.description}
               </p>
@@ -484,7 +486,7 @@ function App() {
                   type="submit"
                   className="bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap"
                 >
-                  {t.newsletter.button}
+                  {t.buttons.subscribe}
                 </button>
               </form>
             </div>
