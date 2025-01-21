@@ -434,10 +434,10 @@ function App() {
         <section id="contact" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
-              <span className="text-blue-400 font-medium">Get in Touch</span>
-              <h2 className="text-3xl font-bold mt-2">Let's Connect</h2>
+              <span className="text-blue-400 font-medium">{t.contact.subtitle}</span>
+              <h2 className="text-3xl font-bold mt-2">{t.contact.title}</h2>
               <p className="text-gray-400 mt-4">
-                Feel free to reach out for collaborations or just a friendly chat
+                {t.contact.description}
               </p>
             </div>
             <div className="flex justify-center gap-6">
@@ -468,23 +468,23 @@ function App() {
           <div className="container mx-auto px-6">
             <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
               <div className="text-center mb-8">
-                <span className="text-blue-400 font-medium">Newsletter</span>
-                <h3 className="text-2xl font-bold mt-2">Stay Updated</h3>
+                <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
+                <h3 className="text-2xl font-bold mt-2">{t.newsletter.subtitle}</h3>
                 <p className="text-gray-400 mt-4">
-                  Get the latest insights on cloud computing, AI, and tech trends delivered to your inbox
+                  {t.newsletter.description}
                 </p>
               </div>
               <form className="flex flex-col md:flex-row gap-4">
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t.newsletter.placeholder}
                   className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
                 />
                 <button
                   type="submit"
                   className="bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap"
                 >
-                  Subscribe
+                  {t.newsletter.button}
                 </button>
               </form>
             </div>
