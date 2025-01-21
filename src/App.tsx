@@ -182,10 +182,10 @@ function App() {
         <section id="tech" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center mb-12">
-              <span className="text-blue-400 font-medium">Technologies & Skills</span>
-              <h2 className="text-3xl font-bold mt-2">Tech Stack</h2>
+              <span className="text-blue-400 font-medium">{t.techStack.subtitle}</span>
+              <h2 className="text-3xl font-bold mt-2">{t.techStack.title}</h2>
               <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-                Leveraging cutting-edge technologies to build scalable and innovative solutions
+                {t.techStack.description}
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
@@ -319,10 +319,10 @@ function App() {
         <section id="projects" className="border-t border-gray-800/20 py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto text-center mb-12">
-              <span className="text-blue-400 font-medium">Featured Work</span>
-              <h2 className="text-3xl font-bold mt-2">Latest Projects</h2>
+              <span className="text-blue-400 font-medium">{t.projects.subtitle}</span>
+              <h2 className="text-3xl font-bold mt-2">{t.projects.title}</h2>
               <p className="text-gray-400 mt-4">
-                Exploring innovative solutions in cloud computing and artificial intelligence
+                {t.projects.description}
               </p>
             </div>
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -494,20 +494,6 @@ function App() {
         {/* Enhanced Footer with Language Switch */}
         <footer className="border-t border-gray-800/20 py-16">
           <div className="container mx-auto px-6">
-            {/* Language Switch */}
-            <div className="flex justify-end mb-8">
-              <button 
-                onClick={toggleLanguage}
-                className="px-4 py-2 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all flex items-center gap-2"
-                aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
-              >
-                <span>{language === 'en' ? '繁體中文' : 'English'}</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-            </div>
-
             {/* Footer Links Grid */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
               <div>
