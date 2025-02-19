@@ -158,7 +158,7 @@ export const translations = {
         contact: '聯絡我',
         linkedin: 'LinkedIn',
         github: 'GitHub',
-        twitter: 'Twitter (X)',
+        twitter: 'X',
         email: '電子郵件'
       }
     },
