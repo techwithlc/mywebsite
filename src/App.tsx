@@ -455,6 +455,14 @@ function App() {
                  className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
                 <Linkedin className="w-6 h-6" />
               </a>
+              <a href="https://x.com/techwithlc0921"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
               <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kuanlunlawrence.chen@gmail.com" 
                  target="_blank" 
                  rel="noopener noreferrer"
@@ -534,6 +542,7 @@ function App() {
                   <li><a href="#contact" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.contact}</a></li>
                   <li><a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.linkedin}</a></li>
                   <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.github}</a></li>
+                  <li><a href="https://x.com/techwithlc0921" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Twitter (X)</a></li>
                   <li><a href="mailto:kuanlunlawrence.chen@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.email}</a></li>
                 </ul>
               </div>
