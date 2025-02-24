@@ -69,7 +69,6 @@ export const translations = {
       },
       connect: {
         title: 'Connect',
-        contact: 'Contact Me',
         linkedin: 'LinkedIn',
         github: 'GitHub',
         twitter: 'Twitter (X)',
@@ -155,7 +154,6 @@ export const translations = {
       },
       connect: {
         title: '聯絡方式',
-        contact: '聯絡我',
         linkedin: 'LinkedIn',
         github: 'GitHub',
         twitter: 'X',

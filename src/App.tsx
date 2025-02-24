@@ -539,10 +539,9 @@ function App() {
               <div>
                 <h3 className="text-lg font-semibold mb-4">{t.footer.connect.title}</h3>
                 <ul className="space-y-2">
-                  <li><a href="#contact" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.contact}</a></li>
                   <li><a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.linkedin}</a></li>
                   <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.github}</a></li>
-                  <li><a href="https://x.com/techwithlc0921" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">Twitter (X)</a></li>
+                  <li><a href="https://x.com/techwithlc0921" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.twitter}</a></li>
                   <li><a href="mailto:kuanlunlawrence.chen@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.connect.email}</a></li>
                 </ul>
               </div>
