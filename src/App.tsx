@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Menu, X, ArrowUp, Share2 } from 'lucide-react';
+import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Menu, X, ArrowUp, Share2, ChevronUp } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
 import { useLanguage } from './contexts/LanguageContext';
@@ -12,6 +12,7 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [showShareTooltip, setShowShareTooltip] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -19,6 +20,21 @@ function App() {
     { label: 'Projects', href: '#projects' },
     { label: 'Contact', href: '#contact' }
   ];
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleFeedbackSubmit = async () => {
     if (!feedbackMessage.trim()) return;
@@ -73,6 +89,13 @@ function App() {
     } catch (error) {
       console.error('Error sharing:', error);
     }
+  };
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -268,6 +291,17 @@ function App() {
         >
           <Mail className="w-6 h-6" />
         </button>
+        
+        {/* Scroll to Top Button */}
+        {showScrollTop && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-56 right-8 bg-gray-700 p-3 rounded-full shadow-lg hover:bg-gray-600 transition-all hover:transform hover:scale-110 z-50 animate-fadeIn"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp className="w-6 h-6" />
+          </button>
+        )}
 
         {/* Feedback Modal */}
         {showFeedback && (
