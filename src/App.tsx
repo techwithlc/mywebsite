@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Terminal, ExternalLink, Code2, Menu, X, ArrowUp, Share2, ChevronUp } from 'lucide-react';
+import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
 import { useLanguage } from './contexts/LanguageContext';
@@ -13,6 +13,9 @@ function App() {
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [email, setEmail] = useState('');
+  const [subscriptionStatus, setSubscriptionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [subscriptionMessage, setSubscriptionMessage] = useState('');
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -96,6 +99,51 @@ function App() {
       top: 0,
       behavior: 'smooth'
     });
+  };
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email.trim()) return;
+    
+    try {
+      setSubscriptionStatus('submitting');
+      
+      const response = await fetch('http://localhost:3001/api/subscribers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to subscribe');
+      }
+      
+      setSubscriptionStatus('success');
+      setSubscriptionMessage(data.message || 'Subscribed successfully!');
+      setEmail('');
+      
+      // Reset status after 3 seconds
+      setTimeout(() => {
+        setSubscriptionStatus('idle');
+        setSubscriptionMessage('');
+      }, 3000);
+      
+    } catch (error) {
+      console.error('Subscription error:', error);
+      setSubscriptionStatus('error');
+      setSubscriptionMessage(error instanceof Error ? error.message : 'Failed to subscribe');
+      
+      // Reset error status after 3 seconds
+      setTimeout(() => {
+        setSubscriptionStatus('idle');
+        setSubscriptionMessage('');
+      }, 3000);
+    }
   };
 
   return (
@@ -518,19 +566,40 @@ function App() {
               </p>
             </div>
             <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
-              <form className="flex flex-col md:flex-row gap-4">
+              <form className="flex flex-col md:flex-row gap-4" onSubmit={handleSubscribe}>
                 <input
                   type="email"
                   placeholder={t.newsletter.placeholder}
                   className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={subscriptionStatus === 'submitting'}
+                  required
                 />
                 <button
                   type="submit"
-                  className="bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap"
+                  className={`bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap ${
+                    subscriptionStatus === 'submitting' ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
+                  disabled={subscriptionStatus === 'submitting'}
                 >
-                  {t.newsletter.button}
+                  {subscriptionStatus === 'submitting' ? (
+                    <span className="inline-block animate-spin">⌛</span>
+                  ) : (
+                    t.newsletter.button
+                  )}
                 </button>
               </form>
+              
+              {/* Subscription status message */}
+              {subscriptionMessage && (
+                <div className={`mt-4 p-3 rounded-lg text-center ${
+                  subscriptionStatus === 'success' ? 'bg-green-500/20 text-green-300' : 
+                  subscriptionStatus === 'error' ? 'bg-red-500/20 text-red-300' : ''
+                }`}>
+                  {subscriptionMessage}
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -584,7 +653,7 @@ function App() {
             {/* Copyright */}
             <div className="border-t border-gray-800/20 pt-8">
               <div className="text-gray-400 text-sm text-center">
-                <p>© {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} TechwithLC. All rights reserved.</p>
               </div>
             </div>
           </div>
