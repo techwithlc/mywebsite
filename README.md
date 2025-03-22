@@ -97,9 +97,9 @@ npm run dev
    - `NEWS_API_KEY` - News API key for fetching AI articles
    - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_FROM` - SMTP email service credentials
 3. For production deployment with continuous operation:
-   - Install PM2 globally: `npm install pm2 -g`
-   - Start the server with PM2: `pm2 start index.js --name "techwithlc-newsletter"`
-   - Set up auto-restart on system boot: `pm2 startup && pm2 save`
+   - Use the provided script: `./run-email-server.sh start`
+   - The server will run continuously and automatically restart if it crashes
+   - Manage the server with: `./run-email-server.sh {start|stop|restart|status|logs|follow}`
 
 ## 🚀 Production Deployment
 
@@ -121,7 +121,31 @@ The frontend is deployed on Netlify:
 
 For continuous operation of the newsletter server:
 
-1. **Using PM2 (Process Manager)**:
+1. **Using the Continuous Email Server**:
+   ```bash
+   # Navigate to the server directory
+   cd server
+   
+   # Start the email server in continuous mode
+   ./run-email-server.sh start
+   
+   # Check server status
+   ./run-email-server.sh status
+   
+   # View server logs
+   ./run-email-server.sh logs
+   
+   # Follow logs in real-time
+   ./run-email-server.sh follow
+   
+   # Restart the server
+   ./run-email-server.sh restart
+   
+   # Stop the server
+   ./run-email-server.sh stop
+   ```
+
+2. **Using PM2 (Alternative Method)**:
    ```bash
    # Install PM2 globally
    npm install pm2 -g
@@ -140,17 +164,6 @@ For continuous operation of the newsletter server:
    pm2 logs techwithlc-newsletter # View application logs
    pm2 restart techwithlc-newsletter # Restart application
    ```
-
-2. **Cloud Hosting Options**:
-   - Heroku: Easy deployment with `Procfile`
-   - AWS Elastic Beanstalk: Managed service for Node.js applications
-   - Google Cloud Run: Containerized deployment with auto-scaling
-   - Digital Ocean App Platform: Simple PaaS solution
-
-3. **Environment Configuration**:
-   - Ensure all API keys are set as environment variables
-   - Configure CORS settings for production domains
-   - Set up proper error logging and monitoring
 
 ## 📱 Features Showcase
 
@@ -178,5 +191,5 @@ For continuous operation of the newsletter server:
 - Integrated Resend API for reliable email delivery
 - Added automated AI news collection and summarization with GPT-4o
 - Created scripts for testing and sending newsletters
-- Implemented PM2 for continuous server operation
+- Implemented custom continuous email server for reliable operation
 - Added comprehensive deployment documentation for production use
