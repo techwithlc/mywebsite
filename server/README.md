@@ -89,3 +89,39 @@ If you encounter issues with email delivery:
 2. Check that you've verified your email domain with Resend if sending to multiple recipients
 3. View the generated newsletter HTML at `latest-ai-news.html` to ensure content is being created correctly
 4. Run `node send-newsletter-now.js` to manually trigger newsletter sending and view detailed logs
+
+## Production Deployment
+
+For production deployment with continuous operation, it's recommended to use PM2, a process manager for Node.js applications:
+
+1. Install PM2 globally:
+   ```
+   npm install pm2 -g
+   ```
+
+2. Start the server with PM2:
+   ```
+   pm2 start index.js --name "techwithlc-newsletter"
+   ```
+
+3. Set up auto-restart on system boot:
+   ```
+   pm2 startup
+   pm2 save
+   ```
+
+4. Useful PM2 commands:
+   ```
+   pm2 list                       # View all running processes
+   pm2 monit                      # Monitor application in real-time
+   pm2 logs techwithlc-newsletter # View application logs
+   pm2 restart techwithlc-newsletter # Restart application
+   pm2 stop techwithlc-newsletter # Stop application
+   ```
+
+5. For better reliability in a production environment, consider deploying to a cloud provider like:
+   - Heroku
+   - Vercel
+   - AWS (EC2, Elastic Beanstalk)
+   - Google Cloud Run
+   - Digital Ocean App Platform

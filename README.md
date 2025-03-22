@@ -96,6 +96,10 @@ npm run dev
    - `OPENAI_API_KEY` - OpenAI API key for news summarization with GPT-4o
    - `NEWS_API_KEY` - News API key for fetching AI articles
    - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_FROM` - SMTP email service credentials
+3. For production deployment with continuous operation:
+   - Install PM2 globally: `npm install pm2 -g`
+   - Start the server with PM2: `pm2 start index.js --name "techwithlc-newsletter"`
+   - Set up auto-restart on system boot: `pm2 startup && pm2 save`
 
 ## 📱 Features Showcase
 
