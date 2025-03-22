@@ -101,6 +101,57 @@ npm run dev
    - Start the server with PM2: `pm2 start index.js --name "techwithlc-newsletter"`
    - Set up auto-restart on system boot: `pm2 startup && pm2 save`
 
+## 🚀 Production Deployment
+
+### Frontend Deployment
+
+The frontend is deployed on Netlify:
+
+1. Build the frontend for production:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `dist` directory to Netlify:
+   - Connect your GitHub repository to Netlify
+   - Set the build command to `npm run build`
+   - Set the publish directory to `dist`
+
+### Backend Deployment
+
+For continuous operation of the newsletter server:
+
+1. **Using PM2 (Process Manager)**:
+   ```bash
+   # Install PM2 globally
+   npm install pm2 -g
+   
+   # Start the server with PM2
+   cd server
+   pm2 start index.js --name "techwithlc-newsletter"
+   
+   # Configure PM2 to start on system boot
+   pm2 startup
+   pm2 save
+   
+   # Useful PM2 commands
+   pm2 list                       # View all running processes
+   pm2 monit                      # Monitor application in real-time
+   pm2 logs techwithlc-newsletter # View application logs
+   pm2 restart techwithlc-newsletter # Restart application
+   ```
+
+2. **Cloud Hosting Options**:
+   - Heroku: Easy deployment with `Procfile`
+   - AWS Elastic Beanstalk: Managed service for Node.js applications
+   - Google Cloud Run: Containerized deployment with auto-scaling
+   - Digital Ocean App Platform: Simple PaaS solution
+
+3. **Environment Configuration**:
+   - Ensure all API keys are set as environment variables
+   - Configure CORS settings for production domains
+   - Set up proper error logging and monitoring
+
 ## 📱 Features Showcase
 
 - **Tech Content Creation** - YouTube tutorials, podcast episodes, and Medium articles
@@ -127,3 +178,5 @@ npm run dev
 - Integrated Resend API for reliable email delivery
 - Added automated AI news collection and summarization with GPT-4o
 - Created scripts for testing and sending newsletters
+- Implemented PM2 for continuous server operation
+- Added comprehensive deployment documentation for production use
