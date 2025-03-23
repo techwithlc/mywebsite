@@ -108,100 +108,74 @@ The newsletter should be ready to send via email.`;
 
 // Function to send emails with Gmail
 async function sendWithGmail(htmlContent) {
+  console.log('Setting up Gmail transport...');
+  
+  // Create transporter
+  const transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 465,
+    secure: true, // Use SSL
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
+  
+  // Verify connection
   try {
-    console.log('\nSetting up Gmail transporter...');
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-    
-    // Verify connection
-    console.log('Verifying connection to Gmail...');
     await transporter.verify();
-    console.log('Gmail connection successful!');
-    
-    // Get subscribers
-    const subscribersPath = path.join(__dirname, 'subscribers.json');
-    let subscribers = [];
-    
-    if (fs.existsSync(subscribersPath)) {
-      subscribers = JSON.parse(fs.readFileSync(subscribersPath, 'utf8'));
-    } else {
-      // Add default subscriber if file doesn't exist
-      subscribers = [
-        {
-          email: 'kuanlunlawrence.chen@gmail.com',
-          name: 'Lawrence Chen',
-          subscribed: true
-        }
-      ];
-      fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
-    }
-    
-    // Make sure your own email is in the subscribers list
-    const yourEmail = process.env.EMAIL_USER;
-    if (!subscribers.some(sub => sub.email === yourEmail)) {
-      subscribers.push({
-        email: yourEmail,
-        name: 'Newsletter Admin',
-        subscribed: true,
-        createdAt: new Date().toISOString()
-      });
-      fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
-    }
-    
-    // Send emails to all subscribers
-    console.log(`Sending newsletter to ${subscribers.length} subscribers...`);
-    
-    let successCount = 0;
-    let failCount = 0;
-    
-    for (const subscriber of subscribers) {
-      if (!subscriber.subscribed) continue;
-      
-      try {
-        // Setup email data
-        const mailOptions = {
-          from: `"TechwithLC Newsletter" <${process.env.EMAIL_FROM}>`,
-          to: subscriber.email,
-          subject: `Latest AI News from TechwithLC - ${new Date().toLocaleDateString()}`,
-          html: htmlContent
-        };
-        
-        // Send email
-        console.log(`Sending email to ${subscriber.email}...`);
-        const info = await transporter.sendMail(mailOptions);
-        
-        console.log(`Email sent to ${subscriber.email}`);
-        console.log(`Message ID: ${info.messageId}`);
-        
-        successCount++;
-        
-        // Update subscriber with last email sent date
-        subscriber.lastEmailSent = new Date().toISOString();
-      } catch (error) {
-        console.error(`Error sending to ${subscriber.email}:`, error);
-        failCount++;
-      }
-    }
-    
-    // Save updated subscribers
-    fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
-    
-    console.log(`\nNewsletter sending complete: ${successCount} successful, ${failCount} failed`);
-    
-    return {
-      success: true,
-      successCount,
-      failCount
-    };
+    console.log('SMTP connection verified successfully!');
   } catch (error) {
-    console.error('Error in Gmail setup:', error);
-    return { success: false, error };
+    console.error('SMTP verification failed:', error);
+    throw new Error(`Email configuration error: ${error.message}`);
   }
+  
+  // Get subscribers
+  const subscribersPath = path.join(__dirname, 'subscribers.json');
+  let subscribers = [];
+  
+  if (fs.existsSync(subscribersPath)) {
+    subscribers = JSON.parse(fs.readFileSync(subscribersPath, 'utf8'));
+  } else {
+    console.warn('No subscribers file found. Creating new one.');
+    fs.writeFileSync(subscribersPath, JSON.stringify([]));
+  }
+  
+  // Filter active subscribers
+  const activeSubscribers = subscribers.filter(sub => sub.active !== false);
+  console.log(`Found ${activeSubscribers.length} active subscribers`);
+  
+  if (activeSubscribers.length === 0) {
+    console.log('No subscribers to send to.');
+    return { success: true, sent: 0, message: 'No subscribers' };
+  }
+  
+  // Prepare email
+  const mailOptions = {
+    from: `"TechwithLC" <${process.env.EMAIL_FROM}>`,
+    subject: `TechwithLC AI News Update - ${new Date().toLocaleDateString()}`,
+    html: htmlContent
+  };
+  
+  // Send to each subscriber
+  let successCount = 0;
+  let failCount = 0;
+  
+  console.log('Sending emails to subscribers...');
+  for (const subscriber of activeSubscribers) {
+    try {
+      mailOptions.to = subscriber.email;
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Email sent to ${subscriber.email}: ${info.messageId}`);
+      successCount++;
+    } catch (error) {
+      console.error(`Failed to send to ${subscriber.email}:`, error.message);
+      failCount++;
+    }
+  }
+  
+  console.log(`Newsletter sent: ${successCount} successful, ${failCount} failed`);
+  return { success: true, sent: successCount, failed: failCount };
 }
 
 // Main function
@@ -231,7 +205,7 @@ async function main() {
     
     if (result.success) {
       console.log('\n===== Newsletter Sending Complete =====');
-      console.log(`\nSuccessfully sent newsletters to ${result.successCount} subscribers!`);
+      console.log(`\nSuccessfully sent newsletters to ${result.sent} subscribers!`);
       console.log('Check your inbox (and spam folder) for the newsletter.');
     }
   } catch (error) {

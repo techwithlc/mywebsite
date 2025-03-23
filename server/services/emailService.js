@@ -57,14 +57,27 @@ let transporter;
 async function initializeTransport() {
   try {
     if (isEmailConfigured()) {
+      // Use Gmail with SSL
       transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT || 465,
+        secure: true, // Use SSL
         auth: {
           user: process.env.EMAIL_USER,
           pass: process.env.EMAIL_PASS,
         }
       });
-      console.log('Email transport configured successfully with real credentials');
+      
+      // Verify connection configuration
+      transporter.verify(function(error, success) {
+        if (error) {
+          console.error('SMTP connection error:', error);
+        } else {
+          console.log('Email server is ready to send messages');
+        }
+      });
+      
+      console.log('Email transport configured successfully with Gmail credentials');
       return true;
     } else {
       console.warn('Email configuration is incomplete. Using testing transport.');
