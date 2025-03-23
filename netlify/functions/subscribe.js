@@ -177,11 +177,12 @@ exports.handler = async function(event, context) {
       };
     }
     
-    // Add new subscriber
+    // Add new subscriber with the correct field structure to match existing subscribers.json
     subscribers.push({
       email,
-      subscribeDate: new Date().toISOString(),
-      active: true
+      subscribed: true,
+      subscribedAt: new Date().toISOString(),
+      lastEmailSent: null
     });
     
     // Save to file

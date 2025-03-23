@@ -169,7 +169,7 @@ async function sendWithGmail(htmlContent) {
   }
   
   // Filter active subscribers
-  const activeSubscribers = subscribers.filter(sub => sub.active !== false);
+  const activeSubscribers = subscribers.filter(sub => sub.subscribed !== false);
   console.log(`Found ${activeSubscribers.length} active subscribers`);
   
   if (activeSubscribers.length === 0) {
