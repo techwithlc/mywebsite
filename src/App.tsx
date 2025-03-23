@@ -1,19 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import { EMAIL_CONFIG, validateEmailConfig } from './config/email';
+import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
 
 function App() {
   const { t, language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
@@ -37,69 +29,12 @@ function App() {
     
     window.addEventListener('scroll', handleScroll);
     
-    try {
-      if (EMAIL_CONFIG.PUBLIC_KEY) {
-        emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
-        console.log('EmailJS initialized successfully');
-      }
-    } catch (error) {
-      console.warn('EmailJS initialization failed:', error);
-    }
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // EmailJS for feedback submission
-  const handleFeedbackSubmit = async () => {
-    try {
-      if (!feedbackMessage.trim()) {
-        setFeedbackStatus('error');
-        setErrorMessage('Please enter a message');
-        return;
-      }
-
-      setIsSubmitting(true);
-      
-      if (!validateEmailConfig()) {
-        throw new Error('EmailJS configuration missing');
-      }
-
-      const templateParams = {
-        message: feedbackMessage,
-        from_name: 'Website Visitor',
-        reply_to: 'noreply@techwithlc.com'
-      };
-
-      const response = await emailjs.send(
-        EMAIL_CONFIG.SERVICE_ID,
-        EMAIL_CONFIG.TEMPLATE_ID,
-        templateParams,
-        EMAIL_CONFIG.PUBLIC_KEY
-      );
-
-      console.log('Feedback sent successfully:', response);
-      setFeedbackStatus('success');
-      setErrorMessage('Feedback sent successfully!');
-      setTimeout(() => {
-        setShowFeedback(false);
-        setFeedbackMessage('');
-      }, 2000);
-    } catch (error) {
-      console.error('Feedback submission error:', error);
-      setFeedbackStatus('error');
-      setErrorMessage('Failed to send feedback. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
-      setTimeout(() => {
-        setFeedbackStatus('idle');
-        setErrorMessage('');
-      }, 5000);
-    }
-  };
-
-  // Subscription handler using EmailJS (direct approach)
+  // Subscription handler using serverless function
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
@@ -112,32 +47,27 @@ function App() {
         return;
       }
       
-      // Validate EmailJS config
-      if (!validateEmailConfig()) {
-        throw new Error('EmailJS configuration missing');
-      }
-
-      // Use EmailJS to send the subscription request
-      const templateParams = {
-        message: `New subscription request from: ${subscribeEmail}`,
-        from_name: 'Newsletter Subscriber',
-        reply_to: subscribeEmail
-      };
-
-      const response = await emailjs.send(
-        EMAIL_CONFIG.SERVICE_ID,
-        EMAIL_CONFIG.TEMPLATE_ID,
-        templateParams,
-        EMAIL_CONFIG.PUBLIC_KEY
-      );
+      // Call the Netlify serverless function
+      const response = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: subscribeEmail })
+      });
       
-      console.log('Subscription successful:', response);
-      setSubscribeMessage('Subscription successful!');
-      setSubscribeSuccess(true);
-      setTimeout(() => {
-        setSubscribeEmail('');
-        setSubscribeMessage('');
-      }, 3000);
+      const result = await response.json();
+      
+      if (result.success) {
+        setSubscribeMessage(result.message || 'Subscription successful!');
+        setSubscribeSuccess(true);
+        setTimeout(() => {
+          setSubscribeEmail('');
+          setSubscribeMessage('');
+        }, 3000);
+      } else {
+        throw new Error(result.message || 'Failed to subscribe');
+      }
     } catch (error) {
       console.error('Subscription error:', error);
       setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
@@ -147,27 +77,6 @@ function App() {
     }
   };
 
-  const handleShare = async () => {
-    const shareData = {
-      title: 'TechwithLC',
-      text: 'Building the Future with AI & Cloud Technology',
-      url: window.location.href
-    };
-
-    try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        // Fallback to copying URL
-        await navigator.clipboard.writeText(window.location.href);
-        setShowShareTooltip(true);
-        setTimeout(() => setShowShareTooltip(false), 2000);
-      }
-    } catch (error) {
-      console.error('Error sharing:', error);
-    }
-  };
-  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -344,31 +253,6 @@ function App() {
           </div>
         </section>
 
-        {/* Social Share Floating Button */}
-        <div className="fixed bottom-24 right-8 z-50">
-          <button 
-            onClick={handleShare}
-            className="bg-blue-500 p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors relative"
-            aria-label="Share"
-          >
-            <Share2 className="w-6 h-6" />
-          </button>
-          {showShareTooltip && (
-            <div className="absolute bottom-full mb-2 right-0 bg-gray-800 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap">
-              Copied to clipboard!
-            </div>
-          )}
-        </div>
-
-        {/* Feedback Button */}
-        <button
-          onClick={() => setShowFeedback(true)}
-          className="fixed bottom-40 right-8 bg-green-500 p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors z-50"
-          aria-label="Give Feedback"
-        >
-          <Mail className="w-6 h-6" />
-        </button>
-        
         {/* Scroll to Top Button */}
         {showScrollTop && (
           <button
@@ -378,57 +262,6 @@ function App() {
           >
             <ChevronUp className="w-6 h-6" />
           </button>
-        )}
-
-        {/* Feedback Modal */}
-        {showFeedback && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-gray-800 rounded-lg p-6 max-w-md w-full">
-              <h3 className="text-xl font-bold mb-4">Share Your Feedback</h3>
-              <textarea
-                value={feedbackMessage}
-                onChange={(e) => setFeedbackMessage(e.target.value)}
-                className="w-full bg-gray-700/50 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Your feedback helps me improve..."
-                disabled={isSubmitting}
-              />
-              <div className="flex justify-end gap-4">
-                <button
-                  onClick={() => setShowFeedback(false)}
-                  className="px-4 py-2 rounded-lg hover:bg-gray-700"
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleFeedbackSubmit}
-                  className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 ${
-                    feedbackStatus === 'success'
-                      ? 'bg-green-500 hover:bg-green-600'
-                      : feedbackStatus === 'error'
-                      ? 'bg-red-500 hover:bg-red-600'
-                      : ''
-                  }`}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <span className="inline-block animate-spin">⌛</span>
-                  ) : feedbackStatus === 'success' ? (
-                    'Sent!'
-                  ) : feedbackStatus === 'error' ? (
-                    'Failed to send'
-                  ) : (
-                    'Submit'
-                  )}
-                </button>
-              </div>
-              {errorMessage && (
-                <p className={`text-sm mt-4 ${feedbackStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-                  {errorMessage}
-                </p>
-              )}
-            </div>
-          </div>
         )}
 
         {/* Projects Section */}
@@ -606,24 +439,32 @@ function App() {
                   type="email"
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
-                  placeholder="Your email address"
-                  className="flex-1 px-4 py-2 rounded bg-gray-700/70 border border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="py-2 px-4 bg-transparent border border-gray-600 focus:border-gray-300 rounded"
+                  placeholder="Enter your email..."
                   required
                   inputMode="email"
                   autoComplete="email"
+                  name="email"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 transition-all active:bg-blue-700"
+                  className="py-2 px-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded hover:from-blue-700 hover:to-blue-600 transition-all"
                   disabled={isSubscribing}
                 >
-                  {isSubscribing ? "..." : "Subscribe"}
+                  {isSubscribing ? (
+                    <div className="flex items-center justify-center">
+                      <span className="mr-2">Subscribing</span>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : (
+                    'Subscribe'
+                  )}
                 </button>
               </form>
               
               {subscribeMessage && (
-                <div className={`mt-2 p-2 rounded text-center text-sm ${
-                  subscribeSuccess ? "bg-green-500/20 text-green-200" : "bg-red-500/20 text-red-200"
+                <div className={`mt-2 text-sm p-2 rounded ${
+                  subscribeSuccess ? 'bg-green-500/20 text-green-200' : 'bg-red-500/20 text-red-200'
                 }`}>
                   {subscribeMessage}
                 </div>

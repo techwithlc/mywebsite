@@ -5,13 +5,21 @@
     <link>https://techwithlc.com/ai-news</link>
     <description>Latest AI news curated and summarized by TechwithLC</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Mar 2025 10:13:04 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 23 Mar 2025 10:57:40 GMT</lastBuildDate>
     <atom:link href="https://techwithlc.com/ai-news-feed.xml" rel="self" type="application/rss+xml" />
     <image>
       <url>https://techwithlc.com/logo.png</url>
       <title>TechwithLC AI News</title>
       <link>https://techwithlc.com/ai-news</link>
     </image>
+    <item>
+      <title>Embrace discipline, integrity, and responsibility, Anwar tells youth</title>
+      <link>https://www.thestar.com.my/news/nation/2025/03/22/embrace-discipline-integrity-and-responsibility-anwar-tells-youth</link>
+      <guid>https://www.thestar.com.my/news/nation/2025/03/22/embrace-discipline-integrity-and-responsibility-anwar-tells-youth</guid>
+      <pubDate>Sat, 22 Mar 2025 10:47:00 GMT</pubDate>
+      <source url="">The Star Online</source>
+      <description><![CDATA[TUARAN: Datuk Seri Anwar Ibrahim has urged children and youth to embrace discipline, integrity, and responsibility while reminding leaders to serve the people diligently. Read full story]]></description>
+    </item>
     <item>
       <title>AI will soon be taking your drive-thru orders at 500 Taco Bell, Pizza Hut, KFC locations</title>
       <link>https://www.usatoday.com/story/money/food/2025/03/22/artificial-intelligence-fast-food-taco-bell-kfc/82583772007/</link>
@@ -43,14 +51,6 @@
       <pubDate>Sat, 22 Mar 2025 09:00:01 GMT</pubDate>
       <source url="">Business Insider</source>
       <description><![CDATA[Huang's joke at Nvidia's big AI conference this week highlights potential billion-dollar impacts on tech giants like Microsoft, Google, and Meta.]]></description>
-    </item>
-    <item>
-      <title>The Social Security Administration&apos;s many proposed changes are worrying advocates</title>
-      <link>https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office</link>
-      <guid>https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office</guid>
-      <pubDate>Sat, 22 Mar 2025 09:00:00 GMT</pubDate>
-      <source url="">NPR</source>
-      <description><![CDATA[The Trump administration has announced a flurry of changes at the agency that oversees Social Security. Advocates warn these moves could lead to people having a harder time getting help with benefits.]]></description>
     </item>
   </channel>
 </rss>
