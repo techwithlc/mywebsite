@@ -14,6 +14,10 @@ function App() {
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [subscribeMessage, setSubscribeMessage] = useState('');
+  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -119,6 +123,48 @@ function App() {
       top: 0,
       behavior: 'smooth'
     });
+  };
+
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+    try {
+      // Use the validateEmailConfig function to check configuration
+      if (!validateEmailConfig()) {
+        throw new Error('EmailJS configuration missing');
+      }
+      
+      if (!subscribeEmail.trim()) {
+        setSubscribeMessage('Please enter a valid email address');
+        setSubscribeSuccess(false);
+        setIsSubscribing(false);
+        return;
+      }
+
+      await emailjs.send(
+        EMAIL_CONFIG.SERVICE_ID,
+        EMAIL_CONFIG.TEMPLATE_ID,
+        {
+          email: subscribeEmail,
+          from_name: 'Newsletter Subscriber',
+          reply_to: 'noreply@techwithlc.com'
+        },
+        EMAIL_CONFIG.PUBLIC_KEY
+      );
+
+      setSubscribeMessage('Subscription successful!');
+      setSubscribeSuccess(true);
+      setTimeout(() => {
+        setSubscribeEmail('');
+        setSubscribeMessage('');
+      }, 2000);
+    } catch (error) {
+      console.error('Subscription error:', error);
+      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
+      setSubscribeSuccess(false);
+    } finally {
+      setIsSubscribing(false);
+    }
   };
 
   return (
@@ -334,7 +380,7 @@ function App() {
               <textarea
                 value={feedbackMessage}
                 onChange={(e) => setFeedbackMessage(e.target.value)}
-                className="w-full bg-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                className="w-full bg-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Your feedback helps me improve..."
                 disabled={isSubmitting}
               />
@@ -545,16 +591,42 @@ function App() {
                 {t.newsletter.description}
               </p>
             </div>
-            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm text-center">
+            
+            {/* Email Subscription Form */}
+            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
+              <h3 className="text-xl font-bold mb-4">Subscribe to AI News</h3>
               <p className="text-gray-300 mb-6">
-                Subscribe to our RSS feed to get the latest AI news and updates directly in your favorite RSS reader.
+                Get the latest AI news and updates delivered directly to your inbox.
               </p>
-              <a 
-                href="/newsletter" 
-                className="inline-block bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all"
+              
+              <form 
+                onSubmit={handleSubscribe}
+                className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
               >
-                Subscribe via RSS
-              </a>
+                <input
+                  type="email"
+                  value={subscribeEmail}
+                  onChange={(e) => setSubscribeEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="flex-1 px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all"
+                  disabled={isSubscribing}
+                >
+                  {isSubscribing ? "Subscribing..." : "Subscribe"}
+                </button>
+              </form>
+              
+              {subscribeMessage && (
+                <div className={`mt-4 p-3 rounded ${
+                  subscribeSuccess ? "bg-green-500/20 text-green-200" : "bg-red-500/20 text-red-200"
+                }`}>
+                  {subscribeMessage}
+                </div>
+              )}
             </div>
           </div>
         </section>
