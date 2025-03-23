@@ -52,11 +52,13 @@ function App() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      validateEmailConfig();
+      if (!EMAIL_CONFIG.PUBLIC_KEY || !EMAIL_CONFIG.SERVICE_ID || !EMAIL_CONFIG.TEMPLATE_ID) {
+        throw new Error('EmailJS configuration missing - check environment variables');
+      }
       
       if (!feedbackMessage.trim()) {
         setFeedbackStatus('error');
-        setErrorMessage('Please enter a message');
+        setErrorMessage(t.feedback.errors.emptyMessage);
         return;
       }
 
@@ -68,19 +70,23 @@ function App() {
         {
           message: feedbackMessage,
           from_name: 'Website Visitor',
-          reply_to: 'no-reply@techwithlc.com'
-        }
+          reply_to: 'noreply@techwithlc.com'
+        },
+        EMAIL_CONFIG.PUBLIC_KEY
       );
 
       if (response.status === 200) {
         setFeedbackStatus('success');
-        setErrorMessage('Feedback sent successfully!');
-        setTimeout(() => setShowFeedback(false), 2000);
+        setErrorMessage(t.feedback.successMessage);
+        setTimeout(() => {
+          setShowFeedback(false);
+          setFeedbackMessage('');
+        }, 2000);
       }
     } catch (error) {
-      console.error('Feedback error:', error);
+      console.error('Feedback submission error:', error);
       setFeedbackStatus('error');
-      setErrorMessage('Failed to send feedback. Please try again later.');
+      setErrorMessage(t.feedback.errors.submissionFailed);
     } finally {
       setIsSubmitting(false);
       setTimeout(() => {

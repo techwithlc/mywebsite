@@ -1,7 +1,7 @@
 [build]
   # Directory with code to build
-  functions = "serverless"
   command = "npm install && npm run build"
+  functions = "serverless"
   publish = "server/public"
 
 [[redirects]]
