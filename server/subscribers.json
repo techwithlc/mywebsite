@@ -10,5 +10,11 @@
     "subscribed": true,
     "subscribedAt": "2025-03-23T12:02:00.000Z",
     "lastEmailSent": null
+  },
+  {
+    "email": "test@example.com",
+    "subscribed": true,
+    "subscribedAt": "2025-03-23T12:26:05.967Z",
+    "lastEmailSent": null
   }
 ]
