@@ -77,8 +77,14 @@ export async function handler(event, context) {
     // Send newsletter to subscribers after updating feed
     console.log('Sending newsletter to subscribers...');
     try {
-      const emailResults = await sendNewsletterToAllSubscribers(feedResult.newsContent);
-      console.log(`Newsletter sent to ${emailResults.successCount} subscribers`);
+      // Extract news content for email
+      const newsData = {
+        title: 'TechwithLC AI News',
+        articles: feedResult.newsContent?.articles || []
+      };
+      
+      const emailResults = await sendNewsletterToAllSubscribers(newsData);
+      console.log(`Newsletter sent to ${emailResults?.successCount || 0} subscribers`);
     } catch (emailError) {
       console.warn('Error sending newsletter emails:', emailError.message);
       // Continue even if email sending fails - we don't want to break the build/update process

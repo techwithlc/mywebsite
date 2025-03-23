@@ -108,13 +108,50 @@ export async function sendEmail(to, subject, htmlContent) {
  * Create HTML email template for newsletter
  */
 function createNewsletterTemplate(newsContent) {
+  // Handle case where newsContent might have different structure
+  let title = 'TechwithLC AI News Update';
+  let articles = [];
+  
+  if (newsContent) {
+    // If newsContent has articles property, use that
+    if (newsContent.articles && Array.isArray(newsContent.articles)) {
+      articles = newsContent.articles;
+    } 
+    // If newsContent itself is an array, use it directly
+    else if (Array.isArray(newsContent)) {
+      articles = newsContent;
+    }
+    
+    // Set title from content if available
+    if (newsContent.title) {
+      title = newsContent.title;
+    }
+  }
+  
+  // Generate article HTML
+  const articlesHTML = articles.map((article, i) => {
+    return `
+      <div class="article">
+        <h2><a href="${article.url || '#'}" target="_blank">${article.title || `Article ${i+1}`}</a></h2>
+        <p class="source">Source: ${article.source?.name || 'Unknown'} • ${new Date(article.publishedAt || Date.now()).toLocaleDateString()}</p>
+        <div class="content">
+          ${article.description || article.content || 'No content available'}
+        </div>
+        <div class="read-more">
+          <a href="${article.url || '#'}" target="_blank">Read Full Article</a>
+        </div>
+      </div>
+      <hr/>
+    `;
+  }).join('');
+
   return `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${newsContent.title}</title>
+  <title>${title}</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -129,60 +166,95 @@ function createNewsletterTemplate(newsContent) {
       padding: 20px;
     }
     .header {
-      background: linear-gradient(to right, #3b82f6, #06b6d4);
+      background-color: #2c3e50;
       color: white;
       padding: 20px;
       text-align: center;
-      border-radius: 5px 5px 0 0;
     }
     .content {
-      background-color: #f9fafb;
       padding: 20px;
-      border-radius: 0 0 5px 5px;
     }
     .footer {
+      background-color: #f8f9fa;
+      padding: 20px;
       text-align: center;
-      margin-top: 20px;
       font-size: 12px;
-      color: #6b7280;
+      color: #6c757d;
     }
-    .btn {
+    .article {
+      margin-bottom: 20px;
+    }
+    .article h2 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    .article h2 a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+    .article h2 a:hover {
+      text-decoration: underline;
+    }
+    .source {
+      font-style: italic;
+      color: #6c757d;
+      margin-bottom: 10px;
+    }
+    .read-more {
+      margin-top: 10px;
+    }
+    .read-more a {
       display: inline-block;
-      background-color: #3b82f6;
+      padding: 8px 15px;
+      background-color: #3498db;
       color: white;
       text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      margin-top: 15px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .read-more a:hover {
+      background-color: #2980b9;
     }
     .unsubscribe {
-      color: #6b7280;
+      margin-top: 20px;
+    }
+    .unsubscribe a {
+      color: #6c757d;
+      text-decoration: none;
+    }
+    .unsubscribe a:hover {
       text-decoration: underline;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background-color: #e9ecef;
+      margin: 30px 0;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>TechwithLC</h1>
-      <p>AI News Digest - ${newsContent.date}</p>
+      <h1>TechwithLC AI News</h1>
+      <p>Latest AI news and insights, curated just for you</p>
     </div>
     <div class="content">
-      <h2>Latest in AI Technology</h2>
+      <p>Hello there,</p>
+      <p>Here are the latest updates from the world of AI:</p>
       
-      ${newsContent.content}
+      ${articlesHTML || '<p>No articles available at this time.</p>'}
       
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="https://techwithlc.com" class="btn">Visit Our Website</a>
+      <p>Thank you for subscribing to our newsletter!</p>
+      <p>Best regards,<br>The TechwithLC Team</p>
+      
+      <div class="unsubscribe">
+        <a href="https://techwithlc.com/unsubscribe?email={{email}}">Unsubscribe</a>
       </div>
     </div>
     <div class="footer">
       <p>&copy; ${new Date().getFullYear()} TechwithLC. All rights reserved.</p>
-      <p>
-        <a href="https://techwithlc.com/unsubscribe?email={{email}}" class="unsubscribe">
-          Unsubscribe
-        </a>
-      </p>
+      <p>123 Tech Street, San Francisco, CA 94107</p>
     </div>
   </div>
 </body>
@@ -205,7 +277,7 @@ export async function sendNewsletterToAllSubscribers(newsContent) {
     console.log(`Sending newsletter to ${subscribers.length} subscribers`);
     
     const emailTemplate = createNewsletterTemplate(newsContent);
-    const subject = `${newsContent.title} - ${newsContent.date}`;
+    const subject = `${newsContent.title || 'TechwithLC AI News Update'} - ${new Date().toLocaleDateString()}`;
     
     // Send emails to all subscribers
     const emailPromises = subscribers.map(async (subscriber) => {
