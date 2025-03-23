@@ -1,5 +1,3 @@
-import { fetchAndSummarizeNews } from '../services/newsService.js';
-import { sendNewsletterToAllSubscribers } from '../services/emailService.js';
 import { updateFeeds } from '../services/rssFeedService.js';
 import fs from 'fs';
 import path from 'path';
@@ -7,7 +5,6 @@ import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const subscribersFilePath = path.join(__dirname, '..', 'subscribers.json');
 const configFilePath = path.join(__dirname, 'serverless-config.json');
 
 // Initialize configuration if it doesn't exist
@@ -79,35 +76,8 @@ export async function handler(event, context) {
       };
     }
     
-    // Parse request body
-    const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
-    
-    // Determine actions to perform
-    const actions = {
-      updateFeeds: true,
-      sendNewsletter: true,
-      ...body?.actions
-    };
-    
-    const results = {
-      success: true,
-      actions: {}
-    };
-    
-    // Update RSS and JSON feeds
-    if (actions.updateFeeds) {
-      console.log('Webhook triggered: Updating feeds');
-      const feedResult = await updateFeeds();
-      results.actions.updateFeeds = feedResult;
-    }
-    
-    // Send newsletter to subscribers
-    if (actions.sendNewsletter) {
-      console.log('Webhook triggered: Sending newsletter');
-      const newsContent = await fetchAndSummarizeNews();
-      const emailResult = await sendNewsletterToAllSubscribers(newsContent);
-      results.actions.sendNewsletter = emailResult;
-    }
+    console.log('Webhook triggered: Updating RSS feed');
+    const feedResult = await updateFeeds();
     
     // Update last run timestamp
     config.lastRun = new Date().toISOString();
@@ -117,8 +87,8 @@ export async function handler(event, context) {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        message: 'Webhook processed successfully',
-        results
+        message: 'RSS feed updated successfully',
+        results: feedResult
       })
     };
   } catch (error) {
@@ -127,7 +97,7 @@ export async function handler(event, context) {
       statusCode: 500,
       body: JSON.stringify({
         success: false,
-        message: 'Error processing webhook',
+        message: 'Error updating RSS feed',
         error: error.message
       })
     };
@@ -137,12 +107,6 @@ export async function handler(event, context) {
 // For local testing
 if (process.argv[2] === '--local') {
   const testEvent = {
-    body: JSON.stringify({
-      actions: {
-        updateFeeds: true,
-        sendNewsletter: false
-      }
-    }),
     queryStringParameters: {
       key: initializeConfig().webhookSecret
     },

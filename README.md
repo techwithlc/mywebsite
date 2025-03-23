@@ -10,10 +10,9 @@ A modern, responsive personal website showcasing tech content creation, cloud co
 - **Content Integration** - Embedded Spotify podcasts, YouTube videos, and Medium articles
 - **Contact System** - EmailJS integration for feedback without a backend
 - **Dynamic Elements** - Scroll-to-top, social sharing, and feedback modal
-- **Newsletter Subscription** - Email collection with AI news summarization and automated delivery
-  - **RSS/JSON Feeds** - Subscribe via RSS or JSON feed without requiring email
-  - **Webhook Integration** - Trigger newsletter generation and sending via webhooks
-  - **Serverless Compatible** - Deploy on Netlify, Vercel, or AWS Lambda without a continuous server
+- **RSS News Feed** - AI news summarization delivered via RSS feed
+  - **Mobile-Friendly** - QR code for easy mobile subscription
+  - **Serverless Compatible** - Automated updates via GitHub Actions
 
 ## 🛠️ Tech Stack
 
@@ -50,9 +49,8 @@ flowchart TD
     K --> K1[Node.js]
     K --> K2[Express]
     K --> K3[File Storage]
-    K --> K4[Nodemailer/Resend]
-    K --> K5[OpenAI API]
-    K --> K6[News API]
+    K --> K4[OpenAI API]
+    K --> K5[News API]
 ```
 
 ## 📦 Project Structure
@@ -66,7 +64,7 @@ flowchart TD
 - `server/` - Backend services
   - `index.js` - Express server setup
   - `routes/` - API endpoints
-  - `services/` - Business logic (email, news)
+  - `services/` - Business logic (news)
   - `.env.example` - Environment variables template
 - `dist/` - Build output
 
@@ -95,15 +93,11 @@ npm run dev
 
 1. Create a `.env` file in the server directory based on the `.env.example` template
 2. Set up the required environment variables:
-   - `RESEND_API_KEY` - Resend API key for sending newsletter emails
    - `OPENAI_API_KEY` - OpenAI API key for news summarization with GPT-4o
    - `NEWS_API_KEY` - News API key for fetching AI articles
-   - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_FROM` - SMTP email service credentials
 3. Choose your deployment method:
-   - **Continuous Server**: Use the provided script: `./run-email-server.sh start`
-   - **Serverless Deployment**: Deploy to Netlify, Vercel, or AWS Lambda using the provided configurations
-   - **GitHub Actions**: Use the provided workflow file for scheduled newsletter sending
-   - **RSS/Webhook**: Allow users to subscribe via RSS and trigger newsletter sending via webhooks
+   - **GitHub Actions**: Use the provided workflow file for scheduled RSS feed updates
+   - **Serverless Deployment**: Deploy to Netlify or Vercel using the provided configurations
 
 ## 🚀 Production Deployment
 
@@ -125,17 +119,11 @@ The frontend is deployed on Netlify:
 
 Choose one of the following deployment options based on your needs:
 
-1. **Continuous Server Operation**:
-   ```bash
-   # Navigate to the server directory
-   cd server
-   
-   # Start the email server in continuous mode
-   ./run-email-server.sh start
-   
-   # Check server status
-   ./run-email-server.sh status
-   ```
+1. **GitHub Actions Automation** (Recommended):
+   - The included GitHub Actions workflow file will automatically:
+     - Run every Monday at 9:00 AM UTC
+     - Update the RSS feed with the latest AI news
+     - Commit and push the updated feed to your repository
 
 2. **Serverless Deployment (Netlify)**:
    ```bash
@@ -157,18 +145,10 @@ Choose one of the following deployment options based on your needs:
    vercel --prod
    ```
 
-4. **GitHub Actions Automation**:
-   - The included GitHub Actions workflow file will automatically:
-     - Run every Monday at 9:00 AM UTC
-     - Update the RSS and JSON feeds with the latest AI news
-     - Send the newsletter to all subscribers
-     - Commit and push the updated feeds to your repository
-
-5. **RSS and Webhook Integration**:
+4. **RSS Feed Integration**:
    - RSS Feed URL: `https://yourdomain.com/api/feeds/rss`
-   - JSON Feed URL: `https://yourdomain.com/api/feeds/json`
-   - Webhook URL: `https://yourdomain.com/api/webhook/newsletter?key=YOUR_WEBHOOK_SECRET`
    - Newsletter Subscription Page: `https://yourdomain.com/newsletter`
+   - Mobile-friendly QR code included on subscription page
 
 ## 📱 Features Showcase
 
@@ -176,7 +156,7 @@ Choose one of the following deployment options based on your needs:
 - **Cloud Technology** - AWS, Azure, and GCP expertise
 - **Professional Network** - GitHub, LinkedIn, and Twitter integration
 - **Bilingual Content** - Supporting both English and Chinese audiences
-- **AI Newsletter** - Weekly AI news summaries delivered to subscribers via Resend API
+- **AI Newsletter** - Weekly AI news summaries delivered via RSS feed
 
 ## 📞 Contact
 
@@ -191,14 +171,9 @@ Choose one of the following deployment options based on your needs:
 - Fixed footer area
 - Added X (Twitter) to contact area
 - Fixed button errors
-- Added newsletter subscription with AI-powered news summarization
-- Implemented file-based storage for subscriber management
-- Integrated Resend API for reliable email delivery
-- Added automated AI news collection and summarization with GPT-4o
-- Created scripts for testing and sending newsletters
-- Implemented custom continuous email server for reliable operation
-- Added RSS and JSON feeds for newsletter subscription without email
-- Implemented webhook integration for serverless operation
-- Added GitHub Actions workflow for automated newsletter sending
+- Implemented RSS feed for AI news updates
+- Integrated OpenAI's GPT-4o for AI news summarization
+- Created GitHub Actions workflow for automated RSS feed updates
+- Added mobile-friendly subscription page with QR code
 - Created serverless deployment configurations for Netlify and Vercel
 - Added comprehensive deployment documentation for various hosting options

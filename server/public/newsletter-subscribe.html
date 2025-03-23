@@ -26,7 +26,7 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
         }
         
         header {
@@ -65,27 +65,20 @@
             color: var(--primary-color);
         }
         
-        .subscription-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
+        .rss-card {
+            text-align: center;
+            padding: 2rem;
         }
         
-        .option-card {
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .option-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .option-card h3 {
-            margin-top: 0;
+        .rss-card h3 {
             color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .rss-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
         }
         
         .btn {
@@ -93,60 +86,67 @@
             background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.25rem;
-            font-weight: 500;
-            transition: background-color 0.3s;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
         }
         
         .btn:hover {
             background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .btn-secondary {
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .reader-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .reader-link {
+            display: inline-block;
             background-color: white;
             color: var(--primary-color);
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
             border: 1px solid var(--primary-color);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #f0f9ff;
-        }
-        
-        .email-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .email-form input {
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.25rem;
+            margin: 0.5rem;
             font-size: 1rem;
         }
         
-        .success-message, .error-message {
-            padding: 1rem;
-            border-radius: 0.25rem;
-            margin-top: 1rem;
-            display: none;
+        .reader-link:hover {
+            background-color: #f0f9ff;
         }
         
-        .success-message {
-            background-color: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
+        .benefits {
+            margin: 2rem 0;
+            text-align: left;
         }
         
-        .error-message {
-            background-color: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fecaca;
+        .benefits ul {
+            padding-left: 1.5rem;
+        }
+        
+        .benefits li {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
         }
         
         footer {
@@ -155,6 +155,38 @@
             padding-top: 2rem;
             border-top: 1px solid var(--border-color);
             color: #6b7280;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        .qr-code {
+            margin: 2rem auto;
+            max-width: 200px;
+            display: block;
+        }
+        
+        .qr-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
         }
         
         @media (max-width: 768px) {
@@ -166,8 +198,26 @@
                 font-size: 2rem;
             }
             
-            .subscription-options {
-                grid-template-columns: 1fr;
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.85rem 1.5rem;
+                font-size: 1.1rem;
+                width: 100%;
+            }
+            
+            .reader-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .reader-link {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+                margin: 0.25rem 0;
             }
         }
     </style>
@@ -181,109 +231,59 @@
         
         <div class="card">
             <h2>Subscribe to Our AI Newsletter</h2>
-            <p>Choose how you'd like to receive our weekly AI news digest:</p>
             
-            <div class="subscription-options">
-                <div class="option-card">
-                    <h3>Email Subscription</h3>
-                    <p>Receive our AI news digest directly in your inbox every Monday.</p>
-                    <form id="email-form" class="email-form">
-                        <input type="email" id="email" placeholder="Your email address" required>
-                        <button type="submit" class="btn">Subscribe</button>
-                    </form>
-                    <div id="success-message" class="success-message">
-                        Successfully subscribed! Check your email for updates.
-                    </div>
-                    <div id="error-message" class="error-message">
-                        Error subscribing. Please try again.
-                    </div>
-                </div>
+            <div class="rss-card">
+                <h3>RSS Feed Subscription</h3>
+                <p>Get the latest AI news delivered directly to your favorite RSS reader</p>
                 
-                <div class="option-card">
-                    <h3>RSS Feed</h3>
-                    <p>Add our RSS feed to your favorite feed reader for automatic updates.</p>
-                    <p><strong>Benefits:</strong></p>
+                <a href="/api/feeds/rss" class="btn">
+                    Subscribe via RSS
+                </a>
+                
+                <div class="benefits">
+                    <h4>Why Use RSS?</h4>
                     <ul>
-                        <li>No email clutter</li>
-                        <li>Read on your own schedule</li>
-                        <li>Never miss an update</li>
+                        <li><strong>No Email Required</strong> - Subscribe without sharing your email address</li>
+                        <li><strong>Read On Your Schedule</strong> - Articles wait for you in your RSS reader</li>
+                        <li><strong>Never Miss Updates</strong> - Your reader automatically checks for new content</li>
+                        <li><strong>Distraction-Free</strong> - No ads or promotional content</li>
+                        <li><strong>Mobile-Friendly</strong> - Works great on all devices</li>
                     </ul>
-                    <a href="/api/feeds/rss" class="btn">Subscribe via RSS</a>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">
-                        <a href="https://feedly.com/i/subscription/feed/https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener">Add to Feedly</a> | 
-                        <a href="https://www.inoreader.com/?add_feed=https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener">Add to Inoreader</a>
-                    </p>
                 </div>
                 
-                <div class="option-card">
-                    <h3>JSON Feed</h3>
-                    <p>For developers or modern feed readers that support the JSON Feed format.</p>
-                    <p>Use our JSON feed for programmatic access to our AI news content.</p>
-                    <a href="/api/feeds/json" class="btn">Get JSON Feed</a>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">
-                        <a href="https://jsonfeed.org/version/1.1" target="_blank" rel="noopener">Learn about JSON Feed</a>
-                    </p>
+                <p>Scan this QR code to subscribe on mobile:</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://techwithlc.com/api/feeds/rss" alt="RSS Feed QR Code" class="qr-code">
+                <p class="qr-caption">Point your phone's camera at this code to subscribe</p>
+                
+                <h4>Add to your favorite RSS reader:</h4>
+                <div class="reader-links">
+                    <a href="https://feedly.com/i/subscription/feed/https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener" class="reader-link">Feedly</a>
+                    <a href="https://www.inoreader.com/?add_feed=https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener" class="reader-link">Inoreader</a>
+                    <a href="https://www.newsblur.com/?url=https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener" class="reader-link">NewsBlur</a>
+                    <a href="https://app.feedbro.com/addfeed?url=https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener" class="reader-link">Feedbro</a>
+                    <a href="https://www.netvibes.com/subscribe.php?url=https://techwithlc.com/api/feeds/rss" target="_blank" rel="noopener" class="reader-link">Netvibes</a>
                 </div>
             </div>
         </div>
         
         <div class="card">
-            <h2>Why Subscribe?</h2>
+            <h2>What You'll Receive</h2>
             <ul>
                 <li><strong>Curated AI News:</strong> We collect the 5 most important AI news stories each week</li>
                 <li><strong>AI-Powered Summaries:</strong> Each article is summarized using OpenAI's GPT-4o</li>
                 <li><strong>Weekly Delivery:</strong> Receive updates every Monday morning</li>
-                <li><strong>Zero Spam:</strong> We only send the newsletter, nothing else</li>
-                <li><strong>Easy Unsubscribe:</strong> One-click unsubscribe in every email</li>
+                <li><strong>Zero Spam:</strong> Just the AI news you care about</li>
             </ul>
         </div>
         
         <footer>
             <p>&copy; 2025 TechwithLC. All rights reserved.</p>
-            <p>
-                <a href="https://techwithlc.com">Visit Website</a> | 
-                <a href="https://github.com/techwithlc">GitHub</a> | 
+            <div class="footer-links">
+                <a href="https://techwithlc.com">Visit Website</a>
+                <a href="https://github.com/techwithlc">GitHub</a>
                 <a href="https://linkedin.com/in/klunlawrencechen">LinkedIn</a>
-            </p>
+            </div>
         </footer>
     </div>
-    
-    <script>
-        document.getElementById('email-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const successMessage = document.getElementById('success-message');
-            const errorMessage = document.getElementById('error-message');
-            
-            // Hide any previous messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            try {
-                const response = await fetch('/api/subscribers', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email }),
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    successMessage.style.display = 'block';
-                    document.getElementById('email').value = '';
-                } else {
-                    errorMessage.textContent = data.message || 'Error subscribing. Please try again.';
-                    errorMessage.style.display = 'block';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.textContent = 'Network error. Please try again later.';
-                errorMessage.style.display = 'block';
-            }
-        });
-    </script>
 </body>
 </html>

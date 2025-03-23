@@ -1,16 +1,15 @@
-# Serverless Newsletter System Deployment Guide
+# RSS Feed Deployment Guide
 
-This guide explains how to deploy your newsletter subscription system without requiring a continuously running server, using RSS feeds, webhooks, and serverless functions.
+This guide explains how to deploy your AI news RSS feed system without requiring a continuously running server, using GitHub Actions and serverless functions.
 
 ## Overview
 
-The serverless newsletter system consists of:
+The RSS feed system consists of:
 
-1. **Static HTML Page**: A subscription page where users can subscribe via email or RSS/JSON feeds
-2. **RSS/JSON Feeds**: Automatically updated feeds with your latest AI news content
-3. **Webhook Integration**: Allows external services to trigger newsletter updates and sending
-4. **GitHub Actions Workflow**: Automatically updates feeds and sends newsletters on a schedule
-5. **Serverless Functions**: Can be deployed to Netlify, Vercel, or AWS Lambda
+1. **Static HTML Page**: A subscription page where users can subscribe via RSS
+2. **RSS Feed**: Automatically updated feed with your latest AI news content
+3. **GitHub Actions Workflow**: Automatically updates the feed on a schedule
+4. **Serverless Functions**: Can be deployed to Netlify or Vercel
 
 ## Deployment Options
 
@@ -22,17 +21,11 @@ The simplest approach is to use the GitHub Actions workflow we've created:
 2. Set up the following repository secrets:
    - `OPENAI_API_KEY`: Your OpenAI API key
    - `NEWS_API_KEY`: Your News API key
-   - `EMAIL_HOST`: SMTP server host
-   - `EMAIL_PORT`: SMTP server port
-   - `EMAIL_USER`: SMTP username
-   - `EMAIL_PASS`: SMTP password
-   - `EMAIL_FROM`: Sender email address
 
 The workflow will:
 - Run every Monday at 9:00 AM UTC
-- Update the RSS and JSON feeds with the latest AI news
-- Send the newsletter to all subscribers
-- Commit and push the updated feeds to your repository
+- Update the RSS feed with the latest AI news
+- Commit and push the updated feed to your repository
 
 You can also manually trigger the workflow from the GitHub Actions tab.
 
@@ -52,11 +45,6 @@ You can also manually trigger the workflow from the GitHub Actions tab.
 3. Set up environment variables in the Netlify dashboard:
    - `OPENAI_API_KEY`
    - `NEWS_API_KEY`
-   - `EMAIL_HOST`
-   - `EMAIL_PORT`
-   - `EMAIL_USER`
-   - `EMAIL_PASS`
-   - `EMAIL_FROM`
 
 ### Option 3: Vercel Deployment
 
@@ -73,37 +61,21 @@ You can also manually trigger the workflow from the GitHub Actions tab.
 
 3. Set up environment variables in the Vercel dashboard.
 
-## Using the Serverless Newsletter System
+## Using the RSS Feed System
 
 ### Subscription Options
 
-1. **Email Subscription**:
-   - Users can subscribe via the newsletter subscription page: `/newsletter`
-   - Emails are stored in `subscribers.json`
+**RSS Feed Subscription**:
+- Users can subscribe to the RSS feed: `/api/feeds/rss`
+- Compatible with all major RSS readers
+- Mobile-friendly QR code provided on the subscription page
 
-2. **RSS Feed Subscription**:
-   - Users can subscribe to the RSS feed: `/api/feeds/rss`
-   - Compatible with all major RSS readers
+### Webhook Integration (For Advanced Users)
 
-3. **JSON Feed Subscription**:
-   - For developers or modern feed readers: `/api/feeds/json`
-   - Follows the JSON Feed specification
+You can trigger RSS feed updates via webhooks:
 
-### Webhook Integration
-
-You can trigger newsletter updates and sending via webhooks:
-
-1. **Webhook URL**: `/api/webhook/newsletter?key=YOUR_WEBHOOK_SECRET`
+1. **Webhook URL**: `/api/webhook/rss-update?key=YOUR_WEBHOOK_SECRET`
 2. **Webhook Secret**: Automatically generated and stored in `serverless-config.json`
-3. **Request Body**:
-   ```json
-   {
-     "actions": {
-       "updateFeeds": true,
-       "sendNewsletter": true
-     }
-   }
-   ```
 
 ### Integrating with External Services
 
@@ -122,7 +94,7 @@ You can integrate your webhook with services like:
    - Consider using HTTPS for all webhook requests
 
 2. **Environment Variables**:
-   - Never commit your API keys or credentials to the repository
+   - Never commit your API keys to the repository
    - Use the secrets management of your chosen deployment platform
 
 ## Troubleshooting
@@ -136,14 +108,8 @@ You can integrate your webhook with services like:
    - Check if your IP is whitelisted (if configured)
    - Examine the webhook logs in your deployment platform
 
-3. **Emails Not Sending**:
-   - Verify your SMTP credentials
-   - Check if the email service is working
-   - Look for error logs in your deployment platform
-
 ## Next Steps
 
 1. **Custom Domain**: Set up a custom domain for your serverless functions
-2. **Analytics**: Add tracking to see how many people are using your RSS feeds
+2. **Analytics**: Add tracking to see how many people are using your RSS feed
 3. **Monitoring**: Set up alerts for webhook failures
-4. **Backup**: Implement a backup system for your subscriber data

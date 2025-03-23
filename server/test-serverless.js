@@ -35,12 +35,11 @@ if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Webhook endpoint
-app.post('/api/webhook/newsletter', async (req, res) => {
+// Webhook endpoint for updating RSS feed
+app.post('/api/webhook/rss-update', async (req, res) => {
   try {
     // Convert Express request to Lambda event format
     const event = {
-      body: JSON.stringify(req.body),
       headers: req.headers,
       queryStringParameters: req.query
     };
@@ -48,8 +47,8 @@ app.post('/api/webhook/newsletter', async (req, res) => {
     const result = await handler(event, {});
     res.status(result.statusCode).send(JSON.parse(result.body));
   } catch (error) {
-    console.error('Error processing webhook:', error);
-    res.status(500).json({ success: false, message: 'Error processing webhook', error: error.message });
+    console.error('Error updating RSS feed:', error);
+    res.status(500).json({ success: false, message: 'Error updating RSS feed', error: error.message });
   }
 });
 
@@ -71,58 +70,21 @@ app.get('/api/feeds/rss', (req, res) => {
   }
 });
 
-// JSON feed endpoint
-app.get('/api/feeds/json', (req, res) => {
-  try {
-    const jsonFilePath = path.join(__dirname, 'public', 'ai-news-feed.json');
-    
-    if (!fs.existsSync(jsonFilePath)) {
-      return res.status(404).json({ success: false, message: 'JSON feed not found' });
-    }
-    
-    const jsonContent = fs.readFileSync(jsonFilePath, 'utf8');
-    res.set('Content-Type', 'application/json');
-    res.send(jsonContent);
-  } catch (error) {
-    console.error('Error serving JSON feed:', error);
-    res.status(500).json({ success: false, message: 'Error serving JSON feed', error: error.message });
-  }
-});
-
-// Newsletter subscription page
-app.get('/newsletter', (req, res) => {
-  try {
-    const htmlFilePath = path.join(__dirname, 'public', 'newsletter-subscribe.html');
-    
-    if (!fs.existsSync(htmlFilePath)) {
-      return res.status(404).json({ success: false, message: 'Newsletter subscription page not found' });
-    }
-    
-    res.sendFile(htmlFilePath);
-  } catch (error) {
-    console.error('Error serving newsletter subscription page:', error);
-    res.status(500).json({ success: false, message: 'Error serving newsletter subscription page', error: error.message });
-  }
-});
-
-// Generate initial feeds if they don't exist
+// Generate initial feed if it doesn't exist
 const rssFilePath = path.join(__dirname, 'public', 'ai-news-feed.xml');
-const jsonFilePath = path.join(__dirname, 'public', 'ai-news-feed.json');
 
-if (!fs.existsSync(rssFilePath) || !fs.existsSync(jsonFilePath)) {
-  console.log('Generating initial feeds...');
+if (!fs.existsSync(rssFilePath)) {
+  console.log('Generating initial RSS feed...');
   updateFeeds().then(() => {
-    console.log('Initial feeds generated successfully');
+    console.log('Initial RSS feed generated successfully');
   }).catch(error => {
-    console.error('Error generating initial feeds:', error);
+    console.error('Error generating initial RSS feed:', error);
   });
 }
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Serverless test server running on port ${PORT}`);
+  console.log(`RSS feed server running on port ${PORT}`);
   console.log(`RSS feed available at: http://localhost:${PORT}/api/feeds/rss`);
-  console.log(`JSON feed available at: http://localhost:${PORT}/api/feeds/json`);
-  console.log(`Newsletter subscription page: http://localhost:${PORT}/newsletter`);
-  console.log(`Webhook URL: http://localhost:${PORT}/api/webhook/newsletter?key=${webhookSecret}`);
+  console.log(`RSS update webhook URL: http://localhost:${PORT}/api/webhook/rss-update?key=${webhookSecret}`);
 });

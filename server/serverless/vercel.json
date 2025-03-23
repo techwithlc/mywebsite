@@ -8,16 +8,12 @@
   },
   "routes": [
     {
-      "src": "/api/webhook/newsletter",
+      "src": "/api/webhook/rss-update",
       "dest": "/serverless/newsletter-function.js"
     },
     {
       "src": "/api/feeds/rss",
       "dest": "/public/ai-news-feed.xml"
-    },
-    {
-      "src": "/api/feeds/json",
-      "dest": "/public/ai-news-feed.json"
     },
     {
       "src": "/newsletter",

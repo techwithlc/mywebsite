@@ -11,7 +11,7 @@
 
 [[redirects]]
   # Redirect API requests to serverless functions
-  from = "/api/webhook/newsletter"
+  from = "/api/webhook/rss-update"
   to = "/.netlify/functions/newsletter-function"
   status = 200
   force = true
@@ -22,12 +22,6 @@
   to = "/public/ai-news-feed.xml"
   status = 200
   
-[[redirects]]
-  # Redirect JSON feed requests
-  from = "/api/feeds/json"
-  to = "/public/ai-news-feed.json"
-  status = 200
-
 [[redirects]]
   # Redirect newsletter subscription page
   from = "/newsletter"

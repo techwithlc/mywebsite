@@ -1,4 +1,4 @@
-name: Newsletter Automation
+name: RSS Feed Automation
 
 on:
   schedule:
@@ -6,19 +6,9 @@ on:
     - cron: '0 9 * * 1'
   workflow_dispatch:
     # Allow manual triggering
-    inputs:
-      action:
-        description: 'Action to perform'
-        required: true
-        default: 'update-and-send'
-        type: 'choice'
-        options:
-          - update-feeds
-          - send-newsletter
-          - update-and-send
 
 jobs:
-  newsletter-automation:
+  rss-feed-update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -37,7 +27,6 @@ jobs:
           npm install
 
       - name: Update RSS and JSON feeds
-        if: github.event_name == 'schedule' || github.event.inputs.action == 'update-feeds' || github.event.inputs.action == 'update-and-send'
         run: |
           cd server
           node -e "import('./services/rssFeedService.js').then(({updateFeeds}) => updateFeeds())"
@@ -45,29 +34,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
 
-      - name: Send newsletter
-        if: github.event_name == 'schedule' || github.event.inputs.action == 'send-newsletter' || github.event.inputs.action == 'update-and-send'
-        run: |
-          cd server
-          node -e "
-            Promise.all([
-              import('./services/newsService.js'),
-              import('./services/emailService.js')
-            ]).then(([{fetchAndSummarizeNews}, {sendNewsletterToAllSubscribers}]) => {
-              return fetchAndSummarizeNews().then(newsContent => sendNewsletterToAllSubscribers(newsContent));
-            })
-          "
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
-
       - name: Commit and push updated feeds
-        if: github.event_name == 'schedule' || github.event.inputs.action == 'update-feeds' || github.event.inputs.action == 'update-and-send'
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
