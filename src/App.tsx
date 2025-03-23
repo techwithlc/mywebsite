@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
 import emailjs from '@emailjs/browser';
-import { EMAIL_CONFIG } from './config/email';
+import { EMAIL_CONFIG, validateEmailConfig } from './config/email';
 import { useLanguage } from './contexts/LanguageContext';
 
 function App() {
@@ -33,9 +33,14 @@ function App() {
     
     window.addEventListener('scroll', handleScroll);
     
-    // Initialize emailjs
-    if (EMAIL_CONFIG.PUBLIC_KEY) {
-      emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+    // Initialize emailjs with more robust error handling
+    try {
+      if (EMAIL_CONFIG.PUBLIC_KEY) {
+        emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+        console.log('EmailJS initialized successfully');
+      }
+    } catch (error) {
+      console.warn('EmailJS initialization failed:', error);
     }
     
     return () => {
@@ -45,7 +50,8 @@ function App() {
 
   const handleFeedbackSubmit = async () => {
     try {
-      if (!EMAIL_CONFIG.PUBLIC_KEY || !EMAIL_CONFIG.SERVICE_ID || !EMAIL_CONFIG.TEMPLATE_ID) {
+      // Use the validateEmailConfig function to check configuration
+      if (!validateEmailConfig()) {
         throw new Error('EmailJS configuration missing');
       }
       
