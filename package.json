@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.344.0",
+    "openai": "^4.30.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
