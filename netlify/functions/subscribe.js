@@ -8,8 +8,9 @@ function readSubscribers() {
     // Try multiple paths for greater compatibility between environments
     const possiblePaths = [
       '/tmp/subscribers.json', // Netlify Functions writable directory
-      path.join(__dirname, '../../server/subscribers.json'), // Local development
-      path.join(__dirname, '../../../server/subscribers.json') // Another possible path
+      path.resolve(__dirname, '../../server/subscribers.json'), // Local development - relative to netlify/functions
+      path.resolve(__dirname, '../../../server/subscribers.json'), // Another possible path
+      path.resolve('/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json') // Direct absolute path
     ];
     
     // Use the first file that exists
@@ -39,35 +40,54 @@ function readSubscribers() {
 
 // Helper function to safely write subscribers
 function writeSubscribers(subscribers) {
+  const results = {
+    tmp: false,
+    server: false,
+    serverAlt: false,
+    direct: false
+  };
+
   // Always write to /tmp for Netlify Functions
   try {
     const tmpPath = '/tmp/subscribers.json';
     fs.writeFileSync(tmpPath, JSON.stringify(subscribers, null, 2));
     console.log(`Updated subscribers in ${tmpPath}`);
+    results.tmp = true;
   } catch (tmpError) {
     console.error('Error writing to /tmp:', tmpError);
   }
   
-  // Also try to write to server directory for local development
+  // Try to write to server directory for local development
   try {
-    const serverPath = path.join(__dirname, '../../server/subscribers.json');
+    const serverPath = path.resolve(__dirname, '../../server/subscribers.json');
     fs.writeFileSync(serverPath, JSON.stringify(subscribers, null, 2));
     console.log(`Updated subscribers in ${serverPath}`);
+    results.server = true;
   } catch (serverError) {
-    // This might fail in Netlify environment, which is expected
-    console.log('Note: Could not write to server path (expected in production)');
+    console.log('Note: Could not write to relative server path 1:', serverError.message);
   }
   
   // Try alternative path as well
   try {
-    const altPath = path.join(__dirname, '../../../server/subscribers.json');
+    const altPath = path.resolve(__dirname, '../../../server/subscribers.json');
     fs.writeFileSync(altPath, JSON.stringify(subscribers, null, 2));
     console.log(`Updated subscribers in ${altPath}`);
+    results.serverAlt = true;
   } catch (altError) {
-    // Also might fail, which is expected
+    console.log('Note: Could not write to relative server path 2:', altError.message);
   }
   
-  return true;
+  // Last resort - try direct absolute path
+  try {
+    const directPath = '/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json';
+    fs.writeFileSync(directPath, JSON.stringify(subscribers, null, 2));
+    console.log(`Updated subscribers in ${directPath}`);
+    results.direct = true;
+  } catch (directError) {
+    console.log('Note: Could not write to direct path:', directError.message);
+  }
+  
+  return results;
 }
 
 exports.handler = async function(event, context) {
@@ -75,9 +95,35 @@ exports.handler = async function(event, context) {
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
     'Content-Type': 'application/json'
   };
+
+  // Special debug endpoint
+  if (event.httpMethod === 'GET' && event.path.includes('/debug')) {
+    // Read current subscribers for debugging
+    const subscribers = readSubscribers();
+    
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        message: 'Debug info',
+        subscriberCount: subscribers.length,
+        subscribers: subscribers,
+        environment: process.env.NODE_ENV || 'unknown',
+        netlifyContext: !!process.env.NETLIFY || false,
+        paths: {
+          dirname: __dirname,
+          resolved: {
+            server1: path.resolve(__dirname, '../../server/subscribers.json'),
+            server2: path.resolve(__dirname, '../../../server/subscribers.json'),
+            direct: '/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json'
+          }
+        }
+      })
+    };
+  }
   
   // Handle OPTIONS request for CORS preflight
   if (event.httpMethod === 'OPTIONS') {
@@ -139,15 +185,19 @@ exports.handler = async function(event, context) {
     });
     
     // Save to file
-    writeSubscribers(subscribers);
+    const writeResults = writeSubscribers(subscribers);
     
-    // Return success response
+    // Return success response with debug information
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({ 
         success: true, 
-        message: 'Subscription successful!' 
+        message: 'Subscription successful!',
+        debug: {
+          subscriberCount: subscribers.length,
+          writeResults: writeResults
+        }
       })
     };
     
@@ -159,7 +209,8 @@ exports.handler = async function(event, context) {
       headers,
       body: JSON.stringify({ 
         success: false, 
-        message: 'Server error, please try again later' 
+        message: 'Server error, please try again later',
+        error: error.message
       })
     };
   }
