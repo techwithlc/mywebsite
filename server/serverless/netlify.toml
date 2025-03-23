@@ -1,29 +1,18 @@
 [build]
   # Directory with code to build
   functions = "serverless"
-  
-  # Command to build the functions
-  command = "npm install"
-
-[functions]
-  # Directory where built serverless functions will be stored
-  directory = "serverless"
-
-[[redirects]]
-  # Redirect API requests to serverless functions
-  from = "/api/webhook/rss-update"
-  to = "/.netlify/functions/newsletter-function"
-  status = 200
-  force = true
+  command = "npm install && npm run build"
+  publish = "server/public"
 
 [[redirects]]
   # Redirect RSS feed requests
   from = "/api/feeds/rss"
-  to = "/public/ai-news-feed.xml"
+  to = "/ai-news-feed.xml"
   status = 200
-  
+  force = true
+
 [[redirects]]
   # Redirect newsletter subscription page
   from = "/newsletter"
-  to = "/public/newsletter-subscribe.html"
+  to = "/newsletter-subscribe.html"
   status = 200

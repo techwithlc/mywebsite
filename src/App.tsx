@@ -13,6 +13,8 @@ function App() {
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [subscriptionMessage, setSubscriptionMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -42,38 +44,49 @@ function App() {
     };
   }, []);
 
-  const handleFeedbackSubmit = async () => {
-    if (!feedbackMessage.trim()) return;
-    
-    setIsSubmitting(true);
-    try {
-      console.log('Sending feedback with config:', {
-        serviceId: EMAIL_CONFIG.SERVICE_ID,
-        templateId: EMAIL_CONFIG.TEMPLATE_ID,
-        publicKey: EMAIL_CONFIG.PUBLIC_KEY?.slice(0, 5) + '...' // Log only first 5 chars for security
-      });
+  const validateEmailConfig = () => {
+    if (!EMAIL_CONFIG.PUBLIC_KEY || !EMAIL_CONFIG.SERVICE_ID || !EMAIL_CONFIG.TEMPLATE_ID) {
+      throw new Error('EmailJS configuration missing');
+    }
+  };
 
-      await emailjs.send(
+  const handleFeedbackSubmit = async () => {
+    try {
+      validateEmailConfig();
+      
+      if (!feedbackMessage.trim()) {
+        setFeedbackStatus('error');
+        setErrorMessage('Please enter a message');
+        return;
+      }
+
+      setIsSubmitting(true);
+      
+      const response = await emailjs.send(
         EMAIL_CONFIG.SERVICE_ID,
         EMAIL_CONFIG.TEMPLATE_ID,
         {
           message: feedbackMessage,
           from_name: 'Website Visitor',
-        },
-        EMAIL_CONFIG.PUBLIC_KEY
+          reply_to: 'no-reply@techwithlc.com'
+        }
       );
-      
-      setFeedbackStatus('success');
-      setTimeout(() => {
-        setShowFeedback(false);
-        setFeedbackMessage('');
-        setFeedbackStatus('idle');
-      }, 2000);
+
+      if (response.status === 200) {
+        setFeedbackStatus('success');
+        setErrorMessage('Feedback sent successfully!');
+        setTimeout(() => setShowFeedback(false), 2000);
+      }
     } catch (error) {
-      console.error('Failed to send feedback:', error);
+      console.error('Feedback error:', error);
       setFeedbackStatus('error');
+      setErrorMessage('Failed to send feedback. Please try again later.');
     } finally {
       setIsSubmitting(false);
+      setTimeout(() => {
+        setFeedbackStatus('idle');
+        setErrorMessage('');
+      }, 5000);
     }
   };
 
@@ -352,6 +365,9 @@ function App() {
                   )}
                 </button>
               </div>
+              {errorMessage && (
+                <p className="text-sm text-red-500 mt-4">{errorMessage}</p>
+              )}
             </div>
           </div>
         )}
@@ -417,7 +433,7 @@ function App() {
                   ) : (
                     <a href={project.link} 
                        target="_blank" 
-                       rel="noopener noreferrer" 
+                       rel="noopener noreferrer"
                        className="block bg-gradient-to-br from-gray-100 to-white h-48 relative group overflow-hidden">
                       <div className="absolute inset-0 flex items-center justify-center transition-transform group-hover:scale-110">
                         <svg viewBox="0 0 24 24" className="w-20 h-20">
