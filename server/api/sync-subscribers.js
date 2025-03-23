@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 const router = express.Router();
 
@@ -12,6 +13,16 @@ const __dirname = path.dirname(__filename);
 
 // Path to subscribers file
 const subscribersPath = path.join(__dirname, '../subscribers.json');
+
+// Configure CORS for all routes in this router
+router.use(cors({
+  origin: '*', // Allow all origins for testing
+  methods: 'POST, GET, OPTIONS',
+  credentials: true
+}));
+
+// Add OPTIONS handling for preflight requests
+router.options('*', cors());
 
 // Read subscribers from JSON file
 const readSubscribers = () => {
@@ -40,26 +51,36 @@ const writeSubscribers = (subscribers) => {
 
 // POST endpoint to add a new subscriber
 router.post('/add', async (req, res) => {
+  console.log('✅ Sync request received with body:', JSON.stringify(req.body));
+  console.log('✅ Headers:', JSON.stringify(req.headers));
+  
   try {
     const { email } = req.body;
     
     if (!email || !email.includes('@')) {
+      console.log('❌ Invalid email format:', email);
       return res.status(400).json({ 
         success: false, 
         message: 'Valid email address required' 
       });
     }
     
+    console.log('✅ Valid email received:', email);
+    
     // Read current subscribers
     const subscribers = readSubscribers();
+    console.log('📋 Current subscriber count:', subscribers.length);
     
     // Check if already subscribed
     if (subscribers.some(sub => sub.email === email)) {
+      console.log('⚠️ Email already exists:', email);
       return res.json({ 
         success: true, 
         message: 'This email is already subscribed!'
       });
     }
+    
+    console.log('✅ Adding new subscriber:', email);
     
     // Add new subscriber
     subscribers.push({
@@ -73,21 +94,25 @@ router.post('/add', async (req, res) => {
     const success = writeSubscribers(subscribers);
     
     if (success) {
+      console.log('✅ Successfully added subscriber:', email);
+      console.log('📋 New subscriber count:', subscribers.length);
       return res.json({ 
         success: true, 
         message: 'Subscription successful!' 
       });
     } else {
+      console.log('❌ Failed to write subscribers file');
       return res.status(500).json({
         success: false,
-        message: 'Failed to save subscription'
+        message: 'Failed to save subscriber data'
       });
     }
   } catch (error) {
-    console.error('Error adding subscriber:', error);
+    console.error('❌ Error in sync-subscribers API:', error);
     return res.status(500).json({
       success: false,
-      message: 'Server error'
+      message: 'Server error processing subscription',
+      error: error.message
     });
   }
 });
@@ -109,6 +134,15 @@ router.get('/', async (req, res) => {
       message: 'Server error'
     });
   }
+});
+
+// Simple GET endpoint to check if API is responsive
+router.get('/status', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Sync subscribers API is running',
+    timestamp: new Date().toISOString()
+  });
 });
 
 export default router;
