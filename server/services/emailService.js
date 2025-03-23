@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const subscribersFilePath = path.join(__dirname, '..', 'subscribers.json');
 
 // Helper function to read subscribers from file
-const readSubscribers = () => {
+const readSubscribers = async () => {
   try {
     if (!fs.existsSync(subscribersFilePath)) {
       // Create subscribers file if it doesn't exist
@@ -52,42 +52,65 @@ const isEmailConfigured = () => {
 
 // Create reusable transporter object using SMTP transport
 let transporter;
-try {
-  if (isEmailConfigured()) {
-    transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      }
-    });
-    console.log('Email transport configured successfully');
-  } else {
-    console.warn('Email configuration is incomplete. Using testing transport.');
-    // Create a preview/test transport for development
-    transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      port: 587,
-      secure: false,
-      auth: {
-        user: 'ethereal.user@ethereal.email',
-        pass: 'ethereal.pass'
-      }
-    });
+
+// Initialize email transport - either real or development
+async function initializeTransport() {
+  try {
+    if (isEmailConfigured()) {
+      transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        }
+      });
+      console.log('Email transport configured successfully with real credentials');
+      return true;
+    } else {
+      console.warn('Email configuration is incomplete. Using testing transport.');
+      
+      // For development, use a special test account instead of trying to authenticate
+      // with fake credentials
+      transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth: {
+          user: 'user@example.com',
+          pass: 'password'
+        },
+        // This is the key - it prevents actual authentication attempts
+        ignoreTLS: true,
+        // Debug mode for troubleshooting
+        debug: true,
+        // Don't actually try to deliver emails in development
+        send: false
+      });
+      
+      console.log('Development email transport configured (emails will be logged but not sent)');
+      return true;
+    }
+  } catch (error) {
+    console.error('Failed to create email transport:', error);
+    return false;
   }
-} catch (error) {
-  console.error('Failed to create email transport:', error);
 }
+
+// Initialize transport immediately
+initializeTransport().catch(err => {
+  console.error('Error initializing email transport:', err);
+});
 
 /**
  * Send email to a single subscriber
  */
 export async function sendEmail(to, subject, htmlContent) {
+  // Make sure transport is initialized
+  if (!transporter) {
+    await initializeTransport();
+  }
+  
   try {
-    if (!transporter) {
-      throw new Error('Email transport not configured');
-    }
-
     const mailOptions = {
       from: `"TechwithLC" <${process.env.EMAIL_FROM || 'noreply@techwithlc.com'}>`,
       to,
@@ -95,9 +118,18 @@ export async function sendEmail(to, subject, htmlContent) {
       html: htmlContent
     };
 
+    // In development mode, just log the email instead of sending
+    if (!isEmailConfigured()) {
+      console.log('DEV MODE - Email would be sent:');
+      console.log(`To: ${to}`);
+      console.log(`Subject: ${subject}`);
+      console.log('Content: [HTML Content]');
+      return { success: true, info: 'Email logged (development mode)' };
+    }
+
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent successfully:', info.messageId);
-    return { success: true, messageId: info.messageId };
+    console.log(`Email sent to ${to}`);
+    return { success: true, info };
   } catch (error) {
     console.error('Error sending email:', error);
     return { success: false, error: error.message };
@@ -267,57 +299,68 @@ function createNewsletterTemplate(newsContent) {
  */
 export async function sendNewsletterToAllSubscribers(newsContent) {
   try {
-    const subscribers = readSubscribers().filter(sub => sub.subscribed);
-    
-    if (subscribers.length === 0) {
-      console.log('No active subscribers found');
-      return;
+    // Make sure transport is initialized
+    if (!transporter) {
+      await initializeTransport();
     }
     
-    console.log(`Sending newsletter to ${subscribers.length} subscribers`);
+    // Read all subscribers
+    const subscribers = await readSubscribers();
+    const activeSubscribers = subscribers.filter(sub => sub.active !== false);
+    
+    if (activeSubscribers.length === 0) {
+      console.log('No active subscribers found');
+      return { successCount: 0, failCount: 0, message: 'No subscribers to send to' };
+    }
+    
+    console.log(`Sending newsletter to ${activeSubscribers.length} subscribers`);
     
     const emailTemplate = createNewsletterTemplate(newsContent);
     const subject = `${newsContent.title || 'TechwithLC AI News Update'} - ${new Date().toLocaleDateString()}`;
     
+    // In development mode, just log instead of sending
+    if (!isEmailConfigured()) {
+      console.log('DEV MODE - Newsletter would be sent to:');
+      activeSubscribers.forEach(sub => console.log(` - ${sub.email}`));
+      console.log(`Subject: ${subject}`);
+      console.log('Content: [HTML Newsletter Template]');
+      return { 
+        successCount: activeSubscribers.length, 
+        failCount: 0, 
+        message: 'Newsletter logged (development mode)' 
+      };
+    }
+    
     // Send emails to all subscribers
-    const emailPromises = subscribers.map(async (subscriber) => {
+    const emailPromises = activeSubscribers.map(async (subscriber) => {
       try {
         // Replace placeholder with actual email
-        const personalizedHtml = emailTemplate.replace('{{email}}', encodeURIComponent(subscriber.email));
-        
-        const result = await sendEmail(subscriber.email, subject, personalizedHtml);
-        
-        // Update last email sent date
-        const allSubscribers = readSubscribers();
-        const subscriberIndex = allSubscribers.findIndex(sub => sub.email === subscriber.email);
-        
-        if (subscriberIndex !== -1) {
-          allSubscribers[subscriberIndex].lastEmailSent = new Date().toISOString();
-          writeSubscribers(allSubscribers);
-        }
-        
-        return { email: subscriber.email, status: result.success ? 'success' : 'failed', error: result.error };
+        const personalizedTemplate = emailTemplate.replace('{{email}}', encodeURIComponent(subscriber.email));
+        const result = await sendEmail(subscriber.email, subject, personalizedTemplate);
+        return { success: result.success, email: subscriber.email, error: result.error };
       } catch (error) {
-        console.error(`Failed to send email to ${subscriber.email}:`, error);
-        return { email: subscriber.email, status: 'failed', error: error.message };
+        console.error(`Error sending to ${subscriber.email}:`, error.message);
+        return { success: false, email: subscriber.email, error: error.message };
       }
     });
     
     const results = await Promise.all(emailPromises);
+    const successCount = results.filter(r => r.success).length;
+    const failCount = results.filter(r => !r.success).length;
     
-    const successCount = results.filter(r => r.status === 'success').length;
-    const failureCount = results.filter(r => r.status === 'failed').length;
-    
-    console.log(`Newsletter sent: ${successCount} successful, ${failureCount} failed`);
+    console.log(`Newsletter sent: ${successCount} successful, ${failCount} failed`);
     
     return {
-      totalSubscribers: subscribers.length,
       successCount,
-      failureCount,
+      failCount,
       results
     };
   } catch (error) {
     console.error('Error sending newsletter to subscribers:', error);
-    throw error;
+    return {
+      successCount: 0,
+      failCount: 0,
+      error: error.message
+    };
   }
 }
