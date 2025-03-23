@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
+import emailjs from '@emailjs/browser';
+import { EMAIL_CONFIG, validateEmailConfig } from './config/email';
 import { useLanguage } from './contexts/LanguageContext';
 
 function App() {
@@ -35,12 +37,21 @@ function App() {
     
     window.addEventListener('scroll', handleScroll);
     
+    try {
+      if (EMAIL_CONFIG.PUBLIC_KEY) {
+        emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+        console.log('EmailJS initialized successfully');
+      }
+    } catch (error) {
+      console.warn('EmailJS initialization failed:', error);
+    }
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  // Direct API call for feedback submission
+  // EmailJS for feedback submission
   const handleFeedbackSubmit = async () => {
     try {
       if (!feedbackMessage.trim()) {
@@ -51,20 +62,21 @@ function App() {
 
       setIsSubmitting(true);
       
-      // Use direct API endpoint instead of EmailJS
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: feedbackMessage
-        }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to send feedback');
+      if (!validateEmailConfig()) {
+        throw new Error('EmailJS configuration missing');
       }
+
+      const templateParams = {
+        message: feedbackMessage,
+        from_name: 'Website Visitor',
+        reply_to: 'noreply@techwithlc.com'
+      };
+
+      await emailjs.send(
+        EMAIL_CONFIG.SERVICE_ID,
+        EMAIL_CONFIG.TEMPLATE_ID,
+        templateParams
+      );
 
       setFeedbackStatus('success');
       setErrorMessage('Feedback sent successfully!');
@@ -113,6 +125,7 @@ function App() {
     });
   };
 
+  // Subscription handler that uses the backend API
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
@@ -125,8 +138,8 @@ function App() {
         return;
       }
       
-      // Direct server request to add subscriber
-      const response = await fetch('/api/subscribe', {
+      // Use the existing server API endpoint for subscribers
+      const response = await fetch('/api/subscribers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,20 +147,21 @@ function App() {
         body: JSON.stringify({ email: subscribeEmail }),
       });
       
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to subscribe');
+        throw new Error(data.message || 'Failed to subscribe');
       }
       
-      setSubscribeMessage('Subscription successful!');
+      setSubscribeMessage(data.message || 'Subscription successful!');
       setSubscribeSuccess(true);
       setTimeout(() => {
         setSubscribeEmail('');
         setSubscribeMessage('');
-      }, 2000);
+      }, 3000);
     } catch (error) {
       console.error('Subscription error:', error);
-      setSubscribeMessage('Failed to subscribe. Please try again later.');
+      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
       setSubscribeSuccess(false);
     } finally {
       setIsSubscribing(false);
@@ -558,7 +572,7 @@ function App() {
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
               </a>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kuanlunlawrence.chen@gmail.com" 
+              <a href="mailto:kuanlunlawrence.chen@gmail.com" 
                  target="_blank" 
                  rel="noopener noreferrer"
                  className="p-4 bg-gray-700/50 rounded-full hover:bg-gray-700 transition-all hover:scale-110 hover:shadow-lg hover:shadow-blue-500/10">
@@ -568,18 +582,15 @@ function App() {
           </div>
         </section>
 
-        {/* Newsletter Section */}
-        <section className="border-t border-gray-800/20 py-12 bg-gray-800/10">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-8">
-              <h2 className="text-2xl font-bold">{t.newsletter.subtitle}</h2>
-              <p className="text-gray-400 mt-2">
+        {/* Newsletter Section - Simple UI */}
+        <section className="border-t border-gray-800/20 py-10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-md mx-auto">
+              <h3 className="text-xl font-bold mb-3 text-center">{t.newsletter.subtitle}</h3>
+              <p className="text-gray-400 text-sm mb-4 text-center">
                 {t.newsletter.description}
               </p>
-            </div>
-            
-            {/* Simplified Email Subscription Form */}
-            <div className="max-w-md mx-auto">
+              
               <form 
                 onSubmit={handleSubscribe}
                 className="flex flex-col sm:flex-row gap-2"
@@ -589,14 +600,14 @@ function App() {
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
                   placeholder="Your email address"
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-700/70 border border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="flex-1 px-4 py-2 rounded bg-gray-700/70 border border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   required
                   inputMode="email"
                   autoComplete="email"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all"
+                  className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 transition-all active:bg-blue-700"
                   disabled={isSubscribing}
                 >
                   {isSubscribing ? "..." : "Subscribe"}
@@ -604,7 +615,7 @@ function App() {
               </form>
               
               {subscribeMessage && (
-                <div className={`mt-3 p-2 rounded text-center text-sm ${
+                <div className={`mt-2 p-2 rounded text-center text-sm ${
                   subscribeSuccess ? "bg-green-500/20 text-green-200" : "bg-red-500/20 text-red-200"
                 }`}>
                   {subscribeMessage}
