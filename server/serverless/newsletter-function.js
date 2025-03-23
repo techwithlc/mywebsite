@@ -1,4 +1,5 @@
 import { updateFeeds } from '../services/rssFeedService.js';
+import { sendNewsletterToAllSubscribers } from '../services/emailService.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -50,12 +51,6 @@ function validateWebhook(event, config) {
     if (signature !== expectedSignature) {
       return { valid: false, reason: 'Invalid signature' };
     }
-  } else {
-    // Check query parameter for key
-    const queryParams = new URLSearchParams(event.queryStringParameters || {});
-    if (queryParams.get('key') !== config.webhookSecret) {
-      return { valid: false, reason: 'Invalid webhook key' };
-    }
   }
   
   return { valid: true };
@@ -78,6 +73,16 @@ export async function handler(event, context) {
     
     console.log('Webhook triggered: Updating RSS feed');
     const feedResult = await updateFeeds();
+    
+    // Send newsletter to subscribers after updating feed
+    console.log('Sending newsletter to subscribers...');
+    try {
+      const emailResults = await sendNewsletterToAllSubscribers(feedResult.newsContent);
+      console.log(`Newsletter sent to ${emailResults.successCount} subscribers`);
+    } catch (emailError) {
+      console.warn('Error sending newsletter emails:', emailError.message);
+      // Continue even if email sending fails - we don't want to break the build/update process
+    }
     
     // Update last run timestamp
     config.lastRun = new Date().toISOString();

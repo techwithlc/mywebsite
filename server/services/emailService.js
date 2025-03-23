@@ -12,6 +12,11 @@ const subscribersFilePath = path.join(__dirname, '..', 'subscribers.json');
 // Helper function to read subscribers from file
 const readSubscribers = () => {
   try {
+    if (!fs.existsSync(subscribersFilePath)) {
+      // Create subscribers file if it doesn't exist
+      fs.writeFileSync(subscribersFilePath, JSON.stringify([], null, 2));
+      return [];
+    }
     const data = fs.readFileSync(subscribersFilePath, 'utf8');
     return JSON.parse(data);
   } catch (error) {
@@ -23,6 +28,11 @@ const readSubscribers = () => {
 // Helper function to write subscribers to file
 const writeSubscribers = (subscribers) => {
   try {
+    // Ensure directory exists
+    const dir = path.dirname(subscribersFilePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
     fs.writeFileSync(subscribersFilePath, JSON.stringify(subscribers, null, 2));
     return true;
   } catch (error) {
@@ -31,33 +41,66 @@ const writeSubscribers = (subscribers) => {
   }
 };
 
+// Check if email configuration is available
+const isEmailConfigured = () => {
+  return Boolean(
+    process.env.EMAIL_USER && 
+    process.env.EMAIL_PASS && 
+    process.env.EMAIL_FROM
+  );
+};
+
 // Create reusable transporter object using SMTP transport
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+let transporter;
+try {
+  if (isEmailConfigured()) {
+    transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      }
+    });
+    console.log('Email transport configured successfully');
+  } else {
+    console.warn('Email configuration is incomplete. Using testing transport.');
+    // Create a preview/test transport for development
+    transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'ethereal.user@ethereal.email',
+        pass: 'ethereal.pass'
+      }
+    });
   }
-});
+} catch (error) {
+  console.error('Failed to create email transport:', error);
+}
 
 /**
  * Send email to a single subscriber
  */
 export async function sendEmail(to, subject, htmlContent) {
   try {
+    if (!transporter) {
+      throw new Error('Email transport not configured');
+    }
+
     const mailOptions = {
-      from: `"TechwithLC" <${process.env.EMAIL_FROM}>`,
+      from: `"TechwithLC" <${process.env.EMAIL_FROM || 'noreply@techwithlc.com'}>`,
       to,
       subject,
-      html: htmlContent,
+      html: htmlContent
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(`Email sent to ${to}: ${info.messageId}`);
-    return info;
+    console.log('Email sent successfully:', info.messageId);
+    return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`Error sending email to ${to}:`, error);
-    throw error;
+    console.error('Error sending email:', error);
+    return { success: false, error: error.message };
   }
 }
 
@@ -170,7 +213,7 @@ export async function sendNewsletterToAllSubscribers(newsContent) {
         // Replace placeholder with actual email
         const personalizedHtml = emailTemplate.replace('{{email}}', encodeURIComponent(subscriber.email));
         
-        await sendEmail(subscriber.email, subject, personalizedHtml);
+        const result = await sendEmail(subscriber.email, subject, personalizedHtml);
         
         // Update last email sent date
         const allSubscribers = readSubscribers();
@@ -181,7 +224,7 @@ export async function sendNewsletterToAllSubscribers(newsContent) {
           writeSubscribers(allSubscribers);
         }
         
-        return { email: subscriber.email, status: 'success' };
+        return { email: subscriber.email, status: result.success ? 'success' : 'failed', error: result.error };
       } catch (error) {
         console.error(`Failed to send email to ${subscriber.email}:`, error);
         return { email: subscriber.email, status: 'failed', error: error.message };
