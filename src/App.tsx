@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { EMAIL_CONFIG } from './config/email';
@@ -13,9 +13,6 @@ function App() {
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscriptionStatus, setSubscriptionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [subscriptionMessage, setSubscriptionMessage] = useState('');
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -34,6 +31,12 @@ function App() {
     };
     
     window.addEventListener('scroll', handleScroll);
+    
+    // Initialize emailjs
+    if (EMAIL_CONFIG.PUBLIC_KEY) {
+      emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
+    }
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -56,7 +59,8 @@ function App() {
         {
           message: feedbackMessage,
           from_name: 'Website Visitor',
-        }
+        },
+        EMAIL_CONFIG.PUBLIC_KEY
       );
       
       setFeedbackStatus('success');
@@ -99,54 +103,6 @@ function App() {
       top: 0,
       behavior: 'smooth'
     });
-  };
-
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!email.trim()) return;
-    
-    try {
-      setSubscriptionStatus('submitting');
-      
-      // Get the API URL from environment variables or use a default
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      
-      const response = await fetch(`${apiUrl}/api/subscribers`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to subscribe');
-      }
-      
-      setSubscriptionStatus('success');
-      setSubscriptionMessage(data.message || 'Subscribed successfully!');
-      setEmail('');
-      
-      // Reset status after 3 seconds
-      setTimeout(() => {
-        setSubscriptionStatus('idle');
-        setSubscriptionMessage('');
-      }, 3000);
-      
-    } catch (error) {
-      console.error('Subscription error:', error);
-      setSubscriptionStatus('error');
-      setSubscriptionMessage(error instanceof Error ? error.message : 'Failed to subscribe');
-      
-      // Reset error status after 3 seconds
-      setTimeout(() => {
-        setSubscriptionStatus('idle');
-        setSubscriptionMessage('');
-      }, 3000);
-    }
   };
 
   return (
@@ -306,7 +262,7 @@ function App() {
                 }
               ].map((tech) => (
                 <div key={tech.name} 
-                     className="bg-gray-700/50 p-6 rounded-lg text-center hover:bg-gray-700 transition-all hover:transform hover:scale-105 cursor-pointer group">
+                     className="bg-gray-700/50 p-6 rounded-lg text-center hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
                   <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform">
                     {tech.icon}
                   </div>
@@ -568,41 +524,16 @@ function App() {
                 {t.newsletter.description}
               </p>
             </div>
-            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
-              <form className="flex flex-col md:flex-row gap-4" onSubmit={handleSubscribe}>
-                <input
-                  type="email"
-                  placeholder={t.newsletter.placeholder}
-                  className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={subscriptionStatus === 'submitting'}
-                  required
-                />
-                <button
-                  type="submit"
-                  className={`bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all whitespace-nowrap ${
-                    subscriptionStatus === 'submitting' ? 'opacity-70 cursor-not-allowed' : ''
-                  }`}
-                  disabled={subscriptionStatus === 'submitting'}
-                >
-                  {subscriptionStatus === 'submitting' ? (
-                    <span className="inline-block animate-spin">⌛</span>
-                  ) : (
-                    t.newsletter.button
-                  )}
-                </button>
-              </form>
-              
-              {/* Subscription status message */}
-              {subscriptionMessage && (
-                <div className={`mt-4 p-3 rounded-lg text-center ${
-                  subscriptionStatus === 'success' ? 'bg-green-500/20 text-green-300' : 
-                  subscriptionStatus === 'error' ? 'bg-red-500/20 text-red-300' : ''
-                }`}>
-                  {subscriptionMessage}
-                </div>
-              )}
+            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm text-center">
+              <p className="text-gray-300 mb-6">
+                Subscribe to our RSS feed to get the latest AI news and updates directly in your favorite RSS reader.
+              </p>
+              <a 
+                href="/newsletter" 
+                className="inline-block bg-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-600 transition-all"
+              >
+                Subscribe via RSS
+              </a>
             </div>
           </div>
         </section>
