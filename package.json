@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node build.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-rss": "node ./server/serverless/newsletter-function.js --local"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

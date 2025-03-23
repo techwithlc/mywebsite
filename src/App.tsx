@@ -13,7 +13,6 @@ function App() {
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [subscriptionMessage, setSubscriptionMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const navItems = [
@@ -44,27 +43,21 @@ function App() {
     };
   }, []);
 
-  const validateEmailConfig = () => {
-    if (!EMAIL_CONFIG.PUBLIC_KEY || !EMAIL_CONFIG.SERVICE_ID || !EMAIL_CONFIG.TEMPLATE_ID) {
-      throw new Error('EmailJS configuration missing');
-    }
-  };
-
   const handleFeedbackSubmit = async () => {
     try {
       if (!EMAIL_CONFIG.PUBLIC_KEY || !EMAIL_CONFIG.SERVICE_ID || !EMAIL_CONFIG.TEMPLATE_ID) {
-        throw new Error('EmailJS configuration missing - check environment variables');
+        throw new Error('EmailJS configuration missing');
       }
       
       if (!feedbackMessage.trim()) {
         setFeedbackStatus('error');
-        setErrorMessage(t.feedback.errors.emptyMessage);
+        setErrorMessage('Please enter a message');
         return;
       }
 
       setIsSubmitting(true);
       
-      const response = await emailjs.send(
+      await emailjs.send(
         EMAIL_CONFIG.SERVICE_ID,
         EMAIL_CONFIG.TEMPLATE_ID,
         {
@@ -75,18 +68,16 @@ function App() {
         EMAIL_CONFIG.PUBLIC_KEY
       );
 
-      if (response.status === 200) {
-        setFeedbackStatus('success');
-        setErrorMessage(t.feedback.successMessage);
-        setTimeout(() => {
-          setShowFeedback(false);
-          setFeedbackMessage('');
-        }, 2000);
-      }
+      setFeedbackStatus('success');
+      setErrorMessage('Feedback sent successfully!');
+      setTimeout(() => {
+        setShowFeedback(false);
+        setFeedbackMessage('');
+      }, 2000);
     } catch (error) {
       console.error('Feedback submission error:', error);
       setFeedbackStatus('error');
-      setErrorMessage(t.feedback.errors.submissionFailed);
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to send feedback. Please try again later.');
     } finally {
       setIsSubmitting(false);
       setTimeout(() => {
@@ -337,7 +328,7 @@ function App() {
               <textarea
                 value={feedbackMessage}
                 onChange={(e) => setFeedbackMessage(e.target.value)}
-                className="w-full h-32 bg-gray-700 rounded-lg p-3 mb-4 text-white"
+                className="w-full bg-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
                 placeholder="Your feedback helps me improve..."
                 disabled={isSubmitting}
               />
@@ -351,14 +342,14 @@ function App() {
                 </button>
                 <button
                   onClick={handleFeedbackSubmit}
-                  disabled={isSubmitting || !feedbackMessage.trim()}
-                  className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
-                    feedbackStatus === 'success' 
-                      ? 'bg-green-500 hover:bg-green-600' 
+                  className={`px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 ${
+                    feedbackStatus === 'success'
+                      ? 'bg-green-500 hover:bg-green-600'
                       : feedbackStatus === 'error'
                       ? 'bg-red-500 hover:bg-red-600'
-                      : 'bg-blue-500 hover:bg-blue-600'
-                  } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      : ''
+                  }`}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? (
                     <span className="inline-block animate-spin">⌛</span>
@@ -372,7 +363,9 @@ function App() {
                 </button>
               </div>
               {errorMessage && (
-                <p className="text-sm text-red-500 mt-4">{errorMessage}</p>
+                <p className={`text-sm mt-4 ${feedbackStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                  {errorMessage}
+                </p>
               )}
             </div>
           </div>
