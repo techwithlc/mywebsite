@@ -10,7 +10,10 @@ A modern, responsive personal website showcasing tech content creation, cloud co
 - **Content Integration** - Embedded Spotify podcasts, YouTube videos, and Medium articles
 - **Contact System** - EmailJS integration for feedback without a backend
 - **Dynamic Elements** - Scroll-to-top, social sharing, and feedback modal
-- **Newsletter Subscription** - Email collection with AI news summarization and automated delivery using Resend API
+- **Newsletter Subscription** - Email collection with AI news summarization and automated delivery
+  - **RSS/JSON Feeds** - Subscribe via RSS or JSON feed without requiring email
+  - **Webhook Integration** - Trigger newsletter generation and sending via webhooks
+  - **Serverless Compatible** - Deploy on Netlify, Vercel, or AWS Lambda without a continuous server
 
 ## 🛠️ Tech Stack
 
@@ -96,10 +99,11 @@ npm run dev
    - `OPENAI_API_KEY` - OpenAI API key for news summarization with GPT-4o
    - `NEWS_API_KEY` - News API key for fetching AI articles
    - `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_FROM` - SMTP email service credentials
-3. For production deployment with continuous operation:
-   - Use the provided script: `./run-email-server.sh start`
-   - The server will run continuously and automatically restart if it crashes
-   - Manage the server with: `./run-email-server.sh {start|stop|restart|status|logs|follow}`
+3. Choose your deployment method:
+   - **Continuous Server**: Use the provided script: `./run-email-server.sh start`
+   - **Serverless Deployment**: Deploy to Netlify, Vercel, or AWS Lambda using the provided configurations
+   - **GitHub Actions**: Use the provided workflow file for scheduled newsletter sending
+   - **RSS/Webhook**: Allow users to subscribe via RSS and trigger newsletter sending via webhooks
 
 ## 🚀 Production Deployment
 
@@ -119,9 +123,9 @@ The frontend is deployed on Netlify:
 
 ### Backend Deployment
 
-For continuous operation of the newsletter server:
+Choose one of the following deployment options based on your needs:
 
-1. **Using the Continuous Email Server**:
+1. **Continuous Server Operation**:
    ```bash
    # Navigate to the server directory
    cd server
@@ -131,39 +135,40 @@ For continuous operation of the newsletter server:
    
    # Check server status
    ./run-email-server.sh status
-   
-   # View server logs
-   ./run-email-server.sh logs
-   
-   # Follow logs in real-time
-   ./run-email-server.sh follow
-   
-   # Restart the server
-   ./run-email-server.sh restart
-   
-   # Stop the server
-   ./run-email-server.sh stop
    ```
 
-2. **Using PM2 (Alternative Method)**:
+2. **Serverless Deployment (Netlify)**:
    ```bash
-   # Install PM2 globally
-   npm install pm2 -g
+   # Install Netlify CLI
+   npm install -g netlify-cli
    
-   # Start the server with PM2
+   # Deploy to Netlify
    cd server
-   pm2 start index.js --name "techwithlc-newsletter"
-   
-   # Configure PM2 to start on system boot
-   pm2 startup
-   pm2 save
-   
-   # Useful PM2 commands
-   pm2 list                       # View all running processes
-   pm2 monit                      # Monitor application in real-time
-   pm2 logs techwithlc-newsletter # View application logs
-   pm2 restart techwithlc-newsletter # Restart application
+   netlify deploy --prod
    ```
+
+3. **Serverless Deployment (Vercel)**:
+   ```bash
+   # Install Vercel CLI
+   npm install -g vercel
+   
+   # Deploy to Vercel
+   cd server
+   vercel --prod
+   ```
+
+4. **GitHub Actions Automation**:
+   - The included GitHub Actions workflow file will automatically:
+     - Run every Monday at 9:00 AM UTC
+     - Update the RSS and JSON feeds with the latest AI news
+     - Send the newsletter to all subscribers
+     - Commit and push the updated feeds to your repository
+
+5. **RSS and Webhook Integration**:
+   - RSS Feed URL: `https://yourdomain.com/api/feeds/rss`
+   - JSON Feed URL: `https://yourdomain.com/api/feeds/json`
+   - Webhook URL: `https://yourdomain.com/api/webhook/newsletter?key=YOUR_WEBHOOK_SECRET`
+   - Newsletter Subscription Page: `https://yourdomain.com/newsletter`
 
 ## 📱 Features Showcase
 
@@ -192,4 +197,8 @@ For continuous operation of the newsletter server:
 - Added automated AI news collection and summarization with GPT-4o
 - Created scripts for testing and sending newsletters
 - Implemented custom continuous email server for reliable operation
-- Added comprehensive deployment documentation for production use
+- Added RSS and JSON feeds for newsletter subscription without email
+- Implemented webhook integration for serverless operation
+- Added GitHub Actions workflow for automated newsletter sending
+- Created serverless deployment configurations for Netlify and Vercel
+- Added comprehensive deployment documentation for various hosting options

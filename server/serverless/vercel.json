@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "functions": {
+    "serverless/newsletter-function.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/webhook/newsletter",
+      "dest": "/serverless/newsletter-function.js"
+    },
+    {
+      "src": "/api/feeds/rss",
+      "dest": "/public/ai-news-feed.xml"
+    },
+    {
+      "src": "/api/feeds/json",
+      "dest": "/public/ai-news-feed.json"
+    },
+    {
+      "src": "/newsletter",
+      "dest": "/public/newsletter-subscribe.html"
+    }
+  ]
+}

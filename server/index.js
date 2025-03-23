@@ -6,8 +6,11 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cron from 'node-cron';
 import { router as subscriberRoutes } from './routes/subscribers.js';
+import { feedsRouter } from './routes/feeds.js';
+import { webhookRouter } from './routes/webhooks.js';
 import { fetchAndSummarizeNews } from './services/newsService.js';
 import { sendNewsletterToAllSubscribers } from './services/emailService.js';
+import { updateFeeds } from './services/rssFeedService.js';
 
 // Load environment variables
 dotenv.config();
@@ -20,8 +23,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(cors());
 app.use(express.json());
 
+// Create public directory for static files if it doesn't exist
+const publicDir = path.join(__dirname, 'public');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+
+// Serve static files from public directory
+app.use('/public', express.static(publicDir));
+
 // Routes
 app.use('/api/subscribers', subscriberRoutes);
+app.use('/api/feeds', feedsRouter);
+app.use('/api/webhook', webhookRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -43,6 +57,12 @@ console.log('Using file-based storage instead of MongoDB');
 cron.schedule('0 9 * * 1', async () => {
   try {
     console.log('Running scheduled newsletter task');
+    
+    // First update the feeds
+    await updateFeeds();
+    console.log('RSS and JSON feeds updated');
+    
+    // Then send the newsletter
     const newsContent = await fetchAndSummarizeNews();
     await sendNewsletterToAllSubscribers(newsContent);
     console.log('Newsletter sent successfully');
@@ -54,6 +74,10 @@ cron.schedule('0 9 * * 1', async () => {
 // Manual trigger endpoint for newsletter (protected in production)
 app.post('/api/send-newsletter', async (req, res) => {
   try {
+    // First update the feeds
+    await updateFeeds();
+    
+    // Then send the newsletter
     const newsContent = await fetchAndSummarizeNews();
     await sendNewsletterToAllSubscribers(newsContent);
     res.status(200).json({ success: true, message: 'Newsletter sent successfully' });
@@ -63,7 +87,16 @@ app.post('/api/send-newsletter', async (req, res) => {
   }
 });
 
+// Generate initial RSS and JSON feeds on server start
+updateFeeds().then(() => {
+  console.log('Initial RSS and JSON feeds generated');
+}).catch(error => {
+  console.error('Error generating initial feeds:', error);
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`RSS feed available at: http://localhost:${PORT}/api/feeds/rss`);
+  console.log(`JSON feed available at: http://localhost:${PORT}/api/feeds/json`);
 });
