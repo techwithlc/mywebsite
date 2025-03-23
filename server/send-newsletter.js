@@ -130,15 +130,42 @@ async function sendWithGmail(htmlContent) {
     throw new Error(`Email configuration error: ${error.message}`);
   }
   
-  // Get subscribers
-  const subscribersPath = path.join(__dirname, 'subscribers.json');
-  let subscribers = [];
+  // Get subscribers from multiple possible locations
+  const possiblePaths = [
+    path.join(__dirname, 'subscribers.json'), // Original location
+    '/tmp/subscribers.json', // Netlify Functions location
+    path.join(__dirname, '../netlify/functions/subscribers.json') // Another possible path
+  ];
   
-  if (fs.existsSync(subscribersPath)) {
-    subscribers = JSON.parse(fs.readFileSync(subscribersPath, 'utf8'));
-  } else {
-    console.warn('No subscribers file found. Creating new one.');
-    fs.writeFileSync(subscribersPath, JSON.stringify([]));
+  let subscribers = [];
+  let subscribersFound = false;
+  
+  // Try each possible path
+  for (const subscribersPath of possiblePaths) {
+    if (fs.existsSync(subscribersPath)) {
+      try {
+        const data = fs.readFileSync(subscribersPath, 'utf8');
+        const parsedData = JSON.parse(data);
+        
+        // Merge with existing subscribers, avoiding duplicates
+        for (const sub of parsedData) {
+          if (!subscribers.some(existing => existing.email === sub.email)) {
+            subscribers.push(sub);
+          }
+        }
+        
+        console.log(`Found ${parsedData.length} subscribers in ${subscribersPath}`);
+        subscribersFound = true;
+      } catch (error) {
+        console.error(`Error reading from ${subscribersPath}:`, error.message);
+      }
+    }
+  }
+  
+  if (!subscribersFound) {
+    console.warn('No subscribers file found in any location. Creating new one.');
+    fs.writeFileSync(path.join(__dirname, 'subscribers.json'), JSON.stringify([]));
+    return { success: true, sent: 0, message: 'No subscribers' };
   }
   
   // Filter active subscribers

@@ -1,5 +1,5 @@
 {
-  "webhookSecret": "${process.env.WEBHOOK_SECRET}",
+  "webhookSecret": "YOUR_WEBHOOK_SECRET_HERE",
   "webhookEndpoint": "/api/webhook/newsletter",
   "allowedIPs": [],
   "lastTriggered": null,
