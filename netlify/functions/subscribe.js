@@ -94,16 +94,43 @@ function writeSubscribers(subscribers) {
 // Helper function to sync with main server
 async function syncWithMainServer(email) {
   try {
-    // Sync with the main server API if available
-    const serverUrl = process.env.SERVER_URL || 'https://techwithlc.com';
-    const response = await axios.post(`${serverUrl}/api/sync-subscribers/add`, {
-      email: email
-    });
+    // Try multiple server URLs to ensure sync works in all environments
+    const serverUrls = [
+      process.env.SERVER_URL || 'https://techwithlc.com', // Production URL
+      'http://localhost:3001',                           // Local development URL
+      'https://techwithlc.com'                           // Hardcoded production URL as fallback
+    ];
     
-    console.log('Sync with main server response:', response.data);
-    return true;
+    let syncSuccessful = false;
+    let lastError = null;
+    
+    // Try each server URL until one works
+    for (const serverUrl of serverUrls) {
+      try {
+        console.log(`Attempting to sync with server at: ${serverUrl}`);
+        const response = await axios.post(`${serverUrl}/api/sync-subscribers/add`, {
+          email: email
+        }, {
+          timeout: 5000 // 5 second timeout to prevent long waits
+        });
+        
+        console.log(`Sync successful with ${serverUrl}, response:`, response.data);
+        syncSuccessful = true;
+        break; // Exit the loop if sync was successful
+      } catch (urlError) {
+        console.log(`Failed to sync with ${serverUrl}:`, urlError.message);
+        lastError = urlError;
+        // Continue to the next URL
+      }
+    }
+    
+    if (syncSuccessful) {
+      return true;
+    } else {
+      throw lastError || new Error('All sync attempts failed');
+    }
   } catch (error) {
-    console.error('Failed to sync with main server:', error.message);
+    console.error('Failed to sync with any server:', error.message);
     return false;
   }
 }

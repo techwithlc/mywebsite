@@ -89,7 +89,7 @@ The newsletter should be ready to send via email.`;
       messages: [
         {
           role: "system",
-          content: "You are an expert AI news analyst helping to create a professional newsletter. Your output should be complete, valid HTML that can be directly used in an email newsletter."
+          content: "You are an expert AI news analyst helping to create a professional newsletter. Your output should be complete, valid HTML that can be directly used in an email newsletter. IMPORTANT: Do NOT include any markdown code block markers like ```html or ``` in your response - just output the pure HTML directly."
         },
         {
           role: "user",
