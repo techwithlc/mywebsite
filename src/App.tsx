@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, Share2, ChevronUp } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import { EMAIL_CONFIG, validateEmailConfig } from './config/email';
 import { useLanguage } from './contexts/LanguageContext';
 
 function App() {
@@ -37,28 +35,14 @@ function App() {
     
     window.addEventListener('scroll', handleScroll);
     
-    // Initialize emailjs with more robust error handling
-    try {
-      if (EMAIL_CONFIG.PUBLIC_KEY) {
-        emailjs.init(EMAIL_CONFIG.PUBLIC_KEY);
-        console.log('EmailJS initialized successfully');
-      }
-    } catch (error) {
-      console.warn('EmailJS initialization failed:', error);
-    }
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  // Direct API call for feedback submission
   const handleFeedbackSubmit = async () => {
     try {
-      // Use the validateEmailConfig function to check configuration
-      if (!validateEmailConfig()) {
-        throw new Error('EmailJS configuration missing');
-      }
-      
       if (!feedbackMessage.trim()) {
         setFeedbackStatus('error');
         setErrorMessage('Please enter a message');
@@ -67,26 +51,19 @@ function App() {
 
       setIsSubmitting(true);
       
-      // Use fetch API instead of emailjs.send for better mobile compatibility
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      // Use direct API endpoint instead of EmailJS
+      const response = await fetch('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          service_id: EMAIL_CONFIG.SERVICE_ID,
-          template_id: EMAIL_CONFIG.TEMPLATE_ID,
-          user_id: EMAIL_CONFIG.PUBLIC_KEY,
-          template_params: {
-            message: feedbackMessage,
-            from_name: 'Website Visitor',
-            reply_to: 'noreply@techwithlc.com'
-          }
+          message: feedbackMessage
         }),
       });
       
       if (!response.ok) {
-        throw new Error('Feedback submission failed');
+        throw new Error('Failed to send feedback');
       }
 
       setFeedbackStatus('success');
@@ -98,7 +75,7 @@ function App() {
     } catch (error) {
       console.error('Feedback submission error:', error);
       setFeedbackStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Failed to send feedback. Please try again later.');
+      setErrorMessage('Failed to send feedback. Please try again later.');
     } finally {
       setIsSubmitting(false);
       setTimeout(() => {
@@ -139,41 +116,29 @@ function App() {
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
+    
     try {
-      // Use the validateEmailConfig function to check configuration
-      if (!validateEmailConfig()) {
-        throw new Error('EmailJS configuration missing');
-      }
-      
       if (!subscribeEmail.trim()) {
         setSubscribeMessage('Please enter a valid email address');
         setSubscribeSuccess(false);
         setIsSubscribing(false);
         return;
       }
-
-      // Use fetch API instead of EmailJS for better mobile compatibility
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      
+      // Direct server request to add subscriber
+      const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          service_id: EMAIL_CONFIG.SERVICE_ID,
-          template_id: EMAIL_CONFIG.TEMPLATE_ID,
-          user_id: EMAIL_CONFIG.PUBLIC_KEY,
-          template_params: {
-            email: subscribeEmail,
-            from_name: 'Newsletter Subscriber',
-            reply_to: 'noreply@techwithlc.com'
-          }
-        }),
+        body: JSON.stringify({ email: subscribeEmail }),
       });
       
       if (!response.ok) {
-        throw new Error('Subscription request failed');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to subscribe');
       }
-
+      
       setSubscribeMessage('Subscription successful!');
       setSubscribeSuccess(true);
       setTimeout(() => {
@@ -182,7 +147,7 @@ function App() {
       }, 2000);
     } catch (error) {
       console.error('Subscription error:', error);
-      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
+      setSubscribeMessage('Failed to subscribe. Please try again later.');
       setSubscribeSuccess(false);
     } finally {
       setIsSubscribing(false);
@@ -604,48 +569,42 @@ function App() {
         </section>
 
         {/* Newsletter Section */}
-        <section className="border-t border-gray-800/20 py-20">
+        <section className="border-t border-gray-800/20 py-12 bg-gray-800/10">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center mb-12">
-              <span className="text-blue-400 font-medium">{t.newsletter.title}</span>
-              <h2 className="text-3xl font-bold mt-2">{t.newsletter.subtitle}</h2>
-              <p className="text-gray-400 mt-4">
+            <div className="max-w-4xl mx-auto text-center mb-8">
+              <h2 className="text-2xl font-bold">{t.newsletter.subtitle}</h2>
+              <p className="text-gray-400 mt-2">
                 {t.newsletter.description}
               </p>
             </div>
             
-            {/* Email Subscription Form */}
-            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-6 sm:p-8 backdrop-blur-sm">
-              <h3 className="text-xl font-bold mb-4">Subscribe to AI News</h3>
-              <p className="text-gray-300 mb-6">
-                Get the latest AI news and updates delivered directly to your inbox.
-              </p>
-              
+            {/* Simplified Email Subscription Form */}
+            <div className="max-w-md mx-auto">
               <form 
                 onSubmit={handleSubscribe}
-                className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+                className="flex flex-col sm:flex-row gap-2"
               >
                 <input
                   type="email"
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Your email address"
+                  className="flex-1 px-4 py-2 rounded-lg bg-gray-700/70 border border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   required
                   inputMode="email"
                   autoComplete="email"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all active:bg-blue-700"
+                  className="px-4 py-2 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all"
                   disabled={isSubscribing}
                 >
-                  {isSubscribing ? "Subscribing..." : "Subscribe"}
+                  {isSubscribing ? "..." : "Subscribe"}
                 </button>
               </form>
               
               {subscribeMessage && (
-                <div className={`mt-4 p-3 rounded ${
+                <div className={`mt-3 p-2 rounded text-center text-sm ${
                   subscribeSuccess ? "bg-green-500/20 text-green-200" : "bg-red-500/20 text-red-200"
                 }`}>
                   {subscribeMessage}

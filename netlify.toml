@@ -1,15 +1,14 @@
 [build]
-  command = "npm install && npm run build"
-  functions = "serverless"
-  publish = "server/public"
+  command = "npm run build"
+  publish = "dist"
 
+# API Endpoints for subscription and feedback
 [[redirects]]
-  from = "/api/feeds/rss"
-  to = "/ai-news-feed.xml"
+  from = "/api/subscribe"
+  to = "/.netlify/functions/subscribe"
   status = 200
-  force = true
 
 [[redirects]]
-  from = "/newsletter"
-  to = "/newsletter-subscribe.html"
+  from = "/api/feedback"
+  to = "/.netlify/functions/feedback"
   status = 200
