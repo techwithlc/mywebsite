@@ -72,12 +72,14 @@ function App() {
         reply_to: 'noreply@techwithlc.com'
       };
 
-      await emailjs.send(
+      const response = await emailjs.send(
         EMAIL_CONFIG.SERVICE_ID,
         EMAIL_CONFIG.TEMPLATE_ID,
-        templateParams
+        templateParams,
+        EMAIL_CONFIG.PUBLIC_KEY
       );
 
+      console.log('Feedback sent successfully:', response);
       setFeedbackStatus('success');
       setErrorMessage('Feedback sent successfully!');
       setTimeout(() => {
@@ -94,6 +96,54 @@ function App() {
         setFeedbackStatus('idle');
         setErrorMessage('');
       }, 5000);
+    }
+  };
+
+  // Subscription handler using EmailJS (direct approach)
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+    
+    try {
+      if (!subscribeEmail.trim()) {
+        setSubscribeMessage('Please enter a valid email address');
+        setSubscribeSuccess(false);
+        setIsSubscribing(false);
+        return;
+      }
+      
+      // Validate EmailJS config
+      if (!validateEmailConfig()) {
+        throw new Error('EmailJS configuration missing');
+      }
+
+      // Use EmailJS to send the subscription request
+      const templateParams = {
+        message: `New subscription request from: ${subscribeEmail}`,
+        from_name: 'Newsletter Subscriber',
+        reply_to: subscribeEmail
+      };
+
+      const response = await emailjs.send(
+        EMAIL_CONFIG.SERVICE_ID,
+        EMAIL_CONFIG.TEMPLATE_ID,
+        templateParams,
+        EMAIL_CONFIG.PUBLIC_KEY
+      );
+      
+      console.log('Subscription successful:', response);
+      setSubscribeMessage('Subscription successful!');
+      setSubscribeSuccess(true);
+      setTimeout(() => {
+        setSubscribeEmail('');
+        setSubscribeMessage('');
+      }, 3000);
+    } catch (error) {
+      console.error('Subscription error:', error);
+      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
+      setSubscribeSuccess(false);
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
@@ -123,49 +173,6 @@ function App() {
       top: 0,
       behavior: 'smooth'
     });
-  };
-
-  // Subscription handler that uses the backend API
-  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubscribing(true);
-    
-    try {
-      if (!subscribeEmail.trim()) {
-        setSubscribeMessage('Please enter a valid email address');
-        setSubscribeSuccess(false);
-        setIsSubscribing(false);
-        return;
-      }
-      
-      // Use the existing server API endpoint for subscribers
-      const response = await fetch('/api/subscribers', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: subscribeEmail }),
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to subscribe');
-      }
-      
-      setSubscribeMessage(data.message || 'Subscription successful!');
-      setSubscribeSuccess(true);
-      setTimeout(() => {
-        setSubscribeEmail('');
-        setSubscribeMessage('');
-      }, 3000);
-    } catch (error) {
-      console.error('Subscription error:', error);
-      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
-      setSubscribeSuccess(false);
-    } finally {
-      setIsSubscribing(false);
-    }
   };
 
   return (
@@ -655,7 +662,7 @@ function App() {
                 <ul className="space-y-2">
                   <li><a href="https://medium.com/@awslc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.blog}</a></li>
                   <li><a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.youtube}</a></li>
-                  <li><a href="https://open.spotify.com/show/0dfTD5n0Rfuco9z24BhaS0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.podcast}</a></li>
+                  <li><a href="https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.podcast}</a></li>
                   <li><a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-colors">{t.footer.resources.github}</a></li>
                 </ul>
               </div>
