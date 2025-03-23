@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f9fc;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subscription Test</h1>
+        <p>This page tests the subscription functionality of your website.</p>
+        
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        
+        <button id="subscribeButton" type="button">Subscribe</button>
+        
+        <div id="result" class="result" style="display: none;"></div>
+        
+        <h2>Response Details:</h2>
+        <pre id="responseDetails">No response yet</pre>
+    </div>
+
+    <script>
+        document.getElementById('subscribeButton').addEventListener('click', async function() {
+            const email = document.getElementById('email').value;
+            const resultDiv = document.getElementById('result');
+            const responseDetails = document.getElementById('responseDetails');
+            const subscribeButton = document.getElementById('subscribeButton');
+            
+            // Validate email
+            if (!email || !email.includes('@')) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = 'Please enter a valid email address';
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            // Disable button and show loading
+            subscribeButton.disabled = true;
+            subscribeButton.textContent = 'Subscribing...';
+            resultDiv.style.display = 'none';
+            responseDetails.textContent = 'Sending request...';
+            
+            try {
+                // First log the request we're about to make
+                responseDetails.textContent = `Sending POST request to: /.netlify/functions/subscribe\nWith payload: ${JSON.stringify({ email }, null, 2)}`;
+                
+                // Make the request
+                const response = await fetch('/.netlify/functions/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                // Log response status and headers
+                let detailsText = `Response status: ${response.status} ${response.statusText}\n`;
+                detailsText += 'Response headers:\n';
+                
+                response.headers.forEach((value, key) => {
+                    detailsText += `${key}: ${value}\n`;
+                });
+                
+                // Get response body
+                const responseText = await response.text();
+                
+                // Try to parse as JSON
+                let parsedResponse;
+                let isJson = false;
+                try {
+                    parsedResponse = JSON.parse(responseText);
+                    isJson = true;
+                    detailsText += `\nResponse body (parsed as JSON):\n${JSON.stringify(parsedResponse, null, 2)}`;
+                } catch (error) {
+                    // Show raw response if not JSON
+                    detailsText += `\nResponse body (raw text):\n${responseText.substring(0, 1000)}${responseText.length > 1000 ? '...(truncated)' : ''}`;
+                }
+                
+                responseDetails.textContent = detailsText;
+                
+                // Display appropriate result message
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = isJson && parsedResponse.message 
+                        ? parsedResponse.message 
+                        : 'Subscription successful!';
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = isJson && parsedResponse.message 
+                        ? parsedResponse.message 
+                        : `Error: ${response.status} ${response.statusText}`;
+                }
+                
+            } catch (error) {
+                // Handle network or other errors
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `Error: ${error.message}`;
+                responseDetails.textContent = `Failed to send request: ${error.message}`;
+            } finally {
+                // Re-enable button and show result
+                subscribeButton.disabled = false;
+                subscribeButton.textContent = 'Subscribe';
+                resultDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

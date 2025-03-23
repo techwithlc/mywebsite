@@ -1,51 +1,36 @@
-import nodemailer from 'nodemailer';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const fs = require('fs');
+const path = require('path');
+const nodemailer = require('nodemailer');
 
-// Define path to subscribers file
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const subscribersPath = path.join(__dirname, '../../server/subscribers.json');
+// Path to subscribers file - Netlify Functions have a writable /tmp directory
+const SUBSCRIBERS_FILE = '/tmp/subscribers.json';
 
-// Email configuration
-const emailConfig = {
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: parseInt(process.env.EMAIL_PORT || '465'),
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-};
-
-// Create transporter
-const transporter = nodemailer.createTransport(emailConfig);
-
-// Helper function to read subscribers
+// Helper to read subscribers
 const readSubscribers = () => {
   try {
-    if (!fs.existsSync(subscribersPath)) {
-      fs.writeFileSync(subscribersPath, JSON.stringify([], null, 2));
+    // Check if file exists
+    if (!fs.existsSync(SUBSCRIBERS_FILE)) {
       return [];
     }
     
-    const data = fs.readFileSync(subscribersPath, 'utf8');
+    const data = fs.readFileSync(SUBSCRIBERS_FILE, 'utf8');
+    
+    // Handle empty file case
+    if (!data || !data.trim()) {
+      return [];
+    }
+    
     return JSON.parse(data);
   } catch (error) {
     console.error('Error reading subscribers:', error);
-    return [];
+    return []; // Return empty array on error
   }
 };
 
-// Helper function to write subscribers
+// Helper to write subscribers
 const writeSubscribers = (subscribers) => {
   try {
-    const dir = path.dirname(subscribersPath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    
-    fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
+    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2));
     return true;
   } catch (error) {
     console.error('Error writing subscribers:', error);
@@ -53,49 +38,25 @@ const writeSubscribers = (subscribers) => {
   }
 };
 
-// Handler for subscription requests
-export async function handler(event) {
-  // Only accept POST requests
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ success: false, message: 'Method not allowed' })
-    };
+// Send confirmation email (non-blocking)
+const sendConfirmationEmail = async (email) => {
+  // Skip if no email credentials
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.log('Email credentials not found, skipping confirmation email');
+    return;
   }
 
   try {
-    // Parse request body
-    const { email } = JSON.parse(event.body);
-    
-    if (!email || !email.includes('@')) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ success: false, message: 'Valid email is required' })
-      };
-    }
-
-    // Read current subscribers
-    const subscribers = readSubscribers();
-    
-    // Check if already subscribed
-    if (subscribers.some(sub => sub.email === email)) {
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ success: true, message: 'You are already subscribed' })
-      };
-    }
-    
-    // Add new subscriber
-    subscribers.push({
-      email,
-      subscribeDate: new Date().toISOString(),
-      active: true
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+      port: process.env.EMAIL_PORT || 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
     });
-    
-    // Save updated subscribers list
-    writeSubscribers(subscribers);
-    
-    // Send confirmation email
+
     await transporter.sendMail({
       from: `"TechwithLC" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to: email,
@@ -116,25 +77,105 @@ export async function handler(event) {
         </div>
       `
     });
+    console.log(`Confirmation email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending confirmation email:', error);
+  }
+};
 
-    // Return success response
+exports.handler = async (event, context) => {
+  // CORS headers for all responses
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json'
+  };
+
+  // Handle preflight requests
+  if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      body: JSON.stringify({ 
-        success: true, 
-        message: 'Subscription successful! Check your email for confirmation.' 
-      })
-    };
-    
-  } catch (error) {
-    console.error('Error processing subscription:', error);
-    
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ 
-        success: false, 
-        message: 'Failed to process subscription. Please try again later.' 
-      })
+      headers,
+      body: JSON.stringify({ message: 'Preflight request successful' })
     };
   }
-}
+
+  // Only allow POST requests
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ success: false, message: 'Method not allowed' })
+    };
+  }
+
+  // Parse and validate request body
+  let email;
+  try {
+    const body = JSON.parse(event.body || '{}');
+    email = body.email;
+    
+    // Basic email validation
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ success: false, message: 'Valid email is required' })
+      };
+    }
+  } catch (error) {
+    console.error('Error parsing request body:', error);
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ success: false, message: 'Invalid request body' })
+    };
+  }
+
+  try {
+    // Read existing subscribers
+    const subscribers = readSubscribers();
+    
+    // Check if already subscribed
+    if (subscribers.some(sub => sub.email === email)) {
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ success: true, message: 'You are already subscribed!' })
+      };
+    }
+
+    // Add new subscriber
+    subscribers.push({
+      email,
+      subscribeDate: new Date().toISOString(),
+      active: true
+    });
+    
+    // Save subscribers
+    const saveResult = writeSubscribers(subscribers);
+    if (!saveResult) {
+      throw new Error('Failed to save subscription data');
+    }
+    
+    // Send confirmation email (no await - non-blocking)
+    sendConfirmationEmail(email).catch(error => {
+      console.error('Error in confirmation email:', error);
+    });
+    
+    // Return success
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ success: true, message: 'Subscription successful!' })
+    };
+  } catch (error) {
+    console.error('Error processing subscription:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ success: false, message: 'Server error processing subscription' })
+    };
+  }
+};

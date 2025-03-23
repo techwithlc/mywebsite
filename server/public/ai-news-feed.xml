@@ -5,13 +5,37 @@
     <link>https://techwithlc.com/ai-news</link>
     <description>Latest AI news curated and summarized by TechwithLC</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Mar 2025 10:57:40 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 23 Mar 2025 11:06:02 GMT</lastBuildDate>
     <atom:link href="https://techwithlc.com/ai-news-feed.xml" rel="self" type="application/rss+xml" />
     <image>
       <url>https://techwithlc.com/logo.png</url>
       <title>TechwithLC AI News</title>
       <link>https://techwithlc.com/ai-news</link>
     </image>
+    <item>
+      <title>Main Character of the Week: Crippling anxiety about the future</title>
+      <link>https://www.dailydot.com/news/sxsw-the-future/</link>
+      <guid>https://www.dailydot.com/news/sxsw-the-future/</guid>
+      <pubDate>Sat, 22 Mar 2025 11:00:00 GMT</pubDate>
+      <source url="">The Daily Dot</source>
+      <description><![CDATA[Daily Dot journalists just spent nine days this month at the South By Southwest (SXSW) conference. Here, business and arts leaders present their ideas for the future. Quantum computing, artificial intelligence, flying cars, bath houses with light shows, a mac…]]></description>
+    </item>
+    <item>
+      <title>AI startup seeks neurodiverse workforce in downtown St. Louis</title>
+      <link>https://www.stltoday.com/news/local/business/article_0604186c-6150-4600-8532-631fd80e7ff8.html</link>
+      <guid>https://www.stltoday.com/news/local/business/article_0604186c-6150-4600-8532-631fd80e7ff8.html</guid>
+      <pubDate>Sat, 22 Mar 2025 11:00:00 GMT</pubDate>
+      <source url="">STLtoday.com</source>
+      <description><![CDATA[CEO Peter Kant said he wanted to open Enabled Intelligence’s second office in St. Louis due to the promised growth of the North Side’s National Geospatial-Intelligence Agency campus.]]></description>
+    </item>
+    <item>
+      <title>Samsung Cuts Galaxy S25 Price With Three Special Offers</title>
+      <link>https://www.forbes.com/sites/ewanspence/2025/03/21/samsung-galaxy-s25-plus-special-offer-discount-price-trade-in-new-galaxy/</link>
+      <guid>https://www.forbes.com/sites/ewanspence/2025/03/21/samsung-galaxy-s25-plus-special-offer-discount-price-trade-in-new-galaxy/</guid>
+      <pubDate>Sat, 22 Mar 2025 11:00:00 GMT</pubDate>
+      <source url="">Forbes</source>
+      <description><![CDATA[Samsung is offering significant discounts, storage upgrades and trade-in value to tempt consumers to consider the Galaxy S25 and Galaxy S25+.]]></description>
+    </item>
     <item>
       <title>Embrace discipline, integrity, and responsibility, Anwar tells youth</title>
       <link>https://www.thestar.com.my/news/nation/2025/03/22/embrace-discipline-integrity-and-responsibility-anwar-tells-youth</link>
@@ -27,30 +51,6 @@
       <pubDate>Sat, 22 Mar 2025 10:05:30 GMT</pubDate>
       <source url="">USA Today</source>
       <description><![CDATA[Fast-food giant Yum! Brands said it will begin rolling out AI at hundreds of its locations starting in April. How has AI worked at other fast-food chains?]]></description>
-    </item>
-    <item>
-      <title>Radical new tech brings flying cars closer to reality</title>
-      <link>https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality</link>
-      <guid>https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality</guid>
-      <pubDate>Sat, 22 Mar 2025 10:00:50 GMT</pubDate>
-      <source url="">Fox News</source>
-      <description><![CDATA[With six cyclorotors, the BlackBird from CycloTech is designed to take off and land vertically, move sideways, brake mid-air and even parallel park.]]></description>
-    </item>
-    <item>
-      <title>The Effects of Artificial Intelligence</title>
-      <link>https://answersingenesis.org/technology/effects-of-artificial-intelligence/</link>
-      <guid>https://answersingenesis.org/technology/effects-of-artificial-intelligence/</guid>
-      <pubDate>Sat, 22 Mar 2025 10:00:00 GMT</pubDate>
-      <source url="">Answersingenesis.org</source>
-      <description><![CDATA[The rise of artificial intelligence unlocks an altered world of possibilities that are already transforming how humans work, learn, heal, grieve, relate, and worship.]]></description>
-    </item>
-    <item>
-      <title>Nvidia CEO Jensen Huang joked about something that could cost his biggest customers billions of dollars</title>
-      <link>https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3</link>
-      <guid>https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3</guid>
-      <pubDate>Sat, 22 Mar 2025 09:00:01 GMT</pubDate>
-      <source url="">Business Insider</source>
-      <description><![CDATA[Huang's joke at Nvidia's big AI conference this week highlights potential billion-dollar impacts on tech giants like Microsoft, Google, and Meta.]]></description>
     </item>
   </channel>
 </rss>

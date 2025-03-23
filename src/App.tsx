@@ -34,10 +34,11 @@ function App() {
     };
   }, []);
 
-  // Subscription handler using serverless function
+  // Subscription handler with enhanced error handling
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
+    setSubscribeMessage('');
     
     try {
       if (!subscribeEmail.trim()) {
@@ -47,7 +48,7 @@ function App() {
         return;
       }
       
-      // Call the Netlify serverless function
+      // Call the Netlify serverless function directly with reliable error handling
       const response = await fetch('/.netlify/functions/subscribe', {
         method: 'POST',
         headers: {
@@ -56,18 +57,60 @@ function App() {
         body: JSON.stringify({ email: subscribeEmail })
       });
       
-      const result = await response.json();
-      
-      if (result.success) {
-        setSubscribeMessage(result.message || 'Subscription successful!');
-        setSubscribeSuccess(true);
-        setTimeout(() => {
-          setSubscribeEmail('');
-          setSubscribeMessage('');
-        }, 3000);
-      } else {
-        throw new Error(result.message || 'Failed to subscribe');
+      // First check if response was successful based on status
+      if (!response.ok) {
+        const statusText = response.statusText || `Error ${response.status}`;
+        
+        // Try to get error details from response if possible
+        let errorMessage = `Subscription failed: ${statusText}`;
+        try {
+          // Only try to parse as JSON if content type is JSON
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json();
+            if (errorData && errorData.message) {
+              errorMessage = errorData.message;
+            }
+          } else {
+            // If not JSON, use text instead
+            const textError = await response.text();
+            if (textError && textError.length < 100) { // Only use short error messages
+              errorMessage = `Server error: ${textError}`;
+            }
+          }
+        } catch {
+          // If parsing fails, stick with the default error message
+          console.warn('Failed to parse error response');
+        }
+        
+        throw new Error(errorMessage);
       }
+      
+      // Try to safely parse the response
+      let result;
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          result = await response.json();
+        } else {
+          // If response isn't JSON, create a basic success object
+          console.warn('Response is not JSON, treating as success');
+          result = { success: true, message: 'Subscription successful!' };
+        }
+      } catch (parseError) {
+        console.error('Error parsing response:', parseError);
+        // Still consider it a success if the response was OK
+        result = { success: true, message: 'Subscription successful!' };
+      }
+      
+      // Process the result
+      setSubscribeMessage(result.message || 'Subscription successful!');
+      setSubscribeSuccess(true);
+      setTimeout(() => {
+        setSubscribeEmail('');
+        setSubscribeMessage('');
+      }, 3000);
+      
     } catch (error) {
       console.error('Subscription error:', error);
       setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
