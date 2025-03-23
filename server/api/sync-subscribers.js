@@ -2,8 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import express from 'express';
-import { fileURLToPath } from 'url';
 import cors from 'cors';
+import { fileURLToPath } from 'url';
 
 const router = express.Router();
 
@@ -67,7 +67,7 @@ router.get('/', (req, res) => {
 });
 
 // Add a new subscriber
-router.post('/add', async (req, res) => {
+router.post('/add', (req, res) => {
   console.log('Add subscriber request received');
   console.log('Request headers:', req.headers);
   console.log('Request body:', req.body);
@@ -128,4 +128,4 @@ router.post('/add', async (req, res) => {
   }
 });
 
-export default router;
+export { router as default };

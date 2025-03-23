@@ -1,294 +1,205 @@
-// Simple subscription handler with basic file storage
+// Simple subscription handler with direct file handling
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 
-// Helper function to safely read subscribers
-function readSubscribers() {
+// Absolute paths for more reliability
+const MAIN_SUBSCRIBERS_PATH = '/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json';
+const TEMP_SUBSCRIBERS_PATH = '/tmp/subscribers.json';
+
+// Helper function to safely read subscribers from the main file
+function readMainSubscribers() {
   try {
-    // Try multiple paths for greater compatibility between environments
-    const possiblePaths = [
-      '/tmp/subscribers.json', // Netlify Functions writable directory
-      path.resolve(__dirname, '../../server/subscribers.json'), // Local development - relative to netlify/functions
-      path.resolve(__dirname, '../../../server/subscribers.json'), // Another possible path
-      path.resolve('/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json') // Direct absolute path
-    ];
+    console.log('Reading from main subscribers file:', MAIN_SUBSCRIBERS_PATH);
     
-    // Use the first file that exists
-    let subscribersData = [];
-    let foundFile = false;
-    
-    for (const filePath of possiblePaths) {
-      if (fs.existsSync(filePath)) {
-        console.log(`Reading subscribers from ${filePath}`);
-        const data = fs.readFileSync(filePath, 'utf8');
-        subscribersData = data ? JSON.parse(data) : [];
-        foundFile = true;
-        break;
-      }
+    if (fs.existsSync(MAIN_SUBSCRIBERS_PATH)) {
+      const data = fs.readFileSync(MAIN_SUBSCRIBERS_PATH, 'utf8');
+      return JSON.parse(data);
+    } else {
+      console.log('Main subscribers file not found');
+      return [];
     }
-    
-    if (!foundFile) {
-      console.log('No existing subscribers file found');
-    }
-    
-    return subscribersData;
   } catch (error) {
-    console.error('Error reading subscribers:', error);
+    console.error('Error reading main subscribers file:', error);
     return [];
   }
 }
 
-// Helper function to safely write subscribers
-function writeSubscribers(subscribers) {
-  const results = {
-    tmp: false,
-    server: false,
-    serverAlt: false,
-    direct: false
-  };
+// Helper function to safely write subscribers to the main file
+function writeMainSubscribers(subscribers) {
+  try {
+    const dirPath = path.dirname(MAIN_SUBSCRIBERS_PATH);
+    if (!fs.existsSync(dirPath)) {
+      console.log('Creating directory:', dirPath);
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+    
+    console.log('Writing to main subscribers file:', MAIN_SUBSCRIBERS_PATH);
+    fs.writeFileSync(MAIN_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
+    console.log('Successfully wrote to main subscribers file');
+    return true;
+  } catch (error) {
+    console.error('Error writing to main subscribers file:', error);
+    return false;
+  }
+}
 
-  // Always write to /tmp for Netlify Functions
+// Helper function to safely read temp subscribers
+function readTempSubscribers() {
   try {
-    const tmpPath = '/tmp/subscribers.json';
-    fs.writeFileSync(tmpPath, JSON.stringify(subscribers, null, 2));
-    console.log(`Updated subscribers in ${tmpPath}`);
-    results.tmp = true;
-  } catch (tmpError) {
-    console.error('Error writing to /tmp:', tmpError);
+    if (fs.existsSync(TEMP_SUBSCRIBERS_PATH)) {
+      console.log('Reading from temp subscribers file');
+      const data = fs.readFileSync(TEMP_SUBSCRIBERS_PATH, 'utf8');
+      return JSON.parse(data);
+    } else {
+      console.log('Temp subscribers file not found');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error reading temp subscribers file:', error);
+    return [];
+  }
+}
+
+// Helper function to safely write temp subscribers
+function writeTempSubscribers(subscribers) {
+  try {
+    console.log('Writing to temp subscribers file');
+    fs.writeFileSync(TEMP_SUBSCRIBERS_PATH, JSON.stringify(subscribers, null, 2));
+    console.log('Successfully wrote to temp subscribers file');
+    return true;
+  } catch (error) {
+    console.error('Error writing to temp subscribers file:', error);
+    return false;
+  }
+}
+
+// Helper function to validate email
+function isValidEmail(email) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return typeof email === 'string' && emailRegex.test(email);
+}
+
+// Helper function to add a subscriber to both main and temp files
+function addSubscriberToAllFiles(email) {
+  console.log('Adding subscriber to all files:', email);
+  
+  // Create new subscriber object
+  const newSubscriber = {
+    email,
+    subscribed: true,
+    subscribedAt: new Date().toISOString(),
+    lastEmailSent: null
+  };
+  
+  // Results object
+  const results = {
+    main: false,
+    temp: false
+  };
+  
+  // Add to main subscribers file
+  try {
+    const mainSubscribers = readMainSubscribers();
+    if (!mainSubscribers.some(sub => sub.email === email)) {
+      mainSubscribers.push(newSubscriber);
+      results.main = writeMainSubscribers(mainSubscribers);
+    } else {
+      console.log('Email already exists in main subscribers:', email);
+      results.main = true; // Already exists
+    }
+  } catch (mainError) {
+    console.error('Error adding to main subscribers:', mainError);
   }
   
-  // Try to write to server directory for local development
+  // Add to temp subscribers file
   try {
-    const serverPath = path.resolve(__dirname, '../../server/subscribers.json');
-    fs.writeFileSync(serverPath, JSON.stringify(subscribers, null, 2));
-    console.log(`Updated subscribers in ${serverPath}`);
-    results.server = true;
-  } catch (serverError) {
-    console.log('Note: Could not write to relative server path 1:', serverError.message);
-  }
-  
-  // Try alternative path as well
-  try {
-    const altPath = path.resolve(__dirname, '../../../server/subscribers.json');
-    fs.writeFileSync(altPath, JSON.stringify(subscribers, null, 2));
-    console.log(`Updated subscribers in ${altPath}`);
-    results.serverAlt = true;
-  } catch (altError) {
-    console.log('Note: Could not write to relative server path 2:', altError.message);
-  }
-  
-  // Last resort - try direct absolute path
-  try {
-    const directPath = '/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json';
-    fs.writeFileSync(directPath, JSON.stringify(subscribers, null, 2));
-    console.log(`Updated subscribers in ${directPath}`);
-    results.direct = true;
-  } catch (directError) {
-    console.log('Note: Could not write to direct path:', directError.message);
+    const tempSubscribers = readTempSubscribers();
+    if (!tempSubscribers.some(sub => sub.email === email)) {
+      tempSubscribers.push(newSubscriber);
+      results.temp = writeTempSubscribers(tempSubscribers);
+    } else {
+      console.log('Email already exists in temp subscribers:', email);
+      results.temp = true; // Already exists
+    }
+  } catch (tempError) {
+    console.error('Error adding to temp subscribers:', tempError);
   }
   
   return results;
 }
 
-// Helper function to sync with main server
-async function syncWithMainServer(email) {
-  try {
-    console.log('SYNC ATTEMPT - Starting sync for:', email);
-    
-    // Define multiple server endpoints to try (both direct and API gateway)
-    const endpoints = [
-      { url: 'http://localhost:3001/api/sync-subscribers/add', type: 'local' },
-      { url: 'https://techwithlc.com/api/sync-subscribers/add', type: 'production' },
-      { url: 'https://api.techwithlc.com/sync-subscribers/add', type: 'alt-production' },
-      { url: process.env.SERVER_URL ? `${process.env.SERVER_URL}/api/sync-subscribers/add` : null, type: 'env' }
-    ].filter(endpoint => endpoint.url); // Filter out null URLs
-    
-    console.log(`SYNC ATTEMPT - Will try ${endpoints.length} endpoints`);
-    
-    // Also make a local request to the server via direct HTTP
-    let succeeded = false;
-    let firstError = null;
-    
-    // Try all endpoints with short timeouts
-    for (const endpoint of endpoints) {
-      try {
-        console.log(`SYNC ATTEMPT - Trying endpoint: ${endpoint.url} (${endpoint.type})`);
-        
-        const response = await axios.post(endpoint.url, { email }, {
-          headers: { 
-            'Content-Type': 'application/json',
-            'X-Source': 'netlify-function',
-            'X-Subscription-Time': new Date().toISOString()
-          },
-          timeout: 3000 // 3 second timeout to avoid hanging
-        });
-        
-        if (response.data && response.data.success) {
-          console.log(`SYNC SUCCESS - ${endpoint.type} endpoint succeeded:`, response.data);
-          succeeded = true;
-          break; // Exit after first success
-        } else {
-          console.log(`SYNC WARNING - ${endpoint.type} endpoint returned non-success:`, response.data);
-        }
-      } catch (err) {
-        if (!firstError) firstError = err;
-        console.log(`SYNC ERROR - ${endpoint.type} endpoint failed:`, err.message);
-      }
-    }
-    
-    // If all endpoints failed, try a last-resort direct server call
-    if (!succeeded) {
-      try {
-        console.log('SYNC ATTEMPT - All endpoints failed, trying direct server API call...');
-        // This is a special direct call that attempts to bypass any networking issues
-        const specialResponse = await axios.post('https://techwithlc.com/.netlify/functions/direct-subscriber-add', {
-          email,
-          secret: process.env.SYNC_SECRET || 'techwithlc-subscriber-sync',
-          timestamp: Date.now()
-        }, { timeout: 5000 });
-        
-        if (specialResponse.data && specialResponse.data.success) {
-          console.log('SYNC SUCCESS - Direct API call succeeded:', specialResponse.data);
-          succeeded = true;
-        }
-      } catch (finalError) {
-        console.log('SYNC ERROR - Even direct API call failed:', finalError.message);
-      }
-    }
-    
-    return succeeded;
-  } catch (error) {
-    console.error('SYNC FATAL - Unexpected error in syncWithMainServer:', error.message);
-    return false;
-  }
-}
-
+// Main handler function
 exports.handler = async function(event, context) {
-  // CORS headers for all responses
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
-    'Content-Type': 'application/json'
-  };
-
-  // Special debug endpoint
-  if (event.httpMethod === 'GET' && event.path.includes('/debug')) {
-    // Read current subscribers for debugging
-    const subscribers = readSubscribers();
-    
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({
-        message: 'Debug info',
-        subscriberCount: subscribers.length,
-        subscribers: subscribers,
-        environment: process.env.NODE_ENV || 'unknown',
-        netlifyContext: !!process.env.NETLIFY || false,
-        paths: {
-          dirname: __dirname,
-          resolved: {
-            server1: path.resolve(__dirname, '../../server/subscribers.json'),
-            server2: path.resolve(__dirname, '../../../server/subscribers.json'),
-            direct: '/Users/lawrencechen/Desktop/mywebsite/server/subscribers.json'
-          }
-        }
-      })
-    };
-  }
-  
-  // Handle OPTIONS request for CORS preflight
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ success: true })
-    };
-  }
-  
-  // Only accept POST requests
+  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
-      headers,
-      body: JSON.stringify({ 
-        success: false, 
-        message: 'Method not allowed' 
-      })
+      body: JSON.stringify({ success: false, message: 'Method not allowed' })
     };
   }
-  
+
   try {
     // Parse request body
-    const body = JSON.parse(event.body || '{}');
-    const email = body.email;
+    const payload = JSON.parse(event.body);
+    const { email } = payload;
     
-    if (!email || !email.includes('@')) {
+    console.log('Received subscription request for:', email);
+    
+    // Validate email
+    if (!isValidEmail(email)) {
+      console.log('Invalid email format:', email);
       return {
         statusCode: 400,
-        headers,
-        body: JSON.stringify({ 
-          success: false, 
-          message: 'Valid email address required' 
-        })
+        body: JSON.stringify({ success: false, message: 'Valid email address required' })
       };
     }
     
-    // Read current subscribers
-    const subscribers = readSubscribers();
+    // Add subscriber to all files
+    const results = addSubscriberToAllFiles(email);
     
-    // Check if already subscribed
-    if (subscribers.some(sub => sub.email === email)) {
+    // Determine overall success
+    const success = results.main || results.temp;
+    
+    if (success) {
+      console.log('Successfully added subscriber:', email);
       return {
         statusCode: 200,
-        headers,
-        body: JSON.stringify({ 
-          success: true, 
-          message: 'You are already subscribed!' 
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        },
+        body: JSON.stringify({
+          success: true,
+          message: 'Subscription successful!',
+          results
+        })
+      };
+    } else {
+      console.log('Failed to add subscriber:', email);
+      return {
+        statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        },
+        body: JSON.stringify({
+          success: false,
+          message: 'Failed to add subscriber',
+          results
         })
       };
     }
-    
-    // Add new subscriber with the correct field structure to match existing subscribers.json
-    subscribers.push({
-      email,
-      subscribed: true,
-      subscribedAt: new Date().toISOString(),
-      lastEmailSent: null
-    });
-    
-    // Save to file
-    const writeResults = writeSubscribers(subscribers);
-
-    // Try to sync with main server
-    const syncResult = await syncWithMainServer(email);
-    
-    // Return success response with debug information
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ 
-        success: true, 
-        message: 'Subscription successful!',
-        debug: {
-          subscriberCount: subscribers.length,
-          writeResults: writeResults,
-          syncWithMainServer: syncResult
-        }
-      })
-    };
-    
   } catch (error) {
-    console.error('Error in subscription:', error);
-    
+    console.error('Unexpected error in subscribe function:', error);
     return {
       statusCode: 500,
-      headers,
-      body: JSON.stringify({ 
-        success: false, 
-        message: 'Server error, please try again later',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      },
+      body: JSON.stringify({
+        success: false,
+        message: 'Server error',
         error: error.message
       })
     };
