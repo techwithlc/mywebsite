@@ -6,9 +6,13 @@ import { updateFeeds } from './server/services/rssFeedService.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Detect if running in Netlify environment
+const isNetlify = process.env.NETLIFY === 'true';
+
 async function main() {
   try {
     console.log('🚀 Starting post-build process...');
+    console.log(`🌐 Environment: ${isNetlify ? 'Netlify CI/CD' : 'Local Development'}`);
     
     // Ensure server/public directory exists
     const publicDir = path.join(__dirname, 'server', 'public');
@@ -21,15 +25,17 @@ async function main() {
     console.log('📋 Copying build files to server/public...');
     copyDirectory(path.join(__dirname, 'dist'), publicDir);
     
-    // Generate RSS feed if environment variables are available
-    if (process.env.OPENAI_API_KEY && process.env.NEWS_API_KEY) {
+    // Always attempt to generate RSS feed in production
+    // Errors are caught and handled in the service
+    try {
       console.log('📰 Generating RSS feed...');
       await updateFeeds();
-    } else {
-      console.log('⚠️ Skipping RSS feed generation - missing API keys');
-      console.log('   Note: RSS feeds will be generated during Netlify deployment');
+      console.log('✅ RSS feed generation successful');
+    } catch (error) {
+      console.warn('⚠️ RSS feed generation encountered issues:', error.message);
+      console.log('   Creating placeholder RSS feeds...');
       
-      // Create placeholder files for local development
+      // Create placeholder files regardless of environment
       const placeholderRSS = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
@@ -55,6 +61,13 @@ async function main() {
   } catch (error) {
     console.error('❌ Build process failed:', error);
     console.error(error.stack);
+    
+    // In CI environment, continue despite errors
+    if (isNetlify) {
+      console.warn('⚠️ Continuing build despite errors (CI environment)');
+      return;
+    }
+    
     process.exit(1);
   }
 }

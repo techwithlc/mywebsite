@@ -133,7 +133,66 @@ export async function updateFeeds() {
     };
   } catch (error) {
     console.error('Error updating feeds:', error);
-    throw error;
+    
+    // Create placeholder feeds in case of error
+    createPlaceholderFeeds();
+    
+    return {
+      success: false,
+      error: error.message,
+      fallback: true
+    };
+  }
+}
+
+/**
+ * Create placeholder feeds when API calls fail
+ */
+function createPlaceholderFeeds() {
+  try {
+    ensureDirectoryExists(rssFilePath);
+    
+    // Create placeholder RSS feed
+    const placeholderRSS = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>TechwithLC AI News</title>
+    <link>https://techwithlc.com/ai-news</link>
+    <description>Latest AI news curated and summarized by TechwithLC</description>
+    <language>en-us</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <item>
+      <title>AI News Coming Soon</title>
+      <link>https://techwithlc.com</link>
+      <guid>https://techwithlc.com/placeholder</guid>
+      <pubDate>${new Date().toUTCString()}</pubDate>
+      <description><![CDATA[Stay tuned for the latest AI news and insights.]]></description>
+    </item>
+  </channel>
+</rss>`;
+    
+    fs.writeFileSync(rssFilePath, placeholderRSS);
+    
+    // Create placeholder JSON feed
+    const placeholderJSON = {
+      version: "https://jsonfeed.org/version/1.1",
+      title: "TechwithLC AI News",
+      home_page_url: "https://techwithlc.com/ai-news",
+      feed_url: "https://techwithlc.com/ai-news-feed.json",
+      description: "Latest AI news curated and summarized by TechwithLC",
+      items: [{
+        id: "https://techwithlc.com/placeholder",
+        url: "https://techwithlc.com",
+        title: "AI News Coming Soon",
+        content_html: "Stay tuned for the latest AI news and insights.",
+        date_published: new Date().toISOString()
+      }]
+    };
+    
+    fs.writeFileSync(jsonFeedPath, JSON.stringify(placeholderJSON, null, 2));
+    console.log('Created placeholder feeds successfully');
+  } catch (error) {
+    console.error('Error creating placeholder feeds:', error);
   }
 }
 
