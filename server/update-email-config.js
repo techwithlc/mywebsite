@@ -48,7 +48,7 @@ EMAIL_FROM=${EMAIL_CONFIG.email}
 
 # API Keys
 OPENAI_API_KEY=${process.env.OPENAI_API_KEY}
-NEWS_API_KEY=25e8435230ef4d64a53427191cf78c78
+NEWS_API_KEY=${process.env.NEWS_API_KEY}
 `;
     }
     
