@@ -94,43 +94,72 @@ function writeSubscribers(subscribers) {
 // Helper function to sync with main server
 async function syncWithMainServer(email) {
   try {
-    // Try multiple server URLs to ensure sync works in all environments
-    const serverUrls = [
-      process.env.SERVER_URL || 'https://techwithlc.com', // Production URL
-      'http://localhost:3001',                           // Local development URL
-      'https://techwithlc.com'                           // Hardcoded production URL as fallback
-    ];
+    console.log('SYNC ATTEMPT - Starting sync for:', email);
     
-    let syncSuccessful = false;
-    let lastError = null;
+    // Define multiple server endpoints to try (both direct and API gateway)
+    const endpoints = [
+      { url: 'http://localhost:3001/api/sync-subscribers/add', type: 'local' },
+      { url: 'https://techwithlc.com/api/sync-subscribers/add', type: 'production' },
+      { url: 'https://api.techwithlc.com/sync-subscribers/add', type: 'alt-production' },
+      { url: process.env.SERVER_URL ? `${process.env.SERVER_URL}/api/sync-subscribers/add` : null, type: 'env' }
+    ].filter(endpoint => endpoint.url); // Filter out null URLs
     
-    // Try each server URL until one works
-    for (const serverUrl of serverUrls) {
+    console.log(`SYNC ATTEMPT - Will try ${endpoints.length} endpoints`);
+    
+    // Also make a local request to the server via direct HTTP
+    let succeeded = false;
+    let firstError = null;
+    
+    // Try all endpoints with short timeouts
+    for (const endpoint of endpoints) {
       try {
-        console.log(`Attempting to sync with server at: ${serverUrl}`);
-        const response = await axios.post(`${serverUrl}/api/sync-subscribers/add`, {
-          email: email
-        }, {
-          timeout: 5000 // 5 second timeout to prevent long waits
+        console.log(`SYNC ATTEMPT - Trying endpoint: ${endpoint.url} (${endpoint.type})`);
+        
+        const response = await axios.post(endpoint.url, { email }, {
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Source': 'netlify-function',
+            'X-Subscription-Time': new Date().toISOString()
+          },
+          timeout: 3000 // 3 second timeout to avoid hanging
         });
         
-        console.log(`Sync successful with ${serverUrl}, response:`, response.data);
-        syncSuccessful = true;
-        break; // Exit the loop if sync was successful
-      } catch (urlError) {
-        console.log(`Failed to sync with ${serverUrl}:`, urlError.message);
-        lastError = urlError;
-        // Continue to the next URL
+        if (response.data && response.data.success) {
+          console.log(`SYNC SUCCESS - ${endpoint.type} endpoint succeeded:`, response.data);
+          succeeded = true;
+          break; // Exit after first success
+        } else {
+          console.log(`SYNC WARNING - ${endpoint.type} endpoint returned non-success:`, response.data);
+        }
+      } catch (err) {
+        if (!firstError) firstError = err;
+        console.log(`SYNC ERROR - ${endpoint.type} endpoint failed:`, err.message);
       }
     }
     
-    if (syncSuccessful) {
-      return true;
-    } else {
-      throw lastError || new Error('All sync attempts failed');
+    // If all endpoints failed, try a last-resort direct server call
+    if (!succeeded) {
+      try {
+        console.log('SYNC ATTEMPT - All endpoints failed, trying direct server API call...');
+        // This is a special direct call that attempts to bypass any networking issues
+        const specialResponse = await axios.post('https://techwithlc.com/.netlify/functions/direct-subscriber-add', {
+          email,
+          secret: process.env.SYNC_SECRET || 'techwithlc-subscriber-sync',
+          timestamp: Date.now()
+        }, { timeout: 5000 });
+        
+        if (specialResponse.data && specialResponse.data.success) {
+          console.log('SYNC SUCCESS - Direct API call succeeded:', specialResponse.data);
+          succeeded = true;
+        }
+      } catch (finalError) {
+        console.log('SYNC ERROR - Even direct API call failed:', finalError.message);
+      }
     }
+    
+    return succeeded;
   } catch (error) {
-    console.error('Failed to sync with any server:', error.message);
+    console.error('SYNC FATAL - Unexpected error in syncWithMainServer:', error.message);
     return false;
   }
 }
