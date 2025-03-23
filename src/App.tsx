@@ -67,16 +67,27 @@ function App() {
 
       setIsSubmitting(true);
       
-      await emailjs.send(
-        EMAIL_CONFIG.SERVICE_ID,
-        EMAIL_CONFIG.TEMPLATE_ID,
-        {
-          message: feedbackMessage,
-          from_name: 'Website Visitor',
-          reply_to: 'noreply@techwithlc.com'
+      // Use fetch API instead of emailjs.send for better mobile compatibility
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        EMAIL_CONFIG.PUBLIC_KEY
-      );
+        body: JSON.stringify({
+          service_id: EMAIL_CONFIG.SERVICE_ID,
+          template_id: EMAIL_CONFIG.TEMPLATE_ID,
+          user_id: EMAIL_CONFIG.PUBLIC_KEY,
+          template_params: {
+            message: feedbackMessage,
+            from_name: 'Website Visitor',
+            reply_to: 'noreply@techwithlc.com'
+          }
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Feedback submission failed');
+      }
 
       setFeedbackStatus('success');
       setErrorMessage('Feedback sent successfully!');
@@ -141,16 +152,27 @@ function App() {
         return;
       }
 
-      await emailjs.send(
-        EMAIL_CONFIG.SERVICE_ID,
-        EMAIL_CONFIG.TEMPLATE_ID,
-        {
-          email: subscribeEmail,
-          from_name: 'Newsletter Subscriber',
-          reply_to: 'noreply@techwithlc.com'
+      // Use fetch API instead of EmailJS for better mobile compatibility
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        EMAIL_CONFIG.PUBLIC_KEY
-      );
+        body: JSON.stringify({
+          service_id: EMAIL_CONFIG.SERVICE_ID,
+          template_id: EMAIL_CONFIG.TEMPLATE_ID,
+          user_id: EMAIL_CONFIG.PUBLIC_KEY,
+          template_params: {
+            email: subscribeEmail,
+            from_name: 'Newsletter Subscriber',
+            reply_to: 'noreply@techwithlc.com'
+          }
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Subscription request failed');
+      }
 
       setSubscribeMessage('Subscription successful!');
       setSubscribeSuccess(true);
@@ -324,7 +346,7 @@ function App() {
                 }
               ].map((tech) => (
                 <div key={tech.name} 
-                     className="bg-gray-700/50 p-6 rounded-lg text-center hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
+                     className="bg-gray-700/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
                   <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform">
                     {tech.icon}
                   </div>
@@ -380,7 +402,7 @@ function App() {
               <textarea
                 value={feedbackMessage}
                 onChange={(e) => setFeedbackMessage(e.target.value)}
-                className="w-full bg-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full bg-gray-700/50 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Your feedback helps me improve..."
                 disabled={isSubmitting}
               />
@@ -593,7 +615,7 @@ function App() {
             </div>
             
             {/* Email Subscription Form */}
-            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-8 backdrop-blur-sm">
+            <div className="max-w-2xl mx-auto bg-gray-800/10 rounded-lg p-6 sm:p-8 backdrop-blur-sm">
               <h3 className="text-xl font-bold mb-4">Subscribe to AI News</h3>
               <p className="text-gray-300 mb-6">
                 Get the latest AI news and updates delivered directly to your inbox.
@@ -610,10 +632,12 @@ function App() {
                   placeholder="Enter your email"
                   className="flex-1 px-4 py-3 rounded-lg bg-gray-700/50 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                  inputMode="email"
+                  autoComplete="email"
                 />
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all"
+                  className="px-6 py-3 bg-blue-500 rounded-lg font-medium hover:bg-blue-600 transition-all active:bg-blue-700"
                   disabled={isSubscribing}
                 >
                   {isSubscribing ? "Subscribing..." : "Subscribe"}
