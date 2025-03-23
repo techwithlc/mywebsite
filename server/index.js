@@ -42,6 +42,7 @@ app.use('/public', express.static(publicDir));
 app.use('/api/subscribers', subscriberRoutes);
 app.use('/api/feeds', feedsRouter);
 app.use('/api/webhook', webhookRouter);
+app.use('/api/sync-subscribers', syncSubscribersRouter);
 
 // Direct subscription endpoint
 app.post('/api/subscribe', async (req, res) => {
