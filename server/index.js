@@ -12,6 +12,7 @@ import { fetchAndSummarizeNews } from './services/newsService.js';
 import { sendNewsletterToAllSubscribers } from './services/emailService.js';
 import { updateFeeds } from './services/rssFeedService.js';
 import nodemailer from 'nodemailer';
+import syncSubscribersRouter from './api/sync-subscribers.js';
 
 // Load environment variables
 dotenv.config();
@@ -187,6 +188,9 @@ app.post('/api/send-newsletter', async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to send newsletter', error: error.message });
   }
 });
+
+// Sync subscribers endpoint
+app.use('/api/sync-subscribers', syncSubscribersRouter);
 
 // Generate initial RSS and JSON feeds on server start
 updateFeeds().then(() => {

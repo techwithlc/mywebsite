@@ -1,6 +1,7 @@
 // Simple subscription handler with basic file storage
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 
 // Helper function to safely read subscribers
 function readSubscribers() {
@@ -88,6 +89,23 @@ function writeSubscribers(subscribers) {
   }
   
   return results;
+}
+
+// Helper function to sync with main server
+async function syncWithMainServer(email) {
+  try {
+    // Sync with the main server API if available
+    const serverUrl = process.env.SERVER_URL || 'https://techwithlc.com';
+    const response = await axios.post(`${serverUrl}/api/sync-subscribers/add`, {
+      email: email
+    });
+    
+    console.log('Sync with main server response:', response.data);
+    return true;
+  } catch (error) {
+    console.error('Failed to sync with main server:', error.message);
+    return false;
+  }
 }
 
 exports.handler = async function(event, context) {
@@ -187,6 +205,9 @@ exports.handler = async function(event, context) {
     
     // Save to file
     const writeResults = writeSubscribers(subscribers);
+
+    // Try to sync with main server
+    const syncResult = await syncWithMainServer(email);
     
     // Return success response with debug information
     return {
@@ -197,7 +218,8 @@ exports.handler = async function(event, context) {
         message: 'Subscription successful!',
         debug: {
           subscriberCount: subscribers.length,
-          writeResults: writeResults
+          writeResults: writeResults,
+          syncWithMainServer: syncResult
         }
       })
     };

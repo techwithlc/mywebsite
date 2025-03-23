@@ -22,5 +22,11 @@
     "subscribed": true,
     "subscribedAt": "2025-03-22T18:10:55.445Z",
     "lastEmailSent": "2025-03-23T09:49:32.089Z"
+  },
+  {
+    "email": "everyfun147@gmail.com",
+    "subscribed": true,
+    "subscribedAt": "2025-03-23T12:02:00.000Z",
+    "lastEmailSent": null
   }
 ]
