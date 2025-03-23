@@ -17,7 +17,7 @@ const createTransport = () => {
   });
 };
 
-export async function handler(event) {
+export const handler = async (event) => {
   try {
     // Enable CORS
     const headers = {
@@ -55,30 +55,25 @@ export async function handler(event) {
       };
     }
 
-    // Only try to send email if needed credentials are available
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      // Send email
-      const transporter = createTransport();
-      
-      await transporter.sendMail({
-        from: `"Website Feedback" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
-        to: process.env.EMAIL_USER,
-        subject: 'New Website Feedback',
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #3b82f6;">New Feedback Received</h2>
-            <p style="font-size: 16px; line-height: 1.5;">
-              ${message.replace(/\n/g, '<br>')}
-            </p>
-            <p style="color: #6b7280; font-size: 14px;">
-              Sent from your TechwithLC website
-            </p>
-          </div>
-        `
-      });
-    } else {
-      console.log('Email credentials not available, but feedback received:', message);
-    }
+    // Send email
+    const transporter = createTransport();
+    
+    await transporter.sendMail({
+      from: `"Website Feedback" <${process.env.EMAIL_FROM}>`,
+      to: process.env.EMAIL_USER,
+      subject: 'New Website Feedback',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #3b82f6;">New Feedback Received</h2>
+          <p style="font-size: 16px; line-height: 1.5;">
+            ${message.replace(/\n/g, '<br>')}
+          </p>
+          <p style="color: #6b7280; font-size: 14px;">
+            Sent from your TechwithLC website
+          </p>
+        </div>
+      `
+    });
 
     return {
       statusCode: 200,
@@ -96,4 +91,4 @@ export async function handler(event) {
       body: JSON.stringify({ message: 'Server error, please try again later' })
     };
   }
-}
+};

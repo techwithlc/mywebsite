@@ -1,17 +1,15 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-// Netlify Functions environment doesn't support import.meta.url
-// Use __dirname instead with CommonJS
-const __dirname = path.dirname(
-  fileURLToPath(import.meta.url || 'file:///netlify/functions/subscribe.js')
-);
+// Load environment variables
+dotenv.config();
 
-// Path to subscribers file - use a path that works in Netlify Functions
-const subscribersPath = path.join(__dirname, '..', '..', 'server', 'subscribers.json');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const subscribersPath = path.join(__dirname, '..', 'subscribers.json');
 
-export async function handler(event) {
+export const handler = async (event) => {
   try {
     // Enable CORS
     const headers = {
@@ -51,14 +49,9 @@ export async function handler(event) {
 
     // Load existing subscribers
     let subscribers = [];
-    try {
-      if (fs.existsSync(subscribersPath)) {
-        const data = fs.readFileSync(subscribersPath, 'utf8');
-        subscribers = JSON.parse(data);
-      }
-    } catch (err) {
-      // If file doesn't exist or can't be read, start with empty array
-      console.log('Starting with empty subscribers list:', err);
+    if (fs.existsSync(subscribersPath)) {
+      const data = fs.readFileSync(subscribersPath, 'utf8');
+      subscribers = JSON.parse(data);
     }
 
     // Check if already subscribed
@@ -80,19 +73,7 @@ export async function handler(event) {
     subscribers.push(newSubscriber);
 
     // Save to file
-    try {
-      fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
-    } catch (writeErr) {
-      console.error('Error writing subscribers file:', writeErr);
-      // Try creating directory if it doesn't exist
-      const dir = path.dirname(subscribersPath);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
-      } else {
-        throw writeErr;
-      }
-    }
+    fs.writeFileSync(subscribersPath, JSON.stringify(subscribers, null, 2));
 
     return {
       statusCode: 200,
@@ -110,4 +91,4 @@ export async function handler(event) {
       body: JSON.stringify({ message: 'Server error, please try again later' })
     };
   }
-}
+};

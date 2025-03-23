@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { handler } from './serverless/newsletter-function.js';
 import { updateFeeds } from './services/rssFeedService.js';
+import crypto from 'crypto';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -21,8 +22,7 @@ let webhookSecret;
 
 if (!fs.existsSync(configFilePath)) {
   console.log('Initializing serverless config...');
-  // This will be created when the handler is first called
-  const crypto = await import('crypto');
+  // Generate webhook secret synchronously
   webhookSecret = crypto.randomBytes(32).toString('hex');
 } else {
   const config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));

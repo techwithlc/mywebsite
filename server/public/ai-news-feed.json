@@ -1,0 +1,71 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "TechwithLC AI News",
+  "home_page_url": "https://techwithlc.com/ai-news",
+  "feed_url": "https://techwithlc.com/ai-news-feed.json",
+  "description": "Latest AI news curated and summarized by TechwithLC",
+  "authors": [
+    {
+      "name": "TechwithLC",
+      "url": "https://techwithlc.com"
+    }
+  ],
+  "language": "en-US",
+  "items": [
+    {
+      "id": "https://www.usatoday.com/story/money/food/2025/03/22/artificial-intelligence-fast-food-taco-bell-kfc/82583772007/",
+      "url": "https://www.usatoday.com/story/money/food/2025/03/22/artificial-intelligence-fast-food-taco-bell-kfc/82583772007/",
+      "title": "AI will soon be taking your drive-thru orders at 500 Taco Bell, Pizza Hut, KFC locations",
+      "content_html": "Fast-food giant Yum! Brands said it will begin rolling out AI at hundreds of its locations starting in April. How has AI worked at other fast-food chains?",
+      "summary": "Fast-food giant Yum! Brands said it will begin rolling out AI at hundreds of its locations starting in April. How has AI worked at other fast-food chains?",
+      "date_published": "2025-03-22T10:05:30Z",
+      "author": {
+        "name": "USA Today"
+      }
+    },
+    {
+      "id": "https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality",
+      "url": "https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality",
+      "title": "Radical new tech brings flying cars closer to reality",
+      "content_html": "With six cyclorotors, the BlackBird from CycloTech is designed to take off and land vertically, move sideways, brake mid-air and even parallel park.",
+      "summary": "With six cyclorotors, the BlackBird from CycloTech is designed to take off and land vertically, move sideways, brake mid-air and even parallel park.",
+      "date_published": "2025-03-22T10:00:50Z",
+      "author": {
+        "name": "Fox News"
+      }
+    },
+    {
+      "id": "https://answersingenesis.org/technology/effects-of-artificial-intelligence/",
+      "url": "https://answersingenesis.org/technology/effects-of-artificial-intelligence/",
+      "title": "The Effects of Artificial Intelligence",
+      "content_html": "The rise of artificial intelligence unlocks an altered world of possibilities that are already transforming how humans work, learn, heal, grieve, relate, and worship.",
+      "summary": "The rise of artificial intelligence unlocks an altered world of possibilities that are already transforming how humans work, learn, heal, grieve, relate, and worship.",
+      "date_published": "2025-03-22T10:00:00Z",
+      "author": {
+        "name": "Answersingenesis.org"
+      }
+    },
+    {
+      "id": "https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3",
+      "url": "https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3",
+      "title": "Nvidia CEO Jensen Huang joked about something that could cost his biggest customers billions of dollars",
+      "content_html": "Huang's joke at Nvidia's big AI conference this week highlights potential billion-dollar impacts on tech giants like Microsoft, Google, and Meta.",
+      "summary": "Huang's joke at Nvidia's big AI conference this week highlights potential billion-dollar impacts on tech giants like Microsoft, Google, and Meta.",
+      "date_published": "2025-03-22T09:00:01Z",
+      "author": {
+        "name": "Business Insider"
+      }
+    },
+    {
+      "id": "https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office",
+      "url": "https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office",
+      "title": "The Social Security Administration's many proposed changes are worrying advocates",
+      "content_html": "The Trump administration has announced a flurry of changes at the agency that oversees Social Security. Advocates warn these moves could lead to people having a harder time getting help with benefits.",
+      "summary": "The Trump administration has announced a flurry of changes at the agency that oversees Social Security. Advocates warn these moves could lead to people having a harder time getting help with benefits.",
+      "date_published": "2025-03-22T09:00:00Z",
+      "author": {
+        "name": "NPR"
+      }
+    }
+  ]
+}

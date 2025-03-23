@@ -2,13 +2,13 @@
   command = "npm run build"
   publish = "dist"
 
-# API Endpoints for subscription and feedback
-[[redirects]]
-  from = "/api/subscribe"
-  to = "/.netlify/functions/subscribe"
-  status = 200
+[build.environment]
+  NODE_VERSION = "20"
 
+[functions]
+  node_bundler = "esbuild"
+  
 [[redirects]]
-  from = "/api/feedback"
-  to = "/.netlify/functions/feedback"
+  from = "/*"
+  to = "/index.html"
   status = 200

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TechwithLC AI News</title>
+    <link>https://techwithlc.com/ai-news</link>
+    <description>Latest AI news curated and summarized by TechwithLC</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 23 Mar 2025 10:13:04 GMT</lastBuildDate>
+    <atom:link href="https://techwithlc.com/ai-news-feed.xml" rel="self" type="application/rss+xml" />
+    <image>
+      <url>https://techwithlc.com/logo.png</url>
+      <title>TechwithLC AI News</title>
+      <link>https://techwithlc.com/ai-news</link>
+    </image>
+    <item>
+      <title>AI will soon be taking your drive-thru orders at 500 Taco Bell, Pizza Hut, KFC locations</title>
+      <link>https://www.usatoday.com/story/money/food/2025/03/22/artificial-intelligence-fast-food-taco-bell-kfc/82583772007/</link>
+      <guid>https://www.usatoday.com/story/money/food/2025/03/22/artificial-intelligence-fast-food-taco-bell-kfc/82583772007/</guid>
+      <pubDate>Sat, 22 Mar 2025 10:05:30 GMT</pubDate>
+      <source url="">USA Today</source>
+      <description><![CDATA[Fast-food giant Yum! Brands said it will begin rolling out AI at hundreds of its locations starting in April. How has AI worked at other fast-food chains?]]></description>
+    </item>
+    <item>
+      <title>Radical new tech brings flying cars closer to reality</title>
+      <link>https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality</link>
+      <guid>https://www.foxnews.com/tech/radical-new-tech-brings-flying-cars-closer-reality</guid>
+      <pubDate>Sat, 22 Mar 2025 10:00:50 GMT</pubDate>
+      <source url="">Fox News</source>
+      <description><![CDATA[With six cyclorotors, the BlackBird from CycloTech is designed to take off and land vertically, move sideways, brake mid-air and even parallel park.]]></description>
+    </item>
+    <item>
+      <title>The Effects of Artificial Intelligence</title>
+      <link>https://answersingenesis.org/technology/effects-of-artificial-intelligence/</link>
+      <guid>https://answersingenesis.org/technology/effects-of-artificial-intelligence/</guid>
+      <pubDate>Sat, 22 Mar 2025 10:00:00 GMT</pubDate>
+      <source url="">Answersingenesis.org</source>
+      <description><![CDATA[The rise of artificial intelligence unlocks an altered world of possibilities that are already transforming how humans work, learn, heal, grieve, relate, and worship.]]></description>
+    </item>
+    <item>
+      <title>Nvidia CEO Jensen Huang joked about something that could cost his biggest customers billions of dollars</title>
+      <link>https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3</link>
+      <guid>https://www.businessinsider.com/nvidia-ceo-jensen-huang-joke-blackwell-hopper-gpu-customers-2025-3</guid>
+      <pubDate>Sat, 22 Mar 2025 09:00:01 GMT</pubDate>
+      <source url="">Business Insider</source>
+      <description><![CDATA[Huang's joke at Nvidia's big AI conference this week highlights potential billion-dollar impacts on tech giants like Microsoft, Google, and Meta.]]></description>
+    </item>
+    <item>
+      <title>The Social Security Administration&apos;s many proposed changes are worrying advocates</title>
+      <link>https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office</link>
+      <guid>https://www.npr.org/2025/03/22/nx-s1-5320263/social-security-administration-changes-identity-office</guid>
+      <pubDate>Sat, 22 Mar 2025 09:00:00 GMT</pubDate>
+      <source url="">NPR</source>
+      <description><![CDATA[The Trump administration has announced a flurry of changes at the agency that oversees Social Security. Advocates warn these moves could lead to people having a harder time getting help with benefits.]]></description>
+    </item>
+  </channel>
+</rss>
