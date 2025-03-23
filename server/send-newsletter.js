@@ -106,9 +106,42 @@ The newsletter should be ready to send via email.`;
   }
 }
 
+// Function to convert HTML to plain text
+function htmlToPlainText(html) {
+  // Remove HTML tags
+  let text = html.replace(/<style[^>]*>.*?<\/style>/gs, '')
+    .replace(/<script[^>]*>.*?<\/script>/gs, '')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  
+  // Replace common HTML entities
+  text = text.replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+  
+  // Add line breaks for readability
+  text = text.replace(/\. /g, '.\n');
+  
+  // Clean up multiple line breaks
+  text = text.replace(/\n\s*\n/g, '\n\n');
+  
+  return text;
+}
+
 // Function to send emails with Gmail
 async function sendWithGmail(htmlContent) {
   console.log('Setting up Gmail transport...');
+  
+  // Create plain text version of the newsletter
+  const plainTextContent = htmlToPlainText(htmlContent);
+  
+  // Save plain text version to file for reference
+  fs.writeFileSync(path.join(__dirname, 'latest-ai-news.txt'), plainTextContent);
+  console.log(`Plain text newsletter saved to: ${path.join(__dirname, 'latest-ai-news.txt')}`);
   
   // Create transporter
   const transporter = nodemailer.createTransport({
@@ -177,11 +210,12 @@ async function sendWithGmail(htmlContent) {
     return { success: true, sent: 0, message: 'No subscribers' };
   }
   
-  // Prepare email
+  // Prepare email with both HTML and plain text versions
   const mailOptions = {
     from: `"TechwithLC" <${process.env.EMAIL_FROM}>`,
     subject: `TechwithLC AI News Update - ${new Date().toLocaleDateString()}`,
-    html: htmlContent
+    text: plainTextContent, // Plain text version
+    html: htmlContent // HTML version
   };
   
   // Send to each subscriber
