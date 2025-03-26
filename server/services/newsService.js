@@ -134,7 +134,11 @@ ${articlesText}`;
 
     const result = await geminiModel.generateContent(prompt);
     const response = await result.response;
-    const summaryHtml = response.text();
+    let summaryHtml = response.text();
+
+    // --- Post-processing: Remove markdown fences ---
+    summaryHtml = summaryHtml.replace(/^```html\s*/, '').replace(/\s*```$/, '');
+    // --- End Post-processing ---
 
     // Process articles again for consistency in the returned object
     const processedArticles = articles.map(article => ({
@@ -215,4 +219,3 @@ export async function fetchAndSummarizeNews() {
 
 // --- Remove Old OpenAI Function ---
 // export async function summarizeNewsWithOpenAI(articles) { ... }
-// --- End Remove Old OpenAI Function ---
