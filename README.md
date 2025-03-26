@@ -10,9 +10,7 @@ A modern, responsive personal website showcasing tech content creation, cloud co
 - **Content Integration** - Embedded Spotify podcasts, YouTube videos, and Medium articles
 - **Contact System** - EmailJS integration for feedback without a backend
 - **Dynamic Elements** - Scroll-to-top, social sharing, and feedback modal
-- **RSS News Feed** - AI news summarization delivered via RSS feed
-  - **Mobile-Friendly** - QR code for easy mobile subscription
-  - **Serverless Compatible** - Automated updates via GitHub Actions
+- **AI Newsletter** - AI news summarization delivered directly via email (using Gmail)
 
 ## 🛠️ Tech Stack
 
@@ -123,13 +121,16 @@ The frontend is deployed on Netlify:
 
 Choose one of the following deployment options based on your needs:
 
-1. **GitHub Actions Automation** (Recommended):
-   - The included GitHub Actions workflow file will automatically:
-     - Run every Monday at 9:00 AM UTC
-     - Update the RSS feed with the latest AI news
-     - Commit and push the updated feed to your repository
+1. **Scheduled Execution (e.g., cron or server process manager like PM2)**:
+   - Run `node server/send-newsletter.js` periodically to generate and send the newsletter via email.
 
-2. **Serverless Deployment (Netlify)**:
+2. **Manual Execution**:
+   - Run `node server/send-newsletter-now.js` to generate and send immediately.
+
+3. **GitHub Actions Automation**:
+   - The included GitHub Actions workflow file can be adapted for scheduled execution, but secure handling of email credentials (`EMAIL_USER`, `EMAIL_PASS`) within Actions requires careful setup using GitHub Secrets. Direct email sending from Actions might be complex.
+
+4. **Serverless Deployment (Netlify)**:
    ```bash
    # Install Netlify CLI
    npm install -g netlify-cli
@@ -149,18 +150,13 @@ Choose one of the following deployment options based on your needs:
    vercel --prod
    ```
 
-4. **RSS Feed Integration**:
-   - RSS Feed URL: `https://yourdomain.com/api/feeds/rss`
-   - Newsletter Subscription Page: `https://yourdomain.com/newsletter`
-   - Mobile-friendly QR code included on subscription page
-
 ## 📱 Features Showcase
 
 - **Tech Content Creation** - YouTube tutorials, podcast episodes, and Medium articles
 - **Cloud Technology** - AWS, Azure, and GCP expertise
 - **Professional Network** - GitHub, LinkedIn, and Twitter integration
 - **Bilingual Content** - Supporting both English and Chinese audiences
-- **AI Newsletter** - Weekly AI news summaries delivered via RSS feed
+- **AI Newsletter** - Weekly AI news summaries delivered directly via email
 
 ## 📞 Contact
 
@@ -183,3 +179,4 @@ Choose one of the following deployment options based on your needs:
 - Added comprehensive deployment documentation for various hosting options
 - **Refactored newsletter generation to use Google Gemini API**
 - **Removed local subscriber file (`server/subscribers.json`)**
+- **Switched newsletter delivery from RSS feed to direct email (Gmail)**
