@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
+import { createClient } from '@supabase/supabase-js'; // <-- Add Supabase import
+
+// --- Add Supabase Client Initialization ---
+const supabaseUrl = 'https://wfxufpojvwehrzwrnglm.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4'; // Use the key you provided
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// --- End Supabase Client Initialization ---
+
 
 function App() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -35,82 +43,46 @@ function App() {
   }, []);
 
   // Subscription handler with enhanced error handling
+  // --- Updated Subscription Handler ---
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
     setSubscribeMessage('');
-    
+    setSubscribeSuccess(false); // Reset success state
+
     try {
-      if (!subscribeEmail.trim()) {
+      if (!subscribeEmail.trim() || !/\S+@\S+\.\S+/.test(subscribeEmail)) { // Basic email validation
         setSubscribeMessage('Please enter a valid email address');
         setSubscribeSuccess(false);
         setIsSubscribing(false);
         return;
       }
-      
-      // Call the Netlify serverless function directly with reliable error handling
-      const response = await fetch('/.netlify/functions/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: subscribeEmail })
-      });
-      
-      // First check if response was successful based on status
-      if (!response.ok) {
-        const statusText = response.statusText || `Error ${response.status}`;
-        
-        // Try to get error details from response if possible
-        let errorMessage = `Subscription failed: ${statusText}`;
-        try {
-          // Only try to parse as JSON if content type is JSON
-          const contentType = response.headers.get('content-type');
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await response.json();
-            if (errorData && errorData.message) {
-              errorMessage = errorData.message;
-            }
-          } else {
-            // If not JSON, use text instead
-            const textError = await response.text();
-            if (textError && textError.length < 100) { // Only use short error messages
-              errorMessage = `Server error: ${textError}`;
-            }
-          }
-        } catch {
-          // If parsing fails, stick with the default error message
-          console.warn('Failed to parse error response');
-        }
-        
-        throw new Error(errorMessage);
-      }
-      
-      // Try to safely parse the response
-      let result;
-      try {
-        const contentType = response.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          result = await response.json();
+
+      // Insert email into Supabase 'subscriber' table
+      const { error } = await supabase
+        .from('subscriber') // Your table name
+        .insert([{ email: subscribeEmail.trim() }]); // Your column name
+        // Removed .select() as the returned data is not used
+
+      if (error) {
+        // Handle potential errors, e.g., duplicate email if you have a unique constraint
+        if (error.code === '23505') { // Postgres unique violation code
+           setSubscribeMessage('This email is already subscribed.');
+           setSubscribeSuccess(true); // Treat as success if already subscribed
         } else {
-          // If response isn't JSON, create a basic success object
-          console.warn('Response is not JSON, treating as success');
-          result = { success: true, message: 'Subscription successful!' };
+          console.error('Supabase error:', error);
+          throw new Error(error.message || 'Subscription failed. Please try again.');
         }
-      } catch (parseError) {
-        console.error('Error parsing response:', parseError);
-        // Still consider it a success if the response was OK
-        result = { success: true, message: 'Subscription successful!' };
+      } else {
+        // Success
+        setSubscribeMessage('Subscription successful!');
+        setSubscribeSuccess(true);
+        setTimeout(() => {
+          setSubscribeEmail('');
+          setSubscribeMessage('');
+        }, 3000);
       }
-      
-      // Process the result
-      setSubscribeMessage(result.message || 'Subscription successful!');
-      setSubscribeSuccess(true);
-      setTimeout(() => {
-        setSubscribeEmail('');
-        setSubscribeMessage('');
-      }, 3000);
-      
+
     } catch (error) {
       console.error('Subscription error:', error);
       setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
@@ -119,6 +91,7 @@ function App() {
       setIsSubscribing(false);
     }
   };
+  // --- End Updated Subscription Handler ---
 
   const scrollToTop = () => {
     window.scrollTo({
