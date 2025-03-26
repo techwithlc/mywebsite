@@ -58,21 +58,35 @@ function App() {
         return;
       }
 
-      // Insert email into Supabase 'subscriber' table
-      const { error } = await supabase
+      // --- Check if email already exists ---
+      const { data: existingSubscribers, error: selectError } = await supabase
+        .from('subscriber')
+        .select('email')
+        .eq('email', subscribeEmail.trim())
+        .limit(1);
+
+      if (selectError) {
+        console.error('Supabase select error:', selectError);
+        throw new Error('Failed to check subscription status. Please try again.');
+      }
+
+      if (existingSubscribers && existingSubscribers.length > 0) {
+        setSubscribeMessage('This email is already subscribed.');
+        setSubscribeSuccess(true); // Treat as success if already subscribed
+        setIsSubscribing(false);
+        return; // Exit if already subscribed
+      }
+      // --- End check ---
+
+      // Insert email into Supabase 'subscriber' table if it doesn't exist
+      const { error: insertError } = await supabase
         .from('subscriber') // Your table name
         .insert([{ email: subscribeEmail.trim() }]); // Your column name
-        // Removed .select() as the returned data is not used
 
-      if (error) {
-        // Handle potential errors, e.g., duplicate email if you have a unique constraint
-        if (error.code === '23505') { // Postgres unique violation code
-           setSubscribeMessage('This email is already subscribed.');
-           setSubscribeSuccess(true); // Treat as success if already subscribed
-        } else {
-          console.error('Supabase error:', error);
-          throw new Error(error.message || 'Subscription failed. Please try again.');
-        }
+      if (insertError) {
+        // Handle potential insert errors (though unique constraint is less likely now)
+        console.error('Supabase insert error:', insertError);
+        throw new Error(insertError.message || 'Subscription failed during insert. Please try again.');
       } else {
         // Success
         setSubscribeMessage('Subscription successful!');
