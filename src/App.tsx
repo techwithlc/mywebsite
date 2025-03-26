@@ -4,10 +4,23 @@ import { useLanguage } from './contexts/LanguageContext';
 import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
-// --- Add Supabase Client Initialization ---
+// --- Initialize Supabase Client using Environment Variables ---
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Supabase URL or Anon Key is missing. Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file.');
+  // Optionally, throw an error or render an error message component
+  // throw new Error('Supabase configuration is missing.'); 
+}
+
+// Initialize Supabase only if keys are present
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
+// Optional: Log for debugging (remove in production)
+console.log('Supabase URL loaded:', !!supabaseUrl); 
+console.log('Supabase Anon Key loaded:', !!supabaseAnonKey);
+console.log('Supabase client initialized:', !!supabase);
 // --- End Supabase Client Initialization ---
 
 // YouTube channel username for RSS feed
@@ -92,6 +105,11 @@ function App() {
       // Convert email to lowercase for consistent checking and storage
       const lowerCaseEmail = subscribeEmail.trim().toLowerCase();
 
+      // Ensure supabase client is initialized before using it
+      if (!supabase) {
+        throw new Error('Supabase client is not initialized. Check environment variables.');
+      }
+
       // --- Check if email already exists (case-insensitive) ---
       const { data: existingSubscribers, error: selectError } = await supabase
         .from('subscriber')
@@ -113,6 +131,10 @@ function App() {
       // --- End check ---
 
       // Insert email into Supabase 'subscriber' table if it doesn't exist
+      // Ensure supabase client is initialized before using it
+      if (!supabase) {
+        throw new Error('Supabase client is not initialized. Check environment variables.');
+      }
       const { error: insertError } = await supabase
         .from('subscriber') // Your table name
         .insert([{ email: lowerCaseEmail }]); // Use lowercase email for insert
