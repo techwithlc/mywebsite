@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
-import { createClient } from '@supabase/supabase-js'; // <-- Add Supabase import
+import { createClient } from '@supabase/supabase-js';
+import axios from 'axios';
 
 // --- Add Supabase Client Initialization ---
 const supabaseUrl = 'https://wfxufpojvwehrzwrnglm.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4'; // Use the key you provided
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // --- End Supabase Client Initialization ---
 
+// YouTube channel username for RSS feed
+const YOUTUBE_CHANNEL_USERNAME = '@techwithlc';
 
 function App() {
   const { t, language, toggleLanguage } = useLanguage();
@@ -18,6 +21,7 @@ function App() {
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [latestVideoId, setLatestVideoId] = useState('');
 
   const navItems = [
     { label: 'Home', href: '#' },
@@ -42,6 +46,33 @@ function App() {
     };
   }, []);
 
+  // Fetch latest YouTube video using RSS feed
+  useEffect(() => {
+    const fetchLatestYouTubeVideo = async () => {
+      try {
+        // Using RSS feed approach to avoid API key requirements
+        const response = await axios.get(
+          `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw`
+        );
+        
+        if (response.data && response.data.items && response.data.items.length > 0) {
+          // Extract video ID from the link
+          const videoLink = response.data.items[0].link;
+          const videoId = videoLink.split('v=')[1]?.split('&')[0];
+          if (videoId) {
+            setLatestVideoId(videoId);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching YouTube videos:', error);
+        // Fallback to channel videos if RSS feed fails
+        setLatestVideoId('');
+      }
+    };
+
+    fetchLatestYouTubeVideo();
+  }, []);
+  
   // Subscription handler with enhanced error handling
   // --- Updated Subscription Handler ---
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,11 +89,14 @@ function App() {
         return;
       }
 
-      // --- Check if email already exists ---
+      // Convert email to lowercase for consistent checking and storage
+      const lowerCaseEmail = subscribeEmail.trim().toLowerCase();
+
+      // --- Check if email already exists (case-insensitive) ---
       const { data: existingSubscribers, error: selectError } = await supabase
         .from('subscriber')
         .select('email')
-        .eq('email', subscribeEmail.trim())
+        .eq('email', lowerCaseEmail) // Use lowercase email for check
         .limit(1);
 
       if (selectError) {
@@ -81,7 +115,7 @@ function App() {
       // Insert email into Supabase 'subscriber' table if it doesn't exist
       const { error: insertError } = await supabase
         .from('subscriber') // Your table name
-        .insert([{ email: subscribeEmail.trim() }]); // Your column name
+        .insert([{ email: lowerCaseEmail }]); // Use lowercase email for insert
 
       if (insertError) {
         // Handle potential insert errors (though unique constraint is less likely now)
@@ -271,8 +305,9 @@ function App() {
                 }
               ].map((tech) => (
                 <div key={tech.name} 
-                     className="bg-gray-700/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
-                  <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform">
+                     className="bg-gray-700/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
+                  {/* Top Section (Embed/Image) */}
+                  <div className="flex-shrink-0"> {/* Prevent top section from shrinking */}
                     {tech.icon}
                   </div>
                   <h3 className="font-medium text-lg mb-1">{tech.name}</h3>
@@ -318,7 +353,9 @@ function App() {
                   description: 'Tech tutorials, cloud computing insights, and career development tips',
                   tech: ['YouTube', 'Tech Content', 'Tutorials'],
                   youtubeEmbed: true,
-                  embedUrl: 'https://www.youtube.com/embed/?listType=user_uploads&list=@techwithlc'
+                  embedUrl: latestVideoId 
+                    ? `https://www.youtube.com/embed/${latestVideoId}` 
+                    : `https://www.youtube.com/embed?listType=user_uploads&list=${YOUTUBE_CHANNEL_USERNAME}`
                 },
                 {
                   title: 'Google Taiwan Interview Experience',
@@ -328,79 +365,83 @@ function App() {
                   link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
                 }
               ].map((project) => (
-                <div key={project.title} 
-                     className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10">
-                  {project.spotifyEmbed ? (
-                    <iframe 
-                      src={project.embedUrl}
-                      width="100%" 
-                      height="352" 
-                      frameBorder="0" 
-                      allowFullScreen 
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                      loading="lazy"
-                      className="w-full"
-                    />
-                  ) : project.youtubeEmbed ? (
-                    <iframe
-                      src="https://www.youtube.com/embed/?listType=user_uploads&list=@techwithlc"
-                      width="100%"
-                      height="352"
-                      frameBorder="0"
-                      allowFullScreen
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      loading="lazy"
-                      className="w-full"
-                    />
-                  ) : (
-                    <a href={project.link} 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       className="block bg-gradient-to-br from-gray-100 to-white h-48 relative group overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center transition-transform group-hover:scale-110">
-                        <svg viewBox="0 0 24 24" className="w-20 h-20">
-                          <path
-                            fill="#4285F4"
-                            d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
-                          />
-                          <path
-                            fill="#34A853"
-                            d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z"
-                          />
-                          <path
-                            fill="#FBBC05"
-                            d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 000 10.76l3.98-3.09z"
-                          />
-                          <path
-                            fill="#EA4335"
-                            d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
-                          />
-                        </svg>
-                      </div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent">
-                        <span className="text-gray-800 font-medium">Read on Medium</span>
-                      </div>
-                    </a>
-                  )}
-                  <div className="p-6">
-                    <a 
-                      href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link} 
-                      target="_blank" 
+                <div key={project.title}
+                  className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
+                  {/* Top Section (Embed/Image) - Fixing height consistency */}
+                  <div className="flex-shrink-0 h-[352px] w-full">
+                    {project.spotifyEmbed ? (
+                      <iframe
+                        src={project.embedUrl}
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        allowFullScreen
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy"
+                        className="w-full h-full"
+                      />
+                    ) : project.youtubeEmbed ? (
+                      <iframe
+                        src={project.embedUrl}
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        allowFullScreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        loading="lazy"
+                        className="w-full h-full"
+                      />
+                    ) : (
+                      <a href={project.link}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="block bg-gradient-to-br from-gray-100 to-white h-full w-full relative group overflow-hidden flex items-center justify-center">
+                        <div className="transition-transform group-hover:scale-110">
+                          <svg viewBox="0 0 24 24" className="w-20 h-20">
+                            <path
+                              fill="#4285F4"
+                              d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+                            />
+                            <path
+                              fill="#34A853"
+                              d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z"
+                            />
+                            <path
+                              fill="#FBBC05"
+                              d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 000 10.76l3.98-3.09z"
+                            />
+                            <path
+                              fill="#EA4335"
+                              d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
+                            />
+                          </svg>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
+                          <span className="text-white font-medium">Read on Medium</span>
+                        </div>
+                      </a>
+                    )}
+                  </div>
+                  {/* Bottom Section (Text Content) - Consistent padding and spacing */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <a
+                      href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-blue-400 transition-colors"
                     >
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
+                      <h3 className="text-xl font-bold mb-2 transition-colors">
                         {project.title}
                       </h3>
                     </a>
-                    <p className="text-gray-300 mb-4">
+                    <p className="text-gray-300 mb-4 flex-grow">
                       {project.youtubeEmbed ? t.youtube.description : project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((t) => (
-                        <span key={t} 
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                      {project.tech.map((tag) => (
+                        <span key={tag}
                               className="bg-blue-500/10 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/20">
-                          {t}
+                          {tag}
                         </span>
                       ))}
                     </div>
