@@ -493,15 +493,17 @@ function App() {
           </div>
         </section>
 
-        {/* Newsletter Section - Simple UI */}
-        <section className="border-t border-gray-800/20 py-10">
-          <div className="container mx-auto px-4">
-            <div className="max-w-md mx-auto">
-              <h3 className="text-xl font-bold mb-3 text-center">{t.newsletter.subtitle}</h3>
-              <p className="text-gray-400 text-sm mb-4 text-center">
+        {/* Newsletter Section - Matched format with Contact section */}
+        <section className="border-t border-gray-800/20 py-20">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <span className="text-blue-400 font-medium">{t.newsletter.subtitle}</span>
+              <h2 className="text-3xl font-bold mt-2">{t.newsletter.title}</h2>
+              <p className="text-gray-400 mt-4">
                 {t.newsletter.description}
               </p>
-              
+            </div>
+            <div className="max-w-md mx-auto">
               <form 
                 onSubmit={handleSubscribe}
                 className="flex flex-col sm:flex-row gap-2"
@@ -510,7 +512,7 @@ function App() {
                   type="email"
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
-                  className="py-2 px-4 bg-transparent border border-gray-600 focus:border-gray-300 rounded"
+                  className="py-2 px-4 bg-transparent border border-gray-600 focus:border-gray-300 rounded flex-grow"
                   placeholder="Enter your email..."
                   required
                   inputMode="email"
@@ -519,7 +521,7 @@ function App() {
                 />
                 <button
                   type="submit"
-                  className="py-2 px-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded hover:from-blue-700 hover:to-blue-600 transition-all"
+                  className="py-2 px-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded hover:from-blue-700 hover:to-blue-600 transition-all whitespace-nowrap"
                   disabled={isSubscribing}
                 >
                   {isSubscribing ? (
