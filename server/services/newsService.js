@@ -3,8 +3,13 @@ import dotenv from 'dotenv';
 // Remove OpenAI import
 // import OpenAI from 'openai';
 import { GoogleGenerativeAI } from '@google/generative-ai'; // Import Google SDK
+import fs from 'fs'; // Import fs module
+import path from 'path'; // Import path module
+import { fileURLToPath } from 'url'; // Import url module
 
 dotenv.config();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Define __dirname
 
 // --- Initialize Google Generative AI Client ---
 let genAI;
@@ -109,28 +114,24 @@ Content Snippet: ${safeArticle.content.substring(0, 300)}${safeArticle.content.l
     }).join('\n---\n'); // Use a separator
 
     const currentTime = new Date().toLocaleString();
-    const prompt = `You are an AI news summarization service for TechwithLC, a technology blog.
-The current time is ${currentTime}.
-Please summarize the following ${articles.length} AI-related news articles concisely and informatively.
-Focus on key technological advancements, business implications, and societal impacts.
 
-Format your response STRICTLY as a single, complete HTML document suitable for an email newsletter.
-- Use inline CSS for styling (example: style='color: #333; line-height: 1.6;'). Avoid <style> blocks.
-- Use a clean, professional layout. A single-column layout is safest for email compatibility.
-- Use semantic HTML (<h1>, <h2>, <p>, <ul>, <li>, <a>).
-- Ensure good readability with appropriate font sizes (e.g., 16px for body text) and line spacing.
-- Start with an <h1> heading: "AI News Roundup - ${new Date().toLocaleDateString()}".
-- Include a brief introductory paragraph after the <h1>.
-- For each article summary:
-    - Use an <h2> for the article title, making the title text a link (<a>) to the original article URL.
-    - Include the source name (example: <p style='font-size: 0.9em; color: #555;'>Source: [Source Name Here]</p>).
-    - Provide a concise summary in one or more <p> tags.
-- Add a simple footer with copyright or unsubscribe information (placeholder).
+    // --- Load prompt from file ---
+    let promptTemplate = '';
+    try {
+      promptTemplate = fs.readFileSync(path.join(__dirname, '../prompts/newsletter_prompt.txt'), 'utf8');
+    } catch (readError) {
+      console.error('Error reading prompt template file:', readError);
+      throw new Error('Could not load prompt template.');
+    }
 
-**IMPORTANT: Your entire response must be ONLY the raw HTML code for the newsletter. Do NOT include the markdown code block fences like \`\`\`html at the beginning or \`\`\` at the end.**
+    // Replace placeholders in the template
+    const prompt = promptTemplate
+      .replace('{currentTime}', currentTime)
+      .replace('{articleCount}', articles.length.toString())
+      .replace('{articlesText}', articlesText);
+    // --- End Load prompt from file ---
 
-Here are the articles:
-${articlesText}`;
+    // The original inline prompt block has been removed to fix syntax errors.
 
     const result = await geminiModel.generateContent(prompt);
     const response = await result.response;
