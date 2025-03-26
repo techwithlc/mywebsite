@@ -20,20 +20,14 @@ const outputTextPath = path.join(__dirname, 'latest-ai-news.txt'); // Define tex
 let supabase;
 try {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
-     // Attempt to use the values from App.tsx if not in .env (less ideal)
-     const supabaseUrl = 'https://wfxufpojvwehrzwrnglm.supabase.co';
-     const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4';
-     console.warn('SUPABASE_URL or SUPABASE_ANON_KEY missing in .env. Using hardcoded values (update .env for security).');
-     supabase = createClient(supabaseUrl, supabaseAnonKey);
-     // It's better to add these to your .env file:
-     // SUPABASE_URL=https://wfxufpojvwehrzwrnglm.supabase.co
-     // SUPABASE_ANON_KEY=eyJhbGciOiJIUz... (your anon key)
+     console.error('SUPABASE_URL or SUPABASE_ANON_KEY missing in .env file.');
+     process.exit(1);
   } else {
      supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
+     console.log('Supabase client initialized successfully.');
   }
 } catch (error) {
   console.error('Error initializing Supabase client:', error);
-  // Handle error appropriately, maybe exit
   process.exit(1);
 }
 // --- End Supabase Client Initialization ---

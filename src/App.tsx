@@ -5,8 +5,8 @@ import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
 // --- Add Supabase Client Initialization ---
-const supabaseUrl = 'https://wfxufpojvwehrzwrnglm.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // --- End Supabase Client Initialization ---
 
