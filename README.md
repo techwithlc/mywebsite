@@ -49,7 +49,7 @@ flowchart TD
     K --> K1[Node.js]
     K --> K2[Express]
     K --> K3[File Storage]
-    K --> K4[OpenAI API]
+    K --> K4[Google Gemini API]
     K --> K5[News API]
 ```
 
@@ -91,12 +91,16 @@ npm run dev
 
 ## 🔧 Backend Setup
 
-1. Create a `.env` file in the server directory based on the `.env.example` template
-2. Set up the required environment variables:
-   - `OPENAI_API_KEY` - OpenAI API key for news summarization with GPT-4o
-   - `NEWS_API_KEY` - News API key for fetching AI articles
+1. Create a `.env` file in the `server` directory based on the `server/env-setup-instructions.md` guide.
+2. Set up the required environment variables, including:
+   - `GOOGLE_GEMINI_API_KEY` - Google Gemini API key for news summarization.
+   - `NEWS_API_KEY` - News API key for fetching AI articles.
+   - `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_SERVICE` - Credentials for sending emails (e.g., Gmail App Password).
+   - `RECIPIENT_EMAIL` - Email address to send the newsletter to.
 3. Choose your deployment method:
-   - **GitHub Actions**: Use the provided workflow file for scheduled RSS feed updates
+   - **Manual Execution**: Run `node server/send-newsletter-now.js` to generate and send immediately.
+   - **Scheduled Execution (e.g., cron)**: Set up a scheduler to run `node server/send-newsletter.js` periodically.
+   - **GitHub Actions**: Use the provided workflow file for scheduled RSS feed updates (Note: Email sending might require adjustments for Actions environment).
    - **Serverless Deployment**: Deploy to Netlify or Vercel using the provided configurations
 
 ## 🚀 Production Deployment
@@ -172,8 +176,10 @@ Choose one of the following deployment options based on your needs:
 - Added X (Twitter) to contact area
 - Fixed button errors
 - Implemented RSS feed for AI news updates
-- Integrated OpenAI's GPT-4o for AI news summarization
+- Integrated OpenAI's GPT-4o for AI news summarization (Now Refactored)
 - Created GitHub Actions workflow for automated RSS feed updates
 - Added mobile-friendly subscription page with QR code
 - Created serverless deployment configurations for Netlify and Vercel
 - Added comprehensive deployment documentation for various hosting options
+- **Refactored newsletter generation to use Google Gemini API**
+- **Removed local subscriber file (`server/subscribers.json`)**
