@@ -58,36 +58,44 @@ function htmlToPlainText(html) {
 
   // Replace common HTML entities
   text = text.replace(/&nbsp;/g, ' ')
-    .replace(/&/g, '&')
+    .replace(/&/g, '&') // Must be first
     .replace(/</g, '<')
     .replace(/>/g, '>')
     .replace(/"/g, '"')
-    .replace(/&#39;/g, "'");
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
 
-  // Add line breaks for readability (adjust as needed)
-  text = text.replace(/<\/p>/gi, '\n')
-             .replace(/<br\s*\/?>/gi, '\n')
-             .replace(/<\/h[1-6]>/gi, '\n\n');
+  // Add line breaks for block elements first
+  text = text.replace(/<h[1-6][^>]*>/gi, '\n\n')
+             .replace(/<\/h[1-6][^>]*>/gi, '\n\n')
+             .replace(/<p[^>]*>/gi, '\n')
+             .replace(/<\/p[^>]*>/gi, '\n')
+             .replace(/<div[^>]*>/gi, '\n')
+             .replace(/<\/div[^>]*>/gi, '\n')
+             .replace(/<li[^>]*>/gi, '\n* ') // Add bullet for list items
+             .replace(/<br\s*\/?>/gi, '\n');
 
-  // Remove remaining tags after line breaks are added
-  text = text.replace(/<[^>]*>/g, '');
+  // Remove remaining tags
+  text = text.replace(/<[^>]+>/g, ' ');
 
-  // Decode entities again after tag removal
-  text = text.replace(/&nbsp;/g, ' ')
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
-    .replace(/&#39;/g, "'");
+  // Decode entities again after tag removal, in case some were missed or created
+  text = text.replace(/&/g, '&')
+             .replace(/</g, '<')
+             .replace(/>/g, '>')
+             .replace(/"/g, '"')
+             .replace(/&#39;/g, "'")
+             .replace(/&nbsp;/g, ' ');
 
-  // Clean up multiple line breaks
-  text = text.replace(/\n\s*\n/g, '\n\n').trim();
+  // Clean up whitespace and multiple line breaks
+  text = text.replace(/[ \t]+/g, ' ').replace(/\n[ \t]+/g, '\n').replace(/\n\s*\n/g, '\n\n').trim();
 
   return text;
 }
 
 // Function to send emails with Gmail (modified for Supabase)
 async function sendWithGmail(htmlContent, emailSubject) {
+  // Recommendation: For better deliverability and scalability, consider using a dedicated email service
+  // provider (ESP) like SendGrid, Mailgun, AWS SES, or Resend instead of direct Gmail SMTP for newsletters.
   console.log('Setting up Gmail transport...');
 
   // Create plain text version of the newsletter
@@ -151,7 +159,11 @@ async function sendWithGmail(htmlContent, emailSubject) {
     from: `"TechwithLC" <${process.env.EMAIL_FROM}>`,
     subject: emailSubject || `TechwithLC AI News Update - ${new Date().toLocaleDateString()}`, // Use subject from summary if available
     text: plainTextContent, // Plain text version
-    html: htmlContent // HTML version
+    html: htmlContent, // HTML version
+    // Add List-Unsubscribe header for better deliverability
+    headers: {
+      'List-Unsubscribe': '<mailto:unsubscribe@yourdomain.com?subject=Unsubscribe>, <https://yourdomain.com/unsubscribe>' // TODO: Replace with actual unsubscribe link/email
+    }
   };
 
   // Send to each subscriber

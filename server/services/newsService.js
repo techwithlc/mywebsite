@@ -14,8 +14,8 @@ try {
     throw new Error('GEMINI_API_KEY is missing.');
   }
   genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  // Use gemini-1.5-flash-latest as it's commonly available and efficient
-  geminiModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+  // Attempting to use gemini-2.0-flash-lite as requested. API might reject this ID.
+  geminiModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 } catch (error) {
   console.warn(`Warning: Google Generative AI initialization failed: ${error.message}. News feed generation may not work.`);
   // Create a mock client for build process or if API key is missing
@@ -113,10 +113,21 @@ Content Snippet: ${safeArticle.content.substring(0, 300)}${safeArticle.content.l
 The current time is ${currentTime}.
 Please summarize the following ${articles.length} AI-related news articles concisely and informatively.
 Focus on key technological advancements, business implications, and societal impacts.
-Format your response STRICTLY in HTML. Use proper headings (h2 for each article summary), paragraphs (<p>), and lists (<ul><li>) where appropriate.
-Start with an h1 heading: "AI News Roundup - ${new Date().toLocaleDateString()}".
-Include a brief introductory paragraph after the h1.
-For each article summary, include the source and a link to the original article. Make the title of each summary a link to the original article URL.
+
+Format your response STRICTLY as a single, complete HTML document suitable for an email newsletter.
+- Use inline CSS for styling (example: style='color: #333; line-height: 1.6;'). Avoid <style> blocks.
+- Use a clean, professional layout. A single-column layout is safest for email compatibility.
+- Use semantic HTML (<h1>, <h2>, <p>, <ul>, <li>, <a>).
+- Ensure good readability with appropriate font sizes (e.g., 16px for body text) and line spacing.
+- Start with an <h1> heading: "AI News Roundup - ${new Date().toLocaleDateString()}".
+- Include a brief introductory paragraph after the <h1>.
+- For each article summary:
+    - Use an <h2> for the article title, making the title text a link (<a>) to the original article URL.
+    - Include the source name (example: <p style='font-size: 0.9em; color: #555;'>Source: [Source Name Here]</p>).
+    - Provide a concise summary in one or more <p> tags.
+- Add a simple footer with copyright or unsubscribe information (placeholder).
+
+**IMPORTANT: Your entire response must be ONLY the raw HTML code for the newsletter. Do NOT include the markdown code block fences like \`\`\`html at the beginning or \`\`\` at the end.**
 
 Here are the articles:
 ${articlesText}`;
