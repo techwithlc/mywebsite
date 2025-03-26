@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@google/generative-ai": "^0.24.0",
     "@supabase/supabase-js": "^2.49.3",
     "axios": "^1.6.7",
     "dotenv": "^16.4.5",

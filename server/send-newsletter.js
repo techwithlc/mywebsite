@@ -2,111 +2,52 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import axios from 'axios';
-import OpenAI from 'openai';
+// Remove axios and OpenAI imports from here
+// import axios from 'axios';
+// import OpenAI from 'openai';
 import dotenv from 'dotenv';
+import { createClient } from '@supabase/supabase-js'; // Import Supabase client
+import { fetchAndSummarizeNews } from './services/newsService.js'; // Import the updated function
 
 // Load environment variables
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.join(__dirname, 'latest-ai-news.html');
+const outputTextPath = path.join(__dirname, 'latest-ai-news.txt'); // Define text output path
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
-// Function to fetch latest AI news
-async function fetchLatestAINews(count = 5) {
-  console.log('Fetching latest AI news from News API...');
-  try {
-    const response = await axios.get('https://newsapi.org/v2/everything', {
-      params: {
-        q: 'artificial intelligence',
-        language: 'en',
-        sortBy: 'publishedAt',
-        pageSize: count,
-        apiKey: process.env.NEWS_API_KEY
-      }
-    });
-
-    if (response.data && response.data.articles) {
-      console.log(`Successfully fetched ${response.data.articles.length} articles!`);
-      return response.data.articles;
-    } else {
-      throw new Error('No articles found in the response');
-    }
-  } catch (error) {
-    console.error('Error fetching news:', error.message);
-    if (error.response) {
-      console.error('Response status:', error.response.status);
-      console.error('Response data:', error.response.data);
-    }
-    throw error;
+// --- Initialize Supabase Client ---
+let supabase;
+try {
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+     // Attempt to use the values from App.tsx if not in .env (less ideal)
+     const supabaseUrl = 'https://wfxufpojvwehrzwrnglm.supabase.co';
+     const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmeHVmcG9qdndlaHJ6d3JuZ2xtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI5ODIyMzEsImV4cCI6MjA1ODU1ODIzMX0.IgCEciy3ffOsoA6qYI1c0ogW9wyPp2uUDUwIhStrpD4';
+     console.warn('SUPABASE_URL or SUPABASE_ANON_KEY missing in .env. Using hardcoded values (update .env for security).');
+     supabase = createClient(supabaseUrl, supabaseAnonKey);
+     // It's better to add these to your .env file:
+     // SUPABASE_URL=https://wfxufpojvwehrzwrnglm.supabase.co
+     // SUPABASE_ANON_KEY=eyJhbGciOiJIUz... (your anon key)
+  } else {
+     supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
   }
+} catch (error) {
+  console.error('Error initializing Supabase client:', error);
+  // Handle error appropriately, maybe exit
+  process.exit(1);
 }
+// --- End Supabase Client Initialization ---
 
-// Function to summarize news with OpenAI
-async function summarizeNewsWithOpenAI(articles) {
-  console.log('Calling OpenAI API to summarize news articles...');
-  
-  // Create a prompt with the articles
-  const articlesText = articles.map((article, index) => {
-    return `Article ${index + 1}: ${article.title}
-Source: ${article.source.name}
-URL: ${article.url}
-Published: ${new Date(article.publishedAt).toLocaleString()}
-Content: ${article.content || article.description || 'No content available'}
-`;
-  }).join('\n\n');
+// --- Remove local fetchLatestAINews function ---
+// async function fetchLatestAINews(count = 5) { ... }
+// --- End Remove local fetchLatestAINews function ---
 
-  const prompt = `Please summarize the following AI news articles in a newsletter format:
+// --- Remove local summarizeNewsWithOpenAI function ---
+// async function summarizeNewsWithOpenAI(articles) { ... }
+// --- End Remove local summarizeNewsWithOpenAI function ---
 
-${articlesText}
 
-For each article:
-1. Create a concise summary (2-3 sentences)
-2. Highlight key points or implications
-3. Use professional and engaging language
-
-Format the newsletter with:
-- A brief introduction about AI trends this week
-- Each article summary with its title and source
-- A brief conclusion
-
-Make it visually appealing with proper HTML formatting, including:
-- Responsive design
-- Professional color scheme
-- Clear section headers
-- Proper spacing and alignment
-
-The newsletter should be ready to send via email.`;
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert AI news analyst helping to create a professional newsletter. Your output should be complete, valid HTML that can be directly used in an email newsletter. IMPORTANT: Do NOT include any markdown code block markers like ```html or ``` in your response - just output the pure HTML directly."
-        },
-        {
-          role: "user",
-          content: prompt
-        }
-      ]
-    });
-
-    console.log('Successfully received response from OpenAI!');
-    return response.choices[0].message.content;
-  } catch (error) {
-    console.error('Error summarizing news with OpenAI:', error);
-    throw error;
-  }
-}
-
-// Function to convert HTML to plain text
+// Function to convert HTML to plain text (keep this)
 function htmlToPlainText(html) {
   // Remove HTML tags
   let text = html.replace(/<style[^>]*>.*?<\/style>/gs, '')
@@ -114,35 +55,48 @@ function htmlToPlainText(html) {
     .replace(/<[^>]*>/g, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  
+
   // Replace common HTML entities
   text = text.replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
     .replace(/&#39;/g, "'");
-  
-  // Add line breaks for readability
-  text = text.replace(/\. /g, '.\n');
-  
+
+  // Add line breaks for readability (adjust as needed)
+  text = text.replace(/<\/p>/gi, '\n')
+             .replace(/<br\s*\/?>/gi, '\n')
+             .replace(/<\/h[1-6]>/gi, '\n\n');
+
+  // Remove remaining tags after line breaks are added
+  text = text.replace(/<[^>]*>/g, '');
+
+  // Decode entities again after tag removal
+  text = text.replace(/&nbsp;/g, ' ')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
+    .replace(/&#39;/g, "'");
+
   // Clean up multiple line breaks
-  text = text.replace(/\n\s*\n/g, '\n\n');
-  
+  text = text.replace(/\n\s*\n/g, '\n\n').trim();
+
   return text;
 }
 
-// Function to send emails with Gmail
-async function sendWithGmail(htmlContent) {
+// Function to send emails with Gmail (modified for Supabase)
+async function sendWithGmail(htmlContent, emailSubject) {
   console.log('Setting up Gmail transport...');
-  
+
   // Create plain text version of the newsletter
   const plainTextContent = htmlToPlainText(htmlContent);
-  
+
   // Save plain text version to file for reference
-  fs.writeFileSync(path.join(__dirname, 'latest-ai-news.txt'), plainTextContent);
-  console.log(`Plain text newsletter saved to: ${path.join(__dirname, 'latest-ai-news.txt')}`);
-  
+  fs.writeFileSync(outputTextPath, plainTextContent);
+  console.log(`Plain text newsletter saved to: ${outputTextPath}`);
+
   // Create transporter
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
@@ -153,7 +107,7 @@ async function sendWithGmail(htmlContent) {
       pass: process.env.EMAIL_PASS
     }
   });
-  
+
   // Verify connection
   try {
     await transporter.verify();
@@ -162,115 +116,119 @@ async function sendWithGmail(htmlContent) {
     console.error('SMTP verification failed:', error);
     throw new Error(`Email configuration error: ${error.message}`);
   }
-  
-  // Get subscribers from multiple possible locations
-  const possiblePaths = [
-    path.join(__dirname, 'subscribers.json'), // Original location
-    '/tmp/subscribers.json', // Netlify Functions location
-    path.join(__dirname, '../netlify/functions/subscribers.json') // Another possible path
-  ];
-  
-  let subscribers = [];
-  let subscribersFound = false;
-  
-  // Try each possible path
-  for (const subscribersPath of possiblePaths) {
-    if (fs.existsSync(subscribersPath)) {
-      try {
-        const data = fs.readFileSync(subscribersPath, 'utf8');
-        const parsedData = JSON.parse(data);
-        
-        // Merge with existing subscribers, avoiding duplicates
-        for (const sub of parsedData) {
-          if (!subscribers.some(existing => existing.email === sub.email)) {
-            subscribers.push(sub);
-          }
-        }
-        
-        console.log(`Found ${parsedData.length} subscribers in ${subscribersPath}`);
-        subscribersFound = true;
-      } catch (error) {
-        console.error(`Error reading from ${subscribersPath}:`, error.message);
-      }
+
+  // --- Fetch subscribers from Supabase ---
+  console.log('Fetching subscribers from Supabase...');
+  let activeSubscribers = [];
+  try {
+    const { data, error } = await supabase
+      .from('subscriber') // Your table name
+      .select('email') // Select only the email column
+      // Add filtering if you have a status column, e.g., .eq('status', 'active');
+      // If no status column, assume all are active
+
+    if (error) {
+      throw error;
     }
+    // Ensure data is an array and map to the expected format { email: '...' }
+    activeSubscribers = (data || []).map(sub => ({ email: sub.email }));
+    console.log(`Found ${activeSubscribers.length} subscribers in Supabase.`);
+
+  } catch (error) {
+     console.error('Error fetching subscribers from Supabase:', error.message);
+     throw new Error(`Could not fetch subscribers: ${error.message}`);
   }
-  
-  if (!subscribersFound) {
-    console.warn('No subscribers file found in any location. Creating new one.');
-    fs.writeFileSync(path.join(__dirname, 'subscribers.json'), JSON.stringify([]));
-    return { success: true, sent: 0, message: 'No subscribers' };
-  }
-  
-  // Filter active subscribers
-  const activeSubscribers = subscribers.filter(sub => sub.subscribed !== false);
-  console.log(`Found ${activeSubscribers.length} active subscribers`);
-  
+  // --- End Fetch subscribers from Supabase ---
+
+
   if (activeSubscribers.length === 0) {
     console.log('No subscribers to send to.');
-    return { success: true, sent: 0, message: 'No subscribers' };
+    return { success: true, sent: 0, message: 'No subscribers found in Supabase' };
   }
-  
+
   // Prepare email with both HTML and plain text versions
   const mailOptions = {
     from: `"TechwithLC" <${process.env.EMAIL_FROM}>`,
-    subject: `TechwithLC AI News Update - ${new Date().toLocaleDateString()}`,
+    subject: emailSubject || `TechwithLC AI News Update - ${new Date().toLocaleDateString()}`, // Use subject from summary if available
     text: plainTextContent, // Plain text version
     html: htmlContent // HTML version
   };
-  
+
   // Send to each subscriber
   let successCount = 0;
   let failCount = 0;
-  
-  console.log('Sending emails to subscribers...');
+
+  console.log(`Sending emails to ${activeSubscribers.length} subscribers...`);
   for (const subscriber of activeSubscribers) {
+    if (!subscriber.email) {
+        console.warn('Skipping subscriber with missing email.');
+        failCount++;
+        continue;
+    }
     try {
       mailOptions.to = subscriber.email;
       const info = await transporter.sendMail(mailOptions);
       console.log(`Email sent to ${subscriber.email}: ${info.messageId}`);
       successCount++;
+      // Optional: Add a small delay between emails to avoid rate limits
+      await new Promise(resolve => setTimeout(resolve, 200)); // 200ms delay
     } catch (error) {
       console.error(`Failed to send to ${subscriber.email}:`, error.message);
       failCount++;
     }
   }
-  
+
   console.log(`Newsletter sent: ${successCount} successful, ${failCount} failed`);
   return { success: true, sent: successCount, failed: failCount };
 }
 
-// Main function
+// Main function (updated)
 async function main() {
-  console.log('===== TechwithLC Newsletter Sender =====');
-  
+  console.log('===== TechwithLC Newsletter Sender (Gemini + Supabase) =====');
+
   try {
-    // Step 1: Fetch latest AI news
-    const articles = await fetchLatestAINews();
-    
-    // Print article titles
-    console.log('\nArticles that will be sent:');
-    articles.forEach((article, index) => {
-      console.log(`${index + 1}. ${article.title} (${article.source.name})`);
-    });
-    
-    // Step 2: Summarize news with OpenAI
-    const htmlContent = await summarizeNewsWithOpenAI(articles);
-    
-    // Step 3: Save to file
+    // Step 1: Fetch and summarize news using Gemini (from newsService.js)
+    console.log('Fetching and summarizing news using Gemini...');
+    const summaryResult = await fetchAndSummarizeNews(); // This now uses Gemini
+
+    if (!summaryResult || !summaryResult.content) {
+        throw new Error("Failed to generate news summary content.");
+    }
+
+    const htmlContent = summaryResult.content;
+    const emailSubject = summaryResult.title; // Use the title from the summary result
+
+    // Print article titles (optional, if available in summaryResult.articles)
+    if (summaryResult.articles && summaryResult.articles.length > 0) {
+        console.log('\nOriginal articles fetched:');
+        summaryResult.articles.forEach((article, index) => {
+          console.log(`${index + 1}. ${article.title} (${article.source?.name || 'Unknown'})`);
+        });
+    } else {
+        console.log('\nNo original article details available in summary result.');
+    }
+
+    // Step 2: Save summary to file
     fs.writeFileSync(outputPath, htmlContent);
     console.log(`\nNewsletter HTML saved to: ${outputPath}`);
-    
-    // Step 4: Send with Gmail
-    console.log('\nSending newsletter with Gmail...');
-    const result = await sendWithGmail(htmlContent);
-    
+
+    // Step 3: Send with Gmail to Supabase subscribers
+    console.log('\nSending newsletter via Gmail to Supabase subscribers...');
+    const result = await sendWithGmail(htmlContent, emailSubject); // Pass subject
+
     if (result.success) {
       console.log('\n===== Newsletter Sending Complete =====');
-      console.log(`\nSuccessfully sent newsletters to ${result.sent} subscribers!`);
+      console.log(`Successfully sent newsletters to ${result.sent} subscribers!`);
+      if (result.failed > 0) {
+          console.log(`Failed to send to ${result.failed} subscribers.`);
+      }
       console.log('Check your inbox (and spam folder) for the newsletter.');
+    } else {
+       console.error('\n===== Newsletter Sending Failed =====');
+       console.error(`Message: ${result.message || 'Unknown error'}`);
     }
   } catch (error) {
-    console.error('\nError in newsletter sending:', error);
+    console.error('\nError in main newsletter process:', error.message);
     process.exit(1);
   }
 }
