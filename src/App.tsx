@@ -4,12 +4,12 @@ import { useLanguage } from './contexts/LanguageContext';
 import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
 
-// --- Initialize Supabase Client using Environment Variables ---
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// --- Initialize Supabase Client using Environment Variables (via process.env as defined in vite.config.ts) ---
+const supabaseUrl = process.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase URL or Anon Key is missing. Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file.');
+  console.error('Supabase URL or Anon Key is missing. Check .env file and vite.config.ts define section.');
   // Optionally, throw an error or render an error message component
   // throw new Error('Supabase configuration is missing.'); 
 }
