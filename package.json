@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node build.js",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-rss": "node ./server/serverless/newsletter-function.js --local"
