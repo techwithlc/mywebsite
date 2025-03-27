@@ -1,7 +1,0 @@
-{
-  "webhookSecret": "YOUR_WEBHOOK_SECRET_HERE",
-  "webhookEndpoint": "/api/webhook/newsletter",
-  "allowedIPs": [],
-  "lastTriggered": null,
-  "enabled": true
-}
