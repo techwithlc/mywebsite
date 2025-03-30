@@ -364,15 +364,15 @@ function App() {
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {[
                 {
-                  title: 'Tech Podcast - 歐趴',
-                  description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa',
+                  title: t.projects.podcast.title, // Use translation
+                  description: t.projects.podcast.description, // Use translation
                   tech: ['Podcast', 'Tech Trends', 'Innovation'],
                   spotifyEmbed: true,
                   embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
                 },
                 {
-                  title: 'TechwithLC YouTube',
-                  description: 'Tech tutorials, cloud computing insights, and career development tips',
+                  title: t.projects.youtube.title, // Use translation
+                  description: t.projects.youtube.description, // Use translation
                   tech: ['YouTube', 'Tech Content', 'Tutorials'],
                   youtubeEmbed: true,
                   embedUrl: latestVideoId 
@@ -380,8 +380,8 @@ function App() {
                     : `https://www.youtube.com/embed?listType=user_uploads&list=${YOUTUBE_CHANNEL_USERNAME}`
                 },
                 {
-                  title: 'Google Taiwan Interview Experience',
-                  description: '深入分享 Google 台灣的面試過程與寶貴經驗',
+                  title: t.projects.interview.title, // Use translation
+                  description: t.projects.interview.description, // Use translation
                   tech: ['Career Growth', 'Interview Tips', 'Google'],
                   mediumEmbed: false,
                   link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
