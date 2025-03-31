@@ -10,6 +10,14 @@ on:
 jobs:
   newsletter-automation:
     runs-on: ubuntu-latest
+    # Define secrets at the job level
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      EMAIL_USER: ${{ secrets.EMAIL_USER }}
+      EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -35,25 +43,13 @@ jobs:
           if [ -n "$SUPABASE_ANON_KEY" ]; then echo "SUPABASE_ANON_KEY: Set"; else echo "SUPABASE_ANON_KEY: NOT SET"; fi
           if [ -n "$EMAIL_USER" ]; then echo "EMAIL_USER: Set"; else echo "EMAIL_USER: NOT SET"; fi
           if [ -n "$EMAIL_PASS" ]; then echo "EMAIL_PASS: Set"; else echo "EMAIL_PASS: NOT SET"; fi
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        # Env block removed from step, will inherit from job
 
       - name: Send AI Newsletter to Subscribers
         run: |
           cd server
           node send-newsletter.js
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        # Env block removed from step, will inherit from job
 
       - name: Commit and push updated newsletter
         run: |
