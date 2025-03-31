@@ -35,8 +35,6 @@ jobs:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
 
