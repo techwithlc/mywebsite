@@ -7,7 +7,10 @@ import fs from 'fs'; // Import fs module
 import path from 'path'; // Import path module
 import { fileURLToPath } from 'url'; // Import url module
 
-dotenv.config();
+// Load .env file only if not in production/CI environment
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'ci') {
+  dotenv.config();
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Define __dirname
 

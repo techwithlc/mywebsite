@@ -9,8 +9,10 @@ import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js'; // Import Supabase client
 import { fetchAndSummarizeNews } from './services/newsService.js'; // Import the updated function
 
-// Load environment variables
-dotenv.config();
+// Load .env file only if not in production/CI environment
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'ci') {
+  dotenv.config();
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.join(__dirname, 'latest-ai-news.html');
@@ -20,7 +22,8 @@ const outputTextPath = path.join(__dirname, 'latest-ai-news.txt'); // Define tex
 let supabase;
 try {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
-     console.error('SUPABASE_URL or SUPABASE_ANON_KEY missing in .env file.');
+     // Corrected error message
+     console.error('Required environment variables SUPABASE_URL or SUPABASE_ANON_KEY are missing.');
      process.exit(1);
   } else {
      supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
