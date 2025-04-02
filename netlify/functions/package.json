@@ -1,0 +1,14 @@
+{
+  "name": "mywebsite-netlify-functions",
+  "version": "1.0.0",
+  "description": "Dependencies for Netlify functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0" 
+  }
+}

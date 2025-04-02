@@ -1,27 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
-import { createClient } from '@supabase/supabase-js';
 import axios from 'axios';
+import EmbedFacade from './components/EmbedFacade'; // Import the new component
 
-// --- Initialize Supabase Client using Standard Vite Environment Variables ---
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase URL or Anon Key is missing. Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your .env file for local development and configured in your deployment environment (e.g., Netlify).');
-  // Optionally, throw an error or render an error message component
-  // throw new Error('Supabase configuration is missing.'); 
-}
-
-// Initialize Supabase only if keys are present
-const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
-
-// Optional: Log for debugging (remove in production)
-console.log('Supabase URL loaded:', !!supabaseUrl); 
-console.log('Supabase Anon Key loaded:', !!supabaseAnonKey);
-console.log('Supabase client initialized:', !!supabase);
-// --- End Supabase Client Initialization ---
+// --- Supabase Client Initialization Removed ---
 
 // YouTube channel username for RSS feed
 const YOUTUBE_CHANNEL_USERNAME = '@techwithlc';
@@ -86,82 +69,56 @@ function App() {
     fetchLatestYouTubeVideo();
   }, []);
   
-  // Subscription handler with enhanced error handling
-  // --- Updated Subscription Handler ---
+  // --- Subscription Handler using Netlify Function ---
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
     setSubscribeMessage('');
-    setSubscribeSuccess(false); // Reset success state
+    setSubscribeSuccess(false);
+
+    if (!subscribeEmail.trim() || !/\S+@\S+\.\S+/.test(subscribeEmail)) {
+      setSubscribeMessage('Please enter a valid email address');
+      setSubscribeSuccess(false);
+      setIsSubscribing(false);
+      return;
+    }
 
     try {
-      if (!subscribeEmail.trim() || !/\S+@\S+\.\S+/.test(subscribeEmail)) { // Basic email validation
-        setSubscribeMessage('Please enter a valid email address');
-        setSubscribeSuccess(false);
-        setIsSubscribing(false);
-        return;
+      const response = await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: subscribeEmail }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Use message from server response if available, otherwise generic error
+        throw new Error(result.message || `Server error: ${response.status}`);
       }
 
-      // Convert email to lowercase for consistent checking and storage
-      const lowerCaseEmail = subscribeEmail.trim().toLowerCase();
+      // Handle success (including already subscribed)
+      setSubscribeMessage(result.message);
+      setSubscribeSuccess(result.success || false); // Use success flag from server
 
-      // Ensure supabase client is initialized before using it
-      if (!supabase) {
-        throw new Error('Supabase client is not initialized. Check environment variables.');
-      }
-
-      // --- Check if email already exists (case-insensitive) ---
-      const { data: existingSubscribers, error: selectError } = await supabase
-        .from('subscriber')
-        .select('email')
-        .eq('email', lowerCaseEmail) // Use lowercase email for check
-        .limit(1);
-
-      if (selectError) {
-        console.error('Supabase select error:', selectError);
-        throw new Error('Failed to check subscription status. Please try again.');
-      }
-
-      if (existingSubscribers && existingSubscribers.length > 0) {
-        setSubscribeMessage('This email is already subscribed.');
-        setSubscribeSuccess(true); // Treat as success if already subscribed
-        setIsSubscribing(false);
-        return; // Exit if already subscribed
-      }
-      // --- End check ---
-
-      // Insert email into Supabase 'subscriber' table if it doesn't exist
-      // Ensure supabase client is initialized before using it
-      if (!supabase) {
-        throw new Error('Supabase client is not initialized. Check environment variables.');
-      }
-      const { error: insertError } = await supabase
-        .from('subscriber') // Your table name
-        .insert([{ email: lowerCaseEmail }]); // Use lowercase email for insert
-
-      if (insertError) {
-        // Handle potential insert errors (though unique constraint is less likely now)
-        console.error('Supabase insert error:', insertError);
-        throw new Error(insertError.message || 'Subscription failed during insert. Please try again.');
-      } else {
-        // Success
-        setSubscribeMessage('Subscription successful!');
-        setSubscribeSuccess(true);
+      if (result.success) {
         setTimeout(() => {
-          setSubscribeEmail('');
+          setSubscribeEmail(''); // Clear email only on successful new subscription or if already subscribed
           setSubscribeMessage('');
         }, 3000);
       }
 
     } catch (error) {
-      console.error('Subscription error:', error);
-      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please try again later.');
+      console.error('Subscription fetch error:', error);
+      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please check your connection and try again.');
       setSubscribeSuccess(false);
     } finally {
       setIsSubscribing(false);
     }
   };
-  // --- End Updated Subscription Handler ---
+  // --- End Netlify Function Subscription Handler ---
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -389,31 +346,23 @@ function App() {
               ].map((project) => (
                 <div key={project.title}
                   className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
-                  {/* Top Section (Embed/Image) - Fixing height consistency */}
+                  {/* Top Section (Embed/Image) - Using EmbedFacade */}
                   <div className="flex-shrink-0 h-[352px] w-full">
                     {project.spotifyEmbed ? (
-                      <iframe
-                        src={project.embedUrl}
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        allowFullScreen
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                        className="w-full h-full"
+                      <EmbedFacade
+                        embedUrl={project.embedUrl}
+                        title={project.title}
+                        type="spotify"
                       />
                     ) : project.youtubeEmbed ? (
-                      <iframe
-                        src={project.embedUrl}
-                        width="100%"
-                        height="100%"
-                        frameBorder="0"
-                        allowFullScreen
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        loading="lazy"
-                        className="w-full h-full"
+                      <EmbedFacade
+                        embedUrl={project.embedUrl}
+                        title={project.title}
+                        type="youtube"
+                        // Optional: Add thumbnailUrl if you have one for YouTube
                       />
                     ) : (
+                      // Keep the Medium link as is
                       <a href={project.link}
                          target="_blank"
                          rel="noopener noreferrer"
