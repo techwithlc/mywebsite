@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp } from 'lucide-react';
+import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp, BookOpen } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
 import axios from 'axios';
-import EmbedFacade from './components/EmbedFacade'; // Import the new component
+import EmbedFacade from './components/EmbedFacade';
+import WebsitePreview from './components/WebsitePreview';
+import BlogList from './components/BlogList';
+import SponsorSection from './components/SponsorSection';
+import { getFeaturedPosts } from './config/blogPosts';
 
 // --- Supabase Client Initialization Removed ---
 
@@ -18,12 +22,14 @@ function App() {
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [latestVideoId, setLatestVideoId] = useState('');
+  const [showSponsorModal, setShowSponsorModal] = useState(false);
 
   const navItems = [
-    { label: 'Home', href: '#' },
-    { label: 'Tech Stack', href: '#tech' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' }
+    { label: t.nav.home, href: '#' },
+    { label: t.nav.techStack, href: '#tech' },
+    { label: t.nav.projects, href: '#projects' },
+    { label: t.nav.blog, href: '#blog' },
+    { label: t.nav.contact, href: '#contact' }
   ];
   
   useEffect(() => {
@@ -153,6 +159,7 @@ function App() {
               <a href="#" className="hover:text-blue-400 transition-colors">{t.nav.home}</a>
               <a href="#tech" className="hover:text-blue-400 transition-colors">{t.nav.techStack}</a>
               <a href="#projects" className="hover:text-blue-400 transition-colors">{t.nav.projects}</a>
+              <a href="#blog" className="hover:text-blue-400 transition-colors">{t.nav.blog}</a>
               <a href="#contact" className="hover:text-blue-400 transition-colors">{t.nav.contact}</a>
             </div>
 
@@ -184,7 +191,7 @@ function App() {
             {navItems.map(item => (
               <a key={item.label}
                  href={item.href}
-                 className="block px-6 py-2 hover:bg-gray-700"
+                 className="block px-6 py-2 hover:bg-gray-700 transition-colors"
                  onClick={() => setIsMenuOpen(false)}>
                 {item.label}
               </a>
@@ -318,18 +325,18 @@ function App() {
                 {t.projects.description}
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
               {[
                 {
-                  title: t.projects.podcast.title, // Use translation
-                  description: t.projects.podcast.description, // Use translation
+                  title: t.projects.podcast.title,
+                  description: t.projects.podcast.description,
                   tech: ['Podcast', 'Tech Trends', 'Innovation'],
                   spotifyEmbed: true,
                   embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator'
                 },
                 {
-                  title: t.projects.youtube.title, // Use translation
-                  description: t.projects.youtube.description, // Use translation
+                  title: t.projects.youtube.title,
+                  description: t.projects.youtube.description,
                   tech: ['YouTube', 'Tech Content', 'Tutorials'],
                   youtubeEmbed: true,
                   embedUrl: latestVideoId 
@@ -337,87 +344,103 @@ function App() {
                     : `https://www.youtube.com/embed?listType=user_uploads&list=${YOUTUBE_CHANNEL_USERNAME}`
                 },
                 {
-                  title: t.projects.interview.title, // Use translation
-                  description: t.projects.interview.description, // Use translation
+                  title: t.projects.interview.title,
+                  description: t.projects.interview.description,
                   tech: ['Career Growth', 'Interview Tips', 'Google'],
                   mediumEmbed: false,
                   link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3'
+                },
+                {
+                  title: t.projects.coffeeLover.title,
+                  description: t.projects.coffeeLover.description,
+                  tech: ['React', 'TypeScript', 'Tailwind CSS', 'Netlify'],
+                  websitePreview: true,
+                  link: 'https://coffeelover.fun'
                 }
               ].map((project) => (
-                <div key={project.title}
-                  className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
-                  {/* Top Section (Embed/Image) - Using EmbedFacade */}
-                  <div className="flex-shrink-0 h-[352px] w-full">
-                    {project.spotifyEmbed ? (
-                      <EmbedFacade
-                        embedUrl={project.embedUrl}
-                        title={project.title}
-                        type="spotify"
-                      />
-                    ) : project.youtubeEmbed ? (
-                      <EmbedFacade
-                        embedUrl={project.embedUrl}
-                        title={project.title}
-                        type="youtube"
-                        // Optional: Add thumbnailUrl if you have one for YouTube
-                      />
-                    ) : (
-                      // Keep the Medium link as is
-                      <a href={project.link}
-                         target="_blank"
-                         rel="noopener noreferrer"
-                         className="block bg-gradient-to-br from-gray-100 to-white h-full w-full relative group overflow-hidden flex items-center justify-center">
-                        <div className="transition-transform group-hover:scale-110">
-                          <svg viewBox="0 0 24 24" className="w-20 h-20">
-                            <path
-                              fill="#4285F4"
-                              d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
-                            />
-                            <path
-                              fill="#34A853"
-                              d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z"
-                            />
-                            <path
-                              fill="#FBBC05"
-                              d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 000 10.76l3.98-3.09z"
-                            />
-                            <path
-                              fill="#EA4335"
-                              d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
-                            />
-                          </svg>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
-                          <span className="text-white font-medium">Read on Medium</span>
-                        </div>
+{project.websitePreview ? (
+                  <WebsitePreview
+                    key={project.title}
+                    title={project.title}
+                    description={project.description}
+                    url={project.link}
+                    tech={project.tech}
+                  />
+                ) : (
+                  <div key={project.title}
+                    className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
+                    {/* Top Section (Embed/Image) - Using EmbedFacade */}
+                    <div className="flex-shrink-0 h-[352px] w-full">
+                      {project.spotifyEmbed ? (
+                        <EmbedFacade
+                          embedUrl={project.embedUrl}
+                          title={project.title}
+                          type="spotify"
+                        />
+                      ) : project.youtubeEmbed ? (
+                        <EmbedFacade
+                          embedUrl={project.embedUrl}
+                          title={project.title}
+                          type="youtube"
+                        />
+                      ) : (
+                        // Keep the Medium link as is
+                        <a href={project.link}
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           className="block bg-gradient-to-br from-gray-100 to-white h-full w-full relative group overflow-hidden flex items-center justify-center">
+                          <div className="transition-transform group-hover:scale-110">
+                            <svg viewBox="0 0 24 24" className="w-20 h-20">
+                              <path
+                                fill="#4285F4"
+                                d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"
+                              />
+                              <path
+                                fill="#34A853"
+                                d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.565 24 12.255 24z"
+                              />
+                              <path
+                                fill="#FBBC05"
+                                d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 000 10.76l3.98-3.09z"
+                              />
+                              <path
+                                fill="#EA4335"
+                                d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.69 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent">
+                            <span className="text-white font-medium">Read on Medium</span>
+                          </div>
+                        </a>
+                      )}
+                    </div>
+                    {/* Bottom Section (Text Content) - Consistent padding and spacing */}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <a
+                        href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-blue-400 transition-colors"
+                      >
+                        <h3 className="text-xl font-bold mb-2 transition-colors">
+                          {project.title}
+                        </h3>
                       </a>
-                    )}
-                  </div>
-                  {/* Bottom Section (Text Content) - Consistent padding and spacing */}
-                  <div className="p-6 flex flex-col flex-grow">
-                    <a
-                      href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-blue-400 transition-colors"
-                    >
-                      <h3 className="text-xl font-bold mb-2 transition-colors">
-                        {project.title}
-                      </h3>
-                    </a>
-                    <p className="text-gray-300 mb-4 flex-grow">
-                      {project.youtubeEmbed ? t.youtube.description : project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {project.tech.map((tag) => (
-                        <span key={tag}
-                              className="bg-blue-500/10 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/20">
-                          {tag}
-                        </span>
-                      ))}
+                      <p className="text-gray-300 mb-4 flex-grow">
+                        {project.youtubeEmbed ? t.youtube.description : project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mt-auto">
+                        {project.tech.map((tag) => (
+                          <span key={tag}
+                                className="bg-blue-500/10 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/20">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               ))}
             </div>
           </div>

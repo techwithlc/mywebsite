@@ -4,6 +4,7 @@ export const translations = {
       home: 'Home',
       techStack: 'Tech Stack',
       projects: 'Projects',
+      blog: 'Blog',
       contact: 'Contact'
     },
     hero: {
@@ -31,7 +32,38 @@ export const translations = {
       interview: {
         title: 'Google Taiwan Interview Experience',
         description: 'In-depth sharing of Google Taiwan interview process and valuable experience'
+      },
+      coffeeLover: {
+        title: 'Coffee Lover - Personal Website',
+        description: 'A modern, responsive personal website showcasing projects and technical expertise'
       }
+    },
+    blog: {
+      title: 'Tech Blog',
+      subtitle: 'Latest Articles',
+      description: 'Insights on AI, cloud computing, career development, and technology trends',
+      readMore: 'Read More',
+      readTime: 'min read',
+      categories: {
+        all: 'All',
+        ai: 'AI',
+        cloud: 'Cloud Computing',
+        career: 'Career Development',
+        tutorials: 'Tutorials'
+      },
+      search: {
+        placeholder: 'Search articles...',
+        noResults: 'No articles found',
+        results: 'articles found'
+      }
+    },
+    sponsor: {
+      title: 'Support My Work',
+      subtitle: 'Buy Me a Coffee',
+      description: 'If you find my content helpful, consider supporting my work',
+      buyMeCoffee: 'Buy Me a Coffee',
+      paypal: 'Support via PayPal',
+      thanks: 'Thank you for your support!'
     },
     contact: {
       title: 'Get in Touch',
@@ -89,6 +121,7 @@ export const translations = {
       home: '首頁',
       techStack: '技術棧',
       projects: '專案作品',
+      blog: '部落格',
       contact: '聯絡方式'
     },
     hero: {
@@ -116,7 +149,38 @@ export const translations = {
       interview: {
         title: 'Google 台灣面試經驗',
         description: '深入分享 Google 台灣的面試過程與寶貴經驗'
+      },
+      coffeeLover: {
+        title: 'Coffee Lover - 個人網站',
+        description: '現代化響應式個人網站，展示專案作品與技術專業'
       }
+    },
+    blog: {
+      title: '技術部落格',
+      subtitle: '最新文章',
+      description: 'AI、雲端運算、職涯發展與技術趨勢的深度見解',
+      readMore: '閱讀更多',
+      readTime: '分鐘閱讀',
+      categories: {
+        all: '全部',
+        ai: 'AI',
+        cloud: '雲端運算',
+        career: '職涯發展',
+        tutorials: '教學'
+      },
+      search: {
+        placeholder: '搜尋文章...',
+        noResults: '找不到文章',
+        results: '篇文章'
+      }
+    },
+    sponsor: {
+      title: '支持我的工作',
+      subtitle: '請我喝杯咖啡',
+      description: '如果您覺得我的內容有幫助，歡迎支持我的創作',
+      buyMeCoffee: '請我喝咖啡',
+      paypal: '透過 PayPal 支持',
+      thanks: '感謝您的支持！'
     },
     contact: {
       title: '聯絡方式',

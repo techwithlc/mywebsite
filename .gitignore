@@ -35,3 +35,13 @@ dist-ssr
 # Generated newsletter files
 server/latest-ai-news.html
 server/latest-ai-news.txt
+
+# Added by Task Master AI
+dev-debug.log
+# Dependency directories
+node_modules/
+.vscode
+# OS specific
+# Task files
+tasks.json
+tasks/ 
