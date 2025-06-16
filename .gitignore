@@ -44,4 +44,24 @@ node_modules/
 # OS specific
 # Task files
 tasks.json
-tasks/ 
+tasks/
+
+# Additional security-related files
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+config/secrets.*
+.secrets/
+*.backup
+*.bak
+.cache/
+coverage/
+.nyc_output/
+
+# API keys and credentials (extra protection)
+**/config/keys.js
+**/config/prod.js
+firebase-config.js
+google-services.json 

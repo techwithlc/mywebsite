@@ -3,9 +3,19 @@ AddType application/javascript .mjs
 AddType text/css .css
 AddType text/html .html
 
-# Enable CORS
+# Security Headers
 <IfModule mod_headers.c>
-    Header set Access-Control-Allow-Origin "*"
+    # CORS - Restrict to specific domain instead of wildcard (*)
+    # This fixes the security vulnerability of allowing all origins
+    Header set Access-Control-Allow-Origin "https://coffeelover.fun"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    
+    # Additional security headers to prevent common attacks
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
 # Handle routing for SPA
