@@ -175,7 +175,7 @@ function App() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <a href="#" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#ec9c7c] to-[#c39a6c] rounded-xl flex items-center justify-center shadow-lg">
                 <Code2 className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-bold text-gray-900">
@@ -592,7 +592,7 @@ function App() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#ec9c7c] to-[#c39a6c] rounded-xl flex items-center justify-center">
                   <Code2 className="w-6 h-6 text-white" />
                 </div>
                 <span className="text-2xl font-bold text-white">
