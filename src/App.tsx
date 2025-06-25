@@ -19,6 +19,7 @@ function App() {
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [latestVideoId, setLatestVideoId] = useState('');
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   const navItems = [
     { label: t.nav.home, href: '#' },
@@ -35,6 +36,11 @@ function App() {
       } else {
         setShowScrollTop(false);
       }
+      
+      // Calculate scroll progress for text morphing (0 = AI, 1 = TechwithLC)
+      const maxScroll = 800; // Distance to complete the transformation
+      const progress = Math.min(window.scrollY / maxScroll, 1);
+      setScrollProgress(progress);
     };
     
     window.addEventListener('scroll', handleScroll);
@@ -129,6 +135,28 @@ function App() {
     });
   };
 
+  // Morphing text animation from "AI" to "TechwithLC"
+  const getMorphedText = (progress: number) => {
+    const startText = "AI";
+    const endText = "TechwithLC";
+    
+    if (progress <= 0) return startText;
+    if (progress >= 1) return endText;
+    
+    // Create smooth character-by-character morphing
+    const totalChars = endText.length;
+    
+    // For the first 30% of scroll, keep "AI"
+    if (progress < 0.3) return startText;
+    
+    // From 30% to 100%, gradually reveal "TechwithLC"
+    const morphProgress = (progress - 0.3) / 0.7;
+    const charsToShow = Math.floor(morphProgress * totalChars);
+    
+    if (charsToShow < 2) return startText;
+    return endText.substring(0, charsToShow);
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f5f3] text-gray-900 relative">
       {/* Anthropic-inspired background pattern */}
@@ -212,9 +240,23 @@ function App() {
                 <span className="text-indigo-700 font-medium text-sm">{t.hero.welcome}</span>
               </div>
               
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight text-gray-900 tracking-tight">
-                {t.hero.title}
-              </h1>
+              {/* Morphing Text Animation */}
+              <div className="mb-8">
+                <h1 className="text-6xl md:text-8xl font-bold leading-tight text-gray-900 tracking-tight mb-4">
+                  <span 
+                    className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent transition-all duration-300 ease-out inline-block"
+                    style={{
+                      transform: `scale(${1 + scrollProgress * 0.1})`,
+                      filter: `blur(${(1 - scrollProgress) * 2}px)`
+                    }}
+                  >
+                    {getMorphedText(scrollProgress)}
+                  </span>
+                </h1>
+                <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 transition-all duration-500">
+                  {t.hero.title}
+                </h2>
+              </div>
               
               <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 {t.hero.subtitle}
