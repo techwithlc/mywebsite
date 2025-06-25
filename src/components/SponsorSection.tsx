@@ -93,11 +93,11 @@ const SponsorSection: React.FC<SponsorSectionProps> = ({
   if (showModal) {
     return (
       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl max-w-md w-full relative border border-gray-200 shadow-2xl">
+        <div className="bg-[#faf9f7] rounded-3xl max-w-md w-full relative border border-[#e8e4df] shadow-2xl">
           {onClose && (
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                              className="absolute top-4 right-4 p-2 hover:bg-[#ede9e4] rounded-xl transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -109,7 +109,7 @@ const SponsorSection: React.FC<SponsorSectionProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-lg">
+    <div className="bg-[#faf9f7] rounded-2xl border border-[#e8e4df] shadow-lg">
       <SponsorContent />
     </div>
   );

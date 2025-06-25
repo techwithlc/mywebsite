@@ -130,16 +130,20 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 relative">
-      {/* Subtle background pattern */}
+    <div className="min-h-screen bg-[#f7f5f3] text-gray-900 relative">
+      {/* Anthropic-inspired background pattern */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-blue-50/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_transparent_0%,_rgba(120,119,198,0.05)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_transparent_0%,_rgba(255,255,255,0.8)_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#f9f7f5] via-[#f7f5f3] to-[#f5f3f1]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_75%,_rgba(236,156,124,0.08)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,_rgba(195,154,108,0.06)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(236,156,124,0.15) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }} />
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-xl z-50 border-b border-gray-200/50">
+      <nav className="fixed top-0 left-0 right-0 bg-[#f7f5f3]/90 backdrop-blur-xl z-50 border-b border-[#e5e1dc]/50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <a href="#" className="flex items-center gap-3">
@@ -164,7 +168,7 @@ function App() {
               {/* Language Switch */}
               <button 
                 onClick={toggleLanguage}
-                className="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all flex items-center gap-2 text-sm font-medium text-gray-700"
+                className="px-3 py-2 bg-[#ede9e4] hover:bg-[#e5e1dc] rounded-lg transition-all flex items-center gap-2 text-sm font-medium text-gray-700"
                 aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
               >
                 <span>{language === 'en' ? '中文' : 'EN'}</span>
@@ -172,7 +176,7 @@ function App() {
 
               {/* Mobile Menu Button */}
               <button 
-                className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="md:hidden p-2 hover:bg-[#ede9e4] rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -183,12 +187,12 @@ function App() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200">
+          <div className="md:hidden bg-[#f7f5f3] border-t border-[#e5e1dc]">
             <div className="py-4">
               {navItems.map(item => (
                 <a key={item.label}
                    href={item.href}
-                   className="block px-6 py-3 text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-colors font-medium"
+                   className="block px-6 py-3 text-gray-700 hover:text-indigo-600 hover:bg-[#ede9e4] transition-colors font-medium"
                    onClick={() => setIsMenuOpen(false)}>
                   {item.label}
                 </a>
@@ -224,7 +228,7 @@ function App() {
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
                 <a href="#contact" 
-                   className="group inline-flex items-center justify-center gap-2 bg-white text-gray-900 px-8 py-4 rounded-xl font-semibold border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all">
+                   className="group inline-flex items-center justify-center gap-2 bg-[#faf9f7] text-gray-900 px-8 py-4 rounded-xl font-semibold border border-[#e8e4df] hover:border-[#ddd7d0] hover:bg-[#f5f3f1] transition-all">
                   <Mail className="w-5 h-5" />
                   {t.buttons.getInTouch}
                 </a>
@@ -234,7 +238,7 @@ function App() {
         </section>
 
         {/* Tech Stack Section */}
-        <section id="tech" className="border-t border-gray-200 py-20 bg-gray-50/50">
+        <section id="tech" className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
           <div className="container mx-auto px-6">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-16">
@@ -290,7 +294,7 @@ function App() {
                   }
                 ].map((tech) => (
                   <div key={tech.name} 
-                       className="bg-white rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-200 hover:border-indigo-200 group cursor-pointer">
+                       className="bg-[#faf9f7] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-[#e8e4df] hover:border-indigo-200 group cursor-pointer">
                     <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
                       {tech.icon}
                     </div>
@@ -304,7 +308,7 @@ function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="border-t border-gray-200 py-20">
+        <section id="projects" className="border-t border-[#e5e1dc] py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-16">
@@ -366,7 +370,7 @@ function App() {
                   } else {
                     return (
                       <div key={project.title}
-                        className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full group">
+                        className="bg-[#faf9f7] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#e8e4df] flex flex-col h-full group">
                         {/* Top Section (Embed/Image) - Using EmbedFacade */}
                         <div className="flex-shrink-0 h-[300px] w-full overflow-hidden">
                           {project.spotifyEmbed ? (
@@ -435,7 +439,7 @@ function App() {
         </section>
 
         {/* Blog Section */}
-        <section id="blog" className="border-t border-gray-200 py-20 bg-gray-50/50">
+        <section id="blog" className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
           <div className="container mx-auto px-6">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-16">
@@ -452,7 +456,7 @@ function App() {
         </section>
 
         {/* Newsletter Section */}
-        <section className="border-t border-gray-200 py-20">
+        <section className="border-t border-[#e5e1dc] py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -468,7 +472,7 @@ function App() {
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
                   placeholder={t.newsletter.placeholder}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  className="flex-1 px-4 py-3 bg-[#faf9f7] border border-[#e8e4df] rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
                   required
                 />
                 <button
@@ -490,7 +494,7 @@ function App() {
         </section>
 
         {/* Sponsor Section */}
-        <section className="border-t border-gray-200 py-20 bg-gray-50/50">
+        <section className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <SponsorSection />
@@ -499,7 +503,7 @@ function App() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="border-t border-gray-200 py-20">
+        <section id="contact" className="border-t border-[#e5e1dc] py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -513,19 +517,19 @@ function App() {
                 <a href="https://github.com/techwithlc" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="p-4 bg-white rounded-2xl hover:shadow-lg transition-all border border-gray-200 hover:border-gray-300 group">
+                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
                   <Github className="w-6 h-6 text-gray-700 group-hover:text-gray-900" />
                 </a>
                 <a href="https://www.linkedin.com/in/klunlawrencechen/" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   className="p-4 bg-white rounded-2xl hover:shadow-lg transition-all border border-gray-200 hover:border-gray-300 group">
+                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
                   <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-blue-600" />
                 </a>
                 <a href="https://x.com/techwithlc0921"
                    target="_blank"
                    rel="noopener noreferrer"
-                   className="p-4 bg-white rounded-2xl hover:shadow-lg transition-all border border-gray-200 hover:border-gray-300 group">
+                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
                   <svg className="w-6 h-6 text-gray-700 group-hover:text-gray-900" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
@@ -533,7 +537,7 @@ function App() {
                 <a href="mailto:kuanlunlawrence.chen@gmail.com" 
                    target="_blank" 
                    rel="noopener noreferrer"
-                   className="p-4 bg-white rounded-2xl hover:shadow-lg transition-all border border-gray-200 hover:border-gray-300 group">
+                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
                   <Mail className="w-6 h-6 text-gray-700 group-hover:text-indigo-600" />
                 </a>
               </div>
@@ -542,7 +546,7 @@ function App() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-gray-200 py-12 bg-gray-900">
+        <footer className="border-t border-[#e5e1dc] py-12 bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-3 mb-8">

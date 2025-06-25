@@ -44,7 +44,7 @@ node_modules/
 # OS specific
 # Task files
 tasks.json
-tasks/
+tasks/ 
 
 # Additional security-related files
 *.key

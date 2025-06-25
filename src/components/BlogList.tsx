@@ -79,7 +79,7 @@ const BlogList: React.FC<BlogListProps> = ({
               placeholder={t.blog.search.placeholder}
               value={filter.searchTerm}
               onChange={(e) => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))}
-              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-[#faf9f7] border border-[#e8e4df] rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
             />
           </div>
 
@@ -92,7 +92,7 @@ const BlogList: React.FC<BlogListProps> = ({
                 className={`px-4 py-2 rounded-xl font-medium transition-all ${
                   filter.category === category.key
                     ? 'bg-gray-900 text-white shadow-lg'
-                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400'
+                    : 'bg-[#faf9f7] text-gray-700 hover:bg-[#f5f3f1] border border-[#e8e4df] hover:border-[#ddd7d0]'
                 }`}
               >
                 {category.label}
@@ -112,7 +112,7 @@ const BlogList: React.FC<BlogListProps> = ({
       {/* Posts Grid */}
       {filteredPosts.length === 0 ? (
         <div className="text-center py-12">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-[#ede9e4] rounded-full flex items-center justify-center mx-auto mb-4">
             <Search className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-xl font-medium text-gray-600 mb-2">
@@ -127,7 +127,7 @@ const BlogList: React.FC<BlogListProps> = ({
           {filteredPosts.map(post => (
             <article
               key={post.id}
-              className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full group"
+              className="bg-[#faf9f7] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#e8e4df] flex flex-col h-full group"
             >
               {/* Cover Image */}
               {post.coverImage ? (
@@ -187,7 +187,7 @@ const BlogList: React.FC<BlogListProps> = ({
                     {post.tags.slice(0, 3).map(tag => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200"
+                        className="inline-flex items-center gap-1 px-2 py-1 bg-[#ede9e4] text-gray-700 text-xs rounded border border-[#e8e4df]"
                       >
                         <Tag className="w-3 h-3" />
                         {tag}

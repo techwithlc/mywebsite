@@ -29,7 +29,7 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   );
 
   return (
-    <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full group">
+    <div className="bg-[#faf9f7] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#e8e4df] flex flex-col h-full group">
       {/* Website Preview Section */}
       <div className="flex-shrink-0 h-[300px] w-full relative group overflow-hidden">
         <a
@@ -41,7 +41,7 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
           {thumbnailUrl && !imageError ? (
             <>
               {!imageLoaded && (
-                <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#ede9e4] animate-pulse flex items-center justify-center">
                   <div className="w-8 h-8 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
                 </div>
               )}
