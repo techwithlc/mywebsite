@@ -157,6 +157,33 @@ function App() {
     return endText.substring(0, charsToShow);
   };
 
+  // Header logo text animation from "TechwithLC" to "AI Tech"
+  const getHeaderText = (progress: number) => {
+    const startText = "TechwithLC";
+    const endText = "AI Tech";
+    
+    if (progress <= 0) return startText;
+    if (progress >= 1) return endText;
+    
+    // Start transition at 20% scroll, complete by 60%
+    if (progress < 0.2) return startText;
+    if (progress > 0.6) return endText;
+    
+    // Smooth transition between 20% and 60%
+    const transitionProgress = (progress - 0.2) / 0.4;
+    
+    // Character-by-character morphing
+    if (transitionProgress < 0.5) {
+      // First half: gradually remove characters from "TechwithLC"
+      const charsToKeep = Math.floor((1 - transitionProgress * 2) * startText.length);
+      return charsToKeep < 3 ? "AI" : startText.substring(0, Math.max(charsToKeep, 3));
+    } else {
+      // Second half: gradually build "AI Tech"
+      const charsToShow = Math.floor((transitionProgress - 0.5) * 2 * endText.length);
+      return endText.substring(0, Math.max(charsToShow, 2));
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f7f5f3] text-gray-900 relative">
       {/* Anthropic-inspired background pattern */}
@@ -178,8 +205,8 @@ function App() {
               <div className="w-10 h-10 bg-gradient-to-br from-[#ec9c7c] to-[#c39a6c] rounded-xl flex items-center justify-center shadow-lg">
                 <Code2 className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-gray-900">
-                TechwithLC
+              <span className="text-2xl font-bold text-gray-900 transition-all duration-300 ease-out">
+                {getHeaderText(scrollProgress)}
               </span>
             </a>
             
