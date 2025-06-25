@@ -556,9 +556,9 @@ function App() {
               <p className="text-gray-400 mb-8">
                 Building the future with technology, one project at a time.
               </p>
-              <p className="text-gray-500 text-sm">
-                © 2024 TechwithLC. All rights reserved.
-              </p>
+                             <p className="text-gray-500 text-sm">
+                 © 2025 TechwithLC. All rights reserved.
+               </p>
             </div>
           </div>
         </footer>
