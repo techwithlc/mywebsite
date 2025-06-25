@@ -79,7 +79,7 @@ const BlogList: React.FC<BlogListProps> = ({
               placeholder={t.blog.search.placeholder}
               value={filter.searchTerm}
               onChange={(e) => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))}
-              className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-lg focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
             />
           </div>
 
@@ -89,10 +89,10 @@ const BlogList: React.FC<BlogListProps> = ({
               <button
                 key={category.key}
                 onClick={() => setFilter(prev => ({ ...prev, category: category.key }))}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 rounded-xl font-medium transition-all ${
                   filter.category === category.key
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                    : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700/30'
+                    ? 'bg-gray-900 text-white shadow-lg'
+                    : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 hover:border-gray-400'
                 }`}
               >
                 {category.label}
@@ -102,7 +102,7 @@ const BlogList: React.FC<BlogListProps> = ({
 
           {/* Results Count */}
           {filter.searchTerm && (
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-600">
               {filteredPosts.length} {t.blog.search.results}
             </p>
           )}
@@ -112,10 +112,10 @@ const BlogList: React.FC<BlogListProps> = ({
       {/* Posts Grid */}
       {filteredPosts.length === 0 ? (
         <div className="text-center py-12">
-          <div className="w-16 h-16 bg-gray-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Search className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-xl font-medium text-gray-400 mb-2">
+          <h3 className="text-xl font-medium text-gray-600 mb-2">
             {t.blog.search.noResults}
           </h3>
           <p className="text-gray-500">
@@ -127,7 +127,7 @@ const BlogList: React.FC<BlogListProps> = ({
           {filteredPosts.map(post => (
             <article
               key={post.id}
-              className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 border border-gray-700/30 flex flex-col h-full"
+              className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full group"
             >
               {/* Cover Image */}
               {post.coverImage ? (
@@ -135,16 +135,16 @@ const BlogList: React.FC<BlogListProps> = ({
                   <img
                     src={post.coverImage}
                     alt={post.title}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
               ) : (
-                <div className="h-48 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-12 h-12 bg-blue-500/30 rounded-lg flex items-center justify-center mx-auto mb-2">
-                      <ExternalLink className="w-6 h-6 text-blue-400" />
+                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+                      <ExternalLink className="w-6 h-6 text-indigo-600" />
                     </div>
-                    <p className="text-blue-300 font-medium">Blog Post</p>
+                    <p className="text-indigo-600 font-medium">Blog Post</p>
                   </div>
                 </div>
               )}
@@ -153,25 +153,25 @@ const BlogList: React.FC<BlogListProps> = ({
               <div className="p-6 flex flex-col flex-grow">
                 {/* Category Badge */}
                 <div className="mb-3">
-                  <span className="inline-block px-3 py-1 bg-blue-500/10 text-blue-300 text-sm rounded-full border border-blue-500/20">
+                  <span className="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-full border border-indigo-200 font-medium">
                     {categories.find(cat => cat.key === post.category)?.label || post.category}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl font-bold mb-3 text-white hover:text-blue-400 transition-colors cursor-pointer">
+                <h2 className="text-xl font-bold mb-3 text-gray-900 hover:text-indigo-600 transition-colors cursor-pointer">
                   {post.title}
                 </h2>
 
                 {/* Excerpt */}
-                <p className="text-gray-300 mb-4 flex-grow leading-relaxed">
+                <p className="text-gray-600 mb-4 flex-grow leading-relaxed">
                   {post.excerpt}
                 </p>
 
                 {/* Meta Information */}
                 <div className="space-y-3 mt-auto">
                   {/* Date and Read Time */}
-                  <div className="flex items-center gap-4 text-sm text-gray-400">
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>{formatDate(post.publishedAt)}</span>
@@ -187,21 +187,21 @@ const BlogList: React.FC<BlogListProps> = ({
                     {post.tags.slice(0, 3).map(tag => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-700/50 text-gray-300 text-xs rounded border border-gray-600/30"
+                        className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200"
                       >
                         <Tag className="w-3 h-3" />
                         {tag}
                       </span>
                     ))}
                     {post.tags.length > 3 && (
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-500">
                         +{post.tags.length - 3} more
                       </span>
                     )}
                   </div>
 
                   {/* Read More Button */}
-                  <button className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 text-blue-300 rounded-lg transition-all duration-300 border border-blue-500/30 hover:border-blue-400/50">
+                  <button className="w-full mt-4 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 font-medium">
                     {t.blog.readMore}
                   </button>
                 </div>

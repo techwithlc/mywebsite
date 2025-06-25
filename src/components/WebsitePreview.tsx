@@ -20,18 +20,18 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   const [imageError, setImageError] = useState(false);
 
   const defaultThumbnail = (
-    <div className="w-full h-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+    <div className="w-full h-full bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
       <div className="text-center">
-        <Globe className="w-16 h-16 text-blue-400 mx-auto mb-4" />
-        <p className="text-blue-300 font-medium">Website Preview</p>
+        <Globe className="w-16 h-16 text-indigo-400 mx-auto mb-4" />
+        <p className="text-indigo-600 font-medium">Website Preview</p>
       </div>
     </div>
   );
 
   return (
-    <div className="bg-gray-800/50 rounded-lg overflow-hidden hover:transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-blue-500/10 flex flex-col h-full border border-gray-700/30">
+    <div className="bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full group">
       {/* Website Preview Section */}
-      <div className="flex-shrink-0 h-[352px] w-full relative group">
+      <div className="flex-shrink-0 h-[300px] w-full relative group overflow-hidden">
         <a
           href={url}
           target="_blank"
@@ -41,8 +41,8 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
           {thumbnailUrl && !imageError ? (
             <>
               {!imageLoaded && (
-                <div className="absolute inset-0 bg-gray-700/50 animate-pulse flex items-center justify-center">
-                  <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
                 </div>
               )}
               <img
@@ -77,20 +77,20 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-blue-400 transition-colors"
+          className="hover:text-indigo-600 transition-colors"
         >
-          <h3 className="text-xl font-bold mb-2 transition-colors">
+          <h3 className="text-xl font-bold mb-3 text-gray-900 transition-colors">
             {title}
           </h3>
         </a>
-        <p className="text-gray-300 mb-4 flex-grow">
+        <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
           {description}
         </p>
         <div className="flex flex-wrap gap-2 mt-auto">
           {tech.map((tag) => (
             <span
               key={tag}
-              className="bg-blue-500/10 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/20"
+              className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium border border-indigo-200"
             >
               {tag}
             </span>
