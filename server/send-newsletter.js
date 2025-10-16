@@ -2,11 +2,8 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// Remove axios and OpenAI imports from here
-// import axios from 'axios';
-// import OpenAI from 'openai';
 import dotenv from 'dotenv';
-import { createClient } from '@supabase/supabase-js'; // Import Supabase client
+import { db } from './database/db.js'; // Import PostgreSQL database utilities
 import { fetchAndSummarizeNews } from './services/newsService.js'; // Import the updated function
 
 // Load .env file only if not in production/CI environment
@@ -18,33 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.join(__dirname, 'latest-ai-news.html');
 const outputTextPath = path.join(__dirname, 'latest-ai-news.txt'); // Define text output path
 
-// --- Initialize Supabase Client ---
-let supabase;
-try {
-  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
-     // Corrected error message
-     console.error('Required environment variables SUPABASE_URL or SUPABASE_ANON_KEY are missing.');
-     process.exit(1);
-  } else {
-     supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
-     console.log('Supabase client initialized successfully.');
-  }
-} catch (error) {
-  console.error('Error initializing Supabase client:', error);
-  process.exit(1);
-}
-// --- End Supabase Client Initialization ---
-
-// --- Remove local fetchLatestAINews function ---
-// async function fetchLatestAINews(count = 5) { ... }
-// --- End Remove local fetchLatestAINews function ---
-
-// --- Remove local summarizeNewsWithOpenAI function ---
-// async function summarizeNewsWithOpenAI(articles) { ... }
-// --- End Remove local summarizeNewsWithOpenAI function ---
-
-
-// Function to convert HTML to plain text (keep this)
+// Function to convert HTML to plain text
 function htmlToPlainText(html) {
   // Remove HTML tags
   let text = html.replace(/<style[^>]*>.*?<\/style>/gs, '')
@@ -89,7 +60,7 @@ function htmlToPlainText(html) {
   return text;
 }
 
-// Function to send emails with Gmail (modified for Supabase)
+// Function to send emails with Gmail (modified for PostgreSQL)
 async function sendWithGmail(htmlContent, emailSubject) {
   // Recommendation: For better deliverability and scalability, consider using a dedicated email service
   // provider (ESP) like SendGrid, Mailgun, AWS SES, or Resend instead of direct Gmail SMTP for newsletters.
@@ -122,33 +93,21 @@ async function sendWithGmail(htmlContent, emailSubject) {
     throw new Error(`Email configuration error: ${error.message}`);
   }
 
-  // --- Fetch subscribers from Supabase ---
-  console.log('Fetching subscribers from Supabase...');
+  // --- Fetch subscribers from PostgreSQL ---
+  console.log('Fetching subscribers from PostgreSQL...');
   let activeSubscribers = [];
   try {
-    const { data, error } = await supabase
-      .from('subscriber') // Your table name
-      .select('email') // Select only the email column
-      // Add filtering if you have a status column, e.g., .eq('status', 'active');
-      // If no status column, assume all are active
-
-    if (error) {
-      throw error;
-    }
-    // Ensure data is an array and map to the expected format { email: '...' }
-    activeSubscribers = (data || []).map(sub => ({ email: sub.email }));
-    console.log(`Found ${activeSubscribers.length} subscribers in Supabase.`);
-
+    activeSubscribers = await db.getActiveSubscribers();
+    console.log(`Found ${activeSubscribers.length} subscribers in PostgreSQL.`);
   } catch (error) {
-     console.error('Error fetching subscribers from Supabase:', error.message);
-     throw new Error(`Could not fetch subscribers: ${error.message}`);
+    console.error('Error fetching subscribers from PostgreSQL:', error.message);
+    throw new Error(`Could not fetch subscribers: ${error.message}`);
   }
-  // --- End Fetch subscribers from Supabase ---
-
+  // --- End Fetch subscribers from PostgreSQL ---
 
   if (activeSubscribers.length === 0) {
     console.log('No subscribers to send to.');
-    return { success: true, sent: 0, message: 'No subscribers found in Supabase' };
+    return { success: true, sent: 0, message: 'No subscribers found in PostgreSQL' };
   }
 
   // Prepare email with both HTML and plain text versions
@@ -170,14 +129,18 @@ async function sendWithGmail(htmlContent, emailSubject) {
   console.log(`Sending emails to ${activeSubscribers.length} subscribers...`);
   for (const subscriber of activeSubscribers) {
     if (!subscriber.email) {
-        console.warn('Skipping subscriber with missing email.');
-        failCount++;
-        continue;
+      console.warn('Skipping subscriber with missing email.');
+      failCount++;
+      continue;
     }
     try {
       mailOptions.to = subscriber.email;
       const info = await transporter.sendMail(mailOptions);
       console.log(`Email sent to ${subscriber.email}: ${info.messageId}`);
+      
+      // Update last email sent timestamp in database
+      await db.updateLastEmailSent(subscriber.email);
+      
       successCount++;
       // Optional: Add a small delay between emails to avoid rate limits
       await new Promise(resolve => setTimeout(resolve, 200)); // 200ms delay
@@ -193,15 +156,15 @@ async function sendWithGmail(htmlContent, emailSubject) {
 
 // Main function (updated)
 async function main() {
-  console.log('===== TechwithLC Newsletter Sender (Gemini + Supabase) =====');
+  console.log('===== TechwithLC Newsletter Sender (Perplexity + PostgreSQL) =====');
 
   try {
-    // Step 1: Fetch and summarize news using Gemini (from newsService.js)
-    console.log('Fetching and summarizing news using Gemini...');
-    const summaryResult = await fetchAndSummarizeNews(); // This now uses Gemini
+    // Step 1: Fetch and summarize news using Perplexity (from newsService.js)
+    console.log('Fetching and summarizing news using Perplexity...');
+    const summaryResult = await fetchAndSummarizeNews(); // This now uses Perplexity
 
     if (!summaryResult || !summaryResult.content) {
-        throw new Error("Failed to generate news summary content.");
+      throw new Error("Failed to generate news summary content.");
     }
 
     const htmlContent = summaryResult.content;
@@ -209,32 +172,32 @@ async function main() {
 
     // Print article titles (optional, if available in summaryResult.articles)
     if (summaryResult.articles && summaryResult.articles.length > 0) {
-        console.log('\nOriginal articles fetched:');
-        summaryResult.articles.forEach((article, index) => {
-          console.log(`${index + 1}. ${article.title} (${article.source?.name || 'Unknown'})`);
-        });
+      console.log('\nOriginal articles fetched:');
+      summaryResult.articles.forEach((article, index) => {
+        console.log(`${index + 1}. ${article.title} (${article.source?.name || 'Unknown'})`);
+      });
     } else {
-        console.log('\nNo original article details available in summary result.');
+      console.log('\nNo original article details available in summary result.');
     }
 
     // Step 2: Save summary to file
     fs.writeFileSync(outputPath, htmlContent);
     console.log(`\nNewsletter HTML saved to: ${outputPath}`);
 
-    // Step 3: Send with Gmail to Supabase subscribers
-    console.log('\nSending newsletter via Gmail to Supabase subscribers...');
+    // Step 3: Send with Gmail to PostgreSQL subscribers
+    console.log('\nSending newsletter via Gmail to PostgreSQL subscribers...');
     const result = await sendWithGmail(htmlContent, emailSubject); // Pass subject
 
     if (result.success) {
       console.log('\n===== Newsletter Sending Complete =====');
       console.log(`Successfully sent newsletters to ${result.sent} subscribers!`);
       if (result.failed > 0) {
-          console.log(`Failed to send to ${result.failed} subscribers.`);
+        console.log(`Failed to send to ${result.failed} subscribers.`);
       }
       console.log('Check your inbox (and spam folder) for the newsletter.');
     } else {
-       console.error('\n===== Newsletter Sending Failed =====');
-       console.error(`Message: ${result.message || 'Unknown error'}`);
+      console.error('\n===== Newsletter Sending Failed =====');
+      console.error(`Message: ${result.message || 'Unknown error'}`);
     }
   } catch (error) {
     console.error('\nError in main newsletter process:', error.message);

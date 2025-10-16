@@ -2,8 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import axios from 'axios';
-// Removed OpenAI import
-import { summarizeNewsWithGemini } from './services/newsService.js'; // Import Gemini summarizer
+import { summarizeNewsWithPerplexity } from './services/newsService.js'; // Import Perplexity summarizer
 import dotenv from 'dotenv';
 
 // Load environment variables
@@ -11,8 +10,6 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outputPath = path.join(__dirname, 'latest-ai-news.html');
-
-// Removed Resend API key and OpenAI initialization
 
 // Function to fetch latest AI news
 async function fetchLatestAINews(count = 5) {
@@ -44,12 +41,9 @@ async function fetchLatestAINews(count = 5) {
   }
 }
 
-// Removed OpenAI summarization function
-// Removed Resend sending function
-
 // Main function
 async function main() {
-  console.log('===== TechwithLC Newsletter Generation (Gemini) =====');
+  console.log('===== TechwithLC Newsletter Generation (Perplexity) =====');
 
   try {
     // Step 1: Fetch latest AI news
@@ -61,18 +55,18 @@ async function main() {
       console.log(`${index + 1}. ${article.title} (${article.source.name})`);
     });
 
-    // Step 2: Summarize news with Gemini
-    console.log('\nSummarizing news with Gemini...');
-    const summaryResult = await summarizeNewsWithGemini(articles);
+    // Step 2: Summarize news with Perplexity
+    console.log('\nSummarizing news with Perplexity...');
+    const summaryResult = await summarizeNewsWithPerplexity(articles);
     const htmlContent = summaryResult.htmlContent; // Extract HTML content
 
     // Step 3: Save to file
     fs.writeFileSync(outputPath, htmlContent);
     console.log(`\nNewsletter HTML saved to: ${outputPath}`);
 
-    // Step 4: Removed sending logic
+    // Step 4: No sending logic in this script
     console.log('\n===== Newsletter Generation Complete =====');
-    console.log('Newsletter content generated using Gemini and saved.');
+    console.log('Newsletter content generated using Perplexity and saved.');
 
   } catch (error) {
     console.error('\nError in newsletter generation:', error);

@@ -1,8 +1,5 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-// Remove OpenAI import
-// import OpenAI from 'openai';
-import { GoogleGenerativeAI } from '@google/generative-ai'; // Import Google SDK
 import fs from 'fs'; // Import fs module
 import path from 'path'; // Import path module
 import { fileURLToPath } from 'url'; // Import url module
@@ -13,29 +10,6 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'ci') {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)); // Define __dirname
-
-// --- Initialize Google Generative AI Client ---
-let genAI;
-let geminiModel;
-try {
-  if (!process.env.GEMINI_API_KEY) {
-    throw new Error('GEMINI_API_KEY is missing.');
-  }
-  genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  // Attempting to use gemini-2.0-flash-lite as requested. API might reject this ID.
-  geminiModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
-} catch (error) {
-  console.warn(`Warning: Google Generative AI initialization failed: ${error.message}. News feed generation may not work.`);
-  // Create a mock client for build process or if API key is missing
-  geminiModel = {
-    generateContent: async () => ({
-      response: {
-        text: () => '<h1>AI News Placeholder (Gemini)</h1><p>This content will be replaced with real AI news summaries in production.</p>'
-      }
-    })
-  };
-}
-// --- End Google Generative AI Client Initialization ---
 
 /**
  * Fetch the latest AI news from News API
@@ -94,11 +68,15 @@ export async function fetchLatestAINews(count = 5, forceRefresh = true) {
 }
 
 /**
- * Use Google Gemini to summarize news articles
+ * Use Perplexity API to summarize news articles
  */
-export async function summarizeNewsWithGemini(articles) {
+export async function summarizeNewsWithPerplexity(articles) {
   try {
-    // Format articles for Gemini
+    if (!process.env.PERPLEXITY_API_KEY) {
+      throw new Error('PERPLEXITY_API_KEY is missing.');
+    }
+
+    // Format articles for Perplexity
     const articlesText = articles.map((article, index) => {
       // Ensure consistent data structure before using
       const safeArticle = {
@@ -128,20 +106,43 @@ Content Snippet: ${safeArticle.content.substring(0, 300)}${safeArticle.content.l
     }
 
     // Replace placeholders in the template
-    const prompt = promptTemplate
+    const promptContent = promptTemplate
       .replace('{currentTime}', currentTime)
       .replace('{articleCount}', articles.length.toString())
       .replace('{articlesText}', articlesText);
     // --- End Load prompt from file ---
 
-    // The original inline prompt block has been removed to fix syntax errors.
+    // Call Perplexity API
+    const response = await axios.post(
+      'https://api.perplexity.ai/chat/completions',
+      {
+        model: 'sonar', // Perplexity's model
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a professional newsletter writer specializing in AI and technology news. Create engaging, well-formatted HTML newsletters.'
+          },
+          {
+            role: 'user',
+            content: promptContent
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 2000
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
 
-    const result = await geminiModel.generateContent(prompt);
-    const response = await result.response;
-    let summaryHtml = response.text();
+    let summaryHtml = response.data.choices[0].message.content;
 
-    // --- Post-processing: Remove markdown fences ---
+    // --- Post-processing: Remove markdown fences if present ---
     summaryHtml = summaryHtml.replace(/^```html\s*/, '').replace(/\s*```$/, '');
+    summaryHtml = summaryHtml.trim();
     // --- End Post-processing ---
 
     // Process articles again for consistency in the returned object
@@ -163,11 +164,11 @@ Content Snippet: ${safeArticle.content.substring(0, 300)}${safeArticle.content.l
       generated: new Date().toISOString()
     };
   } catch (error) {
-    console.error('Error summarizing news with Gemini:', error);
+    console.error('Error summarizing news with Perplexity:', error.response?.data || error.message);
     // Fallback HTML generation
     const fallbackHtml = `
       <h1>AI News Roundup - ${new Date().toLocaleDateString()} (Error)</h1>
-      <p>Generated at ${new Date().toLocaleTimeString()}. Failed to generate summary with Gemini. Error: ${error.message}</p>
+      <p>Generated at ${new Date().toLocaleTimeString()}. Failed to generate summary with Perplexity. Error: ${error.message}</p>
       <h2>Original Articles:</h2>
       <ul>
         ${articles.map((article, i) => `
@@ -189,9 +190,8 @@ Content Snippet: ${safeArticle.content.substring(0, 300)}${safeArticle.content.l
   }
 }
 
-
 /**
- * Fetch and summarize news articles using Gemini
+ * Fetch and summarize news articles using Perplexity
  */
 export async function fetchAndSummarizeNews() {
   try {
@@ -199,8 +199,8 @@ export async function fetchAndSummarizeNews() {
     if (!articles || articles.length === 0) {
       throw new Error("No articles fetched.");
     }
-    // Use the new Gemini summarization function
-    const summarizedContent = await summarizeNewsWithGemini(articles);
+    // Use the new Perplexity summarization function
+    const summarizedContent = await summarizeNewsWithPerplexity(articles);
 
     return {
       title: `AI News Roundup - ${new Date().toLocaleDateString()}`, // Use title from summary
@@ -212,14 +212,11 @@ export async function fetchAndSummarizeNews() {
     console.error('Error in fetchAndSummarizeNews:', error);
     // Provide a more informative error object
     return {
-       title: `AI News Error - ${new Date().toLocaleDateString()}`,
-       date: new Date().toLocaleDateString(),
-       content: `<p>Could not generate AI news summary. Error: ${error.message}</p>`,
-       articles: []
+      title: `AI News Error - ${new Date().toLocaleDateString()}`,
+      date: new Date().toLocaleDateString(),
+      content: `<p>Could not generate AI news summary. Error: ${error.message}</p>`,
+      articles: []
     }
     // Or rethrow if the caller should handle it: throw error;
   }
 }
-
-// --- Remove Old OpenAI Function ---
-// export async function summarizeNewsWithOpenAI(articles) { ... }
