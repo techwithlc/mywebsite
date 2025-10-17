@@ -94,7 +94,7 @@ PostgreSQL (Zeabur)           ✅ CONFIGURED
 └─ Password                   ••••••••••••••••
 
 Perplexity AI                 ✅ CONFIGURED
-├─ API Key                    pplx-MmDJ... (configured)
+├─ API Key                    [Configured] (configured)
 └─ Model                      llama-3.1-sonar-large-128k-online
 
 Email (Gmail)                 ⚠️  NEEDS SETUP

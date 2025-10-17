@@ -132,7 +132,7 @@ PostgreSQL (Zeabur)          ✅ CONFIGURED & TESTED
 └─ Status                    🟢 Connected & Working!
 
 Perplexity AI                ✅ CONFIGURED
-├─ API Key                   pplx-MmDJ... (configured)
+├─ API Key                   [Configured] (configured)
 ├─ Model                     llama-3.1-sonar-large-128k-online
 └─ Status                    🟢 Ready to use!
 
