@@ -1,0 +1,44 @@
+{
+  "timestamp": "2025-10-16T10:38:36.054Z",
+  "checks": {
+    "postgres": {
+      "name": "PostgreSQL Database",
+      "vars": [
+        "POSTGRES_HOST",
+        "POSTGRES_PORT",
+        "POSTGRES_DATABASE",
+        "POSTGRES_USER",
+        "POSTGRES_PASSWORD"
+      ],
+      "status": "✅",
+      "missing": []
+    },
+    "perplexity": {
+      "name": "Perplexity API",
+      "vars": [
+        "PERPLEXITY_API_KEY"
+      ],
+      "status": "✅",
+      "missing": []
+    },
+    "email": {
+      "name": "Email (Gmail)",
+      "vars": [
+        "EMAIL_USER",
+        "EMAIL_PASS",
+        "EMAIL_FROM"
+      ],
+      "status": "✅",
+      "missing": []
+    },
+    "news": {
+      "name": "News API",
+      "vars": [
+        "NEWS_API_KEY"
+      ],
+      "status": "✅",
+      "missing": []
+    }
+  },
+  "allConfigured": true
+}
