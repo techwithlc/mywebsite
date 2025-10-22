@@ -9,6 +9,7 @@
     "dev": "nodemon index.js",
     "create-db": "node database/create-db.js",
     "init-db": "node database/init-db.js",
+    "init-blog": "node database/init-blog-db.js",
     "setup": "node setup-wizard.js",
     "send-newsletter": "node send-newsletter.js",
     "generate-newsletter": "node send-newsletter-now.js"

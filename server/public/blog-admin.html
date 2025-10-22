@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Admin - Tech with LC</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      color: #2563eb;
+      margin-bottom: 10px;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #6b7280;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.3s;
+    }
+    
+    .tab.active {
+      color: #2563eb;
+      border-bottom-color: #2563eb;
+      font-weight: 600;
+    }
+    
+    .tab:hover {
+      color: #2563eb;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #374151;
+    }
+    
+    input[type="text"],
+    input[type="url"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    
+    textarea {
+      min-height: 400px;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 13px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+    
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+    
+    .post-list {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .post-item {
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .post-item:last-child {
+      border-bottom: none;
+    }
+    
+    .post-item:hover {
+      background: #f9fafb;
+    }
+    
+    .post-info h3 {
+      color: #111827;
+      margin-bottom: 5px;
+    }
+    
+    .post-meta {
+      color: #6b7280;
+      font-size: 14px;
+    }
+    
+    .post-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    
+    .badge-draft {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .badge-published {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .message {
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    
+    .message.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
+    
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+    
+    .tags-input {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      min-height: 40px;
+    }
+    
+    .tag-item {
+      background: #e5e7eb;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .tag-item button {
+      padding: 0;
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .char-count {
+      text-align: right;
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📝 Blog Admin</h1>
+      <p>Write and manage your tech blog posts</p>
+    </header>
+    
+    <div id="message"></div>
+    
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('write')">✍️ Write</button>
+      <button class="tab" onclick="switchTab('posts')">📚 All Posts</button>
+    </div>
+    
+    <!-- Write Tab -->
+    <div id="write-tab" class="tab-content active">
+      <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <form id="blog-form">
+          <input type="hidden" id="post-id" value="">
+          
+          <div class="form-group">
+            <label for="title">Title *</label>
+            <input type="text" id="title" required placeholder="Enter your blog post title">
+            <div class="char-count" id="title-count">0 characters</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="excerpt">Excerpt * <span style="color: #6b7280; font-weight: normal;">(Short summary for preview)</span></label>
+            <textarea id="excerpt" required placeholder="Write a brief excerpt..." style="min-height: 100px;"></textarea>
+            <div class="char-count" id="excerpt-count">0 characters</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="content">Content * <span style="color: #6b7280; font-weight: normal;">(Supports Markdown)</span></label>
+            <textarea id="content" required placeholder="# Start writing your blog post...
+
+Use Markdown formatting:
+- # Heading 1
+- ## Heading 2
+- **bold** or *italic*
+- [Link](url)
+- ![Image](url)
+- ```code blocks```"></textarea>
+            <div class="char-count" id="content-count">0 words | 0 min read</div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="author">Author</label>
+              <input type="text" id="author" value="Lawrence Chen" placeholder="Author name">
+            </div>
+            
+            <div class="form-group">
+              <label for="language">Language</label>
+              <select id="language">
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="category">Category</label>
+              <select id="category">
+                <option value="tutorials">Tutorials</option>
+                <option value="ai">AI</option>
+                <option value="cloud">Cloud</option>
+                <option value="career">Career</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="cover-image">Cover Image URL</label>
+              <input type="url" id="cover-image" placeholder="https://example.com/image.jpg">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Tags</label>
+            <div class="tags-input" id="tags-input" onclick="document.getElementById('tag-input-field').focus()">
+              <input type="text" id="tag-input-field" 
+                     style="border: none; outline: none; flex: 1; min-width: 120px;" 
+                     placeholder="Type and press Enter">
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="featured"> Featured Post
+              </label>
+            </div>
+          </div>
+          
+          <div class="button-group">
+            <button type="submit" class="btn-primary" data-status="published">
+              🚀 Publish Post
+            </button>
+            <button type="submit" class="btn-secondary" data-status="draft">
+              💾 Save as Draft
+            </button>
+            <button type="button" class="btn-secondary" onclick="resetForm()">
+              🔄 Clear Form
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Posts List Tab -->
+    <div id="posts-tab" class="tab-content">
+      <div class="post-list" id="posts-list">
+        <p style="padding: 20px; text-align: center; color: #6b7280;">Loading posts...</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const API_URL = '/api/blog';
+    let currentTags = [];
+    
+    // Character counters
+    document.getElementById('title').addEventListener('input', (e) => {
+      document.getElementById('title-count').textContent = `${e.target.value.length} characters`;
+    });
+    
+    document.getElementById('excerpt').addEventListener('input', (e) => {
+      document.getElementById('excerpt-count').textContent = `${e.target.value.length} characters`;
+    });
+    
+    document.getElementById('content').addEventListener('input', (e) => {
+      const words = e.target.value.trim().split(/\s+/).length;
+      const readTime = Math.ceil(words / 200);
+      document.getElementById('content-count').textContent = `${words} words | ${readTime} min read`;
+    });
+    
+    // Tags management
+    document.getElementById('tag-input-field').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const tag = e.target.value.trim();
+        if (tag && !currentTags.includes(tag)) {
+          currentTags.push(tag);
+          renderTags();
+          e.target.value = '';
+        }
+      }
+    });
+    
+    function renderTags() {
+      const container = document.getElementById('tags-input');
+      const input = document.getElementById('tag-input-field');
+      
+      // Remove all tag items
+      container.querySelectorAll('.tag-item').forEach(el => el.remove());
+      
+      // Add tags before input
+      currentTags.forEach(tag => {
+        const tagEl = document.createElement('div');
+        tagEl.className = 'tag-item';
+        tagEl.innerHTML = `
+          <span>${tag}</span>
+          <button type="button" onclick="removeTag('${tag}')">×</button>
+        `;
+        container.insertBefore(tagEl, input);
+      });
+    }
+    
+    function removeTag(tag) {
+      currentTags = currentTags.filter(t => t !== tag);
+      renderTags();
+    }
+    
+    // Tab switching
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      
+      document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(`${tab}-tab`).classList.add('active');
+      
+      if (tab === 'posts') {
+        loadPosts();
+      }
+    }
+    
+    // Form submission
+    document.getElementById('blog-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitButton = e.submitter;
+      const status = submitButton.dataset.status;
+      
+      const postData = {
+        title: document.getElementById('title').value,
+        excerpt: document.getElementById('excerpt').value,
+        content: document.getElementById('content').value,
+        author: document.getElementById('author').value || 'Lawrence Chen',
+        language: document.getElementById('language').value,
+        category: document.getElementById('category').value,
+        cover_image: document.getElementById('cover-image').value,
+        tags: currentTags,
+        featured: document.getElementById('featured').checked,
+        status: status
+      };
+      
+      const postId = document.getElementById('post-id').value;
+      
+      try {
+        const url = postId ? `${API_URL}/admin/posts/${postId}` : `${API_URL}/admin/posts`;
+        const method = postId ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showMessage(`Post ${postId ? 'updated' : 'created'} successfully!`, 'success');
+          if (!postId) resetForm();
+          setTimeout(() => switchTab('posts'), 1500);
+        } else {
+          showMessage(`Error: ${data.message}`, 'error');
+        }
+      } catch (error) {
+        showMessage(`Error: ${error.message}`, 'error');
+      }
+    });
+    
+    // Load posts list
+    async function loadPosts() {
+      try {
+        const response = await fetch(`${API_URL}/admin/posts`);
+        const data = await response.json();
+        
+        if (data.success) {
+          renderPostsList(data.posts);
+        }
+      } catch (error) {
+        showMessage(`Error loading posts: ${error.message}`, 'error');
+      }
+    }
+    
+    function renderPostsList(posts) {
+      const container = document.getElementById('posts-list');
+      
+      if (posts.length === 0) {
+        container.innerHTML = '<p style="padding: 20px; text-align: center; color: #6b7280;">No posts yet. Start writing!</p>';
+        return;
+      }
+      
+      container.innerHTML = posts.map(post => `
+        <div class="post-item">
+          <div class="post-info">
+            <h3>
+              ${post.title}
+              <span class="badge badge-${post.status}">${post.status}</span>
+              ${post.featured ? '<span class="badge" style="background: #dbeafe; color: #1e40af;">⭐ Featured</span>' : ''}
+            </h3>
+            <div class="post-meta">
+              ${post.category} • ${post.language.toUpperCase()} • ${post.read_time} min read • 
+              ${new Date(post.created_at).toLocaleDateString()}
+            </div>
+          </div>
+          <div class="post-actions">
+            <button class="btn-primary" onclick="editPost(${post.id})">✏️ Edit</button>
+            <button class="btn-danger" onclick="deletePost(${post.id}, '${post.title}')">🗑️ Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    // Edit post
+    async function editPost(id) {
+      try {
+        const response = await fetch(`${API_URL}/admin/posts/${id}`);
+        const data = await response.json();
+        
+        if (data.success) {
+          const post = data.post;
+          document.getElementById('post-id').value = post.id;
+          document.getElementById('title').value = post.title;
+          document.getElementById('excerpt').value = post.excerpt;
+          document.getElementById('content').value = post.content;
+          document.getElementById('author').value = post.author;
+          document.getElementById('language').value = post.language;
+          document.getElementById('category').value = post.category;
+          document.getElementById('cover-image').value = post.cover_image || '';
+          document.getElementById('featured').checked = post.featured;
+          currentTags = post.tags || [];
+          renderTags();
+          
+          switchTab('write');
+          window.scrollTo(0, 0);
+          showMessage('Editing post...', 'success');
+        }
+      } catch (error) {
+        showMessage(`Error: ${error.message}`, 'error');
+      }
+    }
+    
+    // Delete post
+    async function deletePost(id, title) {
+      if (!confirm(`Are you sure you want to delete "${title}"?`)) return;
+      
+      try {
+        const response = await fetch(`${API_URL}/admin/posts/${id}`, {
+          method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          showMessage('Post deleted successfully!', 'success');
+          loadPosts();
+        } else {
+          showMessage(`Error: ${data.message}`, 'error');
+        }
+      } catch (error) {
+        showMessage(`Error: ${error.message}`, 'error');
+      }
+    }
+    
+    // Reset form
+    function resetForm() {
+      document.getElementById('blog-form').reset();
+      document.getElementById('post-id').value = '';
+      currentTags = [];
+      renderTags();
+      showMessage('Form cleared', 'success');
+    }
+    
+    // Show message
+    function showMessage(message, type) {
+      const messageEl = document.getElementById('message');
+      messageEl.className = `message ${type}`;
+      messageEl.textContent = message;
+      messageEl.style.display = 'block';
+      
+      setTimeout(() => {
+        messageEl.style.display = 'none';
+      }, 3000);
+    }
+    
+    // Load posts on page load
+    loadPosts();
+  </script>
+</body>
+</html>
+
