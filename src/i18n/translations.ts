@@ -62,7 +62,6 @@ export const translations = {
       subtitle: 'Buy Me a Coffee',
       description: 'If you find my content helpful, consider supporting my work',
       buyMeCoffee: 'Buy Me a Coffee',
-      paypal: 'Support via PayPal',
       thanks: 'Thank you for your support!'
     },
     contact: {
@@ -179,7 +178,6 @@ export const translations = {
       subtitle: '請我喝杯咖啡',
       description: '如果您覺得我的內容有幫助，歡迎支持我的創作',
       buyMeCoffee: '請我喝咖啡',
-      paypal: '透過 PayPal 支持',
       thanks: '感謝您的支持！'
     },
     contact: {
