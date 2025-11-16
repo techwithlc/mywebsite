@@ -1,5 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Terminal, Code2, Menu, X, ChevronUp, ArrowRight, Sparkles } from 'lucide-react';
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Terminal,
+  Code2,
+  Menu,
+  X,
+  ChevronUp,
+  ArrowRight,
+  Sparkles,
+  Zap,
+  Cpu,
+  Rocket,
+} from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
 import axios from 'axios';
 import EmbedFacade from './components/EmbedFacade';
@@ -22,11 +36,11 @@ function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   const navItems = [
-    { label: t.nav.home, href: '#' },
+    { label: t.nav.home, href: '#top' },
     { label: t.nav.techStack, href: '#tech' },
     { label: t.nav.projects, href: '#projects' },
     { label: t.nav.blog, href: '#blog' },
-    { label: t.nav.contact, href: '#contact' }
+    { label: t.nav.contact, href: '#contact' },
   ];
   
   useEffect(() => {
@@ -163,70 +177,77 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f5f3] text-gray-900 relative">
-      {/* Anthropic-inspired background pattern */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#f9f7f5] via-[#f7f5f3] to-[#f5f3f1]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_75%,_rgba(236,156,124,0.08)_0%,_transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,_rgba(195,154,108,0.06)_0%,_transparent_50%)]" />
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(236,156,124,0.15) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
+    <div id="top" className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden">
+      {/* Futuristic background: neon grid + orbiting glows */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950/80" />
+        <div className="absolute inset-0 neon-grid opacity-25" />
+        <div className="absolute -left-40 top-10 w-80 h-80 bg-cyan-500/20 blur-3xl rounded-full animate-pulse-slow" />
+        <div className="absolute right-0 -bottom-10 w-[28rem] h-[28rem] bg-fuchsia-500/20 blur-3xl rounded-full animate-pulse-slow delay-150" />
+        <div className="absolute inset-0 neon-orbit" />
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-[#f7f5f3]/90 backdrop-blur-xl z-50 border-b border-[#e5e1dc]/50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <a href="#" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#ec9c7c] to-[#c39a6c] rounded-xl flex items-center justify-center shadow-lg">
-                <Code2 className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold text-gray-900 transition-all duration-300 ease-out">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <a href="#top" className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-violet-500 shadow-[0_0_25px_rgba(56,189,248,0.7)]">
+              <Code2 className="h-5 w-5 text-slate-950" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
+                Future Lab
+              </span>
+              <span className="text-lg font-semibold text-slate-50 transition-all duration-300 ease-out">
                 {getHeaderText(scrollProgress)}
               </span>
-            </a>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">{t.nav.home}</a>
-              <a href="#tech" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">{t.nav.techStack}</a>
-              <a href="#projects" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">{t.nav.projects}</a>
-              <a href="#blog" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">{t.nav.blog}</a>
-              <a href="#contact" className="text-gray-700 hover:text-indigo-600 transition-colors font-medium">{t.nav.contact}</a>
             </div>
+          </a>
 
-            <div className="flex items-center gap-4">
-              {/* Language Switch */}
-              <button 
-                onClick={toggleLanguage}
-                className="px-3 py-2 bg-[#ede9e4] hover:bg-[#e5e1dc] rounded-lg transition-all flex items-center gap-2 text-sm font-medium text-gray-700"
-                aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-8 md:flex">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-slate-300 hover:text-cyan-300"
               >
-                <span>{language === 'en' ? '中文' : 'EN'}</span>
-              </button>
+                {item.label}
+              </a>
+            ))}
+          </div>
 
-              {/* Mobile Menu Button */}
-              <button 
-                className="md:hidden p-2 hover:bg-[#ede9e4] rounded-lg transition-colors"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
+          <div className="flex items-center gap-4">
+            {/* Language Switch */}
+            <button
+              onClick={toggleLanguage}
+              className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-100 hover:border-cyan-400/70 hover:bg-slate-900"
+              aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
+            >
+              {language === 'en' ? '中文' : 'EN'}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="rounded-lg border border-slate-700 bg-slate-900/60 p-2 text-slate-100 hover:border-cyan-400/70 hover:bg-slate-900 md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden bg-[#f7f5f3] border-t border-[#e5e1dc]">
-            <div className="py-4">
-              {navItems.map(item => (
-                <a key={item.label}
-                   href={item.href}
-                   className="block px-6 py-3 text-gray-700 hover:text-indigo-600 hover:bg-[#ede9e4] transition-colors font-medium"
-                   onClick={() => setIsMenuOpen(false)}>
+          <div className="border-t border-slate-800 bg-slate-950/95 md:hidden">
+            <div className="space-y-1 px-6 py-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900 hover:text-cyan-300"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   {item.label}
                 </a>
               ))}
@@ -235,290 +256,457 @@ function App() {
         )}
       </nav>
 
-      <div className="relative pt-20">
-        {/* Hero Section - Anthropic inspired */}
-        <section className="container mx-auto px-6 py-20 md:py-32">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full border border-indigo-200 mb-8">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
-                <span className="text-indigo-700 font-medium text-sm">{t.hero.welcome}</span>
-              </div>
-              
-              <h1 className="text-5xl md:text-7xl font-bold leading-tight text-gray-900 tracking-tight">
-                {t.hero.title}
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                {t.hero.subtitle}
-              </p>
+      <main className="relative z-10 pt-24 md:pt-28">
+        {/* Hero Section - Futuristic cockpit */}
+        <section className="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-10 md:flex-row md:items-center md:pt-16 lg:gap-16">
+          {/* Left: Copy */}
+          <div className="relative flex-1 space-y-7 animate-fadeIn">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-slate-900/80 px-3 py-1 text-xs text-cyan-200 shadow-[0_0_25px_rgba(34,211,238,0.35)]">
+              <Sparkles className="h-3 w-3" />
+              <span className="uppercase tracking-[0.2em]">
+                {t.hero.welcome}
+              </span>
+            </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                <a href="#projects" 
-                   className="group inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-xl font-semibold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl">
-                  <Terminal className="w-5 h-5" />
-                  {t.buttons.exploreProjects}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-                <a href="#contact" 
-                   className="group inline-flex items-center justify-center gap-2 bg-[#faf9f7] text-gray-900 px-8 py-4 rounded-xl font-semibold border border-[#e8e4df] hover:border-[#ddd7d0] hover:bg-[#f5f3f1] transition-all">
-                  <Mail className="w-5 h-5" />
-                  {t.buttons.getInTouch}
-                </a>
+            <h1 className="text-balance text-4xl font-bold leading-tight tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
+              <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
+                {t.hero.title}
+              </span>
+              <span className="mt-2 block text-slate-300">
+                AI × Cloud × Developer Stories
+              </span>
+            </h1>
+
+            <p className="max-w-xl text-balance text-base text-slate-300/80 md:text-lg">
+              {t.hero.subtitle}
+            </p>
+
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
+              <a
+                href="#projects"
+                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(56,189,248,0.7)] hover:shadow-[0_0_40px_rgba(236,72,153,0.6)]"
+              >
+                <Terminal className="h-4 w-4" />
+                {t.buttons.exploreProjects}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-900/70 px-6 py-3 text-sm font-semibold text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
+              >
+                <Mail className="h-4 w-4" />
+                {t.buttons.getInTouch}
+              </a>
+            </div>
+
+            {/* Mini stat chips */}
+            <div className="mt-6 grid max-w-md grid-cols-3 gap-3 text-xs text-slate-300/80">
+              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
+                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-cyan-300">
+                  <Zap className="h-3 w-3" /> AI
+                </span>
+                <p className="mt-1 text-[0.78rem] leading-snug">
+                  Practical AI workflows & tools you can ship today.
+                </p>
               </div>
+              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
+                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-fuchsia-300">
+                  <Cpu className="h-3 w-3" /> Cloud
+                </span>
+                <p className="mt-1 text-[0.78rem] leading-snug">
+                  AWS / Azure / GCP infra stories from the trenches.
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
+                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-emerald-300">
+                  <Rocket className="h-3 w-3" /> Career
+                </span>
+                <p className="mt-1 text-[0.78rem] leading-snug">
+                  Big tech interviews, growth, and behind-the-scenes.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Animated dashboard */}
+          <div className="relative flex-1 animate-slideUp">
+            <div className="relative mx-auto max-w-md">
+              <div className="glassy-panel relative rounded-3xl border border-cyan-400/40 bg-slate-950/60 p-4 shadow-[0_0_45px_rgba(56,189,248,0.6)]">
+                <div className="mb-3 flex items-center justify-between text-xs text-slate-300/80">
+                  <span className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    LIVE AI DASHBOARD
+                  </span>
+                  <span className="rounded-full border border-slate-700/80 bg-slate-900/80 px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
+                    v2025
+                  </span>
+                </div>
+
+                <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
+                  <div className="neon-scanline pointer-events-none absolute inset-0" />
+                  <div className="relative grid grid-cols-2 gap-4 p-4 text-xs">
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
+                          NEXT EPISODE
+                        </p>
+                        <p className="mt-1 text-[0.8rem] font-semibold text-slate-100">
+                          AI News & Infra Roundup
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
+                          CHANNEL
+                        </p>
+                        <p className="mt-1 text-[0.8rem] text-slate-200">@techwithlc</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="inline-flex flex-1 items-center justify-between rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2 py-1">
+                          <span className="text-[0.7rem] text-emerald-100">Ship Rate</span>
+                          <span className="text-[0.8rem] font-semibold text-emerald-300">
+                            99.9%
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
+                          AI SIGNAL
+                        </p>
+                        <div className="mt-2 flex h-14 items-end gap-1">
+                          {[40, 60, 90, 70, 50].map((h, i) => (
+                            <div
+                              key={i}
+                              style={{ height: `${h}%` }}
+                              className="w-1.5 rounded-t-full bg-gradient-to-t from-slate-700 via-cyan-400 to-fuchsia-400 animate-pulse-bar"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
+                          FEED
+                        </p>
+                        <p className="mt-1 text-[0.78rem] text-slate-300/80">
+                          Latest YouTube episode auto-synced into the projects
+                          section below.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating chips */}
+                <div className="mt-4 flex flex-wrap gap-2 text-[0.7rem]">
+                  <span className="rounded-full border border-cyan-400/60 bg-cyan-500/10 px-3 py-1 text-cyan-100">
+                    React · TypeScript · Tailwind
+                  </span>
+                  <span className="rounded-full border border-fuchsia-400/60 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-100">
+                    AI Workflows
+                  </span>
+                  <span className="rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-emerald-100">
+                    Cloud Infra
+                  </span>
+                </div>
+              </div>
+
+              {/* Orbiting rings */}
+              <div className="pointer-events-none absolute -inset-10 -z-10 neon-orbit subtle-spin" />
             </div>
           </div>
         </section>
 
         {/* Tech Stack Section */}
-        <section id="tech" className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
-          <div className="container mx-auto px-6">
-            <div className="max-w-5xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  {t.techStack.title}
-                </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  {t.techStack.description}
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  { 
-                    name: 'React', 
-                    icon: '⚛️',
-                    description: 'Frontend Development'
-                  },
-                  { 
-                    name: 'TypeScript', 
-                    icon: '📘',
-                    description: 'Type-Safe Code'
-                  },
-                  { 
-                    name: 'AWS', 
-                    icon: '☁️',
-                    description: 'Cloud Infrastructure'
-                  },
-                  { 
-                    name: 'Azure', 
-                    icon: '🌥️',
-                    description: 'Cloud Services'
-                  },
-                  { 
-                    name: 'GCP', 
-                    icon: '🌐',
-                    description: 'Cloud Platform'
-                  },
-                  { 
-                    name: 'Networking', 
-                    icon: '🔌',
-                    description: 'Infrastructure'
-                  },
-                  { 
-                    name: 'Linux', 
-                    icon: '🐧',
-                    description: 'System Admin'
-                  },
-                  { 
-                    name: 'AI', 
-                    icon: '🤖',
-                    description: 'Machine Learning'
-                  }
-                ].map((tech) => (
-                  <div key={tech.name} 
-                       className="bg-[#faf9f7] rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border border-[#e8e4df] hover:border-indigo-200 group cursor-pointer">
-                    <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
+        <section id="tech" className="border-t border-slate-800/70 bg-slate-950/80 py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                STACK TELEMETRY
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+                {t.techStack.title}
+              </h2>
+              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+                {t.techStack.description}
+              </p>
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {[
+                {
+                  name: 'React',
+                  icon: '⚛️',
+                  description: 'Frontend Systems',
+                },
+                {
+                  name: 'TypeScript',
+                  icon: '📘',
+                  description: 'Static Safety',
+                },
+                {
+                  name: 'AWS',
+                  icon: '☁️',
+                  description: 'Scalable Infra',
+                },
+                {
+                  name: 'Azure',
+                  icon: '🌥️',
+                  description: 'Enterprise Cloud',
+                },
+                {
+                  name: 'GCP',
+                  icon: '🌐',
+                  description: 'Data & ML',
+                },
+                {
+                  name: 'Networking',
+                  icon: '🔌',
+                  description: 'Deep Infrastructure',
+                },
+                {
+                  name: 'Linux',
+                  icon: '🐧',
+                  description: 'Systems Engineering',
+                },
+                {
+                  name: 'AI',
+                  icon: '🤖',
+                  description: 'Agents & LLMs',
+                },
+              ].map((tech) => (
+                <div
+                  key={tech.name}
+                  className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 p-4 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_35px_rgba(56,189,248,0.55)]"
+                >
+                  <div className="pointer-events-none absolute inset-px rounded-2xl border border-slate-700/50 group-hover:border-cyan-400/40" />
+                  <div className="relative">
+                    <div className="mb-3 text-2xl transition-transform duration-300 group-hover:scale-110">
                       {tech.icon}
                     </div>
-                    <h3 className="font-bold text-lg text-gray-900 mb-2">{tech.name}</h3>
-                    <p className="text-gray-600 text-sm">{tech.description}</p>
+                    <h3 className="text-sm font-semibold text-slate-100">
+                      {tech.name}
+                    </h3>
+                    <p className="mt-1 text-[0.78rem] text-slate-400">
+                      {tech.description}
+                    </p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="border-t border-[#e5e1dc] py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  {t.projects.title}
-                </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  {t.projects.description}
-                </p>
-              </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {[
-                  {
-                    title: t.projects.podcast.title,
-                    description: t.projects.podcast.description,
-                    tech: ['Podcast', 'Tech Trends', 'Innovation'],
-                    spotifyEmbed: true,
-                    embedUrl: 'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator',
-                    link: undefined
-                  },
-                  {
-                    title: t.projects.youtube.title,
-                    description: t.projects.youtube.description,
-                    tech: ['YouTube', 'Tech Content', 'Tutorials'],
-                    youtubeEmbed: true,
-                    embedUrl: latestVideoId 
-                      ? `https://www.youtube.com/embed/${latestVideoId}` 
-                      : `https://www.youtube.com/embed?listType=user_uploads&list=${YOUTUBE_CHANNEL_USERNAME}`,
-                    link: undefined
-                  },
-                  {
-                    title: t.projects.interview.title,
-                    description: t.projects.interview.description,
-                    tech: ['Career Growth', 'Interview Tips', 'Google'],
-                    mediumEmbed: false,
-                    link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3',
-                    embedUrl: undefined
-                  },
-                  {
-                    title: t.projects.coffeeLover.title,
-                    description: t.projects.coffeeLover.description,
-                    tech: ['React', 'TypeScript', 'Tailwind CSS', 'Netlify'],
-                    websitePreview: true,
-                    link: 'https://coffeelover.fun',
-                    embedUrl: undefined
-                  }
-                ].map((project) => {
-                  if (project.websitePreview) {
-                    return (
-                      <WebsitePreview
-                        key={project.title}
-                        title={project.title}
-                        description={project.description}
-                        url={project.link!}
-                        tech={project.tech}
-                      />
-                    );
-                  } else {
-                    return (
-                      <div key={project.title}
-                        className="bg-[#faf9f7] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#e8e4df] flex flex-col h-full group">
-                        {/* Top Section (Embed/Image) - Using EmbedFacade */}
-                        <div className="flex-shrink-0 h-[300px] w-full overflow-hidden">
-                          {project.spotifyEmbed ? (
-                            <EmbedFacade
-                              embedUrl={project.embedUrl}
-                              title={project.title}
-                              type="spotify"
-                            />
-                          ) : project.youtubeEmbed ? (
-                            <EmbedFacade
-                              embedUrl={project.embedUrl}
-                              title={project.title}
-                              type="youtube"
-                            />
-                          ) : (
-                            // Medium link
-                            <a href={project.link}
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               className="block bg-gradient-to-br from-gray-50 to-gray-100 h-full w-full relative group-hover:from-indigo-50 group-hover:to-purple-50 transition-all overflow-hidden flex items-center justify-center">
-                              <div className="transition-transform group-hover:scale-110">
-                                <svg viewBox="0 0 24 24" className="w-20 h-20 text-gray-600 group-hover:text-indigo-600 transition-colors">
-                                  <path
-                                    fill="currentColor"
-                                    d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
-                                  />
-                                </svg>
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/20 to-transparent">
-                                <span className="text-gray-700 font-medium">Read on Medium</span>
-                              </div>
-                            </a>
-                          )}
-                        </div>
-                        {/* Bottom Section (Text Content) */}
-                        <div className="p-6 flex flex-col flex-grow">
+        <section id="projects" className="border-t border-slate-800/70 bg-slate-950/90 py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                SIGNAL STREAMS
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+                {t.projects.title}
+              </h2>
+              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+                {t.projects.description}
+              </p>
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  title: t.projects.podcast.title,
+                  description: t.projects.podcast.description,
+                  tech: ['Podcast', 'Tech Trends', 'Innovation'],
+                  spotifyEmbed: true,
+                  embedUrl:
+                    'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator',
+                  link: undefined,
+                },
+                {
+                  title: t.projects.youtube.title,
+                  description: t.projects.youtube.description,
+                  tech: ['YouTube', 'Tech Content', 'Tutorials'],
+                  youtubeEmbed: true,
+                  embedUrl: latestVideoId
+                    ? `https://www.youtube.com/embed/${latestVideoId}`
+                    : `https://www.youtube.com/embed?listType=user_uploads&list=${YOUTUBE_CHANNEL_USERNAME}`,
+                  link: undefined,
+                },
+                {
+                  title: t.projects.interview.title,
+                  description: t.projects.interview.description,
+                  tech: ['Career Growth', 'Interview Tips', 'Google'],
+                  mediumEmbed: false,
+                  link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3',
+                  embedUrl: undefined,
+                },
+                {
+                  title: t.projects.coffeeLover.title,
+                  description: t.projects.coffeeLover.description,
+                  tech: ['React', 'TypeScript', 'Tailwind CSS', 'Netlify'],
+                  websitePreview: true,
+                  link: 'https://coffeelover.fun',
+                  embedUrl: undefined,
+                },
+              ].map((project) => {
+                if (project.websitePreview) {
+                  return (
+                    <WebsitePreview
+                      key={project.title}
+                      title={project.title}
+                      description={project.description}
+                      url={project.link!}
+                      tech={project.tech}
+                    />
+                  );
+                } else {
+                  return (
+                    <div
+                      key={project.title}
+                      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_35px_rgba(56,189,248,0.55)]"
+                    >
+                      {/* Top Section (Embed/Image) - Using EmbedFacade */}
+                      <div className="h-[260px] w-full flex-shrink-0 overflow-hidden">
+                        {project.spotifyEmbed ? (
+                          <EmbedFacade
+                            embedUrl={project.embedUrl}
+                            title={project.title}
+                            type="spotify"
+                          />
+                        ) : project.youtubeEmbed ? (
+                          <EmbedFacade
+                            embedUrl={project.embedUrl}
+                            title={project.title}
+                            type="youtube"
+                          />
+                        ) : (
+                          // Medium link
                           <a
-                            href={project.youtubeEmbed ? 'https://www.youtube.com/@techwithlc' : project.link}
+                            href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:text-indigo-600 transition-colors"
+                            className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800"
                           >
-                            <h3 className="text-xl font-bold mb-3 text-gray-900 transition-colors">
-                              {project.title}
-                            </h3>
-                          </a>
-                          <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
-                            {project.youtubeEmbed ? t.youtube.description : project.description}
-                          </p>
-                          <div className="flex flex-wrap gap-2 mt-auto">
-                            {project.tech.map((tag) => (
-                              <span key={tag}
-                                    className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium border border-indigo-200">
-                                {tag}
+                            <div className="transition-transform duration-500 group-hover:scale-110">
+                              <svg
+                                viewBox="0 0 24 24"
+                                className="h-16 w-16 text-slate-300 group-hover:text-cyan-300"
+                              >
+                                <path
+                                  fill="currentColor"
+                                  d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
+                                />
+                              </svg>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/80 to-transparent p-3">
+                              <span className="text-[0.75rem] font-medium text-slate-100">
+                                Read on Medium
                               </span>
-                            ))}
-                          </div>
+                            </div>
+                          </a>
+                        )}
+                      </div>
+                      {/* Bottom Section (Text Content) */}
+                      <div className="flex flex-grow flex-col p-4">
+                        <a
+                          href={
+                            project.youtubeEmbed
+                              ? 'https://www.youtube.com/@techwithlc'
+                              : project.link
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-cyan-300"
+                        >
+                          <h3 className="mb-2 text-sm font-semibold text-slate-50">
+                            {project.title}
+                          </h3>
+                        </a>
+                        <p className="mb-4 flex-grow text-[0.8rem] leading-relaxed text-slate-300/80">
+                          {project.youtubeEmbed ? t.youtube.description : project.description}
+                        </p>
+                        <div className="mt-auto flex flex-wrap gap-1.5">
+                          {project.tech.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full border border-slate-700 bg-slate-900/80 px-2.5 py-1 text-[0.7rem] text-slate-200"
+                            >
+                              {tag}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    );
-                  }
-                })}
-              </div>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
         </section>
 
         {/* Blog Section */}
-        <section id="blog" className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
-          <div className="container mx-auto px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                  {t.blog.title}
-                </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  {t.blog.description}
-                </p>
-              </div>
+        <section id="blog" className="border-t border-slate-800/70 bg-slate-950/80 py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                DEV LOG
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+                {t.blog.title}
+              </h2>
+              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+                {t.blog.description}
+              </p>
+            </div>
+            <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-950/80 p-4 shadow-card">
               <BlogList maxPosts={6} />
             </div>
           </div>
         </section>
 
         {/* Newsletter Section */}
-        <section className="border-t border-[#e5e1dc] py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <section className="border-t border-slate-800/70 bg-slate-950/90 py-16">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+                HYPERFEED
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
                 {t.newsletter.title}
               </h2>
-              <p className="text-xl text-gray-600 mb-12">
+              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
                 {t.newsletter.description}
               </p>
-              
-                             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+
+              <form
+                onSubmit={handleSubscribe}
+                className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
+              >
                 <input
                   type="email"
                   value={subscribeEmail}
                   onChange={(e) => setSubscribeEmail(e.target.value)}
                   placeholder={t.newsletter.placeholder}
-                  className="flex-1 px-4 py-3 bg-[#faf9f7] border border-[#e8e4df] rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  className="flex-1 rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
                   required
                 />
                 <button
                   type="submit"
                   disabled={isSubscribing}
-                  className="bg-gray-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-gray-800 disabled:opacity-50 transition-all whitespace-nowrap"
+                  className="rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_25px_rgba(56,189,248,0.6)] hover:shadow-[0_0_35px_rgba(236,72,153,0.6)] disabled:opacity-60"
                 >
                   {isSubscribing ? 'Subscribing...' : t.newsletter.button}
                 </button>
               </form>
-              
+
               {subscribeMessage && (
-                <p className={`mt-4 text-sm ${subscribeSuccess ? 'text-green-600' : 'text-red-600'}`}>
+                <p
+                  className={`mt-3 text-xs ${
+                    subscribeSuccess ? 'text-emerald-300' : 'text-rose-300'
+                  }`}
+                >
                   {subscribeMessage}
                 </p>
               )}
@@ -527,76 +715,87 @@ function App() {
         </section>
 
         {/* Sponsor Section */}
-        <section className="border-t border-[#e5e1dc] py-20 bg-[#f5f3f1]/50">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
+        <section className="border-t border-slate-800/70 bg-slate-950/80 py-16">
+          <div className="mx-auto max-w-4xl px-6">
+            <div className="rounded-3xl border border-slate-800 bg-slate-950/90 p-6 shadow-card">
               <SponsorSection />
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="border-t border-[#e5e1dc] py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                {t.contact.title}
-              </h2>
-              <p className="text-xl text-gray-600 mb-12">
-                {t.contact.description}
-              </p>
-              
-              <div className="flex justify-center gap-6">
-                <a href="https://github.com/techwithlc" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
-                  <Github className="w-6 h-6 text-gray-700 group-hover:text-gray-900" />
-                </a>
-                <a href="https://www.linkedin.com/in/klunlawrencechen/" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
-                  <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-blue-600" />
-                </a>
-                <a href="https://x.com/techwithlc0921"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
-                  <svg className="w-6 h-6 text-gray-700 group-hover:text-gray-900" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
-                <a href="mailto:kuanlunlawrence.chen@gmail.com" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="p-4 bg-[#faf9f7] rounded-2xl hover:shadow-lg transition-all border border-[#e8e4df] hover:border-[#ddd7d0] group">
-                  <Mail className="w-6 h-6 text-gray-700 group-hover:text-indigo-600" />
-                </a>
-              </div>
+        <section id="contact" className="border-t border-slate-800/70 bg-slate-950/90 py-16">
+          <div className="mx-auto max-w-4xl px-6 text-center">
+            <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
+              CONTACT
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+              {t.contact.title}
+            </h2>
+            <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+              {t.contact.description}
+            </p>
+
+            <div className="mt-8 flex justify-center gap-4">
+              <a
+                href="https://github.com/techwithlc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
+              >
+                <Github className="h-5 w-5 text-slate-300 group-hover:text-cyan-300" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/klunlawrencechen/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
+              >
+                <Linkedin className="h-5 w-5 text-slate-300 group-hover:text-sky-400" />
+              </a>
+              <a
+                href="https://x.com/techwithlc0921"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
+              >
+                <svg
+                  className="h-5 w-5 text-slate-300 group-hover:text-slate-50"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              <a
+                href="mailto:kuanlunlawrence.chen@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
+              >
+                <Mail className="h-5 w-5 text-slate-300 group-hover:text-cyan-300" />
+              </a>
             </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-[#e5e1dc] py-12 bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-3 mb-8">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#ec9c7c] to-[#c39a6c] rounded-xl flex items-center justify-center">
-                  <Code2 className="w-6 h-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold text-white">
-                  TechwithLC
-                </span>
+        <footer className="border-t border-slate-800 bg-slate-950 py-10">
+          <div className="mx-auto max-w-4xl px-6 text-center">
+            <div className="mb-5 flex items-center justify-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-fuchsia-500 shadow-[0_0_25px_rgba(56,189,248,0.7)]">
+                <Code2 className="h-5 w-5 text-slate-950" />
               </div>
-              <p className="text-gray-400 mb-8">
-                Building the future with technology, one project at a time.
-              </p>
-                             <p className="text-gray-500 text-sm">
-                 © 2025 TechwithLC. All rights reserved.
-               </p>
+              <span className="text-lg font-semibold text-slate-50">
+                TechwithLC
+              </span>
             </div>
+            <p className="text-xs text-slate-400">
+              Building the future with technology, one experiment at a time.
+            </p>
+            <p className="mt-2 text-[0.7rem] text-slate-500">
+              © 2025 TechwithLC. All rights reserved.
+            </p>
           </div>
         </footer>
 
@@ -604,13 +803,13 @@ function App() {
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 bg-gray-900 text-white p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all hover:shadow-xl z-50"
+            className="fixed bottom-6 right-6 z-50 rounded-full bg-slate-900/90 p-3 text-slate-50 shadow-[0_0_25px_rgba(15,23,42,0.9)] ring-1 ring-slate-700 hover:bg-slate-900 hover:ring-cyan-400/80"
             aria-label="Scroll to top"
           >
-            <ChevronUp className="w-6 h-6" />
+            <ChevronUp className="h-5 w-5" />
           </button>
         )}
-      </div>
+      </main>
     </div>
   );
 }
