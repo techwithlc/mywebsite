@@ -25,43 +25,53 @@ const SponsorSection: React.FC<SponsorSectionProps> = ({
   };
 
   const SponsorContent = () => (
-    <div className={`${compact ? 'p-4' : 'p-8'} space-y-6`}>
+    <div className={`${compact ? 'p-4' : 'p-6 md:p-8'} space-y-6`}>
       {!compact && (
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-            <Heart className="w-8 h-8 text-white" />
+        <div className="mb-6 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-500 to-fuchsia-500 shadow-[0_0_26px_rgba(56,189,248,0.7)]">
+            <Heart className="h-8 w-8 text-slate-950" />
           </div>
-          <h3 className="text-3xl font-bold text-gray-900 mb-4">{t.sponsor.title}</h3>
-          <p className="text-gray-600 text-lg">{t.sponsor.description}</p>
+          <h3 className="mb-3 text-2xl font-bold text-slate-50 md:text-3xl">
+            {t.sponsor.title}
+          </h3>
+          <p className="text-sm text-slate-300/85 md:text-base">
+            {t.sponsor.description}
+          </p>
         </div>
       )}
 
-      <div className="max-w-md mx-auto">
+      <div className="mx-auto max-w-md">
         {/* Buy Me a Coffee */}
         <button
           onClick={handleSponsorClick}
-          className="w-full group flex items-center gap-4 p-6 bg-gradient-to-r from-orange-50 to-yellow-50 hover:from-orange-100 hover:to-yellow-100 rounded-2xl border-2 border-orange-200 hover:border-orange-300 transition-all duration-300 hover:shadow-lg"
+          className="group flex w-full items-center gap-4 rounded-2xl border border-cyan-400/70 bg-slate-950/90 p-5 shadow-[0_0_26px_rgba(56,189,248,0.55)] hover:border-fuchsia-400/70 hover:bg-slate-900 transition-all"
         >
-          <div className="w-14 h-14 bg-orange-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-            <Coffee className="w-7 h-7 text-white" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 shadow-[0_0_20px_rgba(251,191,36,0.6)] group-hover:scale-110 transition-transform">
+            <Coffee className="h-7 w-7 text-slate-950" />
           </div>
           <div className="flex-1 text-left">
-            <h4 className="font-bold text-lg text-orange-700">{t.sponsor.buyMeCoffee}</h4>
-            <p className="text-sm text-orange-600">Buy Me a Coffee</p>
+            <h4 className="text-sm font-bold text-slate-50 md:text-base">
+              {t.sponsor.buyMeCoffee}
+            </h4>
+            <p className="text-xs text-slate-300/80 md:text-sm">
+              Buy Me a Coffee
+            </p>
           </div>
-          <ExternalLink className="w-5 h-5 text-orange-500 group-hover:translate-x-1 transition-transform" />
+          <ExternalLink className="h-5 w-5 text-cyan-300 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
 
       {/* Thank you message */}
       {showThankYou && (
-        <div className="text-center p-6 bg-green-50 border-2 border-green-200 rounded-2xl">
-          <p className="text-green-700 font-semibold text-lg">{t.sponsor.thanks}</p>
+        <div className="rounded-2xl border border-emerald-400/60 bg-emerald-500/15 p-4 text-center">
+          <p className="text-sm font-semibold text-emerald-200 md:text-base">
+            {t.sponsor.thanks}
+          </p>
         </div>
       )}
 
       {compact && (
-        <p className="text-sm text-gray-600 text-center">
+        <p className="text-center text-xs text-slate-400 md:text-sm">
           {t.sponsor.description}
         </p>
       )}
@@ -70,14 +80,14 @@ const SponsorSection: React.FC<SponsorSectionProps> = ({
 
   if (showModal) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-[#faf9f7] rounded-3xl max-w-md w-full relative border border-[#e8e4df] shadow-2xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div className="relative w-full max-w-md rounded-3xl border border-slate-800 bg-slate-950/95 shadow-[0_0_35px_rgba(15,23,42,0.9)]">
           {onClose && (
             <button
               onClick={onClose}
-                              className="absolute top-4 right-4 p-2 hover:bg-[#ede9e4] rounded-xl transition-colors"
+              className="absolute right-4 top-4 rounded-xl p-2 text-slate-400 hover:bg-slate-900 hover:text-slate-100 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="h-5 w-5" />
             </button>
           )}
           <SponsorContent />
@@ -87,7 +97,7 @@ const SponsorSection: React.FC<SponsorSectionProps> = ({
   }
 
   return (
-    <div className="bg-[#faf9f7] rounded-2xl border border-[#e8e4df] shadow-lg">
+    <div className="rounded-2xl border border-slate-800 bg-slate-950/90 shadow-card">
       <SponsorContent />
     </div>
   );

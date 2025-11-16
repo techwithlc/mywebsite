@@ -73,13 +73,13 @@ const BlogList: React.FC<BlogListProps> = ({
         <div className="mb-8 space-y-4">
           {/* Search Bar */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 transform w-5 h-5 text-slate-400" />
             <input
               type="text"
               placeholder={t.blog.search.placeholder}
               value={filter.searchTerm}
               onChange={(e) => setFilter(prev => ({ ...prev, searchTerm: e.target.value }))}
-              className="w-full pl-10 pr-4 py-3 bg-[#faf9f7] border border-[#e8e4df] rounded-xl focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
+              className="w-full rounded-xl border border-slate-700 bg-slate-950/70 px-10 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/25 transition-all"
             />
           </div>
 
@@ -89,10 +89,10 @@ const BlogList: React.FC<BlogListProps> = ({
               <button
                 key={category.key}
                 onClick={() => setFilter(prev => ({ ...prev, category: category.key }))}
-                className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${
                   filter.category === category.key
-                    ? 'bg-gray-900 text-white shadow-lg'
-                    : 'bg-[#faf9f7] text-gray-700 hover:bg-[#f5f3f1] border border-[#e8e4df] hover:border-[#ddd7d0]'
+                    ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/70 shadow-[0_0_18px_rgba(56,189,248,0.4)]'
+                    : 'bg-slate-950/60 text-slate-300 border border-slate-700 hover:border-cyan-400/60 hover:bg-slate-900'
                 }`}
               >
                 {category.label}
@@ -102,7 +102,7 @@ const BlogList: React.FC<BlogListProps> = ({
 
           {/* Results Count */}
           {filter.searchTerm && (
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-slate-400">
               {filteredPosts.length} {t.blog.search.results}
             </p>
           )}
@@ -111,14 +111,14 @@ const BlogList: React.FC<BlogListProps> = ({
 
       {/* Posts Grid */}
       {filteredPosts.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 bg-[#ede9e4] rounded-full flex items-center justify-center mx-auto mb-4">
-            <Search className="w-8 h-8 text-gray-400" />
+        <div className="py-12 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-900 border border-slate-700">
+            <Search className="w-8 h-8 text-slate-400" />
           </div>
-          <h3 className="text-xl font-medium text-gray-600 mb-2">
+          <h3 className="mb-2 text-xl font-medium text-slate-200">
             {t.blog.search.noResults}
           </h3>
-          <p className="text-gray-500">
+          <p className="text-sm text-slate-400">
             {language === 'zh' ? '嘗試調整搜尋條件或分類篩選' : 'Try adjusting your search terms or category filter'}
           </p>
         </div>
@@ -127,51 +127,51 @@ const BlogList: React.FC<BlogListProps> = ({
           {filteredPosts.map(post => (
             <article
               key={post.id}
-              className="bg-[#faf9f7] rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#e8e4df] flex flex-col h-full group"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/80 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_28px_rgba(56,189,248,0.45)] transition-all duration-300"
             >
               {/* Cover Image */}
               {post.coverImage ? (
-                <div className="h-48 overflow-hidden">
+                <div className="h-40 overflow-hidden">
                   <img
                     src={post.coverImage}
                     alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </div>
               ) : (
-                <div className="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 flex items-center justify-center">
+                <div className="flex h-40 items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
                   <div className="text-center">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-                      <ExternalLink className="w-6 h-6 text-indigo-600" />
+                    <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 border border-slate-700">
+                      <ExternalLink className="h-6 w-6 text-cyan-300" />
                     </div>
-                    <p className="text-indigo-600 font-medium">Blog Post</p>
+                    <p className="text-xs font-medium text-slate-300">Blog Post</p>
                   </div>
                 </div>
               )}
 
               {/* Content */}
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="flex flex-grow flex-col p-5">
                 {/* Category Badge */}
                 <div className="mb-3">
-                  <span className="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-full border border-indigo-200 font-medium">
+                  <span className="inline-block rounded-full border border-cyan-400/70 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-200">
                     {categories.find(cat => cat.key === post.category)?.label || post.category}
                   </span>
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl font-bold mb-3 text-gray-900 hover:text-indigo-600 transition-colors cursor-pointer">
+                <h2 className="mb-2 cursor-pointer text-lg font-semibold text-slate-50 hover:text-cyan-300 transition-colors">
                   {post.title}
                 </h2>
 
                 {/* Excerpt */}
-                <p className="text-gray-600 mb-4 flex-grow leading-relaxed">
+                <p className="mb-4 flex-grow text-sm leading-relaxed text-slate-300/85">
                   {post.excerpt}
                 </p>
 
                 {/* Meta Information */}
                 <div className="space-y-3 mt-auto">
                   {/* Date and Read Time */}
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-4 text-xs text-slate-400">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>{formatDate(post.publishedAt)}</span>
@@ -187,21 +187,21 @@ const BlogList: React.FC<BlogListProps> = ({
                     {post.tags.slice(0, 3).map(tag => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 px-2 py-1 bg-[#ede9e4] text-gray-700 text-xs rounded border border-[#e8e4df]"
+                        className="inline-flex items-center gap-1 rounded border border-slate-700 bg-slate-900/80 px-2 py-1 text-[0.7rem] text-slate-200"
                       >
                         <Tag className="w-3 h-3" />
                         {tag}
                       </span>
                     ))}
                     {post.tags.length > 3 && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-slate-500">
                         +{post.tags.length - 3} more
                       </span>
                     )}
                   </div>
 
                   {/* Read More Button */}
-                  <button className="w-full mt-4 px-4 py-2 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 font-medium">
+                  <button className="mt-4 w-full rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.55)] hover:shadow-[0_0_26px_rgba(236,72,153,0.6)] transition-all">
                     {t.blog.readMore}
                   </button>
                 </div>
