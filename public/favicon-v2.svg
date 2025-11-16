@@ -1,0 +1,41 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Futuristic TechwithLC favicon v2: dark background, cyan/violet neon, stylized LC -->
+  <defs>
+    <linearGradient id="bgGradientV2" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#06b6d4"/>
+      <stop offset="0.5" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#e879f9"/>
+    </linearGradient>
+    <linearGradient id="strokeGradientV2" x1="8" y1="8" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#f5f3ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer dark tile with soft corners -->
+  <rect x="1" y="1" width="30" height="30" rx="9" fill="#020617"/>
+
+  <!-- Inner neon border -->
+  <rect x="3" y="3" width="26" height="26" rx="8"
+        fill="url(#bgGradientV2)"
+        fill-opacity="0.2"
+        stroke="url(#bgGradientV2)"
+        stroke-width="1.4"/>
+
+  <!-- Stylized "LC" monogram -->
+  <path d="M10 10.5V22h7.4"
+        stroke="url(#strokeGradientV2)"
+        stroke-width="2.15"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+  <path d="M22 13.3c-0.8-1.8-2.3-2.9-4.1-2.9-2.5 0-4.5 2.1-4.5 4.6 0 2.6 2 4.7 4.5 4.7 1.8 0 3.3-1 4.1-2.7"
+        stroke="url(#strokeGradientV2)"
+        stroke-width="2.15"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Small neon dot -->
+  <circle cx="22.3" cy="10.4" r="1.1" fill="#22d3ee"/>
+</svg>
+
+
