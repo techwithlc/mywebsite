@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, Clock, Calendar, Tag, ExternalLink } from 'lucide-react';
 import { BlogPost, BlogCategory, BlogFilter } from '../types/blog';
-import { getPostsByLanguage, getPostsByCategory } from '../config/blogPosts';
 import { useLanguage } from '../contexts/LanguageContext';
+import BLOG_API from '../utils/api';
 
 interface BlogListProps {
   posts?: BlogPost[];
@@ -20,15 +20,85 @@ const BlogList: React.FC<BlogListProps> = ({
     category: 'all',
     searchTerm: ''
   });
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Use provided posts or get from config
-  const allPosts = propsPosts || getPostsByLanguage(language);
+  // Fetch posts from API
+  useEffect(() => {
+    // If posts are provided via props, use them (for backward compatibility)
+    if (propsPosts && propsPosts.length > 0) {
+      setAllPosts(propsPosts);
+      setIsLoading(false);
+      return;
+    }
+
+    // Otherwise, fetch from API
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // Fetch posts without language filter to get all posts
+        // We'll filter by language on the frontend
+        const posts = await BLOG_API.getPosts({
+          // Don't filter by language - get all posts
+          limit: maxPosts || 100, // Fetch enough posts for filtering
+        });
+        
+        // Transform API response to match BlogPost interface
+        const transformedPosts: BlogPost[] = posts
+          .map((post: any) => ({
+            id: post.id.toString(),
+            title: post.title,
+            excerpt: post.excerpt,
+            content: post.content || '',
+            author: post.author,
+            publishedAt: post.published_at || post.publishedAt,
+            updatedAt: post.updated_at || post.updatedAt,
+          readTime: post.read_time || post.readTime || 5,
+            category: post.category as BlogCategory,
+            tags: post.tags || [],
+            featured: post.featured || false,
+            language: post.language as 'en' | 'zh',
+            slug: post.slug,
+            coverImage: post.cover_image || post.coverImage,
+          }))
+          // Filter by current language on frontend
+          .filter((post: BlogPost) => post.language === language);
+        
+        if (transformedPosts.length === 0) {
+          setError(null); // No error, just no posts
+        }
+        setAllPosts(transformedPosts);
+      } catch (err) {
+        console.error('Error fetching blog posts:', err);
+        const errorMessage = err instanceof Error 
+          ? err.message 
+          : 'Failed to load blog posts';
+        
+        // More user-friendly error messages
+        if (errorMessage.includes('Failed to fetch') || errorMessage.includes('NetworkError')) {
+          setError(language === 'zh' 
+            ? '無法連接到伺服器。請確認後端服務器是否正在運行。' 
+            : 'Cannot connect to server. Please check if the backend server is running.');
+        } else {
+          setError(errorMessage);
+        }
+        // Fallback to empty array
+        setAllPosts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [language, maxPosts, propsPosts]);
 
   // Filter posts based on search and category
   const filteredPosts = useMemo(() => {
     let result = filter.category === 'all' 
       ? allPosts 
-      : getPostsByCategory(filter.category, language);
+      : allPosts.filter(post => post.category === filter.category);
 
     if (filter.searchTerm) {
       const searchLower = filter.searchTerm.toLowerCase();
@@ -47,7 +117,7 @@ const BlogList: React.FC<BlogListProps> = ({
     return result.sort((a, b) => 
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
-  }, [allPosts, filter, language, maxPosts]);
+  }, [allPosts, filter, maxPosts]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -109,8 +179,36 @@ const BlogList: React.FC<BlogListProps> = ({
         </div>
       )}
 
+      {/* Loading State */}
+      {isLoading && (
+        <div className="py-12 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-900 border border-slate-700">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
+          </div>
+          <p className="text-sm text-slate-400">Loading blog posts...</p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && !isLoading && (
+        <div className="py-12 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-900/20 border border-red-700/50">
+            <Search className="w-8 h-8 text-red-400" />
+          </div>
+          <h3 className="mb-2 text-xl font-medium text-red-200">
+            Error loading posts
+          </h3>
+          <p className="text-sm text-red-300/80">{error}</p>
+          <p className="mt-2 text-xs text-slate-400">
+            {language === 'zh' 
+              ? '請確認後端服務器是否運行（在 server 目錄執行 npm start）' 
+              : 'Please check if the backend server is running (run npm start in server directory)'}
+          </p>
+        </div>
+      )}
+
       {/* Posts Grid */}
-      {filteredPosts.length === 0 ? (
+      {!isLoading && !error && filteredPosts.length === 0 ? (
         <div className="py-12 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-900 border border-slate-700">
             <Search className="w-8 h-8 text-slate-400" />
@@ -159,9 +257,17 @@ const BlogList: React.FC<BlogListProps> = ({
                 </div>
 
                 {/* Title */}
-                <h2 className="mb-2 cursor-pointer text-lg font-semibold text-slate-50 hover:text-cyan-300 transition-colors">
+                <a 
+                  href={`#blog/${post.slug}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.hash = `blog/${post.slug}`;
+                    window.dispatchEvent(new HashChangeEvent('hashchange'));
+                  }}
+                  className="mb-2 cursor-pointer text-lg font-semibold text-slate-50 hover:text-cyan-300 transition-colors block"
+                >
                   {post.title}
-                </h2>
+                </a>
 
                 {/* Excerpt */}
                 <p className="mb-4 flex-grow text-sm leading-relaxed text-slate-300/85">
@@ -201,9 +307,17 @@ const BlogList: React.FC<BlogListProps> = ({
                   </div>
 
                   {/* Read More Button */}
-                  <button className="mt-4 w-full rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.55)] hover:shadow-[0_0_26px_rgba(236,72,153,0.6)] transition-all">
+                  <a
+                    href={`#blog/${post.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.location.hash = `blog/${post.slug}`;
+                      window.dispatchEvent(new HashChangeEvent('hashchange'));
+                    }}
+                    className="mt-4 block w-full rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-4 py-2 text-center text-sm font-semibold text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.55)] hover:shadow-[0_0_26px_rgba(236,72,153,0.6)] transition-all"
+                  >
                     {t.blog.readMore}
-                  </button>
+                  </a>
                 </div>
               </div>
             </article>

@@ -6,13 +6,22 @@ interface EmbedFacadeProps {
   title: string;
   type: 'spotify' | 'youtube';
   thumbnailUrl?: string; // Optional: For a custom thumbnail
+  externalLink?: string; // Optional: If provided, clicking will navigate to this URL instead of loading embed
 }
 
-const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbnailUrl }) => {
+const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbnailUrl, externalLink }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const loadEmbed = () => {
     setIsLoaded(true);
+  };
+
+  const handleClick = () => {
+    if (externalLink) {
+      window.open(externalLink, '_blank', 'noopener,noreferrer');
+    } else {
+      loadEmbed();
+    }
   };
 
   // Basic placeholder styling - adjust as needed
@@ -26,8 +35,9 @@ const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbn
     justifyContent: 'center',
     width: '100%',
     height: '100%', // Ensure it fills the container
-    minHeight: '352px', // Match the height used in App.tsx
+    minHeight: '260px', // Match the height used in App.tsx (h-[260px])
     borderRadius: '0.5rem', // rounded-lg
+    zIndex: 1, // Ensure it's above other elements
   };
 
   const playIconStyle: React.CSSProperties = {
@@ -68,7 +78,7 @@ const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbn
         }
         loading="lazy" // Still good practice, though facade handles initial load
         className="w-full h-full" // Use Tailwind classes if preferred and configured
-        style={{ minHeight: '352px' }} // Ensure iframe has min height too
+        style={{ minHeight: '260px' }} // Match the height used in App.tsx
       />
     );
   }
@@ -76,7 +86,11 @@ const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbn
   return (
     <div
       style={placeholderStyle}
-      onClick={loadEmbed}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleClick();
+      }}
       onMouseEnter={(e) => {
         const icon = e.currentTarget.querySelector('.play-icon') as HTMLElement;
         if (icon) icon.style.opacity = '1';
@@ -86,9 +100,15 @@ const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbn
         if (icon) icon.style.opacity = '0.8';
       }}
       role="button"
-      aria-label={`Load ${type} embed: ${title}`}
+      aria-label={externalLink ? `Visit ${type}: ${title}` : `Load ${type} embed: ${title}`}
       tabIndex={0} // Make it focusable
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') loadEmbed(); }} // Keyboard activation
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          handleClick();
+        }
+      }} // Keyboard activation
     >
       {/* Optional: Add a background image thumbnail here if thumbnailUrl is provided */}
       {thumbnailUrl && (

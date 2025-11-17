@@ -19,6 +19,7 @@ import axios from 'axios';
 import EmbedFacade from './components/EmbedFacade';
 import WebsitePreview from './components/WebsitePreview';
 import BlogList from './components/BlogList';
+import BlogPostDetail from './components/BlogPostDetail';
 import SponsorSection from './components/SponsorSection';
 
 // YouTube channel username for RSS feed
@@ -34,6 +35,7 @@ function App() {
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [latestVideoId, setLatestVideoId] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentBlogSlug, setCurrentBlogSlug] = useState<string | null>(null);
 
   const navItems = [
     { label: t.nav.home, href: '#top' },
@@ -61,6 +63,30 @@ function App() {
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Handle hash routing for blog posts
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash;
+      if (hash.startsWith('#blog/')) {
+        const slug = hash.replace('#blog/', '');
+        setCurrentBlogSlug(slug);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setCurrentBlogSlug(null);
+      }
+    };
+
+    // Check initial hash
+    handleHashChange();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
 
@@ -175,6 +201,19 @@ function App() {
       return endText.substring(0, Math.max(charsToShow, 2));
     }
   };
+
+  // If viewing a blog post, show detail page
+  if (currentBlogSlug) {
+    return (
+      <BlogPostDetail
+        slug={currentBlogSlug}
+        onBack={() => {
+          window.location.hash = '#blog';
+          setCurrentBlogSlug(null);
+        }}
+      />
+    );
+  }
 
   return (
     <div id="top" className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden">
@@ -568,18 +607,20 @@ function App() {
                       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_35px_rgba(56,189,248,0.55)]"
                     >
                       {/* Top Section (Embed/Image) - Using EmbedFacade */}
-                      <div className="h-[260px] w-full flex-shrink-0 overflow-hidden">
+                      <div className="relative h-[260px] w-full flex-shrink-0 overflow-hidden">
                         {project.spotifyEmbed ? (
                           <EmbedFacade
                             embedUrl={project.embedUrl}
                             title={project.title}
                             type="spotify"
+                            externalLink="https://pocketcasts.com/podcast/%E6%AD%90%E8%B6%B4/2aa32b80-9572-013d-92a0-0afff0a90ec3"
                           />
                         ) : project.youtubeEmbed ? (
                           <EmbedFacade
                             embedUrl={project.embedUrl}
                             title={project.title}
                             type="youtube"
+                            externalLink="https://www.youtube.com/@techwithlc"
                           />
                         ) : (
                           // Medium link
