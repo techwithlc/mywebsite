@@ -3,16 +3,19 @@ import {
   Github,
   Linkedin,
   Mail,
-  Terminal,
-  Code2,
   Menu,
   X,
   ChevronUp,
   ArrowRight,
-  Sparkles,
+  Play,
   Zap,
-  Cpu,
-  Rocket,
+  BarChart3,
+  Shield,
+  Sparkles,
+  Clock,
+  TrendingUp,
+  Users,
+  Star,
 } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
 import axios from 'axios';
@@ -34,36 +37,25 @@ function App() {
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [latestVideoId, setLatestVideoId] = useState('');
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [currentBlogSlug, setCurrentBlogSlug] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const navItems = [
     { label: t.nav.home, href: '#top' },
-    { label: t.nav.techStack, href: '#tech' },
+    { label: t.nav.techStack, href: '#features' },
     { label: t.nav.projects, href: '#projects' },
     { label: t.nav.blog, href: '#blog' },
     { label: t.nav.contact, href: '#contact' },
   ];
-  
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-      
-      // Calculate scroll progress for text morphing (0 = AI, 1 = TechwithLC)
-      const maxScroll = 800; // Distance to complete the transformation
-      const progress = Math.min(window.scrollY / maxScroll, 1);
-      setScrollProgress(progress);
+      setShowScrollTop(window.scrollY > 300);
+      setIsScrolled(window.scrollY > 10);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Handle hash routing for blog posts
@@ -79,45 +71,34 @@ function App() {
       }
     };
 
-    // Check initial hash
     handleHashChange();
-
-    // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Fetch latest YouTube video using RSS feed
+  // Fetch latest YouTube video
   useEffect(() => {
     const fetchLatestYouTubeVideo = async () => {
       try {
-        // Using RSS feed approach to avoid API key requirements
         const response = await axios.get(
           `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw`
         );
-        
-        if (response.data && response.data.items && response.data.items.length > 0) {
-          // Extract video ID from the link
+
+        if (response.data?.items?.[0]) {
           const videoLink = response.data.items[0].link;
           const videoId = videoLink.split('v=')[1]?.split('&')[0];
-          if (videoId) {
-            setLatestVideoId(videoId);
-          }
+          if (videoId) setLatestVideoId(videoId);
         }
       } catch (error) {
         console.error('Error fetching YouTube videos:', error);
-        // Fallback to channel videos if RSS feed fails
         setLatestVideoId('');
       }
     };
 
     fetchLatestYouTubeVideo();
   }, []);
-  
-  // --- Subscription Handler using Netlify Function ---
+
+  // Subscription Handler
   const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubscribing(true);
@@ -125,7 +106,7 @@ function App() {
     setSubscribeSuccess(false);
 
     if (!subscribeEmail.trim() || !/\S+@\S+\.\S+/.test(subscribeEmail)) {
-      setSubscribeMessage('Please enter a valid email address');
+      setSubscribeMessage(t.common.invalidEmail);
       setSubscribeSuccess(false);
       setIsSubscribing(false);
       return;
@@ -134,75 +115,41 @@ function App() {
     try {
       const response = await fetch('/.netlify/functions/subscribe', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: subscribeEmail }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        // Use message from server response if available, otherwise generic error
         throw new Error(result.message || `Server error: ${response.status}`);
       }
 
-      // Handle success (including already subscribed)
       setSubscribeMessage(result.message);
-      setSubscribeSuccess(result.success || false); // Use success flag from server
+      setSubscribeSuccess(result.success || false);
 
       if (result.success) {
         setTimeout(() => {
-          setSubscribeEmail(''); // Clear email only on successful new subscription or if already subscribed
+          setSubscribeEmail('');
           setSubscribeMessage('');
         }, 3000);
       }
-
     } catch (error) {
       console.error('Subscription fetch error:', error);
-      setSubscribeMessage(error instanceof Error ? error.message : 'Failed to subscribe. Please check your connection and try again.');
+      setSubscribeMessage(
+        error instanceof Error ? error.message : t.common.subscribeError
+      );
       setSubscribeSuccess(false);
     } finally {
       setIsSubscribing(false);
     }
   };
-  // --- End Netlify Function Subscription Handler ---
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Header logo text animation from "TechwithLC" to "AI Tech"
-  const getHeaderText = (progress: number) => {
-    const startText = "TechwithLC";
-    const endText = "AI Tech";
-    
-    if (progress <= 0) return startText;
-    if (progress >= 1) return endText;
-    
-    // Start transition at 20% scroll, complete by 60%
-    if (progress < 0.2) return startText;
-    if (progress > 0.6) return endText;
-    
-    // Smooth transition between 20% and 60%
-    const transitionProgress = (progress - 0.2) / 0.4;
-    
-    // Character-by-character morphing
-    if (transitionProgress < 0.5) {
-      // First half: gradually remove characters from "TechwithLC"
-      const charsToKeep = Math.floor((1 - transitionProgress * 2) * startText.length);
-      return charsToKeep < 3 ? "AI" : startText.substring(0, Math.max(charsToKeep, 3));
-    } else {
-      // Second half: gradually build "AI Tech"
-      const charsToShow = Math.floor((transitionProgress - 0.5) * 2 * endText.length);
-      return endText.substring(0, Math.max(charsToShow, 2));
-    }
-  };
-
-  // If viewing a blog post, show detail page
+  // Blog post detail view
   if (currentBlogSlug) {
     return (
       <BlogPostDetail
@@ -216,31 +163,21 @@ function App() {
   }
 
   return (
-    <div id="top" className="min-h-screen bg-slate-950 text-slate-50 relative overflow-hidden">
-      {/* Futuristic background: neon grid + orbiting glows */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950/80" />
-        <div className="absolute inset-0 neon-grid opacity-25" />
-        <div className="absolute -left-40 top-10 w-80 h-80 bg-cyan-500/20 blur-3xl rounded-full animate-pulse-slow" />
-        <div className="absolute right-0 -bottom-10 w-[28rem] h-[28rem] bg-fuchsia-500/20 blur-3xl rounded-full animate-pulse-slow delay-150" />
-        <div className="absolute inset-0 neon-orbit" />
-      </div>
-
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#top" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-violet-500 shadow-[0_0_25px_rgba(56,189,248,0.7)]">
-              <Code2 className="h-5 w-5 text-slate-950" />
+    <div id="top" className="min-h-screen bg-white text-gray-900">
+      {/* Navigation - Ramp style */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <a href="#top" className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500">
+              <Zap className="h-5 w-5 text-white" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xs uppercase tracking-[0.25em] text-cyan-300/80">
-                Future Lab
-              </span>
-              <span className="text-lg font-semibold text-slate-50 transition-all duration-300 ease-out">
-                {getHeaderText(scrollProgress)}
-              </span>
-            </div>
+            <span className="text-xl font-bold text-gray-900">TechwithLC</span>
           </a>
 
           {/* Desktop Navigation */}
@@ -249,42 +186,51 @@ function App() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-slate-300 hover:text-cyan-300"
+                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
               >
                 {item.label}
               </a>
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Language Switch */}
+          <div className="flex items-center gap-3">
             <button
               onClick={toggleLanguage}
-              className="rounded-lg border border-slate-700 bg-slate-900/60 px-3 py-2 text-xs font-semibold text-slate-100 hover:border-cyan-400/70 hover:bg-slate-900"
-              aria-label={language === 'en' ? 'Switch to Chinese' : 'Switch to English'}
+              className="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
             >
-              {language === 'en' ? '中文' : 'EN'}
+              {language === 'en' ? t.lang.zh : t.lang.en}
             </button>
 
-            {/* Mobile Menu Button */}
+            <a
+              href="#contact"
+              className="hidden md:inline-flex items-center gap-2 rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              {t.nav.getStarted}
+              <ArrowRight className="h-4 w-4" />
+            </a>
+
             <button
-              className="rounded-lg border border-slate-700 bg-slate-900/60 p-2 text-slate-100 hover:border-cyan-400/70 hover:bg-slate-900 md:hidden"
+              className="rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="border-t border-slate-800 bg-slate-950/95 md:hidden">
+          <div className="border-t border-gray-100 bg-white md:hidden">
             <div className="space-y-1 px-6 py-4">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900 hover:text-cyan-300"
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -295,242 +241,141 @@ function App() {
         )}
       </nav>
 
-      <main className="relative z-10 pt-24 md:pt-28">
-        {/* Hero Section - Futuristic cockpit */}
-        <section className="mx-auto flex max-w-6xl flex-col gap-12 px-6 pb-20 pt-10 md:flex-row md:items-center md:pt-16 lg:gap-16">
-          {/* Left: Copy */}
-          <div className="relative flex-1 space-y-7 animate-fadeIn">
-            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-slate-900/80 px-3 py-1 text-xs text-cyan-200 shadow-[0_0_25px_rgba(34,211,238,0.35)]">
-              <Sparkles className="h-3 w-3" />
-              <span className="uppercase tracking-[0.2em]">
-                {t.hero.welcome}
-              </span>
-            </div>
-
-            <h1 className="text-balance text-4xl font-bold leading-tight tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-              <span className="bg-gradient-to-r from-cyan-300 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
-                {t.hero.title}
-              </span>
-              <span className="mt-2 block text-slate-300">
-                AI × Cloud × Developer Stories
-              </span>
-            </h1>
-
-            <p className="max-w-xl text-balance text-base text-slate-300/80 md:text-lg">
-              {t.hero.subtitle}
-            </p>
-
-            <div className="flex flex-col gap-3 pt-2 sm:flex-row">
-              <a
-                href="#projects"
-                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(56,189,248,0.7)] hover:shadow-[0_0_40px_rgba(236,72,153,0.6)]"
-              >
-                <Terminal className="h-4 w-4" />
-                {t.buttons.exploreProjects}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-900/70 px-6 py-3 text-sm font-semibold text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
-              >
-                <Mail className="h-4 w-4" />
-                {t.buttons.getInTouch}
-              </a>
-            </div>
-
-            {/* Mini stat chips */}
-            <div className="mt-6 grid max-w-md grid-cols-3 gap-3 text-xs text-slate-300/80">
-              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
-                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-cyan-300">
-                  <Zap className="h-3 w-3" /> AI
-                </span>
-                <p className="mt-1 text-[0.78rem] leading-snug">
-                  Practical AI workflows & tools you can ship today.
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
-                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-fuchsia-300">
-                  <Cpu className="h-3 w-3" /> Cloud
-                </span>
-                <p className="mt-1 text-[0.78rem] leading-snug">
-                  AWS / Azure / GCP infra stories from the trenches.
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-3">
-                <span className="flex items-center gap-1 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-emerald-300">
-                  <Rocket className="h-3 w-3" /> Career
-                </span>
-                <p className="mt-1 text-[0.78rem] leading-snug">
-                  Big tech interviews, growth, and behind-the-scenes.
-                </p>
-              </div>
-            </div>
+      <main>
+        {/* Hero Section - Ramp style */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50/50 to-white pt-32 pb-20 md:pt-40 md:pb-32">
+          {/* Background decoration */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-emerald-100/50 blur-3xl" />
+            <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-yellow-100/50 blur-3xl" />
           </div>
 
-          {/* Right: Animated dashboard */}
-          <div className="relative flex-1 animate-slideUp">
-            <div className="relative mx-auto max-w-md">
-              <div className="glassy-panel relative rounded-3xl border border-cyan-400/40 bg-slate-950/60 p-4 shadow-[0_0_45px_rgba(56,189,248,0.6)]">
-                <div className="mb-3 flex items-center justify-between text-xs text-slate-300/80">
-                  <span className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    LIVE AI DASHBOARD
-                  </span>
-                  <span className="rounded-full border border-slate-700/80 bg-slate-900/80 px-2 py-0.5 text-[0.65rem] uppercase tracking-[0.18em] text-slate-400">
-                    v2025
-                  </span>
-                </div>
-
-                <div className="relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
-                  <div className="neon-scanline pointer-events-none absolute inset-0" />
-                  <div className="relative grid grid-cols-2 gap-4 p-4 text-xs">
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
-                          NEXT EPISODE
-                        </p>
-                        <p className="mt-1 text-[0.8rem] font-semibold text-slate-100">
-                          AI News & Infra Roundup
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
-                          CHANNEL
-                        </p>
-                        <p className="mt-1 text-[0.8rem] text-slate-200">@techwithlc</p>
-                      </div>
-                      <div className="flex gap-2">
-                        <span className="inline-flex flex-1 items-center justify-between rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2 py-1">
-                          <span className="text-[0.7rem] text-emerald-100">Ship Rate</span>
-                          <span className="text-[0.8rem] font-semibold text-emerald-300">
-                            99.9%
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
-                          AI SIGNAL
-                        </p>
-                        <div className="mt-2 flex h-14 items-end gap-1">
-                          {[40, 60, 90, 70, 50].map((h, i) => (
-                            <div
-                              key={i}
-                              style={{ height: `${h}%` }}
-                              className="w-1.5 rounded-t-full bg-gradient-to-t from-slate-700 via-cyan-400 to-fuchsia-400 animate-pulse-bar"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-[0.68rem] uppercase tracking-[0.18em] text-slate-400">
-                          FEED
-                        </p>
-                        <p className="mt-1 text-[0.78rem] text-slate-300/80">
-                          Latest YouTube episode auto-synced into the projects
-                          section below.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating chips */}
-                <div className="mt-4 flex flex-wrap gap-2 text-[0.7rem]">
-                  <span className="rounded-full border border-cyan-400/60 bg-cyan-500/10 px-3 py-1 text-cyan-100">
-                    React · TypeScript · Tailwind
-                  </span>
-                  <span className="rounded-full border border-fuchsia-400/60 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-100">
-                    AI Workflows
-                  </span>
-                  <span className="rounded-full border border-emerald-400/60 bg-emerald-500/10 px-3 py-1 text-emerald-100">
-                    Cloud Infra
-                  </span>
-                </div>
+          <div className="relative mx-auto max-w-7xl px-6">
+            <div className="mx-auto max-w-4xl text-center">
+              {/* Badge */}
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                <Sparkles className="h-4 w-4" />
+                {t.hero.welcome}
               </div>
 
-              {/* Orbiting rings */}
-              <div className="pointer-events-none absolute -inset-10 -z-10 neon-orbit subtle-spin" />
+              {/* Main headline */}
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
+                {t.hero.title}
+                <span className="mt-2 block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                  {t.hero.tagline}
+                </span>
+              </h1>
+
+              <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600 md:text-xl">
+                {t.hero.subtitle}
+              </p>
+
+              {/* CTA buttons */}
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <a
+                  href="#projects"
+                  className="group inline-flex items-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-gray-900/20 hover:bg-gray-800 transition-all hover:shadow-xl"
+                >
+                  {t.buttons.exploreProjects}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@techwithlc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 bg-white px-8 py-4 text-base font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all"
+                >
+                  <Play className="h-4 w-4" />
+                  {t.hero.watchVideos}
+                </a>
+              </div>
+            </div>
+
+            {/* Stats bar */}
+            <div className="mx-auto mt-20 grid max-w-4xl grid-cols-2 gap-8 md:grid-cols-4">
+              {[
+                { label: t.stats.subscribers, value: '500+', icon: Users },
+                { label: t.stats.videos, value: '100+', icon: Play },
+                { label: t.stats.techTopics, value: '50+', icon: BarChart3 },
+                { label: t.stats.countries, value: '30+', icon: TrendingUp },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
+                    <stat.icon className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div className="text-2xl font-bold text-gray-900 md:text-3xl">
+                    {stat.value}
+                  </div>
+                  <div className="mt-1 text-sm text-gray-500">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Tech Stack Section */}
-        <section id="tech" className="border-t border-slate-800/70 bg-slate-950/80 py-16">
-          <div className="mx-auto max-w-6xl px-6">
+        {/* Logo bar - Trust badges */}
+        <section className="border-y border-gray-100 bg-gray-50/50 py-12">
+          <div className="mx-auto max-w-7xl px-6">
+            <p className="mb-8 text-center text-sm font-medium uppercase tracking-wider text-gray-500">
+              {t.logoBar.title}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+              {['AWS', 'Azure', 'GCP', 'React', 'TypeScript', 'Python', 'Kubernetes', 'Docker'].map(
+                (logo) => (
+                  <div
+                    key={logo}
+                    className="text-lg font-semibold text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {logo}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section - Ramp style cards */}
+        <section id="features" className="py-20 md:py-32">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-                STACK TELEMETRY
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                <Zap className="h-4 w-4" />
+                {t.features.badge}
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl">
                 {t.techStack.title}
               </h2>
-              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+              <p className="mt-4 text-lg text-gray-600">
                 {t.techStack.description}
               </p>
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[
-                {
-                  name: 'React',
-                  icon: '⚛️',
-                  description: 'Frontend Systems',
-                },
-                {
-                  name: 'TypeScript',
-                  icon: '📘',
-                  description: 'Static Safety',
-                },
-                {
-                  name: 'AWS',
-                  icon: '☁️',
-                  description: 'Scalable Infra',
-                },
-                {
-                  name: 'Azure',
-                  icon: '🌥️',
-                  description: 'Enterprise Cloud',
-                },
-                {
-                  name: 'GCP',
-                  icon: '🌐',
-                  description: 'Data & ML',
-                },
-                {
-                  name: 'Networking',
-                  icon: '🔌',
-                  description: 'Deep Infrastructure',
-                },
-                {
-                  name: 'Linux',
-                  icon: '🐧',
-                  description: 'Systems Engineering',
-                },
-                {
-                  name: 'AI',
-                  icon: '🤖',
-                  description: 'Agents & LLMs',
-                },
-              ].map((tech) => (
+                { title: t.features.ai.title, description: t.features.ai.description, icon: Sparkles, color: 'emerald' },
+                { title: t.features.cloud.title, description: t.features.cloud.description, icon: Shield, color: 'blue' },
+                { title: t.features.career.title, description: t.features.career.description, icon: TrendingUp, color: 'purple' },
+                { title: t.features.devTools.title, description: t.features.devTools.description, icon: Zap, color: 'orange' },
+                { title: t.features.systemDesign.title, description: t.features.systemDesign.description, icon: BarChart3, color: 'pink' },
+                { title: t.features.weekly.title, description: t.features.weekly.description, icon: Clock, color: 'teal' },
+              ].map((feature) => (
                 <div
-                  key={tech.name}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 p-4 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_35px_rgba(56,189,248,0.55)]"
+                  key={feature.title}
+                  className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300"
                 >
-                  <div className="pointer-events-none absolute inset-px rounded-2xl border border-slate-700/50 group-hover:border-cyan-400/40" />
-                  <div className="relative">
-                    <div className="mb-3 text-2xl transition-transform duration-300 group-hover:scale-110">
-                      {tech.icon}
-                    </div>
-                    <h3 className="text-sm font-semibold text-slate-100">
-                      {tech.name}
-                    </h3>
-                    <p className="mt-1 text-[0.78rem] text-slate-400">
-                      {tech.description}
-                    </p>
+                  <div
+                    className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${feature.color}-100`}
+                  >
+                    <feature.icon
+                      className={`h-6 w-6 text-${feature.color}-600`}
+                    />
                   </div>
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {feature.description}
+                  </p>
                 </div>
               ))}
             </div>
@@ -538,26 +383,27 @@ function App() {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="border-t border-slate-800/70 bg-slate-950/90 py-16">
-          <div className="mx-auto max-w-6xl px-6">
+        <section id="projects" className="bg-gray-50 py-20 md:py-32">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-                SIGNAL STREAMS
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                <Star className="h-4 w-4" />
+                {t.projects.badge}
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl">
                 {t.projects.title}
               </h2>
-              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
+              <p className="mt-4 text-lg text-gray-600">
                 {t.projects.description}
               </p>
             </div>
 
-            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
               {[
                 {
                   title: t.projects.podcast.title,
                   description: t.projects.podcast.description,
-                  tech: ['Podcast', 'Tech Trends', 'Innovation'],
+                  tech: [t.projects.tech.podcast, t.projects.tech.techTrends],
                   spotifyEmbed: true,
                   embedUrl:
                     'https://open.spotify.com/embed/show/0dfTD5n0Rfuco9z24BhaS0?utm_source=generator',
@@ -566,7 +412,7 @@ function App() {
                 {
                   title: t.projects.youtube.title,
                   description: t.projects.youtube.description,
-                  tech: ['YouTube', 'Tech Content', 'Tutorials'],
+                  tech: [t.projects.tech.youtube, t.projects.tech.tutorials],
                   youtubeEmbed: true,
                   embedUrl: latestVideoId
                     ? `https://www.youtube.com/embed/${latestVideoId}`
@@ -576,7 +422,7 @@ function App() {
                 {
                   title: t.projects.interview.title,
                   description: t.projects.interview.description,
-                  tech: ['Career Growth', 'Interview Tips', 'Google'],
+                  tech: [t.projects.tech.career, t.projects.tech.google],
                   mediumEmbed: false,
                   link: 'https://medium.com/@awslc/google-%E5%8F%B0%E7%81%A3%E9%9D%A2%E8%A9%A6%E5%88%86%E4%BA%AB-%E7%84%A1%E8%97%8F%E7%A7%81-bd28935d35f3',
                   embedUrl: undefined,
@@ -584,7 +430,7 @@ function App() {
                 {
                   title: t.projects.coffeeLover.title,
                   description: t.projects.coffeeLover.description,
-                  tech: ['React', 'TypeScript', 'Tailwind CSS', 'Netlify'],
+                  tech: [t.projects.tech.react, t.projects.tech.tailwind],
                   websitePreview: true,
                   link: 'https://coffeelover.fun',
                   embedUrl: undefined,
@@ -600,243 +446,238 @@ function App() {
                       tech={project.tech}
                     />
                   );
-                } else {
-                  return (
-                    <div
-                      key={project.title}
-                      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/70 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_35px_rgba(56,189,248,0.55)]"
-                    >
-                      {/* Top Section (Embed/Image) - Using EmbedFacade */}
-                      <div className="relative h-[260px] w-full flex-shrink-0 overflow-hidden">
-                        {project.spotifyEmbed ? (
-                          <EmbedFacade
-                            embedUrl={project.embedUrl}
-                            title={project.title}
-                            type="spotify"
-                            externalLink="https://pocketcasts.com/podcast/%E6%AD%90%E8%B6%B4/2aa32b80-9572-013d-92a0-0afff0a90ec3"
-                          />
-                        ) : project.youtubeEmbed ? (
-                          <EmbedFacade
-                            embedUrl={project.embedUrl}
-                            title={project.title}
-                            type="youtube"
-                            externalLink="https://www.youtube.com/@techwithlc"
-                          />
-                        ) : (
-                          // Medium link
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800"
-                          >
-                            <div className="transition-transform duration-500 group-hover:scale-110">
-                              <svg
-                                viewBox="0 0 24 24"
-                                className="h-16 w-16 text-slate-300 group-hover:text-cyan-300"
-                              >
-                                <path
-                                  fill="currentColor"
-                                  d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
-                                />
-                              </svg>
-                            </div>
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/80 to-transparent p-3">
-                              <span className="text-[0.75rem] font-medium text-slate-100">
-                                Read on Medium
-                              </span>
-                            </div>
-                          </a>
-                        )}
-                      </div>
-                      {/* Bottom Section (Text Content) */}
-                      <div className="flex flex-grow flex-col p-4">
+                }
+                return (
+                  <div
+                    key={project.title}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300"
+                  >
+                    <div className="relative h-[220px] w-full flex-shrink-0 overflow-hidden bg-gray-100">
+                      {project.spotifyEmbed ? (
+                        <EmbedFacade
+                          embedUrl={project.embedUrl}
+                          title={project.title}
+                          type="spotify"
+                          externalLink="https://pocketcasts.com/podcast/%E6%AD%90%E8%B6%B4/2aa32b80-9572-013d-92a0-0afff0a90ec3"
+                        />
+                      ) : project.youtubeEmbed ? (
+                        <EmbedFacade
+                          embedUrl={project.embedUrl}
+                          title={project.title}
+                          type="youtube"
+                          externalLink="https://www.youtube.com/@techwithlc"
+                        />
+                      ) : (
                         <a
-                          href={
-                            project.youtubeEmbed
-                              ? 'https://www.youtube.com/@techwithlc'
-                              : project.link
-                          }
+                          href={project.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hover:text-cyan-300"
+                          className="relative flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50"
                         >
-                          <h3 className="mb-2 text-sm font-semibold text-slate-50">
-                            {project.title}
-                          </h3>
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-16 w-16 text-gray-400 group-hover:text-emerald-500 transition-colors"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
+                            />
+                          </svg>
                         </a>
-                        <p className="mb-4 flex-grow text-[0.8rem] leading-relaxed text-slate-300/80">
-                          {project.youtubeEmbed ? t.youtube.description : project.description}
-                        </p>
-                        <div className="mt-auto flex flex-wrap gap-1.5">
-                          {project.tech.map((tag) => (
-                            <span
-                              key={tag}
-                              className="rounded-full border border-slate-700 bg-slate-900/80 px-2.5 py-1 text-[0.7rem] text-slate-200"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-grow flex-col p-6">
+                      <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                        {project.title}
+                      </h3>
+                      <p className="mb-4 flex-grow text-sm text-gray-600 leading-relaxed">
+                        {project.youtubeEmbed
+                          ? t.youtube.description
+                          : project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tech.map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
-                  );
-                }
+                  </div>
+                );
               })}
             </div>
           </div>
         </section>
 
         {/* Blog Section */}
-        <section id="blog" className="border-t border-slate-800/70 bg-slate-950/80 py-16">
-          <div className="mx-auto max-w-6xl px-6">
+        <section id="blog" className="py-20 md:py-32">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-                DEV LOG
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                <BarChart3 className="h-4 w-4" />
+                {t.blog.badge}
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl">
                 {t.blog.title}
               </h2>
-              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
-                {t.blog.description}
-              </p>
+              <p className="mt-4 text-lg text-gray-600">{t.blog.description}</p>
             </div>
-            <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-950/80 p-4 shadow-card">
+            <div className="mt-16 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
               <BlogList maxPosts={6} />
             </div>
           </div>
         </section>
 
         {/* Newsletter Section */}
-        <section className="border-t border-slate-800/70 bg-slate-950/90 py-16">
-          <div className="mx-auto max-w-6xl px-6">
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-                HYPERFEED
-              </p>
-              <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
-                {t.newsletter.title}
-              </h2>
-              <p className="mt-3 text-base text-slate-300/80 md:text-lg">
-                {t.newsletter.description}
-              </p>
+        <section className="relative overflow-hidden border-t border-gray-200 bg-gradient-to-b from-emerald-50/60 to-white py-20 md:py-28">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-emerald-100/40 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-teal-100/30 blur-3xl" />
+          </div>
 
-              <form
-                onSubmit={handleSubscribe}
-                className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row"
-              >
-                <input
-                  type="email"
-                  value={subscribeEmail}
-                  onChange={(e) => setSubscribeEmail(e.target.value)}
-                  placeholder={t.newsletter.placeholder}
-                  className="flex-1 rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/40"
-                  required
-                />
+          <div className="relative mx-auto max-w-3xl px-6 text-center">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+              <Mail className="h-4 w-4" />
+              {t.newsletter.subtitle}
+            </div>
+
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl lg:text-5xl">
+              {t.newsletter.title}
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              {t.newsletter.description}
+            </p>
+
+            <form
+              onSubmit={handleSubscribe}
+              className="mx-auto mt-10 flex max-w-xl flex-col gap-4 sm:flex-row sm:items-stretch"
+            >
+              <label className="sr-only" htmlFor="newsletter-email">
+                {t.newsletter.placeholder}
+              </label>
+              <input
+                id="newsletter-email"
+                type="email"
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                placeholder={t.newsletter.placeholder}
+                className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white px-5 py-3.5 text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 sm:rounded-r-none sm:rounded-l-xl sm:py-4 sm:px-6"
+                required
+                disabled={isSubscribing}
+              />
                 <button
                   type="submit"
                   disabled={isSubscribing}
-                  className="rounded-xl bg-gradient-to-r from-cyan-400 via-sky-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_25px_rgba(56,189,248,0.6)] hover:shadow-[0_0_35px_rgba(236,72,153,0.6)] disabled:opacity-60"
+                  className="rounded-xl bg-gray-900 px-8 py-3.5 font-semibold text-white shadow-lg shadow-gray-900/10 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-60 sm:rounded-l-none sm:rounded-r-xl sm:py-4"
                 >
-                  {isSubscribing ? 'Subscribing...' : t.newsletter.button}
+                  {isSubscribing ? t.newsletter.subscribing : t.newsletter.button}
                 </button>
-              </form>
+            </form>
 
-              {subscribeMessage && (
-                <p
-                  className={`mt-3 text-xs ${
-                    subscribeSuccess ? 'text-emerald-300' : 'text-rose-300'
-                  }`}
-                >
-                  {subscribeMessage}
-                </p>
-              )}
-            </div>
+            {subscribeMessage && (
+              <p
+                role="alert"
+                className={`mt-5 rounded-xl px-4 py-3 text-sm font-medium ${
+                  subscribeSuccess
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}
+              >
+                {subscribeMessage}
+              </p>
+            )}
+
+            <p className="mt-6 text-xs text-gray-500">
+              {t.newsletter.noSpam}
+            </p>
           </div>
         </section>
 
         {/* Sponsor Section */}
-        <section className="border-t border-slate-800/70 bg-slate-950/80 py-16">
+        <section className="py-20 md:py-32">
           <div className="mx-auto max-w-4xl px-6">
-            <div className="rounded-3xl border border-slate-800 bg-slate-950/90 p-6 shadow-card">
+            <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
               <SponsorSection />
             </div>
           </div>
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="border-t border-slate-800/70 bg-slate-950/90 py-16">
+        <section id="contact" className="bg-gray-50 py-20 md:py-32">
           <div className="mx-auto max-w-4xl px-6 text-center">
-            <p className="text-xs uppercase tracking-[0.3em] text-cyan-300/80">
-              CONTACT
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-slate-50 md:text-4xl">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+              <Mail className="h-4 w-4" />
+              {t.contact.badge}
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 md:text-4xl lg:text-5xl">
               {t.contact.title}
             </h2>
-            <p className="mt-3 text-base text-slate-300/80 md:text-lg">
-              {t.contact.description}
-            </p>
+            <p className="mt-4 text-lg text-gray-600">{t.contact.description}</p>
 
-            <div className="mt-8 flex justify-center gap-4">
-              <a
-                href="https://github.com/techwithlc"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
-              >
-                <Github className="h-5 w-5 text-slate-300 group-hover:text-cyan-300" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/klunlawrencechen/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
-              >
-                <Linkedin className="h-5 w-5 text-slate-300 group-hover:text-sky-400" />
-              </a>
-              <a
-                href="https://x.com/techwithlc0921"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
-              >
-                <svg
-                  className="h-5 w-5 text-slate-300 group-hover:text-slate-50"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
+            <div className="mt-10 flex justify-center gap-4">
+              {[
+                {
+                  href: 'https://github.com/techwithlc',
+                  icon: Github,
+                  label: 'GitHub',
+                },
+                {
+                  href: 'https://www.linkedin.com/in/klunlawrencechen/',
+                  icon: Linkedin,
+                  label: 'LinkedIn',
+                },
+                {
+                  href: 'https://x.com/techwithlc0921',
+                  icon: () => (
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
+                  ),
+                  label: 'X',
+                },
+                {
+                  href: 'mailto:kuanlunlawrence.chen@gmail.com',
+                  icon: Mail,
+                  label: 'Email',
+                },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-full border border-gray-200 bg-white p-4 text-gray-600 shadow-sm hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600 transition-all"
                 >
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a
-                href="mailto:kuanlunlawrence.chen@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group rounded-2xl border border-slate-800 bg-slate-950/80 p-4 text-slate-100 hover:border-cyan-400/80 hover:bg-slate-900"
-              >
-                <Mail className="h-5 w-5 text-slate-300 group-hover:text-cyan-300" />
-              </a>
+                  <social.icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-slate-800 bg-slate-950 py-10">
-          <div className="mx-auto max-w-4xl px-6 text-center">
-            <div className="mb-5 flex items-center justify-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-400 via-sky-500 to-fuchsia-500 shadow-[0_0_25px_rgba(56,189,248,0.7)]">
-                <Code2 className="h-5 w-5 text-slate-950" />
+        <footer className="border-t border-gray-200 bg-white py-12">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500">
+                  <Zap className="h-4 w-4 text-white" />
+                </div>
+                <span className="text-lg font-bold text-gray-900">
+                  TechwithLC
+                </span>
               </div>
-              <span className="text-lg font-semibold text-slate-50">
-                TechwithLC
-              </span>
+              <p className="text-sm text-gray-500">
+                {t.footer.tagline}
+              </p>
+              <p className="text-sm text-gray-400">
+                {t.footer.copyright}
+              </p>
             </div>
-            <p className="text-xs text-slate-400">
-              Building the future with technology, one experiment at a time.
-            </p>
-            <p className="mt-2 text-[0.7rem] text-slate-500">
-              © 2025 TechwithLC. All rights reserved.
-            </p>
           </div>
         </footer>
 
@@ -844,8 +685,8 @@ function App() {
         {showScrollTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-50 rounded-full bg-slate-900/90 p-3 text-slate-50 shadow-[0_0_25px_rgba(15,23,42,0.9)] ring-1 ring-slate-700 hover:bg-slate-900 hover:ring-cyan-400/80"
-            aria-label="Scroll to top"
+            className="fixed bottom-6 right-6 z-50 rounded-full bg-gray-900 p-3 text-white shadow-lg hover:bg-gray-800 transition-colors"
+            aria-label={t.common.scrollToTop}
           >
             <ChevronUp className="h-5 w-5" />
           </button>
