@@ -18,7 +18,6 @@ import {
   Star,
 } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
-import axios from 'axios';
 import EmbedFacade from './components/EmbedFacade';
 import WebsitePreview from './components/WebsitePreview';
 import BlogList from './components/BlogList';
@@ -80,14 +79,39 @@ function App() {
   useEffect(() => {
     const fetchLatestYouTubeVideo = async () => {
       try {
-        const response = await axios.get(
-          `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw`
-        );
+        // Cache for 30 minutes to reduce repeated calls
+        const cacheKey = 'latestYouTubeVideoId:v1';
+        const cacheRaw = sessionStorage.getItem(cacheKey);
+        if (cacheRaw) {
+          const cache = JSON.parse(cacheRaw) as { videoId: string; ts: number };
+          if (cache.videoId && Date.now() - cache.ts < 30 * 60 * 1000) {
+            setLatestVideoId(cache.videoId);
+            return;
+          }
+        }
 
-        if (response.data?.items?.[0]) {
-          const videoLink = response.data.items[0].link;
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+        const resp = await fetch(
+          `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw`,
+          { signal: controller.signal }
+        );
+        window.clearTimeout(timeout);
+
+        if (!resp.ok) throw new Error(`RSS fetch failed: ${resp.status}`);
+        const data = (await resp.json()) as any;
+
+        if (data?.items?.[0]) {
+          const videoLink = data.items[0].link as string;
           const videoId = videoLink.split('v=')[1]?.split('&')[0];
-          if (videoId) setLatestVideoId(videoId);
+          if (videoId) {
+            setLatestVideoId(videoId);
+            sessionStorage.setItem(
+              cacheKey,
+              JSON.stringify({ videoId, ts: Date.now() })
+            );
+          }
         }
       } catch (error) {
         console.error('Error fetching YouTube videos:', error);
@@ -251,43 +275,114 @@ function App() {
           </div>
 
           <div className="relative mx-auto max-w-7xl px-6">
-            <div className="mx-auto max-w-4xl text-center">
+            <div className="grid items-center gap-12 md:grid-cols-2">
               {/* Badge */}
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
-                <Sparkles className="h-4 w-4" />
-                {t.hero.welcome}
+              <div className="text-center md:text-left">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                  <Sparkles className="h-4 w-4" />
+                  {t.hero.welcome}
+                </div>
+
+                {/* Main headline */}
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+                  {t.hero.title}
+                  <span className="mt-2 block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+                    {t.hero.tagline}
+                  </span>
+                </h1>
+
+                <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600 md:mx-0 md:text-xl">
+                  {t.hero.subtitle}
+                </p>
+
+                {/* CTA buttons */}
+                <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row md:justify-start">
+                  <a
+                    href="#projects"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-gray-900/20 hover:bg-gray-800 transition-all hover:shadow-xl sm:w-auto"
+                  >
+                    {t.buttons.exploreProjects}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@techwithlc"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-gray-200 bg-white px-8 py-4 text-base font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all sm:w-auto"
+                  >
+                    <Play className="h-4 w-4" />
+                    {t.hero.watchVideos}
+                  </a>
+                </div>
               </div>
 
-              {/* Main headline */}
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-7xl">
-                {t.hero.title}
-                <span className="mt-2 block bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                  {t.hero.tagline}
-                </span>
-              </h1>
+              {/* Product-style mock card */}
+              <div className="relative">
+                <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-gradient-to-br from-emerald-200/30 via-white to-teal-200/20 blur-2xl" />
+                <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-[0_25px_60px_-30px_rgba(15,23,42,0.25)]">
+                  <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500">
+                        <Zap className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="leading-tight">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {t.hero.tagline}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {t.logoBar.title}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                      {t.common.live}
+                    </span>
+                  </div>
 
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600 md:text-xl">
-                {t.hero.subtitle}
-              </p>
+                  <div className="grid gap-4 p-6 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      <p className="text-xs font-semibold text-gray-500">
+                        {t.stats.subscribers}
+                      </p>
+                      <p className="mt-1 text-3xl font-bold text-gray-900">
+                        500+
+                      </p>
+                      <p className="mt-2 text-xs text-gray-500">
+                        {t.newsletter.noSpam}
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      <p className="text-xs font-semibold text-gray-500">
+                        {t.stats.videos}
+                      </p>
+                      <p className="mt-1 text-3xl font-bold text-gray-900">
+                        100+
+                      </p>
+                      <div className="mt-3 flex items-end gap-1">
+                        {[8, 12, 9, 14, 11, 16].map((h, i) => (
+                          <div
+                            key={i}
+                            style={{ height: `${h * 4}px` }}
+                            className="w-2 rounded-t-md bg-emerald-200"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
 
-              {/* CTA buttons */}
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <a
-                  href="#projects"
-                  className="group inline-flex items-center gap-2 rounded-full bg-gray-900 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-gray-900/20 hover:bg-gray-800 transition-all hover:shadow-xl"
-                >
-                  {t.buttons.exploreProjects}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
-                <a
-                  href="https://www.youtube.com/@techwithlc"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border-2 border-gray-200 bg-white px-8 py-4 text-base font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all"
-                >
-                  <Play className="h-4 w-4" />
-                  {t.hero.watchVideos}
-                </a>
+                  <div className="border-t border-gray-100 px-6 py-4">
+                    <div className="flex items-center justify-between text-xs text-gray-600">
+                      <span className="font-medium">{t.blog.badge}</span>
+                      <a
+                        href="#blog"
+                        className="inline-flex items-center gap-1 font-semibold text-emerald-700 hover:text-emerald-600"
+                      >
+                        {t.blog.readMore}
+                        <ArrowRight className="h-3 w-3" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -351,33 +446,49 @@ function App() {
             </div>
 
             <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                { title: t.features.ai.title, description: t.features.ai.description, icon: Sparkles, color: 'emerald' },
-                { title: t.features.cloud.title, description: t.features.cloud.description, icon: Shield, color: 'blue' },
-                { title: t.features.career.title, description: t.features.career.description, icon: TrendingUp, color: 'purple' },
-                { title: t.features.devTools.title, description: t.features.devTools.description, icon: Zap, color: 'orange' },
-                { title: t.features.systemDesign.title, description: t.features.systemDesign.description, icon: BarChart3, color: 'pink' },
-                { title: t.features.weekly.title, description: t.features.weekly.description, icon: Clock, color: 'teal' },
-              ].map((feature) => (
-                <div
-                  key={feature.title}
-                  className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300"
-                >
-                  <div
-                    className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${feature.color}-100`}
-                  >
-                    <feature.icon
-                      className={`h-6 w-6 text-${feature.color}-600`}
-                    />
-                  </div>
-                  <h3 className="mb-3 text-xl font-semibold text-gray-900">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
+              {/** Tailwind JIT can't see dynamic class names; keep these static */}
+              {(() => {
+                const colorStyles: Record<
+                  string,
+                  { bg: string; fg: string }
+                > = {
+                  emerald: { bg: 'bg-emerald-100', fg: 'text-emerald-600' },
+                  blue: { bg: 'bg-blue-100', fg: 'text-blue-600' },
+                  purple: { bg: 'bg-purple-100', fg: 'text-purple-600' },
+                  orange: { bg: 'bg-orange-100', fg: 'text-orange-600' },
+                  pink: { bg: 'bg-pink-100', fg: 'text-pink-600' },
+                  teal: { bg: 'bg-teal-100', fg: 'text-teal-600' },
+                };
+
+                const features = [
+                  { key: 'ai', icon: Sparkles, color: 'emerald', title: t.features.ai.title, description: t.features.ai.description },
+                  { key: 'cloud', icon: Shield, color: 'blue', title: t.features.cloud.title, description: t.features.cloud.description },
+                  { key: 'career', icon: TrendingUp, color: 'purple', title: t.features.career.title, description: t.features.career.description },
+                  { key: 'devTools', icon: Zap, color: 'orange', title: t.features.devTools.title, description: t.features.devTools.description },
+                  { key: 'systemDesign', icon: BarChart3, color: 'pink', title: t.features.systemDesign.title, description: t.features.systemDesign.description },
+                  { key: 'weekly', icon: Clock, color: 'teal', title: t.features.weekly.title, description: t.features.weekly.description },
+                ];
+
+                return features.map((feature) => {
+                  const s = colorStyles[feature.color] ?? colorStyles.emerald;
+                  return (
+                    <div
+                      key={feature.key}
+                      className="group relative rounded-2xl border border-gray-200 bg-white p-8 shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300"
+                    >
+                      <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl ${s.bg}`}>
+                        <feature.icon className={`h-6 w-6 ${s.fg}`} />
+                      </div>
+                      <h3 className="mb-3 text-xl font-semibold text-gray-900">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  );
+                });
+              })()}
             </div>
           </div>
         </section>
@@ -623,12 +734,12 @@ function App() {
                 {
                   href: 'https://github.com/techwithlc',
                   icon: Github,
-                  label: 'GitHub',
+                  label: t.footer.connect.github,
                 },
                 {
                   href: 'https://www.linkedin.com/in/klunlawrencechen/',
                   icon: Linkedin,
-                  label: 'LinkedIn',
+                  label: t.footer.connect.linkedin,
                 },
                 {
                   href: 'https://x.com/techwithlc0921',
@@ -637,12 +748,12 @@ function App() {
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                     </svg>
                   ),
-                  label: 'X',
+                  label: t.footer.connect.twitter,
                 },
                 {
                   href: 'mailto:kuanlunlawrence.chen@gmail.com',
                   icon: Mail,
-                  label: 'Email',
+                  label: t.footer.connect.email,
                 },
               ].map((social) => (
                 <a
@@ -650,6 +761,8 @@ function App() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={social.label}
+                  title={social.label}
                   className="group rounded-full border border-gray-200 bg-white p-4 text-gray-600 shadow-sm hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600 transition-all"
                 >
                   <social.icon className="h-5 w-5" />

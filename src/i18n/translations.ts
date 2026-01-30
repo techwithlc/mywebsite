@@ -159,7 +159,8 @@ export const translations = {
     common: {
       invalidEmail: 'Please enter a valid email address',
       subscribeError: 'Failed to subscribe. Please try again.',
-      scrollToTop: 'Scroll to top'
+      scrollToTop: 'Scroll to top',
+      live: 'LIVE'
     },
     youtube: {
       description: 'Tech tutorials, cloud computing insights, and career development tips'
@@ -337,7 +338,8 @@ export const translations = {
     common: {
       invalidEmail: '請輸入有效的電子郵件地址',
       subscribeError: '訂閱失敗，請再試一次。',
-      scrollToTop: '回到頂部'
+      scrollToTop: '回到頂部',
+      live: '即時'
     },
     youtube: {
       description: '技術教學、雲端運算見解與職涯發展建議'
