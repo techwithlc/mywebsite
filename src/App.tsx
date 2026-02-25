@@ -546,6 +546,14 @@ function App() {
                   link: 'https://coffeelover.fun',
                   embedUrl: undefined,
                 },
+                {
+                  title: t.projects.yueLao.title,
+                  description: t.projects.yueLao.description,
+                  tech: [t.projects.tech.ai, t.projects.tech.matchmaking],
+                  websitePreview: true,
+                  link: 'https://yuelao69.netlify.app',
+                  embedUrl: undefined,
+                },
               ].map((project) => {
                 if (project.websitePreview) {
                   return (

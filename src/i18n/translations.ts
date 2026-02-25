@@ -45,7 +45,7 @@ export const translations = {
       subtitle: 'Featured Work',
       badge: 'Featured Content',
       description: 'Exploring innovative solutions in cloud computing and artificial intelligence',
-      tech: { podcast: 'Podcast', techTrends: 'Tech Trends', youtube: 'YouTube', tutorials: 'Tutorials', career: 'Career', google: 'Google', react: 'React', tailwind: 'Tailwind' },
+      tech: { podcast: 'Podcast', techTrends: 'Tech Trends', youtube: 'YouTube', tutorials: 'Tutorials', career: 'Career', google: 'Google', react: 'React', tailwind: 'Tailwind', ai: 'AI', matchmaking: 'Matchmaking' },
       podcast: {
         title: 'Tech Podcast - 歐趴',
         description: 'Exploring tech trends and sharing innovative ideas'
@@ -61,6 +61,10 @@ export const translations = {
       coffeeLover: {
         title: 'Coffee Lover - Personal Website',
         description: 'A modern, responsive personal website showcasing projects and technical expertise'
+      },
+      yueLao: {
+        title: 'Yue Lao AI 🧧',
+        description: 'AI matchmaker inspired by the Chinese god of love. Get your TOP 3 destined matches, analyze real crushes, and get roasted for unrealistic standards.'
       }
     },
     blog: {
@@ -224,7 +228,7 @@ export const translations = {
       subtitle: '精選作品',
       badge: '精選內容',
       description: '探索雲端運算與人工智慧的創新解決方案',
-      tech: { podcast: '播客', techTrends: '科技趨勢', youtube: 'YouTube', tutorials: '教學', career: '職涯', google: 'Google', react: 'React', tailwind: 'Tailwind' },
+      tech: { podcast: '播客', techTrends: '科技趨勢', youtube: 'YouTube', tutorials: '教學', career: '職涯', google: 'Google', react: 'React', tailwind: 'Tailwind', ai: 'AI', matchmaking: '命定配對' },
       podcast: {
         title: '科技播客 - 歐趴',
         description: '探索科技趨勢，分享創新思維。歡迎收聽歐趴，讓你人生一路 All Pa'
@@ -240,6 +244,10 @@ export const translations = {
       coffeeLover: {
         title: 'Coffee Lover - 個人網站',
         description: '現代化響應式個人網站，展示專案作品與技術專業'
+      },
+      yueLao: {
+        title: '月老 AI 🧧',
+        description: 'AI 月老，命定配對不是夢。TOP 3 命定對象、真人相容分析、毒舌現實指數——紅線一繫，月老不負責後續。'
       }
     },
     blog: {
