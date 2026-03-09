@@ -213,6 +213,32 @@ function App() {
               </span>
             </button>
 
+            {/* ── Hotspot: Books (left stack) → popup ── */}
+            <button
+              onClick={() => setActiveHotspot(activeHotspot === 'books' ? null : 'books')}
+              style={{ position: 'absolute', bottom: '10%', left: '1%', width: '13%', height: '50%', cursor: 'pointer' }}
+              className="group"
+              aria-label="Things I Love"
+            >
+              <span className="absolute -top-7 left-0 whitespace-nowrap rounded-full bg-sky-500 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                Things I Love 📚
+              </span>
+            </button>
+
+            {/* ── Hotspot: LinkedIn mug → LinkedIn ── */}
+            <a
+              href="https://www.linkedin.com/in/klunlawrencechen/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ position: 'absolute', top: '52%', left: '17%', width: '8%', height: '20%' }}
+              className="group"
+              aria-label="LinkedIn"
+            >
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                LinkedIn ☕
+              </span>
+            </a>
+
             {/* ── Hotspot: Camera → GitHub ── */}
             <a
               href="https://github.com/techwithlc"
@@ -224,20 +250,6 @@ function App() {
             >
               <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
                 GitHub 📷
-              </span>
-            </a>
-
-            {/* ── Hotspot: LinkedIn cup → LinkedIn ── */}
-            <a
-              href="https://www.linkedin.com/in/klunlawrencechen/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ position: 'absolute', top: '52%', left: '16%', width: '9%', height: '20%' }}
-              className="group"
-              aria-label="LinkedIn"
-            >
-              <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                LinkedIn ☕
               </span>
             </a>
 
