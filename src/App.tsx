@@ -26,6 +26,7 @@ function App() {
   const { t, language, toggleLanguage } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
@@ -183,9 +184,9 @@ function App() {
 
         {/* ── Hero ── */}
         <section className="pt-8 pb-16">
-          {/* Illustration with parallax */}
+          {/* Illustration with parallax + hotspots */}
           <div className="relative mb-8 overflow-hidden rounded-2xl bg-[#f5f0e8]" style={{ height: '320px' }}>
-            {/* Background layer — moves least */}
+            {/* Base image — parallax */}
             <div
               style={{
                 transform: `translate(${mousePos.x * -6}px, ${mousePos.y * -4}px)`,
@@ -199,14 +200,85 @@ function App() {
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
               />
             </div>
-            {/* Foreground floating layer — moves more */}
-            <div
-              style={{
-                transform: `translate(${mousePos.x * 10}px, ${mousePos.y * 6}px)`,
-                transition: 'transform 0.1s ease-out',
-                position: 'absolute', inset: 0, pointerEvents: 'none',
-              }}
-            />
+
+            {/* ── Hotspot: Screen (Dublin + Taipei 101) ── */}
+            <button
+              onClick={() => setActiveHotspot(activeHotspot === 'cities' ? null : 'cities')}
+              style={{ position: 'absolute', top: '8%', right: '10%', width: '28%', height: '44%', cursor: 'pointer' }}
+              className="group"
+              aria-label="Where I've lived"
+            >
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                Where I've Lived ✈️
+              </span>
+            </button>
+
+            {/* ── Hotspot: GitHub cat ── */}
+            <a
+              href="https://github.com/techwithlc"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ position: 'absolute', bottom: '18%', right: '2%', width: '10%', height: '22%' }}
+              className="group"
+              aria-label="GitHub"
+            >
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                GitHub 🐱
+              </span>
+            </a>
+
+            {/* ── Hotspot: Books ── */}
+            <button
+              onClick={() => setActiveHotspot(activeHotspot === 'books' ? null : 'books')}
+              style={{ position: 'absolute', bottom: '10%', left: '1%', width: '16%', height: '50%', cursor: 'pointer' }}
+              className="group"
+              aria-label="100 Things I Love"
+            >
+              <span className="absolute -top-7 left-0 whitespace-nowrap rounded-full bg-sky-500 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                100 Things I Love 📚
+              </span>
+            </button>
+
+            {/* ── Popup: Cities ── */}
+            {activeHotspot === 'cities' && (
+              <div
+                style={{ position: 'absolute', top: '8%', right: '10%' }}
+                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-48 z-10"
+              >
+                <p className="mb-2 font-semibold text-gray-800">📍 Where I've Lived</p>
+                <div className="space-y-1.5 text-gray-600 text-xs">
+                  {[
+                    { city: 'Taichung, Taiwan', period: '1996 – 2022' },
+                    { city: 'Dublin, Ireland', period: '2022 – 2024' },
+                    { city: 'Taipei, Taiwan', period: '2024 – present' },
+                  ].map(({ city, period }) => (
+                    <div key={city} className="flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-sky-400 flex-shrink-0" />
+                      <span>{city} <span className="text-gray-400">{period}</span></span>
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => setActiveHotspot(null)} className="mt-3 text-xs text-gray-400 hover:text-gray-600">close ×</button>
+              </div>
+            )}
+
+            {/* ── Popup: Books ── */}
+            {activeHotspot === 'books' && (
+              <div
+                style={{ position: 'absolute', bottom: '10%', left: '18%' }}
+                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-52 z-10"
+              >
+                <p className="mb-2 font-semibold text-gray-800">📚 Things I Really Love</p>
+                <div className="space-y-1 text-xs text-gray-600">
+                  {['AWS re:Invent', 'Mechanical keyboards', 'Golden retrievers', 'Cold brew coffee', 'Vim motions', 'Lo-fi hip hop', 'System design books', 'Taiwanese beef noodles'].map((item) => (
+                    <div key={item} className="flex items-center gap-1.5">
+                      <span className="text-sky-400">→</span> {item}
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => setActiveHotspot(null)} className="mt-3 text-xs text-gray-400 hover:text-gray-600">close ×</button>
+              </div>
+            )}
           </div>
 
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
