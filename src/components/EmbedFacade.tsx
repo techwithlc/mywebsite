@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { PlayCircle } from 'lucide-react'; // Using Play icon for visual cue
+import { PlayCircle } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface EmbedFacadeProps {
   embedUrl: string;
   title: string;
   type: 'spotify' | 'youtube';
-  thumbnailUrl?: string; // Optional: For a custom thumbnail
-  externalLink?: string; // Optional: If provided, clicking will navigate to this URL instead of loading embed
+  thumbnailUrl?: string;
+  externalLink?: string;
 }
 
-const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbnailUrl, externalLink }) => {
+const EmbedFacade: React.FC<EmbedFacadeProps> = ({
+  embedUrl,
+  title,
+  type,
+  thumbnailUrl,
+  externalLink,
+}) => {
+  const { t } = useLanguage();
   const [isLoaded, setIsLoaded] = useState(false);
 
   const loadEmbed = () => {
@@ -24,98 +32,77 @@ const EmbedFacade: React.FC<EmbedFacadeProps> = ({ embedUrl, title, type, thumbn
     }
   };
 
-  // Basic placeholder styling - adjust as needed
-  const placeholderStyle: React.CSSProperties = {
-    position: 'relative',
-    cursor: 'pointer',
-    overflow: 'hidden',
-    backgroundColor: '#374151', // gray-700
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '100%', // Ensure it fills the container
-    minHeight: '260px', // Match the height used in App.tsx (h-[260px])
-    borderRadius: '0.5rem', // rounded-lg
-    zIndex: 1, // Ensure it's above other elements
-  };
-
-  const playIconStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    color: 'white',
-    opacity: 0.8,
-    transition: 'opacity 0.3s ease',
-  };
-
-  const titleStyle: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '1rem',
-    left: '1rem',
-    right: '1rem',
-    color: 'white',
-    fontSize: '1rem',
-    fontWeight: 500,
-    textAlign: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: '0.5rem',
-    borderRadius: '0.25rem',
-  };
-
   if (isLoaded) {
     return (
       <iframe
         src={embedUrl}
         width="100%"
-        height="100%" // Ensure iframe also fills container
+        height="100%"
         frameBorder="0"
         allowFullScreen
-        allow={type === 'spotify'
-          ? "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          : "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow={
+          type === 'spotify'
+            ? 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+            : 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
         }
-        loading="lazy" // Still good practice, though facade handles initial load
-        className="w-full h-full" // Use Tailwind classes if preferred and configured
-        style={{ minHeight: '260px' }} // Match the height used in App.tsx
+        loading="lazy"
+        className="h-full w-full"
+        style={{ minHeight: '220px' }}
       />
     );
   }
 
   return (
     <div
-      style={placeholderStyle}
+      className="relative flex h-full w-full cursor-pointer items-center justify-center overflow-hidden bg-gradient-to-br from-gray-100 to-gray-50 transition-all hover:from-gray-50 hover:to-white"
+      style={{ minHeight: '220px' }}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         handleClick();
       }}
-      onMouseEnter={(e) => {
-        const icon = e.currentTarget.querySelector('.play-icon') as HTMLElement;
-        if (icon) icon.style.opacity = '1';
-      }}
-      onMouseLeave={(e) => {
-        const icon = e.currentTarget.querySelector('.play-icon') as HTMLElement;
-        if (icon) icon.style.opacity = '0.8';
-      }}
       role="button"
-      aria-label={externalLink ? `Visit ${type}: ${title}` : `Load ${type} embed: ${title}`}
-      tabIndex={0} // Make it focusable
+      aria-label={
+        externalLink
+          ? `Visit ${type}: ${title}`
+          : `Load ${type} embed: ${title}`
+      }
+      tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           e.stopPropagation();
           handleClick();
         }
-      }} // Keyboard activation
+      }}
     >
-      {/* Optional: Add a background image thumbnail here if thumbnailUrl is provided */}
+      {/* Thumbnail background */}
       {thumbnailUrl && (
-        <img src={thumbnailUrl} alt={`${title} thumbnail`} style={{ position: 'absolute', width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }} />
+        <img
+          src={thumbnailUrl}
+          alt={`${title} thumbnail`}
+          className="absolute inset-0 h-full w-full object-cover opacity-30"
+        />
       )}
-      <PlayCircle className="play-icon w-16 h-16" style={playIconStyle} />
-      <div style={titleStyle}>{title}</div>
+
+      {/* Play button */}
+      <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-lg transition-transform hover:scale-110">
+          <PlayCircle
+            className={`h-10 w-10 ${
+              type === 'spotify' ? 'text-green-500' : 'text-red-500'
+            }`}
+          />
+        </div>
+        <span className="text-sm font-medium text-gray-600">
+          {externalLink ? t.embedFacade.open : t.embedFacade.play}
+        </span>
+      </div>
+
+      {/* Title overlay */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900/70 to-transparent p-4">
+        <p className="text-center text-sm font-medium text-white">{title}</p>
+      </div>
     </div>
   );
 };

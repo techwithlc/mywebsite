@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink, Globe } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface WebsitePreviewProps {
   title: string;
@@ -14,35 +15,36 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   description,
   url,
   tech,
-  thumbnailUrl
+  thumbnailUrl,
 }) => {
+  const { t } = useLanguage();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   const defaultThumbnail = (
-    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900">
+    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-100 to-gray-50">
       <div className="text-center">
-        <Globe className="mx-auto mb-3 h-12 w-12 text-cyan-300" />
-        <p className="text-xs font-medium text-slate-300">Website Preview</p>
+        <Globe className="mx-auto mb-3 h-12 w-12 text-emerald-500" />
+        <p className="text-xs font-medium text-gray-500">{t.websitePreview.preview}</p>
       </div>
     </div>
   );
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/80 shadow-card hover:border-cyan-400/70 hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] transition-all duration-300">
+    <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-300">
       {/* Website Preview Section */}
-      <div className="relative h-[260px] w-full flex-shrink-0 overflow-hidden">
+      <div className="relative h-[220px] w-full flex-shrink-0 overflow-hidden bg-gray-100">
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full h-full relative overflow-hidden"
+          className="block h-full w-full relative overflow-hidden"
         >
           {thumbnailUrl && !imageError ? (
             <>
               {!imageLoaded && (
-                <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
-                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+                  <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
                 </div>
               )}
               <img
@@ -58,13 +60,13 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
           ) : (
             defaultThumbnail
           )}
-          
+
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent opacity-0 transition-all duration-300 group-hover:opacity-100">
             <div className="absolute bottom-4 left-4 right-4">
-              <div className="flex items-center gap-2 text-sm text-slate-50">
+              <div className="flex items-center gap-2 text-sm text-white">
                 <ExternalLink className="h-4 w-4" />
-                <span className="font-medium">Visit Website</span>
+                <span className="font-medium">{t.websitePreview.visit}</span>
               </div>
             </div>
           </div>
@@ -72,25 +74,25 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-grow flex-col p-5">
+      <div className="flex flex-grow flex-col p-6">
         <a
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-cyan-300 transition-colors"
+          className="hover:text-emerald-600 transition-colors"
         >
-          <h3 className="mb-2 text-lg font-semibold text-slate-50 transition-colors">
+          <h3 className="mb-2 text-lg font-semibold text-gray-900 transition-colors">
             {title}
           </h3>
         </a>
-        <p className="mb-4 flex-grow text-sm leading-relaxed text-slate-300/85">
+        <p className="mb-4 flex-grow text-sm leading-relaxed text-gray-600">
           {description}
         </p>
         <div className="mt-auto flex flex-wrap gap-2">
           {tech.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-[0.7rem] font-medium text-slate-200"
+              className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
             >
               {tag}
             </span>
@@ -101,4 +103,4 @@ const WebsitePreview: React.FC<WebsitePreviewProps> = ({
   );
 };
 
-export default WebsitePreview; 
+export default WebsitePreview;
