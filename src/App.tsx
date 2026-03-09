@@ -152,25 +152,29 @@ function App() {
       {/* ── Nav ── */}
       <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/60 mx-auto-none">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
-        {/* Logo: each letter collapses on scroll, like Anthropic nav */}
-        <span className="inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 whitespace-nowrap overflow-hidden">
-          {'TechwithLC'.split('').map((char, i) => {
-            const isKeep = i === 0; // keep "T"
-            return (
-              <span
-                key={i}
-                style={{
-                  display: 'inline-block',
-                  maxWidth: (!scrolled || isKeep) ? '1.2ch' : '0ch',
-                  opacity: (!scrolled || isKeep) ? 1 : 0,
-                  transition: `max-width 0.4s cubic-bezier(0.4,0,0.2,1) ${i * 18}ms, opacity 0.3s ease ${i * 18}ms`,
-                  overflow: 'hidden',
-                }}
-              >
-                {char}
-              </span>
-            );
-          })}
+        {/* Logo: TechwithLC collapses letter by letter → "AI" */}
+        <span className="relative inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 whitespace-nowrap"
+          style={{ height: '1.25rem' }}>
+          {/* Full name — each letter collapses on scroll */}
+          <span className="inline-flex" style={{ opacity: scrolled ? 0 : 1, transition: 'opacity 0.3s ease 0.1s', position: scrolled ? 'absolute' : 'relative', pointerEvents: scrolled ? 'none' : 'auto' }}>
+            {'TechwithLC'.split('').map((char, i) => (
+              <span key={i} style={{
+                display: 'inline-block',
+                maxWidth: scrolled ? '0ch' : '1.2ch',
+                opacity: scrolled ? 0 : 1,
+                overflow: 'hidden',
+                transition: `max-width 0.35s cubic-bezier(0.4,0,0.2,1) ${i * 15}ms, opacity 0.25s ease ${i * 15}ms`,
+              }}>{char}</span>
+            ))}
+          </span>
+          {/* "AI" — fades in after collapse */}
+          <span style={{
+            opacity: scrolled ? 1 : 0,
+            transform: scrolled ? 'translateX(0)' : 'translateX(-6px)',
+            transition: 'opacity 0.3s ease 0.25s, transform 0.3s ease 0.25s',
+            position: scrolled ? 'relative' : 'absolute',
+            pointerEvents: scrolled ? 'auto' : 'none',
+          }}>AI</span>
         </span>
         <div className="flex items-center gap-4">
           <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
