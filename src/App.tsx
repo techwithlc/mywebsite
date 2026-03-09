@@ -184,66 +184,44 @@ function App() {
 
         {/* ── Hero ── */}
         <section className="pt-8 pb-16">
-          {/* Layered illustration */}
-          <div className="relative mb-8 rounded-2xl bg-[#f5f0e8] overflow-hidden select-none" style={{ height: '320px' }}>
+          {/* Layered illustration — gkoberger style: each layer clips from below */}
+          <div className="relative mb-8 rounded-2xl bg-[#f5f0e8] select-none" style={{ height: '320px' }}>
 
-            {/* Layer order: whereilived(back) → computer → book+camera → linkedin → dog → me → name */}
-
-            {/* 1. Where I lived — window background */}
-            <img src="/whereilived.png" alt="" aria-hidden="true"
-              className="layer-enter pointer-events-none"
-              style={{
-                position: 'absolute', top: '2%', right: '4%',
-                width: '38%', objectFit: 'contain',
-                animationDelay: '0.05s',
-                transform: `translate(${mousePos.x * -3}px, ${mousePos.y * -2}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-            />
+            {/* 1. Where I Lived — window (back layer, no clip needed, fades slower) */}
+            <div style={{ position: 'absolute', top: '2%', right: '4%', width: '38%', overflow: 'hidden' }}>
+              <img src="/whereilived.png" alt="" aria-hidden="true"
+                className="layer-bounce pointer-events-none w-full"
+                style={{ animationDelay: '0.3s', transform: `translate(${mousePos.x * -2}px, ${mousePos.y * -1.5}px)`, transition: 'transform 0.2s ease-out' }}
+              />
+            </div>
 
             {/* 2. Computer + corkboard */}
-            <img src="/computer.png" alt="" aria-hidden="true"
-              className="layer-enter pointer-events-none"
-              style={{
-                position: 'absolute', bottom: '12%', left: '18%',
-                width: '52%', objectFit: 'contain',
-                animationDelay: '0.15s',
-                transform: `translate(${mousePos.x * -4}px, ${mousePos.y * -2.5}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-            />
+            <div style={{ position: 'absolute', bottom: '8%', left: '16%', width: '54%', overflow: 'hidden' }}>
+              <img src="/computer.png" alt="" aria-hidden="true"
+                className="layer-bounce pointer-events-none w-full"
+                style={{ animationDelay: '0.45s', transform: `translate(${mousePos.x * -3}px, ${mousePos.y * -2}px)`, transition: 'transform 0.2s ease-out' }}
+              />
+            </div>
 
-            {/* 3. Book stack + camera */}
-            <button
-              onClick={() => setActiveHotspot(activeHotspot === 'books' ? null : 'books')}
-              className="group layer-enter"
-              style={{
-                position: 'absolute', bottom: '8%', left: '0%',
-                width: '22%', cursor: 'pointer',
-                animationDelay: '0.25s',
-                transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -3}px)`,
-                transition: 'transform 0.2s ease-out',
-                background: 'none', border: 'none', padding: 0,
-              }}
-              aria-label="Things I Love"
-            >
-              <img src="/book.png" alt="books and camera" style={{ width: '100%', objectFit: 'contain' }} />
-              <span className="absolute -top-7 left-0 whitespace-nowrap rounded-full bg-sky-500 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                Things I Love 📚
-              </span>
-            </button>
+            {/* 3. Book stack + camera — clickable for Things I Love */}
+            <div style={{ position: 'absolute', bottom: '8%', left: '0%', width: '22%', overflow: 'hidden' }}>
+              <button
+                onClick={() => setActiveHotspot(activeHotspot === 'books' ? null : 'books')}
+                className="group layer-bounce w-full"
+                style={{ animationDelay: '0.6s', background: 'none', border: 'none', padding: 0, cursor: 'pointer', transform: `translate(${mousePos.x * -4}px, ${mousePos.y * -2.5}px)`, transition: 'transform 0.2s ease-out' }}
+                aria-label="Things I Love"
+              >
+                <img src="/book.png" alt="" className="w-full" />
+                <span className="absolute -top-7 left-0 whitespace-nowrap rounded-full bg-sky-500 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  Things I Love 📚
+                </span>
+              </button>
+            </div>
 
-            {/* Camera hotspot (right side of book.png) → GitHub */}
-            <a
-              href="https://github.com/techwithlc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group layer-enter"
-              style={{
-                position: 'absolute', bottom: '8%', left: '14%',
-                width: '8%', height: '18%',
-                animationDelay: '0.25s',
-              }}
+            {/* Camera hotspot → GitHub (overlaid on right part of book.png) */}
+            <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
+              className="group"
+              style={{ position: 'absolute', bottom: '8%', left: '14%', width: '8%', height: '18%' }}
               aria-label="GitHub"
             >
               <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
@@ -252,67 +230,48 @@ function App() {
             </a>
 
             {/* 4. LinkedIn mug */}
-            <a
-              href="https://www.linkedin.com/in/klunlawrencechen/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group layer-enter"
-              style={{
-                position: 'absolute', bottom: '12%', left: '20%',
-                width: '14%',
-                animationDelay: '0.35s',
-                transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -3}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-              aria-label="LinkedIn"
-            >
-              <img src="/linkedin.png" alt="LinkedIn mug" style={{ width: '100%', objectFit: 'contain' }} />
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                LinkedIn ☕
-              </span>
-            </a>
+            <div style={{ position: 'absolute', bottom: '8%', left: '18%', width: '13%', overflow: 'hidden' }}>
+              <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
+                className="group layer-bounce block w-full"
+                style={{ animationDelay: '0.75s', transform: `translate(${mousePos.x * -4}px, ${mousePos.y * -2.5}px)`, transition: 'transform 0.2s ease-out' }}
+                aria-label="LinkedIn"
+              >
+                <img src="/linkedin.png" alt="" className="w-full" />
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  LinkedIn ☕
+                </span>
+              </a>
+            </div>
 
             {/* 5. Dog */}
-            <img src="/dog.png" alt="" aria-hidden="true"
-              className="layer-enter pointer-events-none"
-              style={{
-                position: 'absolute', bottom: '10%', left: '12%',
-                width: '28%', objectFit: 'contain',
-                animationDelay: '0.45s',
-                transform: `translate(${mousePos.x * -6}px, ${mousePos.y * -3.5}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-            />
+            <div style={{ position: 'absolute', bottom: '8%', left: '10%', width: '30%', overflow: 'hidden' }}>
+              <img src="/dog.png" alt="" aria-hidden="true"
+                className="layer-bounce pointer-events-none w-full"
+                style={{ animationDelay: '0.9s', transform: `translate(${mousePos.x * -5}px, ${mousePos.y * -3}px)`, transition: 'transform 0.2s ease-out' }}
+              />
+            </div>
 
             {/* 6. Me */}
-            <img src="/me.png" alt="Lawrence Chen" aria-hidden="true"
-              className="layer-enter pointer-events-none"
-              style={{
-                position: 'absolute', bottom: '10%', left: '34%',
-                width: '30%', objectFit: 'contain',
-                animationDelay: '0.55s',
-                transform: `translate(${mousePos.x * -7}px, ${mousePos.y * -4}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-            />
+            <div style={{ position: 'absolute', bottom: '8%', left: '32%', width: '32%', overflow: 'hidden' }}>
+              <img src="/me.png" alt="Lawrence Chen" aria-hidden="true"
+                className="layer-bounce pointer-events-none w-full"
+                style={{ animationDelay: '1.05s', transform: `translate(${mousePos.x * -6}px, ${mousePos.y * -3.5}px)`, transition: 'transform 0.2s ease-out' }}
+              />
+            </div>
 
             {/* 7. Name signature */}
-            <img src="/lawrencechen.png" alt="Lawrence Chen signature"
-              className="layer-enter pointer-events-none"
-              style={{
-                position: 'absolute', bottom: '4%', right: '4%',
-                width: '28%', objectFit: 'contain',
-                animationDelay: '0.7s',
-                transform: `translate(${mousePos.x * -2}px, ${mousePos.y * -1}px)`,
-                transition: 'transform 0.2s ease-out',
-              }}
-            />
+            <div style={{ position: 'absolute', bottom: '3%', right: '3%', width: '26%', overflow: 'hidden' }}>
+              <img src="/lawrencechen.png" alt="Lawrence Chen"
+                className="layer-bounce pointer-events-none w-full"
+                style={{ animationDelay: '1.2s', transform: `translate(${mousePos.x * -1.5}px, ${mousePos.y * -1}px)`, transition: 'transform 0.2s ease-out' }}
+              />
+            </div>
 
-            {/* Where I Lived hotspot — over the window */}
+            {/* Where I Lived hotspot — invisible overlay over window */}
             <button
               onClick={() => setActiveHotspot(activeHotspot === 'cities' ? null : 'cities')}
               style={{ position: 'absolute', top: '2%', right: '4%', width: '38%', height: '42%', cursor: 'pointer' }}
-              className="group"
+              className="group z-10"
               aria-label="Where I've lived"
             >
               <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
@@ -323,8 +282,8 @@ function App() {
             {/* ── Popup: Cities ── */}
             {activeHotspot === 'cities' && (
               <div
-                style={{ position: 'absolute', top: '8%', right: '4%' }}
-                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-48 z-10"
+                style={{ position: 'absolute', top: '8%', right: '4%', zIndex: 20 }}
+                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-48"
               >
                 <p className="mb-2 font-semibold text-gray-800">📍 Where I've Lived</p>
                 <div className="space-y-1.5 text-gray-600 text-xs">
@@ -346,8 +305,8 @@ function App() {
             {/* ── Popup: Books ── */}
             {activeHotspot === 'books' && (
               <div
-                style={{ position: 'absolute', bottom: '10%', left: '22%' }}
-                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-52 z-10"
+                style={{ position: 'absolute', bottom: '10%', left: '22%', zIndex: 20 }}
+                className="animate-fadeIn rounded-xl bg-white p-4 shadow-xl text-sm w-52"
               >
                 <p className="mb-2 font-semibold text-gray-800">📚 Things I Really Love</p>
                 <div className="space-y-1 text-xs text-gray-600">
