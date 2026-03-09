@@ -25,6 +25,7 @@ const PodcastIcon = () => (
 function App() {
   const { t, language, toggleLanguage } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const [subscribeEmail, setSubscribeEmail] = useState('');
@@ -35,7 +36,10 @@ function App() {
   const [currentBlogSlug, setCurrentBlogSlug] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+      setScrolled(window.scrollY > 60);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -147,8 +151,16 @@ function App() {
 
       {/* ── Nav ── */}
       <nav className="mx-auto flex max-w-2xl items-center justify-between px-6 py-6">
-        <span className="text-sm font-semibold tracking-tight text-gray-900">
-          Lawrence Chen
+        <span className="relative inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 overflow-hidden whitespace-nowrap"
+          style={{ width: scrolled ? '1.75rem' : '6rem', transition: 'width 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+          {/* Full name — slides out left when scrolled */}
+          <span style={{ opacity: scrolled ? 0 : 1, transform: scrolled ? 'translateX(-8px)' : 'translateX(0)', transition: 'opacity 0.3s, transform 0.3s', position: 'absolute', left: 0 }}>
+            TechwithLC
+          </span>
+          {/* Short form — fades in when scrolled */}
+          <span style={{ opacity: scrolled ? 1 : 0, transform: scrolled ? 'translateX(0)' : 'translateX(8px)', transition: 'opacity 0.3s, transform 0.3s', position: 'absolute', left: 0 }}>
+            LC
+          </span>
         </span>
         <div className="flex items-center gap-4">
           <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
