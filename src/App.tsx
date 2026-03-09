@@ -150,7 +150,8 @@ function App() {
     <div id="top" className="min-h-screen bg-white text-gray-900">
 
       {/* ── Nav ── */}
-      <nav className="mx-auto flex max-w-2xl items-center justify-between px-6 py-6">
+      <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/60 mx-auto-none">
+        <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
         {/* Logo: each letter collapses on scroll, like Anthropic nav */}
         <span className="inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 whitespace-nowrap overflow-hidden">
           {'TechwithLC'.split('').map((char, i) => {
@@ -198,6 +199,7 @@ function App() {
           >
             {language === 'en' ? '中文' : 'EN'}
           </button>
+        </div>
         </div>
       </nav>
 
@@ -313,10 +315,10 @@ function App() {
             )}
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Lawrence Chen
           </h1>
-          <p className="mt-1.5 text-base text-gray-500">
+          <p className="mt-2 text-base text-gray-500">
             {language === 'en'
               ? 'Senior Cloud / SRE Engineer · Content Creator · Dublin-eligible (Stamp 4)'
               : '資深雲端 / SRE 工程師 · 內容創作者 · 愛爾蘭 Stamp 4'}
@@ -343,7 +345,7 @@ function App() {
 
         {/* ── Timeline ── */}
         <section className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Timeline' : '經歷'}
           </h2>
           <div className="space-y-5">
@@ -369,7 +371,7 @@ function App() {
 
         {/* ── Projects ── */}
         <section id="projects" className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? "Stuff I've Built" : '我做過的事'}
           </h2>
           <div className="space-y-5">
@@ -458,7 +460,7 @@ function App() {
 
         {/* ── Tech Stack ── */}
         <section className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Tech Stack' : '技術棧'}
           </h2>
           <div className="space-y-4 text-sm text-gray-600">
@@ -483,7 +485,7 @@ function App() {
 
         {/* ── Writing / Blog ── */}
         <section id="writing" className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Writing' : '文章'}
           </h2>
           <BlogList maxPosts={6} />
@@ -493,10 +495,10 @@ function App() {
 
         {/* ── Newsletter ── */}
         <section className="py-14">
-          <h2 className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Newsletter' : '電子報'}
           </h2>
-          <p className="mb-6 text-sm text-gray-500">
+          <p className="mb-5 text-sm text-gray-500">
             {language === 'en'
               ? 'Cloud + AI + career insights, weekly. No spam.'
               : '每週雲端、AI、職涯洞察。不發垃圾郵件。'}
@@ -539,7 +541,7 @@ function App() {
 
         {/* ── Contact ── */}
         <section id="contact" className="py-14">
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Get In Touch' : '聯絡我'}
           </h2>
           <p className="text-sm text-gray-500 mb-6">
