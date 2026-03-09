@@ -25,6 +25,7 @@ const PodcastIcon = () => (
 function App() {
   const { t, language, toggleLanguage } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
@@ -36,6 +37,16 @@ function App() {
     const handleScroll = () => setShowScrollTop(window.scrollY > 300);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;  // -1 to 1
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   useEffect(() => {
@@ -171,11 +182,37 @@ function App() {
       <main className="mx-auto max-w-2xl px-6 pb-24">
 
         {/* ── Hero ── */}
-        <section className="pt-12 pb-16">
+        <section className="pt-8 pb-16">
+          {/* Illustration with parallax */}
+          <div className="relative mb-8 overflow-hidden rounded-2xl bg-[#f5f0e8]" style={{ height: '320px' }}>
+            {/* Background layer — moves least */}
+            <div
+              style={{
+                transform: `translate(${mousePos.x * -6}px, ${mousePos.y * -4}px)`,
+                transition: 'transform 0.15s ease-out',
+                position: 'absolute', inset: '-10px',
+              }}
+            >
+              <img
+                src="/hero-illustration.png"
+                alt="Lawrence at his desk"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+              />
+            </div>
+            {/* Foreground floating layer — moves more */}
+            <div
+              style={{
+                transform: `translate(${mousePos.x * 10}px, ${mousePos.y * 6}px)`,
+                transition: 'transform 0.1s ease-out',
+                position: 'absolute', inset: 0, pointerEvents: 'none',
+              }}
+            />
+          </div>
+
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
             Lawrence Chen
           </h1>
-          <p className="mt-3 text-base text-gray-500">
+          <p className="mt-1.5 text-base text-gray-500">
             {language === 'en'
               ? 'Senior Cloud / SRE Engineer · Content Creator · Dublin-eligible (Stamp 4)'
               : '資深雲端 / SRE 工程師 · 內容創作者 · 愛爾蘭 Stamp 4'}
