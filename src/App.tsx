@@ -250,7 +250,7 @@ function App() {
                 <p className="mb-2 font-semibold text-gray-800">📍 Where I've Lived</p>
                 <div className="space-y-1.5 text-gray-600 text-xs">
                   {[
-                    { city: 'Taichung, Taiwan', period: '1996 – 2022' },
+                    { city: 'Taichung, Taiwan', period: '1997 – 2022' },
                     { city: 'Dublin, Ireland', period: '2022 – 2024' },
                     { city: 'Taipei, Taiwan', period: '2024 – present' },
                   ].map(({ city, period }) => (
