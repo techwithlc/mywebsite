@@ -213,31 +213,33 @@ function App() {
               </span>
             </button>
 
-            {/* ── Hotspot: GitHub cat ── */}
+            {/* ── Hotspot: Camera → GitHub ── */}
             <a
               href="https://github.com/techwithlc"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ position: 'absolute', bottom: '18%', right: '2%', width: '10%', height: '22%' }}
+              style={{ position: 'absolute', top: '48%', right: '8%', width: '9%', height: '22%' }}
               className="group"
               aria-label="GitHub"
             >
               <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gray-900 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                GitHub 🐱
+                GitHub 📷
               </span>
             </a>
 
-            {/* ── Hotspot: Books ── */}
-            <button
-              onClick={() => setActiveHotspot(activeHotspot === 'books' ? null : 'books')}
-              style={{ position: 'absolute', bottom: '10%', left: '1%', width: '16%', height: '50%', cursor: 'pointer' }}
+            {/* ── Hotspot: LinkedIn cup → LinkedIn ── */}
+            <a
+              href="https://www.linkedin.com/in/klunlawrencechen/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ position: 'absolute', top: '52%', left: '16%', width: '9%', height: '20%' }}
               className="group"
-              aria-label="100 Things I Love"
+              aria-label="LinkedIn"
             >
-              <span className="absolute -top-7 left-0 whitespace-nowrap rounded-full bg-sky-500 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                100 Things I Love 📚
+              <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-blue-600 px-2.5 py-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                LinkedIn ☕
               </span>
-            </button>
+            </a>
 
             {/* ── Popup: Cities ── */}
             {activeHotspot === 'cities' && (
