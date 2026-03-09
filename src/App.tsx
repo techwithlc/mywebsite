@@ -8,10 +8,10 @@ import SponsorSection from './components/SponsorSection';
 
 const YOUTUBE_CHANNEL_USERNAME = '@techwithlc';
 
-// X/Twitter icon
-const XIcon = () => (
-  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+// Threads icon
+const ThreadsIcon = () => (
+  <svg className="h-4 w-4" viewBox="0 0 192 192" fill="currentColor">
+    <path d="M141.537 88.988a66.667 66.667 0 0 0-2.518-1.143c-1.482-27.307-16.403-42.94-41.457-43.1h-.368c-14.973 0-27.457 6.929-35.049 18.876l13.494 9.266c5.689-8.624 14.626-10.459 21.555-10.459h.252c8.327.052 14.612 2.47 18.69 7.184 2.977 3.39 4.971 8.058 5.954 13.952a110.168 110.168 0 0 0-23.682-2.138c-23.857 0-39.194 13.214-39.194 34.641 0 21.427 16.622 34.641 39.194 34.641 22.572 0 40.865-13.214 40.865-34.641a32.87 32.87 0 0 0-.736-6.479ZM96 145.96c-12.842 0-22.449-5.865-22.449-15.578 0-9.713 9.607-15.579 22.449-15.579 13.021 0 22.449 5.866 22.449 15.579s-9.428 15.578-22.449 15.578ZM172.265 96c0 41.989-34.276 76.265-76.265 76.265S19.735 137.989 19.735 96 54.011 19.735 96 19.735 172.265 54.011 172.265 96Z"/>
   </svg>
 );
 
@@ -159,9 +159,9 @@ function App() {
             aria-label="LinkedIn" className="text-gray-400 hover:text-gray-700 transition-colors">
             <Linkedin className="h-4 w-4" />
           </a>
-          <a href="https://x.com/techwithlc0921" target="_blank" rel="noopener noreferrer"
-            aria-label="X / Twitter" className="text-gray-400 hover:text-gray-700 transition-colors">
-            <XIcon />
+          <a href="https://www.threads.com/@techwithlc" target="_blank" rel="noopener noreferrer"
+            aria-label="Threads" className="text-gray-400 hover:text-gray-700 transition-colors">
+            <ThreadsIcon />
           </a>
           <a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer"
             aria-label="YouTube" className="text-gray-400 hover:text-gray-700 transition-colors">
@@ -520,7 +520,7 @@ function App() {
               { href: 'mailto:kuanlunlawrence.chen@gmail.com', label: 'Email', icon: <Mail className="h-4 w-4" /> },
               { href: 'https://github.com/techwithlc', label: 'GitHub', icon: <Github className="h-4 w-4" /> },
               { href: 'https://www.linkedin.com/in/klunlawrencechen/', label: 'LinkedIn', icon: <Linkedin className="h-4 w-4" /> },
-              { href: 'https://x.com/techwithlc0921', label: 'X / Twitter', icon: <XIcon /> },
+              { href: 'https://www.threads.com/@techwithlc', label: 'Threads', icon: <ThreadsIcon /> },
               { href: 'https://www.youtube.com/@techwithlc', label: 'YouTube', icon: <Youtube className="h-4 w-4" /> },
               { href: 'https://pocketcasts.com/podcast/%E6%AD%90%E8%B6%B4/2aa32b80-9572-013d-92a0-0afff0a90ec3', label: 'Podcast', icon: <PodcastIcon /> },
             ].map((item) => (
