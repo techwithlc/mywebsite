@@ -339,9 +339,6 @@ function App() {
             <a href="#writing" className="text-emerald-600 hover:text-emerald-700 font-medium">
               {language === 'en' ? 'Writing ↓' : '文章 ↓'}
             </a>
-            <a href="#contact" className="text-emerald-600 hover:text-emerald-700 font-medium">
-              {language === 'en' ? 'Contact ↓' : '聯絡 ↓'}
-            </a>
           </div>
         </section>
 
@@ -539,41 +536,6 @@ function App() {
         {/* ── Sponsor ── */}
         <section className="py-14">
           <SponsorSection />
-        </section>
-
-        <hr className="border-gray-100" />
-
-        {/* ── Contact ── */}
-        <section id="contact" className="py-14">
-          <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
-            {language === 'en' ? 'Get In Touch' : '聯絡我'}
-          </h2>
-          <p className="text-sm text-gray-500 mb-6">
-            {language === 'en'
-              ? 'Open to collaborations, sponsorships, and interesting conversations.'
-              : '歡迎合作、贊助或有趣的對話。'}
-          </p>
-          <div className="flex flex-wrap gap-4 text-sm">
-            {[
-              { href: 'mailto:kuanlunlawrence.chen@gmail.com', label: 'Email', icon: <Mail className="h-4 w-4" /> },
-              { href: 'https://github.com/techwithlc', label: 'GitHub', icon: <Github className="h-4 w-4" /> },
-              { href: 'https://www.linkedin.com/in/klunlawrencechen/', label: 'LinkedIn', icon: <Linkedin className="h-4 w-4" /> },
-              { href: 'https://www.threads.com/@techwithlc', label: 'Threads', icon: <ThreadsIcon /> },
-              { href: 'https://www.youtube.com/@techwithlc', label: 'YouTube', icon: <Youtube className="h-4 w-4" /> },
-              { href: 'https://pocketcasts.com/podcast/%E6%AD%90%E8%B6%B4/2aa32b80-9572-013d-92a0-0afff0a90ec3', label: 'Podcast', icon: <PodcastIcon /> },
-            ].map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target={item.href.startsWith('mailto') ? undefined : '_blank'}
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-gray-600 hover:border-gray-300 hover:text-gray-900 transition-colors"
-              >
-                {item.icon}
-                {item.label}
-              </a>
-            ))}
-          </div>
         </section>
 
         {/* ── Footer ── */}

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { ArrowLeft, Clock, Calendar, Tag, User } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import BLOG_API from '../utils/api';
-import ReactMarkdown from 'react-markdown';
+import { getPostBySlug } from '../utils/posts';
 
 interface BlogPostDetailProps {
   slug: string;
@@ -11,224 +10,72 @@ interface BlogPostDetailProps {
 
 const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ slug, onBack }) => {
   const { t, language } = useLanguage();
-  const [post, setPost] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const post = getPostBySlug(slug);
 
-  useEffect(() => {
-    const fetchPost = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const postData = await BLOG_API.getPostBySlug(slug);
-        setPost(postData);
-      } catch (err) {
-        console.error('Error fetching blog post:', err);
-        setError(
-          err instanceof Error ? err.message : t.blogDetail.loadError
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPost();
-  }, [slug, t]);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(language === 'zh' ? 'zh-TW' : 'en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+  const formatDate = (d: string) =>
+    new Date(d).toLocaleDateString(language === 'zh' ? 'zh-TW' : 'en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
     });
-  };
 
-  if (isLoading) {
+  if (!post) {
     return (
       <div className="min-h-screen bg-white py-20">
-        <div className="mx-auto max-w-4xl px-6">
-          <div className="flex items-center justify-center py-20">
-            <div className="h-12 w-12 animate-spin rounded-full border-4 border-emerald-500 border-t-transparent" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !post) {
-    return (
-      <div className="min-h-screen bg-white py-20">
-        <div className="mx-auto max-w-4xl px-6">
-          <button
-            onClick={onBack}
-            className="mb-8 flex items-center gap-2 text-emerald-600 hover:text-emerald-500 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-            <span>{language === 'zh' ? t.blogDetail.backZh : t.blogDetail.back}</span>
+        <div className="mx-auto max-w-2xl px-6">
+          <button onClick={onBack} className="mb-8 flex items-center gap-2 text-emerald-600 hover:text-emerald-500 transition-colors">
+            <ArrowLeft className="h-4 w-4" />
+            <span>{language === 'zh' ? '返回' : 'Back'}</span>
           </button>
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-            <h2 className="mb-4 text-2xl font-bold text-red-700">{t.blogDetail.error}</h2>
-            <p className="text-red-600">{error || t.blogDetail.notFound}</p>
-          </div>
+          <p className="text-sm text-gray-500">{t.blogDetail.notFound}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="mx-auto max-w-4xl px-6">
-        {/* Back Button */}
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto max-w-2xl px-6 py-10">
         <button
           onClick={onBack}
-          className="mb-8 flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-gray-600 shadow-sm hover:border-emerald-200 hover:text-emerald-600 transition-all"
+          className="mb-10 flex items-center gap-2 text-sm text-gray-400 hover:text-gray-700 transition-colors"
         >
-          <ArrowLeft className="h-5 w-5" />
-          <span>{language === 'zh' ? t.blogDetail.backZh : t.blogDetail.back}</span>
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'zh' ? '返回' : 'Back'}
         </button>
 
-        {/* Article Header */}
-        <article className="rounded-3xl border border-gray-200 bg-white shadow-sm overflow-hidden">
-          {/* Cover Image */}
-          {post.cover_image && (
-            <div className="h-64 w-full overflow-hidden md:h-80">
-              <img
-                src={post.cover_image}
-                alt={post.title}
-                className="h-full w-full object-cover"
-              />
+        <article>
+          {/* Category */}
+          <span className="text-xs font-semibold uppercase tracking-widest text-emerald-600">
+            {post.category}
+          </span>
+
+          {/* Title */}
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 leading-tight">
+            {post.title}
+          </h1>
+
+          {/* Meta */}
+          <div className="mt-4 flex flex-wrap items-center gap-4 text-xs text-gray-400 border-b border-gray-100 pb-6">
+            <span className="flex items-center gap-1"><User className="h-3.5 w-3.5" />{post.author}</span>
+            <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />{formatDate(post.publishedAt)}</span>
+            <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{post.readTime} {t.blog.readTime}</span>
+          </div>
+
+          {/* Tags */}
+          {post.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {post.tags.map(tag => (
+                <span key={tag} className="inline-flex items-center gap-1 rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+                  <Tag className="h-2.5 w-2.5" />{tag}
+                </span>
+              ))}
             </div>
           )}
 
           {/* Content */}
-          <div className="p-8 md:p-12">
-            {/* Category Badge */}
-            <div className="mb-6">
-              <span className="inline-block rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
-                {post.category}
-              </span>
-            </div>
-
-            {/* Title */}
-            <h1 className="mb-6 text-3xl font-bold leading-tight text-gray-900 md:text-4xl lg:text-5xl">
-              {post.title}
-            </h1>
-
-            {/* Meta Information */}
-            <div className="mb-8 flex flex-wrap items-center gap-6 border-b border-gray-200 pb-6">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <User className="h-4 w-4" />
-                <span>{post.author}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Calendar className="h-4 w-4" />
-                <span>
-                  {formatDate(post.published_at || post.publishedAt)}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Clock className="h-4 w-4" />
-                <span>
-                  {post.read_time || post.readTime} {t.blog.readTime}
-                </span>
-              </div>
-            </div>
-
-            {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
-              <div className="mb-8 flex flex-wrap gap-2">
-                {post.tags.map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600"
-                  >
-                    <Tag className="h-3 w-3" />
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Article Content (Markdown) */}
-            <div className="prose prose-lg max-w-none">
-              <ReactMarkdown
-                components={{
-                  h1: ({ node, ...props }) => (
-                    <h1
-                      className="mb-4 mt-8 text-3xl font-bold text-gray-900"
-                      {...props}
-                    />
-                  ),
-                  h2: ({ node, ...props }) => (
-                    <h2
-                      className="mb-3 mt-6 text-2xl font-semibold text-gray-900"
-                      {...props}
-                    />
-                  ),
-                  h3: ({ node, ...props }) => (
-                    <h3
-                      className="mb-2 mt-4 text-xl font-semibold text-gray-900"
-                      {...props}
-                    />
-                  ),
-                  p: ({ node, ...props }) => (
-                    <p
-                      className="mb-4 leading-relaxed text-gray-700"
-                      {...props}
-                    />
-                  ),
-                  a: ({ node, ...props }) => (
-                    <a
-                      className="text-emerald-600 hover:text-emerald-500 underline"
-                      {...props}
-                    />
-                  ),
-                  code: ({ node, inline, ...props }: any) =>
-                    inline ? (
-                      <code
-                        className="rounded bg-gray-100 px-1.5 py-0.5 text-sm text-emerald-600"
-                        {...props}
-                      />
-                    ) : (
-                      <code
-                        className="block rounded-lg bg-gray-900 p-4 text-sm text-gray-100"
-                        {...props}
-                      />
-                    ),
-                  pre: ({ node, ...props }) => (
-                    <pre
-                      className="mb-4 overflow-x-auto rounded-xl bg-gray-900 p-4"
-                      {...props}
-                    />
-                  ),
-                  ul: ({ node, ...props }) => (
-                    <ul
-                      className="mb-4 ml-6 list-disc text-gray-700"
-                      {...props}
-                    />
-                  ),
-                  ol: ({ node, ...props }) => (
-                    <ol
-                      className="mb-4 ml-6 list-decimal text-gray-700"
-                      {...props}
-                    />
-                  ),
-                  li: ({ node, ...props }) => (
-                    <li className="mb-2 text-gray-700" {...props} />
-                  ),
-                  blockquote: ({ node, ...props }) => (
-                    <blockquote
-                      className="my-4 border-l-4 border-emerald-500 bg-emerald-50 pl-4 py-2 italic text-gray-700"
-                      {...props}
-                    />
-                  ),
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
-            </div>
-          </div>
+          <div
+            className="mt-8 text-base leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
         </article>
       </div>
     </div>
