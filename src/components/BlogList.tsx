@@ -83,8 +83,12 @@ const BlogList: React.FC<BlogListProps> = ({ maxPosts }) => {
           <div key={post.id}>
             {i > 0 && <hr className="border-gray-100" />}
             <article
-              className="group cursor-pointer py-5"
+              className="group cursor-pointer py-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-lg"
               onClick={() => navigate(post.slug)}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate(post.slug)}
+              tabIndex={0}
+              role="button"
+              aria-label={post.title}
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">

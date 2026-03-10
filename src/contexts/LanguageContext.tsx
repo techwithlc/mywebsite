@@ -13,10 +13,13 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(
+    () => (localStorage.getItem('lang') as Language) || 'en'
+  );
 
   useEffect(() => {
     document.documentElement.lang = language;
+    localStorage.setItem('lang', language);
   }, [language]);
 
   const toggleLanguage = () => {

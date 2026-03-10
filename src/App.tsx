@@ -227,6 +227,8 @@ function App() {
               <img
                 src="/hero-illustration.png"
                 alt="Lawrence at his desk"
+                fetchPriority="high"
+                decoding="async"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
               />
             </div>

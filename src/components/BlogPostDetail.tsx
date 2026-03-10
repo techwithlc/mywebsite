@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowLeft, Clock, Calendar, Tag, User } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getPostBySlug } from '../utils/posts';
@@ -11,6 +11,12 @@ interface BlogPostDetailProps {
 const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ slug, onBack }) => {
   const { t, language } = useLanguage();
   const post = getPostBySlug(slug);
+
+  useEffect(() => {
+    const prev = document.title;
+    document.title = post ? `${post.title} — TechwithLC` : 'TechwithLC';
+    return () => { document.title = prev; };
+  }, [post]);
 
   const formatDate = (d: string) =>
     new Date(d).toLocaleDateString(language === 'zh' ? 'zh-TW' : 'en-US', {
