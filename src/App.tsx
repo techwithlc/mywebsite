@@ -193,7 +193,7 @@ function App() {
             aria-label="YouTube" className="text-gray-400 hover:text-gray-700 transition-colors">
             <Youtube className="h-4 w-4" />
           </a>
-          <a href="mailto:kuanlunlawrence.chen@gmail.com"
+          <a href="https://mail.google.com/mail/?view=cm&to=kuanlunlawrence.chen@gmail.com" target="_blank" rel="noopener noreferrer"
             aria-label="Email" className="text-gray-400 hover:text-gray-700 transition-colors">
             <Mail className="h-4 w-4" />
           </a>
