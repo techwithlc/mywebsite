@@ -326,13 +326,13 @@ function App() {
           </h1>
           <p className="mt-2 text-base text-gray-500">
             {language === 'en'
-              ? 'Senior Cloud / SRE Engineer · Content Creator · Dublin-eligible (Stamp 4)'
-              : '資深雲端 / SRE 工程師 · 內容創作者 · 愛爾蘭 Stamp 4'}
+              ? 'Cloud Engineer · Founder of TechwithLC · Based in Taipei'
+              : '雲端工程師 · TechwithLC 創辦人 · 台北'}
           </p>
           <p className="mt-5 text-base leading-relaxed text-gray-700">
             {language === 'en'
-              ? "5+ years operating large-scale production systems across AWS, GCP, and Azure. Former AWS Ireland Cloud Support Engineer — 500+ enterprise customers, 95% first-contact resolution. Strong background in incident response, observability, RCA, and on-call operations. Founder of TechwithLC, a cloud learning community for the Chinese-speaking world."
-              : '超過 5 年大規模生產系統運營經驗，橫跨 AWS、GCP、Azure。前 AWS 愛爾蘭雲端支援工程師，服務 500+ 企業客戶，95% 首次聯絡解決率。擅長事件應對、可觀測性、根本原因分析與 On-call 運營。TechwithLC 創辦人，服務華語雲端學習社群。'}
+              ? "I'm Lawrence — I like building things. By day I architect cloud systems; by night I record podcast episodes about tech, occasionally at unreasonable hours. When I'm not at a keyboard you'll find me at the gym, on a tennis court, or booking a one-way flight somewhere. I've been to 30+ countries and nothing beats self-driving through Iceland with no plan."
+              : '我是 Lawrence，喜歡 build 東西。白天搞雲端架構，偶爾錄 podcast 聊科技。不在健身房就在網球場，不然就是臨時訂機票說走就走。去過 30+ 國家，最喜歡冰島自駕那種沒有計畫的感覺。'}
           </p>
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
             <a href="#projects" className="text-emerald-600 hover:text-emerald-700 font-medium">
