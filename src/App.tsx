@@ -5,6 +5,7 @@ import EmbedFacade from './components/EmbedFacade';
 import BlogList from './components/BlogList';
 import BlogPostDetail from './components/BlogPostDetail';
 import SponsorSection from './components/SponsorSection';
+import DailyDigest from './components/DailyDigest';
 
 const YOUTUBE_CHANNEL_USERNAME = '@techwithlc';
 
@@ -17,15 +18,11 @@ const ThreadsIcon = () => (
 
 
 function App() {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { language, toggleLanguage } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
-  const [subscribeEmail, setSubscribeEmail] = useState('');
-  const [subscribeMessage, setSubscribeMessage] = useState('');
-  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
-  const [isSubscribing, setIsSubscribing] = useState(false);
   const [latestVideoId, setLatestVideoId] = useState('');
   const [currentBlogSlug, setCurrentBlogSlug] = useState<string | null>(null);
 
@@ -99,37 +96,6 @@ function App() {
     fetchLatestYouTubeVideo();
   }, []);
 
-  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubscribing(true);
-    setSubscribeMessage('');
-    setSubscribeSuccess(false);
-    if (!subscribeEmail.trim() || !/\S+@\S+\.\S+/.test(subscribeEmail)) {
-      setSubscribeMessage(t.common.invalidEmail);
-      setSubscribeSuccess(false);
-      setIsSubscribing(false);
-      return;
-    }
-    try {
-      const response = await fetch('/.netlify/functions/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: subscribeEmail }),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.message || `Server error: ${response.status}`);
-      setSubscribeMessage(result.message);
-      setSubscribeSuccess(result.success || false);
-      if (result.success) {
-        setTimeout(() => { setSubscribeEmail(''); setSubscribeMessage(''); }, 3000);
-      }
-    } catch (error) {
-      setSubscribeMessage(error instanceof Error ? error.message : t.common.subscribeError);
-      setSubscribeSuccess(false);
-    } finally {
-      setIsSubscribing(false);
-    }
-  };
 
   if (currentBlogSlug) {
     return (
@@ -490,41 +456,12 @@ function App() {
 
         <hr className="border-gray-100" />
 
-        {/* ── Newsletter ── */}
+        {/* ── Daily Digest ── */}
         <section className="py-14">
           <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
-            {language === 'en' ? 'Newsletter' : '電子報'}
+            {language === 'en' ? 'Daily Digest' : '每日新聞摘要'}
           </h2>
-          <p className="mb-5 text-sm text-gray-500">
-            {language === 'en'
-              ? 'Cloud + AI + career insights, weekly. No spam.'
-              : '每週雲端、AI、職涯洞察。不發垃圾郵件。'}
-          </p>
-          <form onSubmit={handleSubscribe} className="flex gap-2">
-            <input
-              type="email"
-              value={subscribeEmail}
-              onChange={(e) => setSubscribeEmail(e.target.value)}
-              placeholder={language === 'en' ? 'your@email.com' : '你的信箱'}
-              className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-              required
-              disabled={isSubscribing}
-            />
-            <button
-              type="submit"
-              disabled={isSubscribing}
-              className="rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 disabled:opacity-60 transition-colors"
-            >
-              {isSubscribing
-                ? (language === 'en' ? 'Subscribing…' : '訂閱中…')
-                : (language === 'en' ? 'Subscribe' : '訂閱')}
-            </button>
-          </form>
-          {subscribeMessage && (
-            <p className={`mt-3 text-sm ${subscribeSuccess ? 'text-emerald-600' : 'text-red-600'}`}>
-              {subscribeMessage}
-            </p>
-          )}
+          <DailyDigest />
         </section>
 
         <hr className="border-gray-100" />
