@@ -184,13 +184,16 @@ function App() {
                 transition: 'transform 0.15s ease-out',
               }}
             >
-              <img
-                src="/hero-illustration.png"
-                alt="Lawrence at his desk"
-                fetchPriority="high"
-                decoding="async"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
-              />
+              <picture>
+                <source srcSet="/hero-illustration.webp" type="image/webp" />
+                <img
+                  src="/hero-illustration.png"
+                  alt="Lawrence at his desk"
+                  fetchPriority="high"
+                  decoding="async"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+                />
+              </picture>
             </div>
 
             {/* Where I Lived hotspot — over the window */}
