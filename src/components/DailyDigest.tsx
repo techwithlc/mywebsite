@@ -58,7 +58,7 @@ export default function DailyDigest() {
 
   useEffect(() => {
     if (!isStPatrickWeek) return;
-    const t = setTimeout(() => setShowShamrocks(false), 3000);
+    const t = setTimeout(() => setShowShamrocks(false), 10000);
     return () => clearTimeout(t);
   }, [isStPatrickWeek]);
 
