@@ -16,6 +16,20 @@ export interface DailyDigest {
 // Newest first. Only the latest N days are shown in the UI.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-13",
+    items: [
+      {
+        title: "Anthropic 宣布都柏林擴編 200 職，強攻歐洲企業 AI 市場",
+        summary: "Anthropic 宣布將在 2027 年前於愛爾蘭都柏林新增 200 個高薪職缺（工程、銷售、財務、法務、營運），並將辦公空間擴大至約 21,000 平方英尺，因應歐洲企業對 Claude 服務的快速成長。",
+        why: "在美國遭五角大廈與財政部施壓的背景下，Anthropic 明顯將重心轉向歐洲，以「安全、可信賴」為品牌核心。歐洲將成為前沿模型廠的關鍵增長市場，也讓企業在選擇 OpenAI vs Anthropic vs Google Gemini 時多出「法規治理形象」這個砝碼。",
+        source: "Anthropic",
+        url: "https://www.anthropic.com/news/dublin",
+        time: "09:00 TST",
+      },
+    ],
+    market: "歐洲科技股小漲，AI 合規概念受關注。☘️ St. Patrick's Day 倒數 4 天！",
+  },
+  {
     date: "2026-03-12",
     items: [
       {

@@ -2,6 +2,47 @@ import { useState } from 'react';
 import { ExternalLink, TrendingUp, ChevronDown } from 'lucide-react';
 import { getDigests } from '../data/dailyNews';
 
+function useStPatrick() {
+  const now = new Date();
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  return m === 3 && d >= 13 && d <= 17;
+}
+
+function Shamrocks() {
+  const count = 12;
+  return (
+    <div className="pointer-events-none fixed inset-0 overflow-hidden z-50" aria-hidden>
+      {Array.from({ length: count }).map((_, i) => {
+        const left = Math.random() * 100;
+        const delay = Math.random() * 4;
+        const duration = 4 + Math.random() * 4;
+        const size = 14 + Math.floor(Math.random() * 16);
+        return (
+          <span
+            key={i}
+            className="absolute top-[-2rem] select-none"
+            style={{
+              left: `${left}%`,
+              fontSize: `${size}px`,
+              animation: `shamrock-fall ${duration}s ${delay}s linear infinite`,
+              opacity: 0,
+            }}
+          >
+            ☘️
+          </span>
+        );
+      })}
+      <style>{`
+        @keyframes shamrock-fall {
+          0%   { transform: translateY(0)   rotate(0deg);   opacity: 0.9; }
+          100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 function formatDate(iso: string): string {
   const [year, month, day] = iso.split('-').map(Number);
   return new Date(year, month - 1, day).toLocaleDateString('zh-TW', {
@@ -12,9 +53,11 @@ function formatDate(iso: string): string {
 export default function DailyDigest() {
   const digests = getDigests();
   const [openIdx, setOpenIdx] = useState(0); // latest open by default
+  const isStPatrick = useStPatrick();
 
   return (
     <div className="space-y-2">
+      {isStPatrick && <Shamrocks />}
       {digests.map((digest, i) => {
         const isOpen = openIdx === i;
         return (
