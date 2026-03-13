@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ExternalLink, TrendingUp, ChevronDown } from 'lucide-react';
 import { getDigests } from '../data/dailyNews';
 
@@ -53,11 +53,18 @@ function formatDate(iso: string): string {
 export default function DailyDigest() {
   const digests = getDigests();
   const [openIdx, setOpenIdx] = useState(0); // latest open by default
-  const isStPatrick = useStPatrick();
+  const isStPatrickWeek = useStPatrick();
+  const [showShamrocks, setShowShamrocks] = useState(isStPatrickWeek);
+
+  useEffect(() => {
+    if (!isStPatrickWeek) return;
+    const t = setTimeout(() => setShowShamrocks(false), 3000);
+    return () => clearTimeout(t);
+  }, [isStPatrickWeek]);
 
   return (
     <div className="space-y-2">
-      {isStPatrick && <Shamrocks />}
+      {showShamrocks && <Shamrocks />}
       {digests.map((digest, i) => {
         const isOpen = openIdx === i;
         return (
