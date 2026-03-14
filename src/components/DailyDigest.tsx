@@ -112,15 +112,17 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
                           rel="noopener noreferrer"
                           className="inline-flex items-start gap-1 text-sm font-semibold leading-snug text-gray-900 transition-colors hover:text-emerald-600"
                         >
-                          <span>{item.title}</span>
+                          <span>{language === 'en' ? (item.titleEn ?? item.title) : item.title}</span>
                           <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-40" />
                         </a>
 
-                        <p className="text-xs leading-relaxed text-gray-500">{item.summary}</p>
+                        <p className="text-xs leading-relaxed text-gray-500">
+                          {language === 'en' ? (item.summaryEn ?? item.summary) : item.summary}
+                        </p>
 
                         <p className="text-xs leading-relaxed text-gray-400">
                           <span className="font-medium text-gray-500">{t.why[language]}</span>
-                          {item.why}
+                          {language === 'en' ? (item.whyEn ?? item.why) : item.why}
                         </p>
 
                         <div className="flex items-center gap-2 pt-0.5">
@@ -139,7 +141,7 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
                     <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
                     <p className="text-xs leading-relaxed text-emerald-700">
                       <span className="font-semibold">{t.market[language]}</span>
-                      {digest.market}
+                      {language === 'en' ? (digest.marketEn ?? digest.market) : digest.market}
                     </p>
                   </div>
                 )}
