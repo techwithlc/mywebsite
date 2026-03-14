@@ -464,7 +464,7 @@ function App() {
           <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
             {language === 'en' ? 'Daily Digest' : '每日新聞摘要'}
           </h2>
-          <DailyDigest />
+          <DailyDigest language={language} />
         </section>
 
         <hr className="border-gray-100" />

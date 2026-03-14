@@ -16,6 +16,28 @@ export interface DailyDigest {
 // Newest first. Only the latest N days are shown in the UI.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-14",
+    items: [
+      {
+        title: "美國各州 AI 法案全面開火：chatbot 標示、深偽防制、AI 人格禁止令",
+        summary: "Transparency Coalition 彙整顯示，3 月初已有十多個州法案推進委員會，涵蓋 Florida「AI Bill of Rights」（禁止未成年無家長同意使用）、多州「Professional AI Oversight Act」（AI 參與內容生成須揭露）、以及明文禁止 AI 擁有法律人格的「AI Non-Sentience and Responsibility Act」。",
+        why: "聯邦框架管大方向，州法才是 SaaS/Agent/chatbot 實際要遵守的細節。美國市場的 disclosure、未成年保護、醫療保險場景規範，將直接影響產品設計與合規成本。",
+        source: "Transparency Coalition",
+        url: "https://www.transparencycoalition.ai/news/ai-legislative-update-march13-2026",
+        time: "10:00 TST",
+      },
+      {
+        title: "GPT-5.4「原生電腦控制」被評為 3 月最大技術事件",
+        summary: "GPT-5.4 推出原生 computer use 能力，可直接操作 OS、瀏覽器與應用程式完成多步驟任務，分標準版、Thinking 版、Pro 版。在 OSWorld-Verified、WebArena Verified 基準創新高，較 GPT-5.2 錯誤率降 18%、幻覺降 33%。",
+        why: "把 Auto-GPT / Browser-use 類 Agent 正式 productize，RPA 市場面臨直接衝擊。原生電腦控制讓安全邊界從 prompt 層移到 OS/identity/audit 層，推升 Agent 安全與權限分級 infra 需求。",
+        source: "Humai / OpenAI",
+        url: "https://www.humai.blog/ai-news-trends-march-2026-complete-monthly-digest/",
+        time: "14:00 TST",
+      },
+    ],
+    market: "AI 監管概念股與合規 SaaS 受關注；GPT-5.4 發布帶動 OpenAI 生態廠商小漲。",
+  },
+  {
     date: "2026-03-13",
     items: [
       {

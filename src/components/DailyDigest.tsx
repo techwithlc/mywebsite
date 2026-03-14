@@ -43,14 +43,21 @@ function Shamrocks() {
   );
 }
 
-function formatDate(iso: string): string {
+function formatDate(iso: string, lang: 'en' | 'zh'): string {
   const [year, month, day] = iso.split('-').map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString('zh-TW', {
+  const locale = lang === 'en' ? 'en-US' : 'zh-TW';
+  return new Date(year, month - 1, day).toLocaleDateString(locale, {
     year: 'numeric', month: 'long', day: 'numeric',
   });
 }
 
-export default function DailyDigest() {
+const t = {
+  why:    { en: 'Why it matters:', zh: '為何重要：' },
+  market: { en: 'Market Pulse:', zh: '市場快訊：' },
+  items:  { en: 'stories', zh: '則' },
+};
+
+export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh' }) {
   const digests = getDigests();
   const [openIdx, setOpenIdx] = useState(0); // latest open by default
   const isStPatrickWeek = useStPatrick();
@@ -75,13 +82,13 @@ export default function DailyDigest() {
               className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-2.5">
-                <span className="text-sm font-medium text-gray-800">{formatDate(digest.date)}</span>
+                <span className="text-sm font-medium text-gray-800">{formatDate(digest.date, language)}</span>
                 {i === 0 && (
                   <span className="rounded-full bg-emerald-500 px-1.5 py-px text-[9px] font-bold text-white">
                     NEW
                   </span>
                 )}
-                <span className="text-xs text-gray-400">· {digest.items.length} 則</span>
+                <span className="text-xs text-gray-400">· {digest.items.length} {t.items[language]}</span>
               </div>
               <ChevronDown
                 className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
@@ -112,7 +119,7 @@ export default function DailyDigest() {
                         <p className="text-xs leading-relaxed text-gray-500">{item.summary}</p>
 
                         <p className="text-xs leading-relaxed text-gray-400">
-                          <span className="font-medium text-gray-500">為何重要：</span>
+                          <span className="font-medium text-gray-500">{t.why[language]}</span>
                           {item.why}
                         </p>
 
@@ -131,7 +138,7 @@ export default function DailyDigest() {
                   <div className="flex items-start gap-2 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-2.5">
                     <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
                     <p className="text-xs leading-relaxed text-emerald-700">
-                      <span className="font-semibold">市場快訊：</span>
+                      <span className="font-semibold">{t.market[language]}</span>
                       {digest.market}
                     </p>
                   </div>
