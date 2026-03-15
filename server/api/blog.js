@@ -1,5 +1,6 @@
 import express from 'express';
 import pool from '../database/db.js';
+import { requireAdminKey } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -104,10 +105,10 @@ router.get('/posts/:slug', async (req, res) => {
   }
 });
 
-// ============ ADMIN ENDPOINTS (Add authentication later) ============
+// ============ ADMIN ENDPOINTS ============
 
 // Get all posts including drafts (admin)
-router.get('/admin/posts', async (req, res) => {
+router.get('/admin/posts', requireAdminKey, async (req, res) => {
   try {
     const { status } = req.query;
     
@@ -138,7 +139,7 @@ router.get('/admin/posts', async (req, res) => {
 });
 
 // Get single post by ID (admin)
-router.get('/admin/posts/:id', async (req, res) => {
+router.get('/admin/posts/:id', requireAdminKey, async (req, res) => {
   try {
     const { id } = req.params;
     
@@ -169,7 +170,7 @@ router.get('/admin/posts/:id', async (req, res) => {
 });
 
 // Create new blog post (admin)
-router.post('/admin/posts', async (req, res) => {
+router.post('/admin/posts', requireAdminKey, async (req, res) => {
   try {
     const {
       title,
@@ -242,7 +243,7 @@ router.post('/admin/posts', async (req, res) => {
 });
 
 // Update blog post (admin)
-router.put('/admin/posts/:id', async (req, res) => {
+router.put('/admin/posts/:id', requireAdminKey, async (req, res) => {
   try {
     const { id } = req.params;
     const {

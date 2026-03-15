@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ArrowLeft, Clock, Calendar, Tag, User } from 'lucide-react';
+import DOMPurify from 'dompurify';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getPostBySlug } from '../utils/posts';
 
@@ -11,6 +12,10 @@ interface BlogPostDetailProps {
 const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ slug, onBack }) => {
   const { t, language } = useLanguage();
   const post = getPostBySlug(slug);
+  const safeContent = useMemo(
+    () => post ? DOMPurify.sanitize(post.content) : '',
+    [post]
+  );
 
   useEffect(() => {
     const prev = document.title;
@@ -80,7 +85,7 @@ const BlogPostDetail: React.FC<BlogPostDetailProps> = ({ slug, onBack }) => {
           {/* Content */}
           <div
             className="mt-8 text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: safeContent }}
           />
         </article>
       </div>
