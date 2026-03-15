@@ -149,24 +149,25 @@ function App() {
           }}>AI</span>
         </span>
         <div className="flex items-center gap-1">
+          {/* Desktop: show all icons */}
           <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="GitHub" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="GitHub" className="hidden sm:block p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Github className="h-4 w-4" />
           </a>
           <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
-            aria-label="LinkedIn" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="LinkedIn" className="hidden sm:block p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Linkedin className="h-4 w-4" />
           </a>
           <a href="https://www.threads.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="Threads" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="Threads" className="hidden sm:block p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <ThreadsIcon />
           </a>
           <a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="YouTube" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="YouTube" className="hidden sm:block p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Youtube className="h-4 w-4" />
           </a>
           <a href="https://mail.google.com/mail/?view=cm&to=kuanlunlawrence.chen@gmail.com" target="_blank" rel="noopener noreferrer"
-            aria-label="Email" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="Email" className="hidden sm:block p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Mail className="h-4 w-4" />
           </a>
           <button
