@@ -68,8 +68,8 @@ const BlogList: React.FC<BlogListProps> = ({ maxPosts }) => {
             onClick={() => setFilter(f => ({ ...f, category: cat.key }))}
             className={`rounded-full px-3 py-1 text-xs font-medium transition-all ${
               filter.category === cat.key
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                ? 'bg-gray-900 text-white dark:bg-gold-500 dark:text-ink-950'
+                : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-ink-800 dark:text-ink-100/50 dark:hover:bg-ink-700'
             }`}
           >
             {cat.label}
@@ -81,9 +81,9 @@ const BlogList: React.FC<BlogListProps> = ({ maxPosts }) => {
       <div className="space-y-0">
         {filteredPosts.map((post, i) => (
           <div key={post.id}>
-            {i > 0 && <hr className="border-gray-100" />}
+            {i > 0 && <hr className="border-gray-100 dark:border-gold-500/10" />}
             <article
-              className="group cursor-pointer py-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-lg"
+              className="group cursor-pointer py-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 dark:focus-visible:ring-gold-500 rounded-lg"
               onClick={() => navigate(post.slug)}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && navigate(post.slug)}
               tabIndex={0}
@@ -93,15 +93,15 @@ const BlogList: React.FC<BlogListProps> = ({ maxPosts }) => {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-medium text-emerald-600 uppercase tracking-wide">
+                    <span className="text-xs font-medium text-emerald-600 dark:text-gold-500/70 uppercase tracking-wide">
                       {categories.find(c => c.key === post.category)?.label || post.category}
                     </span>
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors leading-snug">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-ink-50 group-hover:text-emerald-600 dark:group-hover:text-gold-400 transition-colors leading-snug">
                     {post.title}
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500 leading-relaxed line-clamp-2">{post.excerpt}</p>
-                  <div className="mt-2 flex items-center gap-3 text-xs text-gray-400">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-ink-100/60 leading-relaxed line-clamp-2">{post.excerpt}</p>
+                  <div className="mt-2 flex items-center gap-3 text-xs text-gray-400 dark:text-ink-100/30">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       {formatDate(post.publishedAt)}
@@ -114,14 +114,14 @@ const BlogList: React.FC<BlogListProps> = ({ maxPosts }) => {
                   {post.tags.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1">
                       {post.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="inline-flex items-center gap-0.5 rounded bg-gray-100 px-1.5 py-0.5 text-xs text-gray-500">
+                        <span key={tag} className="inline-flex items-center gap-0.5 rounded bg-gray-100 dark:bg-ink-800 dark:border dark:border-gold-500/20 px-1.5 py-0.5 text-xs text-gray-500 dark:text-gold-500/60">
                           <Tag className="h-2.5 w-2.5" />{tag}
                         </span>
                       ))}
                     </div>
                   )}
                 </div>
-                <span className="mt-1 text-gray-300 group-hover:text-emerald-400 transition-colors flex-shrink-0 text-lg">→</span>
+                <span className="mt-1 text-gray-300 group-hover:text-emerald-400 dark:text-ink-100/20 dark:group-hover:text-gold-400 transition-colors flex-shrink-0 text-lg">→</span>
               </div>
             </article>
           </div>
