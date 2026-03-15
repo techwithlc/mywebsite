@@ -60,8 +60,11 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash;
       if (hash.startsWith('#blog/')) {
-        setCurrentBlogSlug(hash.replace('#blog/', ''));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        const slug = hash.replace('#blog/', '');
+        if (/^[a-z0-9-]+$/.test(slug)) {
+          setCurrentBlogSlug(slug);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       } else {
         setCurrentBlogSlug(null);
       }

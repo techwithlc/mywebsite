@@ -7,24 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "generate-rss": "node ./server/serverless/newsletter-function.js --local"
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
-    "@google/generative-ai": "^0.24.0",
     "@types/dompurify": "^3.0.5",
-    "axios": "^1.13.4",
     "dompurify": "^3.3.3",
-    "dotenv": "^16.4.5",
     "lucide-react": "^0.344.0",
-    "mongodb": "^6.15.0",
-    "nodemailer": "^7.0.11",
-    "openai": "^4.30.0",
-    "pg": "^8.11.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-markdown": "^10.1.0"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
