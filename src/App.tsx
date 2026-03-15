@@ -148,37 +148,37 @@ function App() {
             pointerEvents: scrolled ? 'auto' : 'none',
           }}>AI</span>
         </span>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
           <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="GitHub" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="GitHub" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Github className="h-4 w-4" />
           </a>
           <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
-            aria-label="LinkedIn" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="LinkedIn" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Linkedin className="h-4 w-4" />
           </a>
           <a href="https://www.threads.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="Threads" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="Threads" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <ThreadsIcon />
           </a>
           <a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="YouTube" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="YouTube" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Youtube className="h-4 w-4" />
           </a>
           <a href="https://mail.google.com/mail/?view=cm&to=kuanlunlawrence.chen@gmail.com" target="_blank" rel="noopener noreferrer"
-            aria-label="Email" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
+            aria-label="Email" className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Mail className="h-4 w-4" />
           </a>
           <button
             onClick={toggleLanguage}
-            className="text-xs font-medium text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
+            className="p-2 text-xs font-medium text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
           >
             {language === 'en' ? '中文' : 'EN'}
           </button>
           <button
             onClick={() => setDark(d => !d)}
             aria-label="Toggle dark mode"
-            className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
+            className="p-2 text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
           >
             {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
