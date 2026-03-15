@@ -75,33 +75,33 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
       {digests.map((digest, i) => {
         const isOpen = openIdx === i;
         return (
-          <div key={digest.date} className="rounded-xl border border-gray-100 overflow-hidden">
+          <div key={digest.date} className="rounded-xl border border-gray-100 dark:border-gold-500/20 overflow-hidden dark:bg-ink-900/40 transition-colors">
             {/* Accordion header */}
             <button
               onClick={() => setOpenIdx(isOpen ? -1 : i)}
-              className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+              className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-ink-800/50 transition-colors"
             >
               <div className="flex items-center gap-2.5">
-                <span className="text-sm font-medium text-gray-800">{formatDate(digest.date, language)}</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-ink-50">{formatDate(digest.date, language)}</span>
                 {i === 0 && (
-                  <span className="rounded-full bg-emerald-500 px-1.5 py-px text-[9px] font-bold text-white">
+                  <span className="rounded-full bg-emerald-500 dark:bg-gold-500 px-1.5 py-px text-[9px] font-bold text-white dark:text-ink-950">
                     NEW
                   </span>
                 )}
-                <span className="text-xs text-gray-400">· {digest.items.length} {t.items[language]}</span>
+                <span className="text-xs text-gray-400 dark:text-ink-100/30">· {digest.items.length} {t.items[language]}</span>
               </div>
               <ChevronDown
-                className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                className={`h-4 w-4 text-gray-400 dark:text-gold-500/50 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
               />
             </button>
 
             {/* Accordion body */}
             {isOpen && (
-              <div className="border-t border-gray-100 px-4 pb-4 pt-3 space-y-3">
+              <div className="border-t border-gray-100 dark:border-gold-500/10 px-4 pb-4 pt-3 space-y-3">
                 <ol className="space-y-3">
                   {digest.items.map((item, j) => (
                     <li key={j} className="group flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 text-[10px] font-bold text-gray-400 transition-colors group-hover:bg-gray-900 group-hover:text-white">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-ink-800 text-[10px] font-bold text-gray-400 dark:text-gold-500/60 transition-colors group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-gold-500 dark:group-hover:text-ink-950">
                         {j + 1}
                       </span>
 
@@ -110,26 +110,26 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
                           href={item.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-start gap-1 text-sm font-semibold leading-snug text-gray-900 transition-colors hover:text-emerald-600"
+                          className="inline-flex items-start gap-1 text-sm font-semibold leading-snug text-gray-900 dark:text-ink-50 transition-colors hover:text-emerald-600 dark:hover:text-gold-400"
                         >
                           <span>{language === 'en' ? (item.titleEn ?? item.title) : item.title}</span>
                           <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-40" />
                         </a>
 
-                        <p className="text-xs leading-relaxed text-gray-500">
+                        <p className="text-xs leading-relaxed text-gray-500 dark:text-ink-100/60">
                           {language === 'en' ? (item.summaryEn ?? item.summary) : item.summary}
                         </p>
 
-                        <p className="text-xs leading-relaxed text-gray-400">
-                          <span className="font-medium text-gray-500">{t.why[language]}</span>
+                        <p className="text-xs leading-relaxed text-gray-400 dark:text-ink-100/40">
+                          <span className="font-medium text-gray-500 dark:text-gold-500/70">{t.why[language]}</span>
                           {language === 'en' ? (item.whyEn ?? item.why) : item.why}
                         </p>
 
                         <div className="flex items-center gap-2 pt-0.5">
-                          <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-500">
+                          <span className="rounded bg-gray-100 dark:bg-ink-800 dark:border dark:border-gold-500/20 px-1.5 py-0.5 text-[10px] font-medium text-gray-500 dark:text-gold-500/60">
                             {item.source}
                           </span>
-                          <span className="text-[10px] text-gray-300">{item.time}</span>
+                          <span className="text-[10px] text-gray-300 dark:text-ink-100/20">{item.time}</span>
                         </div>
                       </div>
                     </li>
@@ -137,9 +137,9 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
                 </ol>
 
                 {digest.market && (
-                  <div className="flex items-start gap-2 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-2.5">
-                    <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
-                    <p className="text-xs leading-relaxed text-emerald-700">
+                  <div className="flex items-start gap-2 rounded-lg border border-emerald-100 bg-emerald-50 dark:border-gold-500/20 dark:bg-gold-500/5 px-3 py-2.5">
+                    <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500 dark:text-gold-500" />
+                    <p className="text-xs leading-relaxed text-emerald-700 dark:text-gold-400/80">
                       <span className="font-semibold">{t.market[language]}</span>
                       {language === 'en' ? (digest.marketEn ?? digest.market) : digest.market}
                     </p>

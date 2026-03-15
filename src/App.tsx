@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Linkedin, Mail, ChevronUp, ExternalLink, Github, Youtube } from 'lucide-react';
+import { Linkedin, Mail, ChevronUp, ExternalLink, Github, Youtube, Moon, Sun } from 'lucide-react';
 import { useLanguage } from './contexts/LanguageContext';
 import EmbedFacade from './components/EmbedFacade';
 import BlogList from './components/BlogList';
@@ -21,6 +21,17 @@ function App() {
   const { language, toggleLanguage } = useLanguage();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark');
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [dark]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
   const [latestVideoId, setLatestVideoId] = useState('');
@@ -107,15 +118,14 @@ function App() {
   }
 
   return (
-    <div id="top" className="min-h-screen bg-white text-gray-900">
+    <div id="top" className="min-h-screen bg-white text-gray-900 dark:bg-ink-950 dark:text-ink-50 transition-colors duration-300">
 
       {/* ── Nav ── */}
-      <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100/60 mx-auto-none">
+      <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100/60 dark:bg-ink-950/90 dark:border-gold-500/20 mx-auto-none transition-colors duration-300">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-4">
         {/* Logo: TechwithLC collapses letter by letter → "AI" */}
-        <span className="relative inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 whitespace-nowrap"
+        <span className="relative inline-flex items-center text-sm font-semibold tracking-tight text-gray-900 dark:text-ink-50 whitespace-nowrap"
           style={{ height: '1.25rem' }}>
-          {/* Full name — each letter collapses on scroll */}
           <span className="inline-flex" style={{ opacity: scrolled ? 0 : 1, transition: 'opacity 0.3s ease 0.1s', position: scrolled ? 'absolute' : 'relative', pointerEvents: scrolled ? 'none' : 'auto' }}>
             {'TechwithLC'.split('').map((char, i) => (
               <span key={i} style={{
@@ -127,7 +137,6 @@ function App() {
               }}>{char}</span>
             ))}
           </span>
-          {/* "AI" — fades in after collapse */}
           <span style={{
             opacity: scrolled ? 1 : 0,
             transform: scrolled ? 'translateX(0)' : 'translateX(-6px)',
@@ -138,36 +147,43 @@ function App() {
         </span>
         <div className="flex items-center gap-4">
           <a href="https://github.com/techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="GitHub" className="text-gray-400 hover:text-gray-700 transition-colors">
+            aria-label="GitHub" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Github className="h-4 w-4" />
           </a>
           <a href="https://www.linkedin.com/in/klunlawrencechen/" target="_blank" rel="noopener noreferrer"
-            aria-label="LinkedIn" className="text-gray-400 hover:text-gray-700 transition-colors">
+            aria-label="LinkedIn" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Linkedin className="h-4 w-4" />
           </a>
           <a href="https://www.threads.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="Threads" className="text-gray-400 hover:text-gray-700 transition-colors">
+            aria-label="Threads" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <ThreadsIcon />
           </a>
           <a href="https://www.youtube.com/@techwithlc" target="_blank" rel="noopener noreferrer"
-            aria-label="YouTube" className="text-gray-400 hover:text-gray-700 transition-colors">
+            aria-label="YouTube" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Youtube className="h-4 w-4" />
           </a>
           <a href="https://mail.google.com/mail/?view=cm&to=kuanlunlawrence.chen@gmail.com" target="_blank" rel="noopener noreferrer"
-            aria-label="Email" className="text-gray-400 hover:text-gray-700 transition-colors">
+            aria-label="Email" className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors">
             <Mail className="h-4 w-4" />
           </a>
           <button
             onClick={toggleLanguage}
-            className="ml-2 text-xs font-medium text-gray-400 hover:text-gray-700 transition-colors"
+            className="text-xs font-medium text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
           >
             {language === 'en' ? '中文' : 'EN'}
+          </button>
+          <button
+            onClick={() => setDark(d => !d)}
+            aria-label="Toggle dark mode"
+            className="text-gray-400 hover:text-gray-700 dark:text-ink-100/50 dark:hover:text-gold-400 transition-colors"
+          >
+            {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
         </div>
         </div>
       </nav>
 
-      <main className="mx-auto max-w-2xl px-6 pb-24">
+      <main className="mx-auto max-w-2xl px-6 pb-24 transition-colors duration-300">
 
         {/* ── Hero ── */}
         <section className="pt-8 pb-16">
@@ -284,34 +300,34 @@ function App() {
             )}
           </div>
 
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:font-serif dark:text-ink-50 dark:tracking-wide">
             Lawrence Chen
           </h1>
-          <p className="mt-2 text-base text-gray-500">
+          <p className="mt-2 text-base text-gray-500 dark:text-gold-400 dark:text-sm dark:tracking-widest dark:uppercase dark:font-medium">
             {language === 'en'
               ? 'Cloud Engineer · Founder of TechwithLC · Based in Taipei'
               : '雲端工程師 · TechwithLC 創辦人 · 台北'}
           </p>
-          <p className="mt-5 text-base leading-relaxed text-gray-700">
+          <p className="mt-5 text-base leading-relaxed text-gray-700 dark:text-ink-100/80">
             {language === 'en'
               ? "I'm Lawrence — I like building things. By day I architect cloud systems; by night I record podcast episodes about tech, occasionally at unreasonable hours. When I'm not at a keyboard you'll find me at the gym, on a tennis court, or booking a one-way flight somewhere. I've been to 30+ countries and nothing beats self-driving through Iceland with no plan."
               : '我是 Lawrence，喜歡 build 東西。白天搞雲端架構，偶爾錄 podcast 聊科技。不在健身房就在網球場，不然就是臨時訂機票說走就走。去過 30+ 國家，最喜歡冰島自駕那種沒有計畫的感覺。'}
           </p>
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            <a href="#projects" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <a href="#projects" className="text-emerald-600 hover:text-emerald-700 dark:text-gold-400 dark:hover:text-gold-300 font-medium transition-colors">
               {language === 'en' ? 'Projects ↓' : '專案 ↓'}
             </a>
-            <a href="#writing" className="text-emerald-600 hover:text-emerald-700 font-medium">
+            <a href="#writing" className="text-emerald-600 hover:text-emerald-700 dark:text-gold-400 dark:hover:text-gold-300 font-medium transition-colors">
               {language === 'en' ? 'Writing ↓' : '文章 ↓'}
             </a>
           </div>
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Timeline ── */}
         <section className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gold-500/80 dark:font-serif dark:text-sm dark:normal-case dark:tracking-widest">
             {language === 'en' ? 'Timeline' : '經歷'}
           </h2>
           <div className="space-y-5">
@@ -323,21 +339,21 @@ function App() {
               { period: 'Sep 2016 – Jul 2020', role: language === 'en' ? 'B.S. Information Management' : '資訊管理學士', org: language === 'en' ? 'Tunghai University · Taichung' : '東海大學 · 台中' },
             ].map((item) => (
               <div key={item.period} className="grid grid-cols-[130px_1fr] gap-4">
-                <span className="pt-0.5 text-sm text-gray-400 tabular-nums">{item.period}</span>
+                <span className="pt-0.5 text-sm text-gray-400 dark:text-gold-500/60 tabular-nums">{item.period}</span>
                 <div>
-                  <p className="text-sm font-semibold text-gray-900">{item.role}</p>
-                  <p className="text-sm text-gray-400">{item.org}</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-ink-50">{item.role}</p>
+                  <p className="text-sm text-gray-400 dark:text-ink-100/50">{item.org}</p>
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Projects ── */}
         <section id="projects" className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gold-500/80 dark:font-serif dark:text-sm dark:normal-case dark:tracking-widest">
             {language === 'en' ? "Stuff I've Built" : '我做過的事'}
           </h2>
           <div className="space-y-5">
@@ -385,16 +401,16 @@ function App() {
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-semibold text-gray-900 hover:text-emerald-600 transition-colors"
+                        className="text-sm font-semibold text-gray-900 hover:text-emerald-600 dark:text-ink-50 dark:hover:text-gold-400 transition-colors"
                       >
                         {project.title}
                       </a>
-                      <ExternalLink className="h-3 w-3 text-gray-300 flex-shrink-0" />
+                      <ExternalLink className="h-3 w-3 text-gray-300 dark:text-gold-500/30 flex-shrink-0" />
                     </div>
-                    <p className="mt-1 text-sm text-gray-500 leading-relaxed">{project.desc}</p>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-ink-100/60 leading-relaxed">{project.desc}</p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+                        <span key={tag} className="rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-500 dark:bg-ink-800 dark:text-gold-500/70 dark:border dark:border-gold-500/20">
                           {tag}
                         </span>
                       ))}
@@ -422,14 +438,14 @@ function App() {
           </div>
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Tech Stack ── */}
         <section className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gold-500/80 dark:font-serif dark:text-sm dark:normal-case dark:tracking-widest">
             {language === 'en' ? 'Tech Stack' : '技術棧'}
           </h2>
-          <div className="space-y-4 text-sm text-gray-600">
+          <div className="space-y-4 text-sm text-gray-600 dark:text-ink-100/70">
             {[
               { cat: language === 'en' ? 'Cloud' : '雲端', items: 'AWS (Advanced) · Azure · GCP' },
               { cat: language === 'en' ? 'Observability' : '可觀測性', items: 'Metrics · Logs · Traces · Dashboards · Incident Analysis' },
@@ -440,34 +456,34 @@ function App() {
               { cat: language === 'en' ? 'Certs' : '證照', items: 'AWS SA Pro · AWS AIF · AZ-900 · SC-900' },
             ].map(({ cat, items }) => (
               <div key={cat} className="grid grid-cols-[130px_1fr] gap-2">
-                <span className="font-medium text-gray-400">{cat}</span>
+                <span className="font-medium text-gray-400 dark:text-gold-500/70">{cat}</span>
                 <span>{items}</span>
               </div>
             ))}
           </div>
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Writing / Blog ── */}
         <section id="writing" className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gold-500/80 dark:font-serif dark:text-sm dark:normal-case dark:tracking-widest">
             {language === 'en' ? 'Writing' : '文章'}
           </h2>
           <BlogList maxPosts={6} />
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Daily Digest ── */}
         <section className="py-14">
-          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
+          <h2 className="mb-8 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gold-500/80 dark:font-serif dark:text-sm dark:normal-case dark:tracking-widest">
             {language === 'en' ? 'Daily Digest' : '每日新聞摘要'}
           </h2>
           <DailyDigest language={language} />
         </section>
 
-        <hr className="border-gray-100" />
+        <hr className="border-gray-100 dark:border-gold-500/15" />
 
         {/* ── Sponsor ── */}
         <section className="py-14">
@@ -475,8 +491,8 @@ function App() {
         </section>
 
         {/* ── Footer ── */}
-        <footer className="border-t border-gray-100 pt-8 pb-4">
-          <p className="text-xs text-gray-400">
+        <footer className="border-t border-gray-100 dark:border-gold-500/15 pt-8 pb-4">
+          <p className="text-xs text-gray-400 dark:text-ink-100/30">
             © {new Date().getFullYear()} Lawrence Chen · TechwithLC
           </p>
         </footer>
@@ -486,7 +502,7 @@ function App() {
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 z-50 rounded-full bg-gray-900 p-2.5 text-white shadow-lg hover:bg-gray-700 transition-colors"
+          className="fixed bottom-6 right-6 z-50 rounded-full bg-gray-900 p-2.5 text-white shadow-lg hover:bg-gray-700 dark:bg-gold-500 dark:text-ink-950 dark:hover:bg-gold-400 transition-colors"
           aria-label="Scroll to top"
         >
           <ChevronUp className="h-4 w-4" />

@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -29,6 +30,27 @@ export default {
           'Arial',
           'sans-serif',
         ],
+        serif: [
+          'Playfair Display',
+          'Georgia',
+          'Cambria',
+          'Times New Roman',
+          'serif',
+        ],
+      },
+      colors: {
+        gold: {
+          400: '#d4a843',
+          500: '#b8860b',
+          600: '#9a6f00',
+        },
+        ink: {
+          50:  '#f5f0e8',
+          100: '#e8dfc8',
+          800: '#1a1a18',
+          900: '#0d0d0b',
+          950: '#080807',
+        },
       },
       animation: {
         fadeIn: 'fadeIn 0.6s ease-out',
