@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ExternalLink, TrendingUp, ChevronDown } from 'lucide-react';
+import { ExternalLink, TrendingUp, ChevronDown, FlaskConical } from 'lucide-react';
 import { getDigests } from '../data/dailyNews';
 
 function useStPatrick() {
@@ -143,6 +143,46 @@ export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh
                       <span className="font-semibold">{t.market[language]}</span>
                       {language === 'en' ? (digest.marketEn ?? digest.market) : digest.market}
                     </p>
+                  </div>
+                )}
+
+                {digest.feature && (
+                  <div className="rounded-lg border border-violet-100 bg-violet-50/50 dark:border-violet-500/20 dark:bg-violet-500/5 overflow-hidden">
+                    <div className="flex items-center gap-2 px-3 py-2 border-b border-violet-100 dark:border-violet-500/20">
+                      <FlaskConical className="h-3.5 w-3.5 shrink-0 text-violet-500 dark:text-violet-400" />
+                      <span className="text-xs font-bold text-violet-700 dark:text-violet-300">
+                        {language === 'en' ? (digest.feature.titleEn ?? digest.feature.title) : digest.feature.title}
+                      </span>
+                    </div>
+                    <div className="px-3 py-2.5 space-y-2.5">
+                      <p className="text-xs leading-relaxed text-violet-600/80 dark:text-violet-300/60">
+                        {language === 'en' ? (digest.feature.introEn ?? digest.feature.intro) : digest.feature.intro}
+                      </p>
+                      <ol className="space-y-2">
+                        {digest.feature.items.map((fi, k) => (
+                          <li key={k} className="flex items-start gap-2">
+                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-violet-200 dark:bg-violet-500/20 text-[9px] font-bold text-violet-600 dark:text-violet-300">
+                              {k + 1}
+                            </span>
+                            <div className="min-w-0">
+                              <a
+                                href={fi.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs font-semibold text-violet-800 dark:text-violet-200 hover:text-violet-600 dark:hover:text-violet-100 transition-colors"
+                              >
+                                {language === 'en' ? (fi.nameEn ?? fi.name) : fi.name}
+                                <ExternalLink className="h-2.5 w-2.5 opacity-40" />
+                              </a>
+                              <p className="text-[11px] leading-relaxed text-violet-600/70 dark:text-violet-300/50 mt-0.5">
+                                {language === 'en' ? (fi.descEn ?? fi.desc) : fi.desc}
+                              </p>
+                              <span className="text-[10px] text-violet-400/60 dark:text-violet-400/40">{fi.source}</span>
+                            </div>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
                   </div>
                 )}
               </div>

@@ -10,11 +10,29 @@ export interface NewsItem {
   whyEn?: string;
 }
 
+export interface FeatureItem {
+  name: string;
+  nameEn?: string;
+  desc: string;
+  descEn?: string;
+  source: string;
+  url: string;
+}
+
+export interface Feature {
+  title: string;
+  titleEn?: string;
+  intro: string;
+  introEn?: string;
+  items: FeatureItem[];
+}
+
 export interface DailyDigest {
   date: string; // ISO "2026-03-12"
   items: NewsItem[];
   market?: string;
   marketEn?: string;
+  feature?: Feature;
 }
 
 // Newest first.
@@ -47,6 +65,46 @@ const digests: DailyDigest[] = [
     ],
     market: "AI 監管概念股與合規 SaaS 受關注；GPT-5.4 發布帶動 OpenAI 生態廠商小漲。",
     marketEn: "AI compliance/governance stocks in focus; GPT-5.4 launch lifts OpenAI-ecosystem names.",
+    feature: {
+      title: "🔬 專題：OpenClaw 玩最狠的那群人",
+      titleEn: "🔬 Feature: The People Pushing OpenClaw Hardest",
+      intro: "OpenClaw 不只是一個工具——它正在被一群人玩出完全不同的方向。以下是目前最值得關注的四個方向。",
+      introEn: "OpenClaw isn't just a tool — a handful of builders are taking it somewhere completely different. Here are four directions worth watching.",
+      items: [
+        {
+          name: "MattPRD — Moltbook：AI Agent 社群平台",
+          nameEn: "MattPRD — Moltbook: AI Agent Social Platform",
+          desc: "打造了 Moltbook，一個純 AI Agent 驅動的社群平台（類 Reddit）。Andrej Karpathy、Simon Willison 都稱它是「網路上目前最有趣的地方」。",
+          descEn: "Built Moltbook, a social platform (think Reddit) run entirely by AI Agents. Andrej Karpathy and Simon Willison both called it 'the most interesting place on the internet right now.'",
+          source: "TechFlow",
+          url: "https://techflow.com",
+        },
+        {
+          name: "騰訊工程師 — 深圳「OpenClaw 安裝派對」",
+          nameEn: "Tencent Engineers — Shenzhen OpenClaw Install Party",
+          desc: "深圳總部舉辦安裝派對，近千人排隊。騰訊、阿里、MiniMax 等已相繼推出自家 OpenClaw 版本，中國大廠正式入場。",
+          descEn: "An install party at Tencent HQ drew nearly a thousand people queuing up. Tencent, Alibaba, and MiniMax have all shipped their own OpenClaw forks — Chinese tech giants are officially in the game.",
+          source: "Fortune",
+          url: "https://fortune.com",
+        },
+        {
+          name: "硬體社群 — 語音控制開源機器人 Reachy Mini",
+          nameEn: "Hardware Hackers — Voice-Controlled Reachy Mini",
+          desc: "有人把 OpenClaw 接上開源機器人 Reachy Mini，透過 Telegram 語音指令控制機器人做複雜動作，完全不需要會寫程式。",
+          descEn: "Someone connected OpenClaw to the open-source Reachy Mini robot — controlling it with Telegram voice messages to perform complex actions, zero coding required.",
+          source: "36Kr",
+          url: "https://36kr.com",
+        },
+        {
+          name: "守界科技 — ROCm 最佳化，本地跑 Qwen 速度 +400%",
+          nameEn: "Shoujie Technology — ROCm Optimization, Local Qwen at +400% Speed",
+          desc: "基於 ROCm 最佳化推理引擎，讓 Qwen 在本地的速度最高提升 400%，目標是讓 OpenClaw 完全離線、零 Token 費用運行。",
+          descEn: "ROCm-optimized inference engine boosts local Qwen performance by up to 400%. Goal: fully offline OpenClaw with zero token costs.",
+          source: "36Kr",
+          url: "https://36kr.com",
+        },
+      ],
+    },
   },
   {
     date: "2026-03-13",
