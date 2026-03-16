@@ -38,7 +38,7 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
-    date: "2026-03-16",
+    date: "2026-03-17",
     items: [
       {
         title: "主權晶片浪潮衝擊全球AI供應鏈：中國自主製造突圍，TSMC壟斷格局面臨挑戰",
