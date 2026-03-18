@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-18",
+    items: [
+      {
+        title: "OpenAI GPT-4.1 mini 發布：推理效率革命正式開打",
+        titleEn: "OpenAI's GPT-4.1 Mini: The Inference Efficiency Wars Begin",
+        summary: "OpenAI 推出 GPT-4.1 mini，標榜更快推理速度與更低成本，瞄準高頻 API 工作負載。這不是單純的「小模型」發布——這是 OpenAI 在推理效率戰場上對 Anthropic、Google 的正面宣戰。當 scaling law 的邊際效益遞減，誰能用更少算力做更多事，誰就掌握下一輪定價權。",
+        summaryEn: "OpenAI launched GPT-4.1 mini, promising faster inference and lower costs aimed at high-frequency API workloads. This isn't just a small model release — it's a direct challenge to Anthropic and Google on the inference efficiency battlefield. As the marginal returns of scaling laws diminish, whoever does more with less compute controls the next pricing cycle.",
+        why: "雲端服務商的推理成本將持續下降，但這也意味著模型供應商的利潤空間正在被壓縮。API 用量會爆發，但單位價值會崩塌——這是規模化的陷阱。",
+        whyEn: "Inference costs for cloud providers will keep falling, but that compresses margins for model vendors. API volume will explode while per-unit value collapses — the classic scale trap.",
+        source: "OpenAI",
+        url: "https://openai.com/blog",
+        time: "17:00 TST",
+      },
+      {
+        title: "Meta REA：廣告 AI 從「輔助」變「主導」",
+        titleEn: "Meta's REA: Ad AI Goes from Copilot to Autopilot",
+        summary: "Meta 發布 REA 自主 AI 代理，能獨立執行廣告排名的機器學習工程任務，不再需要工程師手把手指導。這不是技術 demo，這是 AI Agent 在生產環境的真正落地——從「co-pilot」到「auto-pilot」的分水嶺。",
+        summaryEn: "Meta launched REA, an autonomous AI agent capable of independently executing ML engineering tasks for ad ranking — no human supervision required. This isn't a tech demo; it's the real inflection point where agentic AI crosses from assisted to autonomous in production.",
+        why: "這證明了 Agentic AI 不是炒作，而是正在改寫雲端服務的自動化程度。對 SaaS 平台來說，這是新一輪的降本增效工具；對工程師來說，這是「被取代」焦慮的具象化。",
+        whyEn: "This proves agentic AI isn't hype — it's actively rewriting automation levels in cloud services. For SaaS platforms it's a new cost-reduction lever; for engineers, it's the 'replacement anxiety' made concrete.",
+        source: "Meta AI",
+        url: "https://ai.meta.com",
+        time: "17:00 TST",
+      },
+      {
+        title: "美國司法部：Anthropic 不適合戰鬥系統",
+        titleEn: "DOJ: Anthropic Can't Be Trusted for Combat Systems",
+        summary: "美國司法部公開表態，認為 Anthropic 無法信任用於軍事戰鬥系統，引發道德 AI 與國防合約的衝突。這不是技術評估，這是政治表態——在 OpenAI 已經向 Pentagon 交出「無限制」模型的背景下，Anthropic 的「安全優先」立場正在被國防體系當成「不合作」標籤。",
+        summaryEn: "The DOJ publicly stated that Anthropic cannot be trusted for military combat systems, forcing a collision between ethical AI and defense contracts. This isn't a technical assessment — it's a political signal. With OpenAI already delivering unrestricted models to the Pentagon, Anthropic's safety-first stance is being branded as uncooperative.",
+        why: "AI governance 已經不是公司內部的倫理問題，而是地緣政治的籌碼。拒絕軍事合作會被邊緣化，接受軍事合作會失去道德高地——選邊站的時刻到了。",
+        whyEn: "AI governance is no longer an internal ethics problem — it's a geopolitical bargaining chip. Refuse military contracts and get marginalized; accept them and lose the moral high ground. The moment to pick a side has arrived.",
+        source: "Reuters",
+        url: "https://www.reuters.com",
+        time: "17:00 TST",
+      },
+    ],
+    market: "AI 基礎設施正在從「更大」轉向「更快」——推理效率成為新戰場，輕量模型的崛起會壓縮巨型模型的利潤空間。軍事應用加速正在重塑產業政治邊界，道德 AI 與國防合約的衝突將持續發酵。",
+    marketEn: "AI infrastructure is shifting from 'bigger' to 'faster' — inference efficiency is the new battleground, and lightweight models will compress margins for giants. Accelerating military adoption is redrawing the industry's political boundaries; the ethics-vs-defense conflict will keep fermenting.",
+  },
+  {
     date: "2026-03-17",
     items: [
       {
