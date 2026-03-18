@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Coffee, ExternalLink } from 'lucide-react';
+import { Coffee, ExternalLink, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface SponsorSectionProps {

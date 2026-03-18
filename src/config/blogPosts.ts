@@ -259,7 +259,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: myapp
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: YOUR_SECURE_PASSWORD_HERE
 \`\`\`
 
 掌握 Docker 將大大提升你的開發和部署效率。`,

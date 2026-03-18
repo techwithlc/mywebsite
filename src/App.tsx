@@ -61,7 +61,7 @@ function App() {
       const hash = window.location.hash;
       if (hash.startsWith('#blog/')) {
         const slug = hash.replace('#blog/', '');
-        if (/^[a-z0-9-]+$/.test(slug)) {
+        if (/^[a-z0-9-]+$/.test(slug) && slug.length <= 100) {
           setCurrentBlogSlug(slug);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -80,11 +80,14 @@ function App() {
         const cacheKey = 'latestYouTubeVideoId:v1';
         const cacheRaw = sessionStorage.getItem(cacheKey);
         if (cacheRaw) {
-          const cache = JSON.parse(cacheRaw) as { videoId: string; ts: number };
-          if (cache.videoId && Date.now() - cache.ts < 30 * 60 * 1000) {
-            setLatestVideoId(cache.videoId);
-            return;
-          }
+          try {
+            const parsed = JSON.parse(cacheRaw);
+            if (typeof parsed?.videoId === 'string' && typeof parsed?.ts === 'number'
+                && Date.now() - parsed.ts < 30 * 60 * 1000) {
+              setLatestVideoId(parsed.videoId);
+              return;
+            }
+          } catch { /* corrupted cache, refetch */ }
         }
         const controller = new AbortController();
         const timeout = window.setTimeout(() => controller.abort(), 8000);
