@@ -382,6 +382,12 @@ function App() {
                 embedType: 'spotify' as const,
               },
               {
+                title: language === 'en' ? 'Taiwan Tennis Pro' : '台灣網球場地圖',
+                desc: language === 'en' ? 'Real-time availability map for 47 public tennis courts in Greater Taipei. Scrapes government booking systems, overlays weather, and honestly separates bookable vs walk-up courts.' : '大台北 47 座公共網球場即時狀態地圖。爬取政府預約系統、疊加天氣資料，誠實區分「可預約」與「現場排隊」場地。',
+                link: 'https://taiwantennispro.netlify.app',
+                tags: ['React', 'TypeScript', 'Leaflet', 'Serverless'],
+              },
+              {
                 title: 'CoffeeLover',
                 desc: language === 'en' ? 'A coffee discovery app built with React + Tailwind.' : '用 React + Tailwind 打造的咖啡探索應用。',
                 link: 'https://coffeelover.fun',
