@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-19",
+    items: [
+      {
+        title: "Micron Q2 營收翻三倍：AI 記憶體供不應求的實證",
+        titleEn: "Micron Q2 Revenue Triples: AI Memory Shortage Hits Critical Mass",
+        summary: "Micron 第二季營收達 137.9 億美元（年增近 3 倍），單季獲利 120.7 億美元。這不是財報數字遊戲——這是 AI 訓練與推理對 HBM（高頻寬記憶體）的瘋狂需求，已經讓供應鏈從「緊張」變成「供不應求」。當 NVIDIA、AMD 都在搶 HBM 產能，Micron、SK 海力士、三星的議價權正在創歷史新高。",
+        summaryEn: "Micron posted Q2 revenue of $13.79B (nearly 3x YoY) with $12.07B in quarterly profit. This isn't financial engineering — it's proof that AI training and inference demand for HBM has crossed from 'tight' to 'critical shortage.' With NVIDIA and AMD competing for supply, memory makers now hold unprecedented pricing power.",
+        why: "AI 晶片的瓶頸不再只是運算核心，而是記憶體頻寬。這意味著雲端服務商的成本結構正在被重塑——買得到 HBM 的人才有資格談 AI 部署。對投資人來說，這是記憶體廠商黃金期的開始。",
+        whyEn: "The bottleneck in AI chips is no longer just compute cores — it's memory bandwidth. Cloud providers' cost structures are being rewritten; only those who can secure HBM can talk about AI deployment. For investors, this marks the beginning of a memory maker golden age.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/03/18/micron-earnings-are-out-after-the-bell-following-a-big-move-higher-what-analysts-expect.html",
+        time: "00:28 TST",
+      },
+      {
+        title: "NVIDIA H200 獲北京批准進入中國市場：地緣科技博弈的新變數",
+        titleEn: "NVIDIA's H200 Wins Beijing Approval: Geopolitical Chip Fragmentation Accelerates",
+        summary: "NVIDIA 獲得北京批准，將 H200（第二強的 AI 晶片）賣進中國市場，同時正在準備 Groq AI 晶片的中國版本。這不是技術突破，這是地緣政治的現實妥協——美國的出口管制正在逼迫 NVIDIA 「降規生產」，而中國則在用市場准入當籌碼。",
+        summaryEn: "NVIDIA secured Beijing's approval to sell H200 (its second-most-powerful AI chip) in China and is adapting Groq chips for the Chinese market. This isn't a tech breakthrough — it's a geopolitical compromise. U.S. export controls are forcing NVIDIA into 'de-rated production,' while China uses market access as leverage.",
+        why: "AI 晶片供應鏈正在走向「多版本化」——美國版、中國版、歐洲版。這會增加 NVIDIA 的開發與維護成本，但也意味著「全球單一產品」的時代結束了。對雲端服務商來說，這是供應鏈複雜度的惡夢；對地緣政治分析師來說，這是科技冷戰的新前線。",
+        whyEn: "AI chip supply chains are fragmenting into region-specific SKUs — U.S., China, Europe. This increases NVIDIA's development and maintenance costs while ending the era of global single-product dominance. For cloud providers, it's a supply-chain nightmare; for geopolitical analysts, it's the new tech cold war frontline.",
+        source: "The Manila Times",
+        url: "https://www.manilatimes.net/2026/03/19/business/foreign-business/nvidia-gets-beijings-nod-for-h200-chip-sales-adapts-groq-chip-for-china/2303072",
+        time: "00:05 TST",
+      },
+      {
+        title: "比利時 imec 獲得 ASML High NA EUV 設備：歐洲自主晶片製造的關鍵一步",
+        titleEn: "Belgium's imec Secures ASML High NA EUV Tool: Europe's Chip Sovereignty Push",
+        summary: "比利時晶片研究實驗室 imec 拿到 ASML 最先進的 High NA EUV 微影設備，將用於下一代 AI 晶片試產線。Intel 和 SK 海力士計劃在 2027 年用類似設備量產新 AI 晶片。這不是學術研究，這是歐洲在半導體自主製造上的戰略卡位——不想永遠依賴台積電和三星。",
+        summaryEn: "Belgian chip research lab imec acquired ASML's cutting-edge High NA EUV lithography tool for next-gen AI chip pilot production. Intel and SK Hynix plan to deploy similar tools for mass production by 2027. This isn't academic research — it's Europe's strategic move toward semiconductor sovereignty, aiming to reduce dependence on TSMC and Samsung.",
+        why: "歐洲正在用「研發先行」策略建立自己的晶片製造能力。短期內不會威脅台積電，但這是歐洲「去依賴化」戰略的重要信號。對 AI 晶片供應商來說，這意味著未來 5-10 年，歐洲客戶會優先考慮「本地製造」選項。",
+        whyEn: "Europe is pursuing a 'R&D-first' strategy to build domestic chip manufacturing capacity. It won't threaten TSMC near-term, but signals Europe's de-dependency strategy. For AI chip suppliers, this means European customers will prioritize 'local manufacturing' options within 5-10 years.",
+        source: "The Economic Times",
+        url: "https://economictimes.indiatimes.com/tech/artificial-intelligence/belgiums-imec-secures-rare-asml-high-na-euv-tool-to-drive-next-generation-chips/articleshow/129661315.cms",
+        time: "00:31 TST",
+      },
+    ],
+    market: "AI 記憶體荒正在成為新的「算力瓶頸」，Micron 營收翻倍驗證了這一點。同時，地緣政治正在強制 AI 晶片供應鏈「在地化」——NVIDIA 的中國版晶片、歐洲的自主製造，都在預告一個碎片化的未來。供應鏈效率會下降，但政治風險會分散。",
+    marketEn: "AI memory scarcity is becoming the new 'compute bottleneck,' validated by Micron's revenue surge. Meanwhile, geopolitics is forcing AI chip supply chain localization — NVIDIA's China SKUs, Europe's domestic manufacturing — foreshadowing a fragmented future. Supply-chain efficiency will drop, but political risk will diversify.",
+  },
+  {
     date: "2026-03-18",
     items: [
       {
