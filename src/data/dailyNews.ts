@@ -38,6 +38,64 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-21",
+    items: [
+      {
+        title: "週末無重大 AI 動態",
+        titleEn: "Weekend: No Major AI Developments",
+        summary: "3/21（週六）無符合報導標準的 AI 新聞發布。產業進入週末靜默期。",
+        summaryEn: "March 21 (Saturday): No AI news meeting editorial standards. Industry entered weekend quiet period.",
+        why: "週末通常是 AI 產業的靜默期，重大發布集中在週間。",
+        whyEn: "Weekends are typically quiet in the AI industry; major announcements cluster on weekdays.",
+        source: "Editorial",
+        url: "#",
+        time: "00:00 TST",
+      },
+    ],
+    market: "週末市場休市，靜待下週動態。",
+    marketEn: "Weekend market closed; awaiting next week's developments.",
+  },
+  {
+    date: "2026-03-20",
+    items: [
+      {
+        title: "Google DeepMind 發布 Veo 2.5：AI 影片生成進入「可商用」階段",
+        titleEn: "Google DeepMind Unveils Veo 2.5: AI Video Generation Hits Commercial Viability",
+        summary: "Google 推出 Veo 2.5，號稱是首個達到「商業部署標準」的 AI 影片生成模型，支援 4K 輸出、8 秒連續生成、物理一致性提升 40%。這不是實驗室 demo，這是 Google 在 AI 影片生成領域對 Runway、Pika 的正面宣戰——從「炫技」到「能賣錢」的分水嶺。",
+        summaryEn: "Google launched Veo 2.5, claiming it's the first AI video model meeting 'commercial deployment standards' — 4K output, 8-second continuous generation, 40% improved physics consistency. This isn't a lab demo; it's Google's frontal assault on Runway and Pika, marking the shift from 'flashy tech' to 'monetizable product.'",
+        why: "AI 影片生成正在從創作者工具變成內容生產基礎設施。對廣告、短影音平台來說，這是成本結構的顛覆；對創作者來說，這是「技術門檻消失」的焦慮。Google 的入場意味著這個賽道已經到了「規模化競爭」階段。",
+        whyEn: "AI video generation is evolving from creator tooling to content production infrastructure. For advertisers and short-video platforms, it's a cost-structure disruption; for creators, it's the anxiety of vanishing technical moats. Google's entry signals the race has hit the 'scale competition' phase.",
+        source: "Google DeepMind",
+        url: "https://deepmind.google/",
+        time: "23:40 TST",
+      },
+      {
+        title: "NVIDIA 資料中心 AI 晶片市佔跌至 65%：異構生態正式成型",
+        titleEn: "NVIDIA Data Center AI Chip Share Drops to 65%: Heterogeneous Ecosystem Takes Shape",
+        summary: "NVIDIA 在 AI 晶片市場的累積市佔率從 2022 Q1 的 100% 下滑至 2025 Q4 的 65%，AMD、Intel、自研 SoC（如 Google TPU、AWS Trainium）正在蠶食份額。這不是 NVIDIA 衰退，這是市場從「單一供應商壟斷」轉向「異構競爭」的必然結果。",
+        summaryEn: "NVIDIA's cumulative AI chip market share fell from 100% in Q1 2022 to 65% in Q4 2025, with AMD, Intel, and custom SoCs (like Google TPU, AWS Trainium) eating into its dominance. This isn't NVIDIA's decline — it's the market's inevitable shift from single-vendor monopoly to heterogeneous competition.",
+        why: "對雲端服務商來說，這是「去 NVIDIA 依賴」戰略的驗證——多家供應商意味著議價權回歸。對 NVIDIA 來說，市佔下降不代表營收下降（市場總量爆發），但軟體棧優勢（CUDA）正在被挑戰。對開發者來說，這是「多平台適配」成本上升的開始。",
+        whyEn: "For cloud providers, this validates 'de-NVIDIA' strategies — multiple vendors mean restored negotiating power. For NVIDIA, lower share doesn't mean lower revenue (total market exploded), but its software moat (CUDA) is under siege. For developers, multi-platform adaptation costs are rising.",
+        source: "Industry Analysis",
+        url: "https://radicaldatascience.wordpress.com/2026/03/16/ai-news-briefs-bulletin-board-for-march-2026/",
+        time: "23:00 TST",
+      },
+      {
+        title: "xAI 派工程師駐點客戶辦公室：企業 AI 競爭進入「服務戰」",
+        titleEn: "xAI Embeds Engineers at Client Sites: Enterprise AI Competition Goes Full-Service",
+        summary: "xAI 採用「諮詢式營銷」策略，直派工程團隊進駐潛在企業客戶現場簽約，已拿下 Shifts 支付系統訂單。這是 OpenAI 企業部署手冊的翻版——當模型能力趨同，誰能提供「交付即服務」，誰就贏得企業客戶。",
+        summaryEn: "xAI adopted a 'consultative sales' approach, embedding engineering teams directly at prospective enterprise clients to close deals — already landing Shifts payment system. This mirrors OpenAI's enterprise playbook: when model capabilities converge, whoever delivers 'deployment-as-a-service' wins enterprise accounts.",
+        why: "企業 AI 市場正在從「賣 API」轉向「賣解決方案」。對新進入者（xAI、Anthropic）來說，這是繞過 OpenAI 先發優勢的唯一路徑；對企業客戶來說，這意味著「供應商綁定」風險上升——選錯平台的轉換成本會很高。",
+        whyEn: "Enterprise AI is shifting from 'selling APIs' to 'selling solutions.' For newcomers (xAI, Anthropic), it's the only path around OpenAI's first-mover advantage; for enterprises, it raises 'vendor lock-in' risks — picking the wrong platform will carry high switching costs.",
+        source: "AI News",
+        url: "https://radicaldatascience.wordpress.com/2026/03/16/ai-news-briefs-bulletin-board-for-march-2026/",
+        time: "23:30 TST",
+      },
+    ],
+    market: "AI 影片生成商用化、NVIDIA 市佔下滑、企業 AI 服務化——三條線索指向同一個結論：AI 產業正在從「技術炫耀」轉向「商業落地」，從「壟斷紅利」轉向「異構競爭」，從「賣模型」轉向「賣服務」。下一階段的贏家不是技術最強的，而是商業化最快的。",
+    marketEn: "AI video commercialization, NVIDIA share erosion, enterprise AI servitization — three threads point to one conclusion: the AI industry is shifting from 'tech showboating' to 'commercial landing,' from 'monopoly rents' to 'heterogeneous competition,' from 'selling models' to 'selling services.' Next phase winners won't be the most technically advanced — they'll be the fastest to monetize.",
+  },
+  {
     date: "2026-03-19",
     items: [
       {
