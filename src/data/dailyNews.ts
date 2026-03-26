@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-26",
+    items: [
+      {
+        title: "ARM 發布低功耗 AI 晶片計畫，股價單日飆漲 16%",
+        titleEn: "ARM Unveils Low-Power AI Chip Roadmap, Stock Surges 16% in One Day",
+        summary: "ARM 公布專為邊緣 AI 設計的低功耗晶片架構，強調「核心優勢在低功耗」，引發華爾街分析師大幅上調目標價，股價單日暴漲 16%。這不是 ARM 第一次做晶片，但這是它第一次正面挑戰 NVIDIA 在 AI 推理晶片的地盤——從行動裝置延伸到邊緣運算的戰略卡位。",
+        summaryEn: "ARM announced a low-power chip architecture tailored for edge AI, emphasizing its 'core strength in low power,' triggering massive analyst target hikes and a 16% single-day stock surge. This isn't ARM's first chip rodeo, but it's the first time it's directly challenging NVIDIA's AI inference turf — a strategic pivot from mobile to edge computing.",
+        why: "邊緣 AI 正在成為下一個戰場——當雲端推理成本居高不下，誰能把 AI 推到裝置端（手機、IoT、車載），誰就掌握下一個十年。ARM 的低功耗優勢是 NVIDIA 的弱點，這場仗會很精彩。對開發者來說，這意味著「多平台適配」的複雜度又上升了。",
+        whyEn: "Edge AI is the next battlefield — as cloud inference costs stay prohibitive, whoever pushes AI to the device edge (phones, IoT, automotive) controls the next decade. ARM's low-power edge is NVIDIA's weakness; this fight will be fierce. For developers, multi-platform adaptation complexity just escalated again.",
+        source: "Business Insider",
+        url: "https://markets.businessinsider.com/news/stocks/arm-s-ai-chip-fits-core-strength-in-low-power-stock-soars-16-on-massive-target-boosts-1035965339",
+        time: "07:55 TST",
+      },
+      {
+        title: "Google TurboQuant：AI 記憶體壓縮 6 倍，晶片股應聲下跌",
+        titleEn: "Google's TurboQuant: 6x AI Memory Compression Rattles Chip Stocks",
+        summary: "Google 發布 TurboQuant 技術，能將 AI 模型的記憶體需求壓縮至原本的 1/6，直接衝擊 HBM（高頻寬記憶體）供應鏈的需求預測，相關晶片股應聲下跌。這不是學術論文，這是 Google 在用「軟體優化」對抗「硬體軍備競賽」——當 Micron、SK 海力士還在擴產 HBM，Google 直接改寫遊戲規則。",
+        summaryEn: "Google unveiled TurboQuant, compressing AI model memory requirements to 1/6th, directly disrupting HBM (high-bandwidth memory) demand forecasts and tanking related chip stocks. This isn't an academic paper — it's Google using 'software optimization' to counter the 'hardware arms race.' While Micron and SK Hynix expand HBM capacity, Google is rewriting the rules.",
+        why: "這證明了 AI 基礎設施的瓶頸不只能用「買更多硬體」解決，軟體層的突破同樣致命。對雲端服務商來說，這是降本增效的利器；對記憶體廠商來說，這是需求預測的黑天鵝。對 NVIDIA 來說，這是「CUDA 生態」被繞過的警訊。",
+        whyEn: "This proves AI infrastructure bottlenecks aren't solved solely by 'buying more hardware' — software breakthroughs are equally lethal. For cloud providers, it's a cost-reduction weapon; for memory makers, it's a demand black swan. For NVIDIA, it's a warning that the 'CUDA moat' can be bypassed.",
+        source: "The Next Web",
+        url: "https://thenextweb.com/news/google-turboquant-ai-compression-memory-stocks",
+        time: "05:06 TST",
+      },
+      {
+        title: "Super Micro Computer 面臨巨大聲譽風險，AI 伺服器供應鏈震盪",
+        titleEn: "Super Micro Computer Faces Immense Reputational Risk, AI Server Supply Chain Shaken",
+        summary: "AI 伺服器供應商 Super Micro Computer（SMCI）陷入聲譽危機，分析師警告其商譽受損可能影響客戶訂單。這不是財務問題，這是供應鏈信任問題——當 AI 部署對可靠性要求極高，一家供應商的信譽崩塌會直接重塑整個採購決策。",
+        summaryEn: "AI server supplier Super Micro Computer (SMCI) is engulfed in a reputational crisis, with analysts warning that damaged trust could tank customer orders. This isn't a financial issue — it's a supply-chain trust issue. When AI deployments demand extreme reliability, one vendor's reputation collapse directly reshapes procurement decisions.",
+        why: "AI 伺服器市場正在從「價格戰」轉向「信任戰」。SMCI 的危機對競爭對手（Dell、HPE、Lenovo）是機會，對客戶（AWS、Azure、Google Cloud）是風險分散的提醒。對整個供應鏈來說，這是「單一供應商依賴」風險的活教材。",
+        whyEn: "The AI server market is shifting from 'price wars' to 'trust wars.' SMCI's crisis is an opportunity for competitors (Dell, HPE, Lenovo) and a risk-diversification reminder for customers (AWS, Azure, Google Cloud). For the entire supply chain, it's a live case study in single-vendor dependency risk.",
+        source: "Seeking Alpha",
+        url: "https://seekingalpha.com/article/4885917-super-micro-computer-faces-immense-reputational-risk",
+        time: "05:41 TST",
+      },
+    ],
+    market: "ARM 挑戰邊緣 AI、Google 用軟體重塑硬體需求、SMCI 信譽危機——三條線索指向同一個結論：AI 基礎設施競爭正在從「硬體軍備競賽」轉向「技術路線分化」。邊緣 vs 雲端、軟體優化 vs 硬體堆疊、信任 vs 價格——每一個選擇都在重塑產業格局。",
+    marketEn: "ARM challenges edge AI, Google uses software to rewrite hardware demand, SMCI's trust crisis — three threads point to one conclusion: AI infrastructure competition is shifting from 'hardware arms race' to 'technical path divergence.' Edge vs. cloud, software optimization vs. hardware stacking, trust vs. price — every choice is reshaping the industry.",
+  },
+  {
     date: "2026-03-21",
     items: [
       {
