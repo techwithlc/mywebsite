@@ -6,6 +6,7 @@ import BlogList from './components/BlogList';
 import BlogPostDetail from './components/BlogPostDetail';
 import SponsorSection from './components/SponsorSection';
 import DailyDigest from './components/DailyDigest';
+import SakuraEffect from './components/SakuraEffect';
 
 const YOUTUBE_CHANNEL_USERNAME = '@techwithlc';
 
@@ -125,6 +126,7 @@ function App() {
 
   return (
     <div id="top" className="min-h-screen bg-white text-gray-900 dark:bg-ink-950 dark:text-ink-50 transition-colors duration-300">
+      <SakuraEffect />
 
       {/* ── Nav ── */}
       <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-100/60 dark:bg-ink-950/90 dark:border-gold-500/20 mx-auto-none transition-colors duration-300">
