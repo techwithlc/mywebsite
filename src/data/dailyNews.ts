@@ -38,6 +38,64 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-28",
+    items: [
+      {
+        title: "3/28 尚無重大 AI 動態（截至凌晨）",
+        titleEn: "March 28: No Major AI Developments (as of early morning)",
+        summary: "3/28（週五）凌晨時段尚無符合報導標準的 AI 新聞發布。主要動態預計在美國工作日時段（台北時間晚間）出現。",
+        summaryEn: "March 28 (Friday): No AI news meeting editorial standards as of early morning hours. Major developments expected during U.S. business hours (Taipei evening).",
+        why: "重大 AI 發布通常集中在美國西岸工作時間（台北時間晚上至半夜），凌晨時段較少突發新聞。",
+        whyEn: "Major AI announcements typically cluster during U.S. West Coast business hours (Taipei evening to midnight); early morning hours see fewer breaking developments.",
+        source: "Editorial",
+        url: "#",
+        time: "01:51 TST",
+      },
+    ],
+    market: "等待美國時段動態更新。",
+    marketEn: "Awaiting U.S. hours for updates.",
+  },
+  {
+    date: "2026-03-27",
+    items: [
+      {
+        title: "Apple 打破 OpenAI 獨佔：Siri 將支援 Gemini 和 Claude 路由",
+        titleEn: "Apple Breaks OpenAI's Siri Monopoly: Users Can Route Queries to Gemini and Claude",
+        summary: "Apple 宣布 Siri 將允許用戶將查詢路由至 Google Gemini 和 Anthropic Claude，打破 OpenAI 的獨家合作地位。這不是技術升級，這是 Apple 在 AI 助手市場的「去單一供應商依賴」戰略——當 OpenAI、Google、Anthropic 都在爭奪入口，Apple 選擇「全都要」。",
+        summaryEn: "Apple announced Siri will let users route queries to Google Gemini and Anthropic Claude, breaking OpenAI's exclusive partnership. This isn't a tech upgrade — it's Apple's 'de-single-vendor' strategy in the AI assistant market. With OpenAI, Google, and Anthropic all vying for the gateway, Apple chose 'take them all.'",
+        why: "這標誌著 AI 助手入口的競爭白熱化。對 OpenAI 來說，這是失去獨家渠道的警訊；對 Google 和 Anthropic 來說，這是進入 iOS 生態的黃金機會；對用戶來說，這是「模型選擇權」的勝利。對開發者來說，這意味著「多模型適配」成為新常態。",
+        whyEn: "This marks the AI assistant gateway race heating up. For OpenAI, it's a warning of losing exclusive channel access; for Google and Anthropic, it's a golden entry into the iOS ecosystem; for users, it's a win for 'model choice.' For developers, multi-model adaptation becomes the new normal.",
+        source: "Livemint",
+        url: "https://www.livemint.com/technology/tech-news/apple-moves-to-break-openais-siri-monopoly-set-to-allow-users-to-route-siri-queries-to-gemini-and-claude-report-11774588198902.html",
+        time: "13:50 TST",
+      },
+      {
+        title: "華為發布新 AI 晶片，正面挑戰 NVIDIA 地盤",
+        titleEn: "Huawei Unveils New AI Chip, Directly Targeting NVIDIA's Turf",
+        summary: "華為發布新一代 AI 晶片，瞄準 NVIDIA 在訓練與推理市場的主導地位。這不是技術突破的宣言，這是地緣政治驅動的「自主替代」戰略——當美國出口管制切斷 NVIDIA 供應，華為的選擇只有「自己做」。",
+        summaryEn: "Huawei launched a new-generation AI chip targeting NVIDIA's dominance in training and inference markets. This isn't a tech breakthrough manifesto — it's a geopolitically-driven 'self-sufficiency replacement' strategy. When U.S. export controls cut off NVIDIA supply, Huawei's only option was 'build it ourselves.'",
+        why: "這驗證了「出口管制加速技術自主」的預言。對 NVIDIA 來說，這是失去中國市場的長期代價；對中國 AI 產業來說，這是「被迫獨立」後的成果展示；對全球供應鏈來說，這是「技術冷戰」推動的分裂加速。",
+        whyEn: "This validates the 'export controls accelerate tech self-sufficiency' prophecy. For NVIDIA, it's the long-term cost of losing the Chinese market; for China's AI industry, it's the showcase of 'forced independence'; for global supply chains, it's accelerated fragmentation driven by tech cold war.",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/03/51502147/huawei-targets-nvidias-turf-with-new-ai-chip",
+        time: "13:50 TST",
+      },
+      {
+        title: "Google Gemini 支援從競品匯入對話記憶：AI 助手「換平台成本」歸零",
+        titleEn: "Google Gemini Lets Users Import Memories from Rival Chatbots: AI Assistant 'Switching Cost' Hits Zero",
+        summary: "Google Gemini 推出「匯入對話記憶」功能，允許用戶從 ChatGPT、Claude 等競品直接遷移對話歷史與個人化設定。這不是功能更新，這是 Google 用「零遷移成本」策略搶用戶——當 AI 助手的護城河是「用戶習慣」，Google 直接拆掉這道牆。",
+        summaryEn: "Google Gemini introduced an 'import conversation memory' feature, letting users migrate chat history and personalized settings from ChatGPT, Claude, and others. This isn't a feature update — it's Google using a 'zero switching cost' strategy to poach users. When AI assistants' moat is 'user habit,' Google just demolished that wall.",
+        why: "這改變了 AI 助手市場的競爭規則。對 OpenAI 和 Anthropic 來說，這是「用戶鎖定」優勢被瓦解；對 Google 來說，這是用「數據互操作性」搶奪市場份額的武器；對用戶來說，這是「自由選擇」的勝利，但也意味著「數據隱私」風險上升。",
+        whyEn: "This rewrites AI assistant competition rules. For OpenAI and Anthropic, it's the erosion of 'user lock-in' advantage; for Google, it's a weapon to capture market share via 'data interoperability'; for users, it's a win for 'freedom of choice,' but also raises 'data privacy' risks.",
+        source: "Economic Times",
+        url: "https://economictimes.indiatimes.com/tech/artificial-intelligence/google-gemini-now-lets-users-import-memories-and-chats-from-rival-chatbots/articleshow/129839190.cms",
+        time: "13:13 TST",
+      },
+    ],
+    market: "Apple 開放 Siri 多模型選擇、華為自研 AI 晶片、Google 拆掉用戶遷移門檻——三條線索指向同一個結論：AI 產業正在從「獨佔優勢」轉向「開放競爭」，從「技術壁壘」轉向「生態互操作」。護城河正在消失，競爭進入「用戶體驗」和「服務品質」的肉搏戰。",
+    marketEn: "Apple opens Siri to multi-model choice, Huawei self-develops AI chips, Google demolishes user migration barriers — three threads point to one conclusion: the AI industry is shifting from 'monopoly advantages' to 'open competition,' from 'tech moats' to 'ecosystem interoperability.' Moats are vanishing; competition enters hand-to-hand combat over 'user experience' and 'service quality.'",
+  },
+  {
     date: "2026-03-26",
     items: [
       {
