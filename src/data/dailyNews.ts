@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-30",
+    items: [
+      {
+        title: "OpenAI 融資困境衝擊記憶體晶片價格：AI 泡沫警訊？",
+        titleEn: "OpenAI Funding Fears Hit Memory Chip Prices: AI Bubble Warning?",
+        summary: "OpenAI 融資困難的消息導致 AI 記憶體晶片價格下跌，市場對 AI 基礎設施需求的持續性產生懷疑。這不是單純的價格波動，這是資本市場對「AI 投資是否過熱」的第一次集體反思——當最頭部的 AI 公司都融不到錢，整個供應鏈的需求預測都要重新評估。",
+        summaryEn: "News of OpenAI's funding difficulties triggered a drop in AI memory chip prices, sparking market doubts about the sustainability of AI infrastructure demand. This isn't just price volatility — it's the capital market's first collective rethink of 'Is AI investment overheated?' When even the top AI company struggles to raise funds, the entire supply chain's demand forecast needs reassessment.",
+        why: "這標誌著 AI 硬體軍備競賽可能進入「需求修正期」。對 Micron、SK 海力士來說，這是擴產計畫的警訊；對雲端服務商來說，這是「押注錯誤」的風險提醒；對投資人來說，這是 AI 泡沫論的實證支持。",
+        whyEn: "This signals the AI hardware arms race may be entering a 'demand correction phase.' For Micron and SK Hynix, it's a warning for expansion plans; for cloud providers, it's a reminder of 'betting wrong' risks; for investors, it's empirical support for AI bubble theories.",
+        source: "The Telegraph",
+        url: "https://www.telegraph.co.uk/business/2026/03/29/openai-funding-fears-hit-memory-chip-prices/",
+        time: "23:45 TST",
+      },
+      {
+        title: "韓國晶片巨頭加速中國投資，對抗全球 AI 記憶體短缺",
+        titleEn: "South Korean Chip Giants Step Up China Investments to Combat Global AI Memory Shortage",
+        summary: "三星和 SK 海力士加碼中國 HBM 產能投資，以應對全球 AI 記憶體短缺。這不是地緣政治的妥協，這是經濟理性的選擇——當美國出口管制讓中國市場「自成一格」，韓國廠商選擇「兩邊押注」而非「選邊站」。",
+        summaryEn: "Samsung and SK Hynix are increasing HBM capacity investments in China to address the global AI memory shortage. This isn't a geopolitical compromise — it's an economically rational choice. When U.S. export controls make China's market 'self-contained,' Korean manufacturers chose 'hedge both sides' over 'pick a side.'",
+        why: "這驗證了「供應鏈分裂」正在加速。對韓國廠商來說，這是風險分散策略；對美國來說，這是盟友「陽奉陰違」的警訊；對中國 AI 產業來說，這是「被迫自主」後的議價權回升。對全球供應鏈來說，這是「效率讓位給政治」的代價。",
+        whyEn: "This validates accelerating 'supply chain fragmentation.' For Korean manufacturers, it's risk diversification; for the U.S., it's a warning of allies 'paying lip service'; for China's AI industry, it's restored bargaining power post-'forced independence.' For global supply chains, it's the cost of 'efficiency yielding to politics.'",
+        source: "South China Morning Post",
+        url: "https://www.scmp.com/tech/tech-trends/article/3348159/south-korean-chip-giants-step-china-investments-combat-global-ai-memory-shortage",
+        time: "08:00 TST",
+      },
+      {
+        title: "Kandou AI 獲 2.25 億美元融資：用銅互連技術攻克 AI「記憶體牆」",
+        titleEn: "Kandou AI Raises $225M from SoftBank and Synopsys to Solve AI's Memory Wall",
+        summary: "Kandou AI 從 SoftBank 和 Synopsys 獲得 2.25 億美元融資，開發銅互連技術以解決 AI 運算的「記憶體牆」瓶頸。這不是另一個 AI 新創故事，這是「用材料科學突破算力極限」的新路線——當 HBM 擴產跟不上需求，改變物理層連接方式成為新賽道。",
+        summaryEn: "Kandou AI secured $225M from SoftBank and Synopsys to develop copper interconnect technology solving AI's 'memory wall' bottleneck. This isn't another AI startup story — it's a new path of 'using materials science to break compute limits.' When HBM expansion can't keep pace with demand, changing physical-layer connections becomes a new race.",
+        why: "這標誌著 AI 基礎設施創新從「堆更多 HBM」轉向「改變數據傳輸方式」。對 NVIDIA 和 AMD 來說，這是架構層面的挑戰；對記憶體廠商來說，這是「被繞過」的風險；對整個產業來說，這是「瓶頸催生創新」的活教材。",
+        whyEn: "This signals AI infrastructure innovation shifting from 'stack more HBM' to 'change data transfer methods.' For NVIDIA and AMD, it's an architectural challenge; for memory makers, it's the risk of being 'bypassed'; for the industry, it's a live case of 'bottlenecks breed innovation.'",
+        source: "The Next Web",
+        url: "https://thenextweb.com/news/kandou-ai-225m-copper-interconnect-ai-infrastructure",
+        time: "01:04 TST",
+      },
+    ],
+    market: "OpenAI 融資困境、韓國晶片廠押注中國、Kandou AI 攻克記憶體牆——三條線索指向同一個結論：AI 基礎設施正在從「瘋狂擴張」轉向「理性修正」。資本開始質疑需求，供應鏈開始分散風險，技術開始尋找新路徑。泡沫論與突破論的拉鋸戰，正式開打。",
+    marketEn: "OpenAI funding woes, Korean chipmakers bet on China, Kandou AI tackles memory wall — three threads point to one conclusion: AI infrastructure is shifting from 'frenzied expansion' to 'rational correction.' Capital questions demand, supply chains diversify risk, technology seeks new paths. The tug-of-war between bubble theories and breakthrough narratives has officially begun.",
+  },
+  {
     date: "2026-03-28",
     items: [
       {
