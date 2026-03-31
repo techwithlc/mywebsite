@@ -38,6 +38,35 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-03-31",
+    items: [
+      {
+        title: "韓國 AI 晶片新創 Rebellions 獲 4 億美元融資，估值 23.4 億美元挑戰 NVIDIA",
+        titleEn: "South Korea's Rebellions Raises $400M at $2.34B Valuation to Challenge NVIDIA in AI Inference",
+        summary: "韓國 AI 推理晶片新創 Rebellions 完成 4 億美元融資，估值達 23.4 億美元，瞄準 NVIDIA 在 AI 推理市場的主導地位並計劃進軍美國市場。這不是另一個「NVIDIA 挑戰者」故事，這是韓國在 AI 晶片自主化戰略中的關鍵棋子——當三星、SK 海力士專注記憶體，Rebellions 補上了運算晶片的拼圖。",
+        summaryEn: "South Korean AI inference chip startup Rebellions closed a $400M round at $2.34B valuation, targeting NVIDIA's dominance in AI inference and planning U.S. expansion. This isn't another 'NVIDIA challenger' story — it's a key piece in South Korea's AI chip self-sufficiency strategy. While Samsung and SK Hynix focus on memory, Rebellions fills the compute chip gap.",
+        why: "這標誌著 AI 晶片競爭從「美中對抗」延伸到「區域自主化」。對 NVIDIA 來說，這是推理市場被蠶食的新威脅；對韓國來說，這是擺脫「只做記憶體」標籤的戰略突破；對全球供應鏈來說，這是「多極化」趨勢的又一驗證。對投資人來說，4 億美元融資證明資本對「NVIDIA 替代品」的需求依然強勁。",
+        whyEn: "This signals AI chip competition extending from 'U.S.-China rivalry' to 'regional self-sufficiency.' For NVIDIA, it's a new threat eroding inference share; for South Korea, it's a strategic breakthrough beyond the 'memory-only' label; for global supply chains, it's another validation of 'multipolar' trends. For investors, the $400M raise proves capital demand for 'NVIDIA alternatives' remains robust.",
+        source: "Reuters",
+        url: "https://www.reuters.com/business/media-telecom/south-koreas-ai-chip-startup-rebellions-raises-400-million-latest-funding-round-2026-03-30/",
+        time: "21:04 TST",
+      },
+      {
+        title: "台積電領航 2025 年晶片業 3200 億美元成長潮",
+        titleEn: "TSMC Anchors $320 Billion Chip Boom in 2025",
+        summary: "台積電在 2025 年引領全球晶片產業創造 3200 億美元營收成長，AI 晶片需求是主要驅動力。這不是單純的業績報告，這是「AI 算力軍備競賽」在財報上的體現——當所有雲端服務商、AI 公司都在搶先進製程產能，台積電的議價權已經到了歷史新高。",
+        summaryEn: "TSMC led the global chip industry to $320B revenue growth in 2025, driven primarily by AI chip demand. This isn't just earnings reporting — it's the 'AI compute arms race' manifesting in financial statements. With every cloud provider and AI company scrambling for advanced-node capacity, TSMC's pricing power has reached historic highs.",
+        why: "這驗證了「AI 基礎設施擴張」的真實性，也凸顯了台積電在全球 AI 供應鏈的不可替代性。對投資人來說，這是「AI 需求是否過熱」爭論的實證支持；對地緣政治分析師來說，這是台灣戰略地位的又一證明；對競爭對手（Intel、Samsung）來說，這是追趕差距持續擴大的警訊。",
+        whyEn: "This validates the reality of 'AI infrastructure expansion' and highlights TSMC's irreplaceability in the global AI supply chain. For investors, it's empirical support in the 'Is AI demand overheated?' debate; for geopolitical analysts, it's another proof of Taiwan's strategic position; for competitors (Intel, Samsung), it's a warning that the gap keeps widening.",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/03/51538010/taiwan-semiconductor-anchors-explosive-320-billion-chip-boom-in-2025",
+        time: "21:27 TST",
+      },
+    ],
+    market: "Rebellions 獲 4 億美元融資、台積電引領 3200 億美元晶片成長——兩條線索指向同一個結論：AI 晶片市場正在從「NVIDIA 獨大」轉向「區域多極」，從「需求質疑」轉向「成長驗證」。資本繼續押注 NVIDIA 替代品，台積電用財報證明 AI 需求是真的。下一階段的競爭，是「誰能搶到台積電產能」。",
+    marketEn: "Rebellions' $400M raise, TSMC's $320B chip boom — two threads point to one conclusion: the AI chip market is shifting from 'NVIDIA dominance' to 'regional multipolarity,' from 'demand skepticism' to 'growth validation.' Capital keeps betting on NVIDIA alternatives; TSMC's financials prove AI demand is real. Next phase competition: 'Who can secure TSMC capacity.'",
+  },
+  {
     date: "2026-03-30",
     items: [
       {
