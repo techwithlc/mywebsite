@@ -38,6 +38,35 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-01",
+    items: [
+      {
+        title: "NVIDIA 砸 20 億美元投資 Marvell：讓客製 AI 晶片「平民化」",
+        titleEn: "NVIDIA Invests $2B in Marvell to Democratize Custom AI Chips",
+        summary: "NVIDIA 宣布向 Marvell Technology 投資 20 億美元，目標是讓客製 AI 晶片更容易取得。CEO Jensen Huang 聲明這將擴展 NVIDIA 的 AI 基礎設施生態系統。這不是單純的財務投資，這是 NVIDIA 在「客製晶片威脅」面前的防禦性佈局——與其讓客戶自己找晶片設計商，不如把設計商變成自己的盟友。",
+        summaryEn: "NVIDIA announced a $2B investment in Marvell Technology to make custom AI chips more accessible. CEO Jensen Huang stated this will expand NVIDIA's AI infrastructure ecosystem. This isn't just a financial investment — it's NVIDIA's defensive move against the 'custom chip threat.' Rather than let customers find chip designers themselves, turn the designers into allies.",
+        why: "這標誌著 NVIDIA 戰略從「賣標準晶片」轉向「控制客製晶片生態」。對雲端服務商（AWS、Google、Meta）來說，這是 NVIDIA 在「收編供應鏈」；對 Marvell 來說，這是獲得資金與技術支持的機會；對 AI 晶片市場來說，這是「標準 vs 客製」競爭的新篇章。對投資人來說，20 億美元證明 NVIDIA 對客製晶片趨勢的焦慮。",
+        whyEn: "This signals NVIDIA's strategy shift from 'selling standard chips' to 'controlling custom chip ecosystems.' For cloud providers (AWS, Google, Meta), it's NVIDIA 'co-opting the supply chain'; for Marvell, it's funding and tech support; for the AI chip market, it's a new chapter in 'standard vs. custom' competition. For investors, the $2B proves NVIDIA's anxiety over custom chip trends.",
+        source: "Times of India",
+        url: "https://timesofindia.indiatimes.com/technology/tech-news/nvidia-invests-2-billion-in-marvell-technology-to-make-custom-ai-chips-more-accessible-to-customers-read-ceo-jensen-huangs-statement/articleshow/129930942.cms",
+        time: "01:49 TST",
+      },
+      {
+        title: "台積電日本超高效 AI 晶片廠獲批：地緣供應鏈重組加速",
+        titleEn: "TSMC Wins Approval for Ultra-Efficient AI Chip Mega-Factory in Japan",
+        summary: "台積電獲日本政府批准，將在日本建設「超高效」AI 晶片超級工廠。這不是產能擴張的例行公告，這是地緣政治驅動的供應鏈重組——當美中科技戰加劇、台海風險上升，日本成為「台積電海外製造」的關鍵據點，也是美日同盟在半導體領域的戰略佈局。",
+        summaryEn: "TSMC secured Japanese government approval to build an 'ultra-efficient' AI chip mega-factory in Japan. This isn't routine capacity expansion — it's geopolitically-driven supply chain restructuring. As U.S.-China tech wars intensify and Taiwan Strait risks rise, Japan becomes a key hub for 'TSMC overseas manufacturing' and a strategic play in the U.S.-Japan semiconductor alliance.",
+        why: "這標誌著 AI 晶片供應鏈從「台灣集中」轉向「區域分散」。對台積電來說，這是風險分散策略；對日本來說，這是重返半導體製造強國的機會；對美國來說，這是降低「台灣依賴」的戰略布局；對中國來說，這是「圍堵」的又一證據。對全球 AI 產業來說，這意味著「產能在哪裡」正在成為地緣政治籌碼。",
+        whyEn: "This signals AI chip supply chain shifting from 'Taiwan concentration' to 'regional dispersion.' For TSMC, it's risk diversification; for Japan, it's a chance to reclaim semiconductor powerhouse status; for the U.S., it's strategic 'Taiwan dependency' reduction; for China, it's another piece of 'containment' evidence. For global AI, it means 'where capacity sits' is becoming a geopolitical chip.",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/03/51574086/taiwan-semiconductor-wins-approval-for-ultra-efficient-ai-chip-mega-factory-in-japan",
+        time: "23:51 TST",
+      },
+    ],
+    market: "NVIDIA 砸 20 億收編客製晶片生態、台積電日本廠獲批——兩條線索指向同一個結論：AI 晶片競爭正在從「產品競爭」轉向「生態控制」，從「台灣集中」轉向「地緣分散」。NVIDIA 在防禦客製晶片威脅，台積電在分散地緣政治風險。下一階段的競爭，是「誰控制供應鏈」和「誰掌握產能位置」。",
+    marketEn: "NVIDIA's $2B to co-opt custom chip ecosystems, TSMC's Japan factory approval — two threads point to one conclusion: AI chip competition is shifting from 'product rivalry' to 'ecosystem control,' from 'Taiwan concentration' to 'geopolitical dispersion.' NVIDIA is defending against custom chip threats; TSMC is diversifying geopolitical risk. Next phase: 'Who controls the supply chain' and 'Who holds capacity location.'",
+  },
+  {
     date: "2026-03-31",
     items: [
       {
