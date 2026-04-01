@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ExternalLink, TrendingUp, ChevronDown, FlaskConical } from 'lucide-react';
-import { getDigests } from '../data/dailyNews';
+import { ExternalLink, TrendingUp, ChevronDown, FlaskConical, FolderOpen } from 'lucide-react';
+import { getGroupedDigests } from '../data/dailyNews';
+import type { DailyDigest as DailyDigestType } from '../data/dailyNews';
 
 function useStPatrick() {
   const now = new Date();
@@ -55,136 +56,213 @@ const t = {
   why:    { en: 'Why it matters:', zh: '為何重要：' },
   market: { en: 'Market Pulse:', zh: '市場快訊：' },
   items:  { en: 'stories', zh: '則' },
+  days:   { en: 'days', zh: '天' },
 };
 
+// Render one digest day's content (shared between daily view and monthly view)
+function DigestContent({ digest, language }: { digest: DailyDigestType; language: 'en' | 'zh' }) {
+  return (
+    <div className="space-y-3">
+      <ol className="space-y-3">
+        {digest.items.map((item, j) => (
+          <li key={j} className="group flex items-start gap-3">
+            <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-ink-800 text-[10px] font-bold text-gray-400 dark:text-gold-500/60 transition-colors group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-gold-500 dark:group-hover:text-ink-950">
+              {j + 1}
+            </span>
+            <div className="min-w-0 flex-1 space-y-1">
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-start gap-1 text-sm font-semibold leading-snug text-gray-900 dark:text-ink-50 transition-colors hover:text-emerald-600 dark:hover:text-gold-400"
+              >
+                <span>{language === 'en' ? (item.titleEn ?? item.title) : item.title}</span>
+                <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-40" />
+              </a>
+              <p className="text-xs leading-relaxed text-gray-500 dark:text-ink-100/60">
+                {language === 'en' ? (item.summaryEn ?? item.summary) : item.summary}
+              </p>
+              <p className="text-xs leading-relaxed text-gray-400 dark:text-ink-100/40">
+                <span className="font-medium text-gray-500 dark:text-gold-500/70">{t.why[language]}</span>
+                {language === 'en' ? (item.whyEn ?? item.why) : item.why}
+              </p>
+              <div className="flex items-center gap-2 pt-0.5">
+                <span className="rounded bg-gray-100 dark:bg-ink-800 dark:border dark:border-gold-500/20 px-1.5 py-0.5 text-[10px] font-medium text-gray-500 dark:text-gold-500/60">
+                  {item.source}
+                </span>
+                <span className="text-[10px] text-gray-300 dark:text-ink-100/20">{item.time}</span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      {digest.market && (
+        <div className="flex items-start gap-2 rounded-lg border border-emerald-100 bg-emerald-50 dark:border-gold-500/20 dark:bg-gold-500/5 px-3 py-2.5">
+          <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500 dark:text-gold-500" />
+          <p className="text-xs leading-relaxed text-emerald-700 dark:text-gold-400/80">
+            <span className="font-semibold">{t.market[language]}</span>
+            {language === 'en' ? (digest.marketEn ?? digest.market) : digest.market}
+          </p>
+        </div>
+      )}
+
+      {digest.feature && (
+        <div className="rounded-lg border border-violet-100 bg-violet-50/50 dark:border-violet-500/20 dark:bg-violet-500/5 overflow-hidden">
+          <div className="flex items-center gap-2 px-3 py-2 border-b border-violet-100 dark:border-violet-500/20">
+            <FlaskConical className="h-3.5 w-3.5 shrink-0 text-violet-500 dark:text-violet-400" />
+            <span className="text-xs font-bold text-violet-700 dark:text-violet-300">
+              {language === 'en' ? (digest.feature.titleEn ?? digest.feature.title) : digest.feature.title}
+            </span>
+          </div>
+          <div className="px-3 py-2.5 space-y-2.5">
+            <p className="text-xs leading-relaxed text-violet-600/80 dark:text-violet-300/60">
+              {language === 'en' ? (digest.feature.introEn ?? digest.feature.intro) : digest.feature.intro}
+            </p>
+            <ol className="space-y-2">
+              {digest.feature.items.map((fi, k) => (
+                <li key={k} className="flex items-start gap-2">
+                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-violet-200 dark:bg-violet-500/20 text-[9px] font-bold text-violet-600 dark:text-violet-300">
+                    {k + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <a
+                      href={fi.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-violet-800 dark:text-violet-200 hover:text-violet-600 dark:hover:text-violet-100 transition-colors"
+                    >
+                      {language === 'en' ? (fi.nameEn ?? fi.name) : fi.name}
+                      <ExternalLink className="h-2.5 w-2.5 opacity-40" />
+                    </a>
+                    <p className="text-[11px] leading-relaxed text-violet-600/70 dark:text-violet-300/50 mt-0.5">
+                      {language === 'en' ? (fi.descEn ?? fi.desc) : fi.desc}
+                    </p>
+                    <span className="text-[10px] text-violet-400/60 dark:text-violet-400/40">{fi.source}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DailyDigest({ language = 'zh' }: { language?: 'en' | 'zh' }) {
-  const digests = getDigests();
-  const [openIdx, setOpenIdx] = useState(0); // latest open by default
+  const groups = getGroupedDigests();
+  const [openDayIdx, setOpenDayIdx] = useState(0);
+  const [openMonthKeys, setOpenMonthKeys] = useState<Set<string>>(new Set());
+  const [openDayInMonth, setOpenDayInMonth] = useState<Record<string, number>>({});
   const isStPatrickWeek = useStPatrick();
   const [showShamrocks, setShowShamrocks] = useState(isStPatrickWeek);
 
   useEffect(() => {
     if (!isStPatrickWeek) return;
-    const t = setTimeout(() => setShowShamrocks(false), 10000);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setShowShamrocks(false), 10000);
+    return () => clearTimeout(timer);
   }, [isStPatrickWeek]);
+
+  const toggleMonth = (key: string) => {
+    setOpenMonthKeys(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const toggleDayInMonth = (monthKey: string, dayIdx: number) => {
+    setOpenDayInMonth(prev => ({
+      ...prev,
+      [monthKey]: prev[monthKey] === dayIdx ? -1 : dayIdx,
+    }));
+  };
 
   return (
     <div className="space-y-2">
       {showShamrocks && <Shamrocks />}
-      {digests.map((digest, i) => {
-        const isOpen = openIdx === i;
+
+      {groups.map((group) => {
+        if (group.isCurrent) {
+          // Current month: show daily accordions as before
+          return group.digests.map((digest, i) => {
+            const isOpen = openDayIdx === i;
+            return (
+              <div key={digest.date} className="rounded-xl border border-gray-100 dark:border-gold-500/20 overflow-hidden dark:bg-ink-900/40 transition-colors">
+                <button
+                  onClick={() => setOpenDayIdx(isOpen ? -1 : i)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-ink-800/50 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-sm font-medium text-gray-800 dark:text-ink-50">{formatDate(digest.date, language)}</span>
+                    {i === 0 && (
+                      <span className="rounded-full bg-emerald-500 dark:bg-gold-500 px-1.5 py-px text-[9px] font-bold text-white dark:text-ink-950">
+                        NEW
+                      </span>
+                    )}
+                    <span className="text-xs text-gray-400 dark:text-ink-100/30">· {digest.items.length} {t.items[language]}</span>
+                  </div>
+                  <ChevronDown className={`h-4 w-4 text-gray-400 dark:text-gold-500/50 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isOpen && (
+                  <div className="border-t border-gray-100 dark:border-gold-500/10 px-4 pb-4 pt-3">
+                    <DigestContent digest={digest} language={language} />
+                  </div>
+                )}
+              </div>
+            );
+          });
+        }
+
+        // Past months: collapsible monthly group
+        const isMonthOpen = openMonthKeys.has(group.key);
+        const totalStories = group.digests.reduce((sum, d) => sum + d.items.length, 0);
+        const activeDayIdx = openDayInMonth[group.key] ?? -1;
+
         return (
-          <div key={digest.date} className="rounded-xl border border-gray-100 dark:border-gold-500/20 overflow-hidden dark:bg-ink-900/40 transition-colors">
-            {/* Accordion header */}
+          <div key={group.key} className="rounded-xl border border-gray-200 dark:border-gold-500/30 overflow-hidden dark:bg-ink-900/40 transition-colors">
             <button
-              onClick={() => setOpenIdx(isOpen ? -1 : i)}
+              onClick={() => toggleMonth(group.key)}
               className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-ink-800/50 transition-colors"
             >
               <div className="flex items-center gap-2.5">
-                <span className="text-sm font-medium text-gray-800 dark:text-ink-50">{formatDate(digest.date, language)}</span>
-                {i === 0 && (
-                  <span className="rounded-full bg-emerald-500 dark:bg-gold-500 px-1.5 py-px text-[9px] font-bold text-white dark:text-ink-950">
-                    NEW
-                  </span>
-                )}
-                <span className="text-xs text-gray-400 dark:text-ink-100/30">· {digest.items.length} {t.items[language]}</span>
+                <FolderOpen className="h-4 w-4 text-emerald-500 dark:text-gold-500" />
+                <span className="text-sm font-semibold text-gray-800 dark:text-ink-50">
+                  {language === 'en' ? group.labelEn : group.label}
+                </span>
+                <span className="text-xs text-gray-400 dark:text-ink-100/30">
+                  · {totalStories} {t.items[language]} / {group.digests.length} {t.days[language]}
+                </span>
               </div>
-              <ChevronDown
-                className={`h-4 w-4 text-gray-400 dark:text-gold-500/50 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-              />
+              <ChevronDown className={`h-4 w-4 text-gray-400 dark:text-gold-500/50 transition-transform duration-200 ${isMonthOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {/* Accordion body */}
-            {isOpen && (
-              <div className="border-t border-gray-100 dark:border-gold-500/10 px-4 pb-4 pt-3 space-y-3">
-                <ol className="space-y-3">
-                  {digest.items.map((item, j) => (
-                    <li key={j} className="group flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-ink-800 text-[10px] font-bold text-gray-400 dark:text-gold-500/60 transition-colors group-hover:bg-gray-900 group-hover:text-white dark:group-hover:bg-gold-500 dark:group-hover:text-ink-950">
-                        {j + 1}
-                      </span>
-
-                      <div className="min-w-0 flex-1 space-y-1">
-                        <a
-                          href={item.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-start gap-1 text-sm font-semibold leading-snug text-gray-900 dark:text-ink-50 transition-colors hover:text-emerald-600 dark:hover:text-gold-400"
-                        >
-                          <span>{language === 'en' ? (item.titleEn ?? item.title) : item.title}</span>
-                          <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 opacity-40" />
-                        </a>
-
-                        <p className="text-xs leading-relaxed text-gray-500 dark:text-ink-100/60">
-                          {language === 'en' ? (item.summaryEn ?? item.summary) : item.summary}
-                        </p>
-
-                        <p className="text-xs leading-relaxed text-gray-400 dark:text-ink-100/40">
-                          <span className="font-medium text-gray-500 dark:text-gold-500/70">{t.why[language]}</span>
-                          {language === 'en' ? (item.whyEn ?? item.why) : item.why}
-                        </p>
-
-                        <div className="flex items-center gap-2 pt-0.5">
-                          <span className="rounded bg-gray-100 dark:bg-ink-800 dark:border dark:border-gold-500/20 px-1.5 py-0.5 text-[10px] font-medium text-gray-500 dark:text-gold-500/60">
-                            {item.source}
-                          </span>
-                          <span className="text-[10px] text-gray-300 dark:text-ink-100/20">{item.time}</span>
+            {isMonthOpen && (
+              <div className="border-t border-gray-200 dark:border-gold-500/10 px-3 pb-3 pt-2 space-y-1.5">
+                {group.digests.map((digest, dayIdx) => {
+                  const isDayOpen = activeDayIdx === dayIdx;
+                  return (
+                    <div key={digest.date} className="rounded-lg border border-gray-100 dark:border-gold-500/10 overflow-hidden">
+                      <button
+                        onClick={() => toggleDayInMonth(group.key, dayIdx)}
+                        className="flex w-full items-center justify-between px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-ink-800/40 transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-gray-600 dark:text-ink-100/70">{formatDate(digest.date, language)}</span>
+                          <span className="text-[10px] text-gray-400 dark:text-ink-100/30">· {digest.items.length} {t.items[language]}</span>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-
-                {digest.market && (
-                  <div className="flex items-start gap-2 rounded-lg border border-emerald-100 bg-emerald-50 dark:border-gold-500/20 dark:bg-gold-500/5 px-3 py-2.5">
-                    <TrendingUp className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500 dark:text-gold-500" />
-                    <p className="text-xs leading-relaxed text-emerald-700 dark:text-gold-400/80">
-                      <span className="font-semibold">{t.market[language]}</span>
-                      {language === 'en' ? (digest.marketEn ?? digest.market) : digest.market}
-                    </p>
-                  </div>
-                )}
-
-                {digest.feature && (
-                  <div className="rounded-lg border border-violet-100 bg-violet-50/50 dark:border-violet-500/20 dark:bg-violet-500/5 overflow-hidden">
-                    <div className="flex items-center gap-2 px-3 py-2 border-b border-violet-100 dark:border-violet-500/20">
-                      <FlaskConical className="h-3.5 w-3.5 shrink-0 text-violet-500 dark:text-violet-400" />
-                      <span className="text-xs font-bold text-violet-700 dark:text-violet-300">
-                        {language === 'en' ? (digest.feature.titleEn ?? digest.feature.title) : digest.feature.title}
-                      </span>
+                        <ChevronDown className={`h-3.5 w-3.5 text-gray-300 dark:text-gold-500/40 transition-transform duration-200 ${isDayOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {isDayOpen && (
+                        <div className="border-t border-gray-100 dark:border-gold-500/10 px-3 pb-3 pt-2">
+                          <DigestContent digest={digest} language={language} />
+                        </div>
+                      )}
                     </div>
-                    <div className="px-3 py-2.5 space-y-2.5">
-                      <p className="text-xs leading-relaxed text-violet-600/80 dark:text-violet-300/60">
-                        {language === 'en' ? (digest.feature.introEn ?? digest.feature.intro) : digest.feature.intro}
-                      </p>
-                      <ol className="space-y-2">
-                        {digest.feature.items.map((fi, k) => (
-                          <li key={k} className="flex items-start gap-2">
-                            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-violet-200 dark:bg-violet-500/20 text-[9px] font-bold text-violet-600 dark:text-violet-300">
-                              {k + 1}
-                            </span>
-                            <div className="min-w-0">
-                              <a
-                                href={fi.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-xs font-semibold text-violet-800 dark:text-violet-200 hover:text-violet-600 dark:hover:text-violet-100 transition-colors"
-                              >
-                                {language === 'en' ? (fi.nameEn ?? fi.name) : fi.name}
-                                <ExternalLink className="h-2.5 w-2.5 opacity-40" />
-                              </a>
-                              <p className="text-[11px] leading-relaxed text-violet-600/70 dark:text-violet-300/50 mt-0.5">
-                                {language === 'en' ? (fi.descEn ?? fi.desc) : fi.desc}
-                              </p>
-                              <span className="text-[10px] text-violet-400/60 dark:text-violet-400/40">{fi.source}</span>
-                            </div>
-                          </li>
-                        ))}
-                      </ol>
-                    </div>
-                  </div>
-                )}
+                  );
+                })}
               </div>
             )}
           </div>

@@ -627,3 +627,42 @@ const digests: DailyDigest[] = [
 export function getDigests(): DailyDigest[] {
   return digests;
 }
+
+// Group digests: current month stays daily, past months fold into monthly groups
+export interface MonthGroup {
+  key: string;           // e.g. "2026-03"
+  label: string;         // e.g. "三月精華" / "March Highlights"
+  labelEn: string;
+  digests: DailyDigest[];
+  isCurrent: boolean;
+}
+
+const MONTH_LABELS_ZH = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+const MONTH_LABELS_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+export function getGroupedDigests(): MonthGroup[] {
+  const now = new Date();
+  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+  // Group by YYYY-MM
+  const map = new Map<string, DailyDigest[]>();
+  for (const d of digests) {
+    const key = d.date.slice(0, 7); // "2026-03"
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(d);
+  }
+
+  const groups: MonthGroup[] = [];
+  for (const [key, items] of map) {
+    const monthIdx = parseInt(key.split('-')[1], 10) - 1;
+    groups.push({
+      key,
+      label: `${MONTH_LABELS_ZH[monthIdx]}精華`,
+      labelEn: `${MONTH_LABELS_EN[monthIdx]} Highlights`,
+      digests: items,
+      isCurrent: key === currentKey,
+    });
+  }
+
+  return groups;
+}
