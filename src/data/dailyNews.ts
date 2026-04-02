@@ -38,6 +38,35 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-02",
+    items: [
+      {
+        title: "Intel 砸 140 億美元收回愛爾蘭 AI 晶片廠全部控制權，股價飆漲 8%",
+        titleEn: "Intel Spends $14B to Reclaim Full Control of Ireland AI Chip Factory, Stock Soars 8%",
+        summary: "Intel 宣布斥資 140 億美元買回愛爾蘭 AI 晶片廠的完整控制權，股價單日暴漲 8%。這不是單純的資產重組，這是 Intel 在「AI 晶片競賽」中的生死反擊——當 NVIDIA、AMD 都在賺 AI 的錢，Intel 選擇「砸錢收回產能控制」來證明自己還有翻盤機會。",
+        summaryEn: "Intel announced a $14B deal to reclaim full control of its Ireland AI chip factory, sending its stock soaring 8% in a single day. This isn't just asset restructuring — it's Intel's do-or-die counterattack in the 'AI chip race.' While NVIDIA and AMD cash in on AI, Intel chose to 'spend big to reclaim capacity control' to prove it still has a comeback shot.",
+        why: "這標誌著 Intel 在 AI 晶片市場的「絕地求生」戰略。對 Intel 來說，這是用資本換時間的豪賭；對 NVIDIA 和 AMD 來說，這是競爭對手「還沒死」的警訊；對投資人來說，8% 的股價暴漲證明市場願意給 Intel 第二次機會。對全球 AI 供應鏈來說，這意味著「產能控制權」正在成為競爭焦點。",
+        whyEn: "This signals Intel's 'survival mode' strategy in AI chips. For Intel, it's a capital-for-time gamble; for NVIDIA and AMD, it's a warning that the competitor 'isn't dead yet'; for investors, the 8% surge proves the market will give Intel a second chance. For global AI supply chains, it means 'capacity control' is becoming the competitive focal point.",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/04/51606607/intel-spends-14-billion-to-reclaim-full-control-of-key-ireland-ai-chip-factory",
+        time: "00:55 TST",
+      },
+      {
+        title: "Cognichip 獲 6000 萬美元融資：用 AI 設計 AI 晶片的「遞迴革命」",
+        titleEn: "Cognichip Raises $60M to Reinvent Chip Design with Physics-Inspired AI Models",
+        summary: "Cognichip 完成 6000 萬美元融資，目標是用 AI 模型重新發明晶片設計流程，強調「物理啟發的 AI」方法。這不是另一個 AI 設計工具，這是「用 AI 設計 AI 晶片」的遞迴革命——當晶片設計週期從 3 年壓縮到幾個月，誰掌握 AI 設計工具，誰就掌握下一代晶片的迭代速度。",
+        summaryEn: "Cognichip secured $60M to reinvent chip design using 'physics-inspired AI models.' This isn't another AI design tool — it's the 'recursive revolution' of using AI to design AI chips. When chip design cycles compress from 3 years to months, whoever controls AI design tools controls next-gen chip iteration speed.",
+        why: "這標誌著晶片設計從「人力密集」轉向「AI 自動化」的臨界點。對 NVIDIA、Intel、AMD 來說，這是設計週期被顛覆的威脅；對新創晶片公司來說，這是「用更少人力挑戰巨頭」的機會；對整個 AI 產業來說，這是「AI 加速 AI」的自我強化迴圈。對投資人來說，6000 萬美元證明「AI 設計晶片」已經從概念驗證進入商業化階段。",
+        whyEn: "This signals chip design reaching the tipping point from 'labor-intensive' to 'AI-automated.' For NVIDIA, Intel, AMD, it's a design-cycle disruption threat; for chip startups, it's a chance to 'challenge giants with fewer people'; for the AI industry, it's the 'AI accelerates AI' self-reinforcing loop. For investors, the $60M proves 'AI-designed chips' has moved from proof-of-concept to commercialization.",
+        source: "TechCrunch",
+        url: "https://techcrunch.com/2026/04/01/cognichip-wants-ai-to-design-the-chips-that-power-ai-and-just-raised-60m-to-try/",
+        time: "00:00 TST",
+      },
+    ],
+    market: "Intel 砸 140 億奪回產能控制、Cognichip 用 AI 設計 AI 晶片——兩條線索指向同一個結論：AI 晶片競爭正在從「誰的產品快」轉向「誰控制產能」和「誰控制設計工具」。Intel 在用資本換時間，Cognichip 在用 AI 壓縮設計週期。下一階段的競爭，是「誰的迭代速度更快」。",
+    marketEn: "Intel's $14B capacity reclaim, Cognichip's AI-for-chip-design — two threads point to one conclusion: AI chip competition is shifting from 'whose product is faster' to 'who controls capacity' and 'who controls design tools.' Intel trades capital for time; Cognichip uses AI to compress design cycles. Next phase: 'Whose iteration speed is faster.'",
+  },
+  {
     date: "2026-04-01",
     items: [
       {
