@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-07",
+    items: [
+      {
+        title: "Broadcom 擴大與 Google、Anthropic 晶片合約：客製晶片生態戰升級",
+        titleEn: "Broadcom Expands Chip Deals with Google, Anthropic: Custom Chip Ecosystem War Escalates",
+        summary: "Broadcom 宣布與 Google 和 Anthropic 擴大客製 AI 晶片合作協議。這不是單純的供應鏈新聞，這是「客製晶片 vs NVIDIA 標準晶片」戰爭的新篇章——當 Google 用 TPU、Anthropic 也開始定製晶片，NVIDIA 的「一款晶片打天下」模式正在被顛覆。",
+        summaryEn: "Broadcom announced expanded custom AI chip deals with Google and Anthropic. This isn't just supply chain news — it's a new chapter in the 'custom chips vs. NVIDIA standard chips' war. With Google using TPUs and Anthropic now customizing chips, NVIDIA's 'one-chip-fits-all' model is being disrupted.",
+        why: "這標誌著 AI 晶片市場從「買 NVIDIA」轉向「自己設計」的臨界點。對 NVIDIA 來說，這是高毛利標準晶片業務被蠶食的警訊；對 Broadcom 來說，這是客製晶片代工業務的黃金機會；對 Google 和 Anthropic 來說，這是擺脫 NVIDIA 依賴、降低成本的戰略突破。對整個 AI 產業來說，這是「晶片定製化」趨勢的加速驗證。",
+        whyEn: "This signals the AI chip market hitting a tipping point from 'buy NVIDIA' to 'design your own.' For NVIDIA, it's a warning of high-margin standard chip erosion; for Broadcom, it's a golden opportunity in custom chip foundry; for Google and Anthropic, it's strategic breakthrough in shedding NVIDIA dependency and cutting costs. For the AI industry, it's accelerated validation of the 'chip customization' trend.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/06/broadcom-agrees-to-expanded-chip-deals-with-google-anthropic.html",
+        time: "05:41 TST",
+      },
+      {
+        title: "NVIDIA 收購 SchedMD 引發 AI 軟體訪問擔憂：生態控制的邊界在哪？",
+        titleEn: "NVIDIA's SchedMD Acquisition Sparks AI Software Access Concerns: Where's the Ecosystem Control Line?",
+        summary: "NVIDIA 收購高效能運算排程軟體公司 SchedMD，引發 AI 專家對軟體訪問權的擔憂。這不是單純的軟體收購，這是 NVIDIA 從「賣硬體」轉向「控制軟體生態」的戰略延伸——當 CUDA 已經鎖定開發者，收購排程軟體意味著從「晶片層」擴展到「工作負載調度層」的全棧控制。",
+        summaryEn: "NVIDIA's acquisition of high-performance computing scheduler SchedMD sparked AI specialists' concerns over software access. This isn't just a software buyout — it's NVIDIA's strategic extension from 'selling hardware' to 'controlling software ecosystems.' With CUDA already locking in developers, acquiring scheduler software means expanding from 'chip layer' to 'workload orchestration layer' full-stack control.",
+        why: "這標誌著 NVIDIA 戰略從「晶片壟斷」轉向「生態壟斷」。對競爭對手（AMD、Intel）來說，這是 NVIDIA 在軟體層築起新護城河的威脅；對雲端服務商來說，這是「供應商鎖定」風險加劇的警訊；對開源社群來說，這是「關鍵基礎設施被私有化」的擔憂。對監管機構來說，這是「科技巨頭垂直整合」是否過度的新案例。",
+        whyEn: "This signals NVIDIA's strategy shifting from 'chip monopoly' to 'ecosystem monopoly.' For competitors (AMD, Intel), it's a threat of NVIDIA building new software moats; for cloud providers, it's heightened 'vendor lock-in' risk; for open-source communities, it's concern over 'critical infrastructure privatization.' For regulators, it's a new case of 'excessive tech giant vertical integration.'",
+        source: "Reuters",
+        url: "https://www.reuters.com/technology/nvidia-acquisition-schedmd-sparks-worry-among-ai-specialists-about-software-2026-04-06/",
+        time: "03:33 TST",
+      },
+      {
+        title: "美國出口管制反助中國晶片繁榮：圍堵政策的意外後果",
+        titleEn: "US Export Curbs Fuel China's Chip Boom: Unintended Consequences of Containment Policy",
+        summary: "報導指出美國對華晶片出口管制反而刺激中國本土晶片產業快速發展。這不是政策失敗的八卦，這是地緣科技戰的「反作用力定律」——當切斷供應鏈成為武器，被切斷的一方會被迫建立自己的供應鏈，最終結果是「技術脫鉤」而非「技術壓制」。",
+        summaryEn: "Reports indicate US chip export controls to China are paradoxically fueling domestic Chinese chip industry growth. This isn't policy-failure gossip — it's the 'Newton's third law' of geotech warfare. When supply-chain severing becomes a weapon, the severed side is forced to build its own, resulting in 'tech decoupling' rather than 'tech suppression.'",
+        why: "這驗證了「出口管制加速技術自主」的預言。對美國來說，這是圍堵政策「短期有效、長期反噬」的代價；對中國來說，這是「被迫獨立」後的技術突破；對全球供應鏈來說，這是「效率讓位給政治」後的碎片化加速。對 NVIDIA、AMD 來說，這是永久失去中國市場的現實；對華為、中芯國際來說，這是市場保護下的成長機會。",
+        whyEn: "This validates the 'export controls accelerate tech self-sufficiency' prophecy. For the US, it's the cost of containment being 'short-term effective, long-term backfiring'; for China, it's tech breakthrough post-'forced independence'; for global supply chains, it's accelerated fragmentation after 'efficiency yielded to politics.' For NVIDIA and AMD, it's permanent Chinese market loss; for Huawei and SMIC, it's growth opportunity under market protection.",
+        source: "Benzinga",
+        url: "https://www.benzinga.com/markets/tech/26/04/51664580/how-us-export-curbs-are-fueling-chinas-chip-boom",
+        time: "01:18 TST",
+      },
+    ],
+    market: "Broadcom 擴大客製晶片合約、NVIDIA 收購排程軟體引發擔憂、美國出口管制反助中國晶片繁榮——三條線索指向同一個結論：AI 晶片競爭正在從「產品競爭」轉向「生態控制」，從「技術領先」轉向「供應鏈分裂」。客製化在挑戰標準化，軟體壟斷在引發反彈，出口管制在加速脫鉤。下一階段的競爭，是「誰控制生態」和「誰能自給自足」。",
+    marketEn: "Broadcom expands custom chip deals, NVIDIA's scheduler acquisition sparks concerns, US export curbs fuel China's chip boom — three threads point to one conclusion: AI chip competition is shifting from 'product rivalry' to 'ecosystem control,' from 'tech leadership' to 'supply chain fragmentation.' Customization challenges standardization, software monopoly triggers backlash, export controls accelerate decoupling. Next phase: 'Who controls ecosystems' and 'Who achieves self-sufficiency.'",
+  },
+  {
     date: "2026-04-02",
     items: [
       {
