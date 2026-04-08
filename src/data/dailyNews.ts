@@ -38,6 +38,35 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-08",
+    items: [
+      {
+        title: "Intel 加入 Musk 200 億美元 TeraFab AI 晶片計畫：機器人與資料中心的豪賭",
+        titleEn: "Intel Backs Elon Musk's $20B TeraFab Plan for AI Chip Production: Robotics and Data Center Gamble",
+        summary: "Intel 宣布加入 Elon Musk 主導的 200 億美元 TeraFab AI 晶片計畫，目標是為人形機器人和資料中心生產專用晶片。這不是單純的資本聯盟，這是 Intel 在「AI 晶片邊緣化」危機中找到的新戰場——當在雲端推理市場打不過 NVIDIA，轉向機器人和太空應用是生存突圍。",
+        summaryEn: "Intel announced joining Elon Musk's $20B TeraFab AI chip initiative targeting humanoid robots and data centers. This isn't just a capital alliance — it's Intel finding a new battlefield amid 'AI chip marginalization' crisis. When cloud inference can't beat NVIDIA, pivoting to robotics and space is survival strategy.",
+        why: "這標誌著 AI 晶片競爭從「雲端」延伸到「邊緣與機器人」。對 Intel 來說，這是用 Musk 的願景換取翻盤機會；對 NVIDIA 來說，這是潛在競爭對手在新領域的卡位；對 Musk 來說，這是 Tesla Optimus 和 SpaceX 星艦所需晶片的自主化戰略。對整個 AI 產業來說，這是「應用場景分化」推動晶片設計分化的案例。",
+        whyEn: "This signals AI chip competition extending from 'cloud' to 'edge and robotics.' For Intel, it's trading Musk's vision for a comeback shot; for NVIDIA, it's a potential rival positioning in new domains; for Musk, it's self-sufficiency strategy for Tesla Optimus and SpaceX Starship chip needs. For the AI industry, it's a case of 'application scenario differentiation' driving chip design divergence.",
+        source: "Interesting Engineering",
+        url: "https://interestingengineering.com/ai-robotics/intel-joins-musk-terafab-ai-chip-project",
+        time: "04:06 TST",
+      },
+      {
+        title: "Broadcom 股價飆漲 5% 創三週新高：Google、Anthropic 長期晶片合約的市場驗證",
+        titleEn: "Broadcom Shares Pop 5% to 3-Week High on Long-Term Google, Anthropic Chip Deals",
+        summary: "Broadcom 股價單日暴漲 5%，創三週新高，受 Google 和 Anthropic 長期客製晶片合約利好消息推動。這不是單純的股價波動，這是資本市場對「客製晶片趨勢」的信心投票——當兩大 AI 巨頭都選擇 Broadcom 而非 NVIDIA，市場用真金白銀驗證了這條路線。",
+        summaryEn: "Broadcom shares surged 5% to a 3-week high, driven by long-term custom chip deals with Google and Anthropic. This isn't just stock volatility — it's the capital market's confidence vote in the 'custom chip trend.' When two AI giants choose Broadcom over NVIDIA, the market validates this path with real money.",
+        why: "這標誌著「客製晶片 vs NVIDIA 標準晶片」競爭進入資本驗證階段。對 Broadcom 來說，這是客製晶片代工業務獲得市場認可；對 NVIDIA 來說，這是標準晶片業務被蠶食的財務證據；對投資人來說，5% 的單日漲幅證明「反 NVIDIA 壟斷」敘事有利可圖。對整個 AI 供應鏈來說，這是「定製化」趨勢的資本加速器。",
+        whyEn: "This signals the 'custom chips vs. NVIDIA standard chips' competition entering capital validation phase. For Broadcom, it's market recognition of custom chip foundry business; for NVIDIA, it's financial evidence of standard chip erosion; for investors, the 5% single-day gain proves the 'anti-NVIDIA monopoly' narrative is profitable. For the AI supply chain, it's capital acceleration of the 'customization' trend.",
+        source: "Livemint",
+        url: "https://www.livemint.com/market/stock-market-news/broadcom-shares-pop-5-to-3-week-high-on-long-term-google-anthropic-chip-deals-11775577132125.html",
+        time: "01:00 TST",
+      },
+    ],
+    market: "Intel 加入 Musk 200 億晶片計畫、Broadcom 股價飆漲驗證客製晶片趨勢——兩條線索指向同一個結論：AI 晶片競爭正在從「雲端霸權」轉向「應用分化」，從「NVIDIA 壟斷」轉向「客製聯盟」。Intel 在邊緣與機器人找新戰場，Broadcom 用股價證明客製路線有利可圖。下一階段的競爭，是「誰能在細分市場站穩」和「誰能建立客製生態」。",
+    marketEn: "Intel joins Musk's $20B chip plan, Broadcom's stock surge validates custom chip trend — two threads point to one conclusion: AI chip competition is shifting from 'cloud hegemony' to 'application differentiation,' from 'NVIDIA monopoly' to 'custom alliances.' Intel finds new battlegrounds in edge and robotics; Broadcom's stock proves custom path profitability. Next phase: 'Who secures niche markets' and 'Who builds custom ecosystems.'",
+  },
+  {
     date: "2026-04-07",
     items: [
       {
