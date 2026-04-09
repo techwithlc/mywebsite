@@ -38,6 +38,35 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-09",
+    items: [
+      {
+        title: "NVIDIA vs 華為：AI 晶片全球霸權的正面對決",
+        titleEn: "NVIDIA vs. Huawei: The Frontal Battle for Global AI Chip Hegemony",
+        summary: "分析指出 NVIDIA 與華為在 AI 晶片領域的競爭已進入白熱化階段，雙方代表著美中科技競爭的最前線。這不是單純的企業競爭，這是兩個技術路線、兩套供應鏈、兩個地緣政治陣營的終極對決——NVIDIA 掌握先進製程與 CUDA 生態，華為靠政策保護與本土市場反擊。",
+        summaryEn: "Analysis shows NVIDIA-Huawei competition in AI chips has entered white-hot phase, representing the frontline of U.S.-China tech rivalry. This isn't just corporate competition — it's the ultimate showdown between two tech paths, two supply chains, two geopolitical camps. NVIDIA wields advanced nodes and CUDA ecosystem; Huawei fights back with policy protection and domestic market.",
+        why: "這標誌著 AI 晶片競爭從「技術領先」轉向「陣營對抗」。對 NVIDIA 來說，華為是唯一有能力在全棧（設計、製造、生態）挑戰的對手；對華為來說，這是「被迫自主」後的生死戰；對全球 AI 產業來說，這意味著供應鏈將永久分裂成「西方陣營」和「中國陣營」。對投資人來說，這是選邊站的時刻。",
+        whyEn: "This signals AI chip competition shifting from 'tech leadership' to 'camp confrontation.' For NVIDIA, Huawei is the only rival capable of full-stack (design, manufacturing, ecosystem) challenge; for Huawei, it's a life-or-death battle post-'forced independence'; for global AI, it means supply chains will permanently split into 'Western camp' and 'China camp.' For investors, it's time to pick sides.",
+        source: "Entrepreneur",
+        url: "https://www.entrepreneur.com/business-news/what-the-nvidia-huawei-rivalry-means-for-ai/501630",
+        time: "00:30 TST",
+      },
+      {
+        title: "台灣封裝依賴：為何美國自製晶片仍需送台灣「最後一哩」",
+        titleEn: "Taiwan Packaging Dependency: Why US-Made Chips Still Need Taiwan's 'Last Mile'",
+        summary: "報導指出即使美國成功在本土製造 AI 晶片，仍需送往台灣進行最終封裝處理，凸顯台灣在半導體供應鏈的不可替代性。這不是技術瓶頸，這是「產業集群效應」的勝利——當先進封裝技術、設備、人才都集中在台灣，重建整個生態鏈的成本遠超過「繼續依賴台灣」。",
+        summaryEn: "Reports show even US-domestically-manufactured AI chips must be sent to Taiwan for final packaging, highlighting Taiwan's irreplaceability in semiconductor supply chains. This isn't a tech bottleneck — it's the triumph of 'industrial cluster effects.' With advanced packaging tech, equipment, and talent concentrated in Taiwan, rebuilding the entire ecosystem costs far more than 'continued Taiwan dependency.'",
+        why: "這標誌著「美國半導體自主化」的不完整性。對美國來說，這是「晶片法案」戰略的最大弱點；對台灣來說，這是地緣政治籌碼的核心；對中國來說，這是「台海風險」對全球 AI 供應鏈的致命威脅；對全球 AI 產業來說，這意味著「去台灣依賴」在短期內不可能實現。對投資人來說，這是台積電、日月光等封裝廠的長期護城河。",
+        whyEn: "This signals the incompleteness of 'US semiconductor self-sufficiency.' For the US, it's the biggest weakness in the CHIPS Act strategy; for Taiwan, it's the core of geopolitical leverage; for China, it's the lethal threat of 'Taiwan Strait risk' to global AI supply chains; for the AI industry, it means 'de-Taiwan dependency' is impossible near-term. For investors, it's the long-term moat for TSMC, ASE, etc.",
+        source: "Firstpost",
+        url: "https://www.firstpost.com/tech/ais-next-challenge-why-even-us-made-chips-must-undergo-final-processing-in-taiwan-13998128.html",
+        time: "23:01 TST",
+      },
+    ],
+    market: "NVIDIA vs 華為白熱化、台灣封裝依賴無解——兩條線索指向同一個結論：AI 晶片競爭正在從「技術競賽」轉向「地緣博弈」，從「全球化供應鏈」轉向「陣營化供應鏈」。技術領先不再是唯一變數，地緣政治正在重塑整個產業格局。台灣的不可替代性既是籌碼也是風險，美中對抗將 AI 供應鏈推向永久分裂。",
+    marketEn: "NVIDIA vs. Huawei heats up, Taiwan packaging dependency unsolvable — two threads point to one conclusion: AI chip competition is shifting from 'tech race' to 'geopolitical game,' from 'globalized supply chain' to 'camp-based supply chain.' Tech leadership is no longer the only variable; geopolitics is reshaping the entire industry. Taiwan's irreplaceability is both leverage and risk; US-China confrontation pushes AI supply chains toward permanent fragmentation.",
+  },
+  {
     date: "2026-04-08",
     items: [
       {
