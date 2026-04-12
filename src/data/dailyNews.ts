@@ -38,6 +38,68 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-12",
+    items: [
+      {
+        title: "台積電 Q1 營收破紀錄：AI 晶片需求推動年增 35%，達 357 億美元",
+        titleEn: "TSMC Q1 Revenue Hits Record $35.7B — AI Chip Demand Drives 35% YoY Growth",
+        summary: "台積電公布 2026 年 Q1 營收達 NT$1.134 兆（約 $35.7B），年增 35.1%，超越分析師預期。三月單月更是年增 45.2%，為全季最強表現。成長主力來自 AI 晶片需求，尤其是 2nm（N2）節點的積極擴產。儘管手機與 PC 市場因記憶體短缺受壓，AI 業務獨撐大局。",
+        summaryEn: "TSMC reported Q1 2026 revenue of NT$1.134 trillion (~$35.7B), up 35.1% YoY, beating analyst consensus. March alone surged 45.2% YoY — the strongest monthly reading of the quarter. Growth was driven primarily by AI chip demand, especially the aggressive 2nm (N2) node ramp-up. Despite smartphone and PC headwinds from memory shortages, AI carried the weight.",
+        why: "這是 AI 基礎建設投資持續火熱的最直接證據。台積電作為全球晶圓代工龍頭，其營收就是 AI 產業的溫度計。35% 年增率在這個規模幾乎是不可思議的——代表 NVIDIA、Apple、AMD 等大客戶的 AI 晶片訂單仍在加速。對投資人來說，4/16 完整財報將是下一個關鍵催化劑。對產業來說，先進製程產能持續供不應求。",
+        whyEn: "This is the most direct evidence that AI infrastructure investment remains white-hot. As the world's largest foundry, TSMC's revenue is essentially a thermometer for the AI industry. 35% YoY growth at this scale is almost absurd — signaling that AI chip orders from NVIDIA, Apple, AMD continue accelerating. Full Q1 earnings on 4/16 will be the next key catalyst. Advanced node capacity remains severely supply-constrained.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/10/tsmc-q1-record-revenue-ai-chip-demand-strong.html",
+        time: "10:00 TST",
+      },
+      {
+        title: "費城半導體指數創歷史新高：AI「工業化」推動矽晶片成全球最關鍵商品",
+        titleEn: "Philadelphia Semiconductor Index Hits All-Time High: AI 'Industrialization' Makes Silicon the World's Most Critical Commodity",
+        summary: "費半指數（SOX）在 4/10 收盤衝上歷史新高 8,926.08，NVIDIA 漲 1.8%、Broadcom 飆升 4.4%。市場認為 AI 已從「投機炒作期」正式進入「工業化階段」。2026 年的 AI 定義不再是聊天機器人，而是能自主執行複雜多步驟工作流程的 Agentic AI，需要大量即時推理算力。",
+        summaryEn: "The SOX surged to an all-time closing high of 8,926.08 on 4/10, with NVIDIA up 1.8% and Broadcom jumping 4.4%. The market now views AI as having shifted from 'speculative enthusiasm' to a robust 'industrialization phase.' 2026's AI is defined not by chatbots but by autonomous agents executing complex multi-step workflows — requiring massive real-time inference compute power.",
+        why: "這不是泡沫的訊號，而是 AI 正在從「概念驗證」轉向「大規模部署」的確認。Agentic AI 的推理需求從雲端延伸到邊緣裝置，推動晶片設計從通用 GPU 分化出專用 ASIC。Broadcom 與超大規模客戶的數十億美元客製 ASIC 協議就是明證。對整個產業來說，AI 半導體預估佔 2026 年全球晶片營收的 30%，是最主要成長引擎。",
+        whyEn: "This isn't a bubble signal — it's confirmation that AI is transitioning from 'proof of concept' to 'mass deployment.' Agentic AI inference demands extend from cloud to edge, driving chip design diversification from general GPUs to custom ASICs. Broadcom's multi-billion-dollar custom ASIC deal with a Tier-1 hyperscaler is proof. AI semiconductors are projected to account for ~30% of global chip revenue in 2026 — the primary growth engine.",
+        source: "MarketMinute",
+        url: "https://markets.financialcontent.com/stocks/article/marketminute-2026-4-10-silicon-peak-semiconductor-index-hits-record-high-as-ai-industrialization-drives-trillion-dollar-valuation",
+        time: "08:30 TST",
+      },
+      {
+        title: "Meta 發表 Muse Spark：Alexandr Wang 主導的首款 Muse 系列 AI 模型正式亮相",
+        titleEn: "Meta Debuts Muse Spark: First Major AI Model Under Alexandr Wang's Leadership",
+        summary: "Meta 發表 Muse Spark，這是 Alexandr Wang 加入九個月後、Meta Superintelligence Labs 推出的首款 Muse 系列模型。在 Artificial Analysis Intelligence Index 中排名第四（52 分），落後 Gemini 3.1 Pro Preview 和 GPT-5.4（57 分）以及 Claude Opus 4.6（53 分）。Meta 同時宣布 2026 年 AI 資本支出將達 1,150-1,350 億美元，幾乎是去年的兩倍。",
+        summaryEn: "Meta debuted Muse Spark — the first model from its new Muse series developed by Meta Superintelligence Labs under Alexandr Wang. It ranked 4th on the Artificial Analysis Intelligence Index (52), behind Gemini 3.1 Pro Preview and GPT-5.4 (both 57) and Claude Opus 4.6 (53). Meta also announced 2026 AI capex of $115-135B, nearly doubling last year.",
+        why: "Meta 的 AI 野心已經不是「追趕」，而是在砸錢建護城河。$115-135B 的資本支出是科技史上前所未見的規模，直接宣告 AI 軍備競賽已進入燒錢無上限的階段。Muse Spark 雖然初登場排名第四，但背後是 Meta 從社群平台轉型為 AI 基礎設施公司的戰略轉向。對開發者來說，這代表更多開源模型的可能性；對投資人來說，這是長期押注 vs 短期獲利的抉擇。",
+        whyEn: "Meta's AI ambition isn't 'catching up' anymore — it's building moats with unprecedented capital. $115-135B capex is historically unheard of, declaring the AI arms race has entered an unlimited-spending phase. While Muse Spark debuted 4th, it signals Meta's strategic pivot from social platform to AI infrastructure company. For developers, this means more open-source model possibilities; for investors, it's a long-term bet vs. short-term returns decision.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/08/meta-debuts-first-major-ai-model-since-14-billion-deal-to-bring-in-alexandr-wang.html",
+        time: "06:00 TST",
+      },
+      {
+        title: "DeepSeek V4 即將登場：1 兆參數開源模型跑在華為晶片上，挑戰西方封鎖",
+        titleEn: "DeepSeek V4 Imminent: 1T-Parameter Open-Source Model Running on Huawei Chips Challenges Western Sanctions",
+        summary: "DeepSeek 即將在四月下旬發布 V4——一個擁有 1 兆參數的 MoE 開源模型，但每次推理僅啟用約 370 億參數，實現「大模型知識、小模型速度」。路透社 4/4 確認 V4 將運行在華為 Ascend 950PR 晶片上。模型採 MIT 授權，任何人可下載、修改、部署。訓練成本估計僅 $520 萬。",
+        summaryEn: "DeepSeek is set to release V4 in late April — a 1T-parameter MoE open-source model that activates only ~37B parameters per inference, achieving 'big model knowledge, small model speed.' Reuters confirmed on 4/4 that V4 will run on Huawei Ascend 950PR chips. MIT-licensed for anyone to download, modify, deploy. Estimated training cost: just $5.2M.",
+        why: "這是中國 AI 自主化的里程碑。用華為晶片訓練出與西方前沿模型競爭的開源模型，直接挑戰美國出口管制的有效性。$520 萬的訓練成本 vs 西方動輒數億美元，暴露出「燒錢就是競爭力」邏輯的脆弱性。MIT 開源意味著全球開發者都能受益，也意味著 AI 能力的民主化正在加速。對西方科技公司來說，這是最大的競爭威脅之一。",
+        whyEn: "This is a milestone for China's AI self-sufficiency. Training a frontier-competitive open-source model on Huawei chips directly challenges the effectiveness of US export controls. $5.2M training cost vs. Western hundreds-of-millions exposes the fragility of 'spending equals competitiveness' logic. MIT licensing means global developers benefit, accelerating AI democratization. For Western tech companies, this is one of the biggest competitive threats.",
+        source: "Reuters / FindSkill.ai",
+        url: "https://findskill.ai/blog/deepseek-v4-release-date-specs/",
+        time: "02:00 TST",
+      },
+      {
+        title: "全球半導體營收預計 2026 年突破 1.3 兆美元：二十年來最快增速",
+        titleEn: "Global Semiconductor Revenue Projected to Surpass $1.3 Trillion in 2026: Fastest Growth in Two Decades",
+        summary: "分析報告指出全球半導體產業營收將在 2026 年突破 $1.3 兆，年增率達 64%，為二十多年來最快增速。AI 處理、資料中心基礎設施、記憶體價格上漲是三大推手。AI 半導體預計佔總營收約 30%，高效能 DRAM 價格預計飆漲 70-100%。",
+        summaryEn: "Analysis projects global semiconductor revenue to surpass $1.3 trillion in 2026, with 64% growth — the fastest in over two decades. AI processing, data center infrastructure, and rising memory prices are the three key drivers. AI semiconductors expected to account for ~30% of total revenue. High-performance DRAM prices projected to spike 70-100%.",
+        why: "這個數字代表 AI 不再只是科技業的故事——它正在重塑整個全球經濟。64% 的年增率在半導體這種成熟產業幾乎是不可能的，但 AI 做到了。記憶體價格飆漲意味著供應鏈瓶頸仍在，消費性電子產品可能面臨漲價壓力。對企業來說，IT 預算必須重新分配；對國家來說，半導體自主能力等於國家安全。",
+        whyEn: "This number means AI is no longer just a tech story — it's reshaping the entire global economy. 64% growth in a mature industry like semiconductors is almost impossible, but AI made it happen. Memory price spikes signal persistent supply bottlenecks, potentially driving consumer electronics price increases. For enterprises, IT budgets need reallocation; for nations, semiconductor sovereignty equals national security.",
+        source: "Yahoo Finance",
+        url: "https://finance.yahoo.com/sectors/technology/article/semiconductor-industry-revenue-to-hit-13-trillion-in-2026-as-memory-crunch-hits-consumers-151202545.html",
+        time: "00:15 TST",
+      },
+    ],
+    market: "台積電破紀錄、費半創新高、Meta 砸千億、DeepSeek 用華為晶片反擊、全球半導體營收衝 1.3 兆——五條主線匯聚成一個主題：AI 已全面進入「工業化」階段。不再是概念驗證，而是大規模部署。推理算力需求爆發推動晶片設計分化，Agentic AI 成為新一代算力需求引擎。地緣政治角力持續加劇，中國用開源 + 國產晶片走出第三條路。這不是泡沫，這是產業結構性轉型。",
+    marketEn: "TSMC breaks records, SOX hits all-time high, Meta commits $135B, DeepSeek fights back with Huawei chips, global semiconductor revenue surges to $1.3T — five storylines converge on one theme: AI has fully entered the 'industrialization' phase. No longer proof-of-concept, but mass deployment. Exploding inference demand drives chip design diversification, with Agentic AI as the next-gen compute demand engine. Geopolitical rivalry intensifies as China carves a third path with open-source + domestic chips. This isn't a bubble — it's structural industry transformation.",
+  },
+  {
     date: "2026-04-09",
     items: [
       {
