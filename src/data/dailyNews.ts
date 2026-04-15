@@ -38,6 +38,46 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-15",
+    items: [
+      {
+        title: "台積電 Q1 完整財報：$357 億美元創紀錄，毛利率 63-65% 史上最強前瞻",
+        titleEn: "TSMC Q1 Full Earnings: Record $35.7B Revenue, Historic 63-65% Gross Margin Guidance",
+        summary: "台積電發布 Q1 2026 完整財報，合併營收 NT$1,134.1 億（約 $35.71B），年增 35.1%，落在指引區間最高端。3 月單月年增 45.2% 為有史以來最強。台積電同步提供 Q1 毛利率指引 63-65%、營業利益率 54-56%，皆為史上最高前瞻水準。台北掛牌股價單日漲 2.3%，年初至今累計漲幅近 29%。",
+        summaryEn: "TSMC released its full Q1 2026 earnings: consolidated revenue of NT$1,134.1B (~$35.71B), up 35.1% YoY, landing at the top of its guidance range. March alone surged 45.2% YoY — the strongest single month on record. TSMC guided Q1 gross margin of 63-65% and operating margin of 54-56%, both all-time forward highs. Taipei-listed shares climbed 2.3%, bringing YTD gains to ~29%.",
+        why: "毛利率 63-65% 在晶圓代工業是天花板等級——意味著台積電的定價能力和 AI 晶片需求已強到沒有競爭對手能施壓。全球九成以上先進 AI 加速器都在這裡製造，這份財報本質上是「全球 AI 資本支出」的溫度計讀數。4/16 法說會將是短期最重要的催化劑：Q2 指引和 N2 產能利用率將決定下一個交易方向。對整個半導體供應鏈來說，這確認 AI 需求沒有放緩的跡象。",
+        whyEn: "Gross margin of 63-65% is ceiling-level for foundry — meaning TSMC's pricing power and AI chip demand are so strong no competitor can apply pressure. Over 90% of the world's advanced AI accelerators are made here, making this report effectively a live reading of 'global AI capex.' The 4/16 earnings call is the nearest-term key catalyst: Q2 guidance and N2 utilization will set the next trading direction. For the entire semiconductor supply chain, this confirms no sign of AI demand deceleration.",
+        source: "Yahoo Finance",
+        url: "https://finance.yahoo.com/markets/stocks/articles/tsmc-q1-2026-earnings-record-121456920.html",
+        time: "14:00 TST",
+      },
+      {
+        title: "Nature：頂尖 AI 代理複雜科學任務表現僅人類博士的一半",
+        titleEn: "Nature: Best AI Agents Perform Only Half as Well as PhD Scientists on Complex Tasks",
+        summary: "Nature 發表 Stanford 2026 AI Index 的延伸分析，揭露最強 AI 代理在複雜科學任務上的表現僅有具博士學位人類專家的一半。研究發現 AI 代理在自主化科學工作流程方面仍有明顯瓶頸，包括長期規劃、假設生成與實驗設計等維度，與當前業界對「AI 科學家」能力的普遍高估形成對比。",
+        summaryEn: "Nature published an extended analysis from Stanford's 2026 AI Index, revealing the best AI agents perform at only half the level of PhD expert humans on complex scientific tasks. AI agents showed clear bottlenecks in autonomous scientific workflows — including long-horizon planning, hypothesis generation, and experimental design — contrasting sharply with industry's widespread overestimation of 'AI scientist' capabilities.",
+        why: "這是對 AI 科學家炒作的冷水——但也是對市場預期的重要校正。當無數論文和新創都在宣稱「AI 將取代科學家」，Nature 和 Stanford 聯手說：還差得遠。這不是壞消息，這是現實的勝利。對 AI 基礎研究公司（DeepMind、Anthropic Research）來說，這指出下一個真正有難度的技術方向；對企業 AI 部署來說，這意味著「輔助科學家」而非「取代科學家」仍是正確框架；對投資人來說，這是 AI 估值過熱的警示。",
+        whyEn: "This is cold water on the 'AI scientist' hype — but also an important correction to market expectations. When countless papers and startups claim 'AI will replace scientists,' Nature and Stanford jointly say: not even close. This isn't bad news — it's reality winning. For AI basic research labs (DeepMind, Anthropic Research), it points to the next genuinely hard technical frontier; for enterprise AI deployment, it confirms 'augmenting scientists' not 'replacing them' is still the right frame; for investors, it's a valuation-overheat warning signal.",
+        source: "Nature",
+        url: "https://www.nature.com/articles/d41586-026-01199-z",
+        time: "10:00 TST",
+      },
+      {
+        title: "AI 股回調 9%：泡沫破裂還是 2026 年最佳買點？",
+        titleEn: "AI Stocks Down 9% YTD: Bubble Bursting or Best Buying Opportunity of 2026?",
+        summary: "Global X AI & Technology ETF 年初至今下跌近 9%，中東衝突、AI 基礎設施支出永續性疑慮、高估值等因素持續壓制板塊。Motley Fool 分析師指出，Micron（目標價 $600，當前約 $370，潛在漲幅 62%）和 Intel（目標價 $70，當前約 $50，潛在漲幅 35%）是最值得留意的回調買點。核心論點：AI 不是炒作，是在創造真實的企業財務回報。",
+        summaryEn: "The Global X AI & Technology ETF has shed ~9% YTD, pressured by Middle East conflict, doubts over AI infrastructure spending sustainability, and high valuations. Motley Fool analysts flagged Micron (target $600 vs. ~$370 current, 62% upside) and Intel (target $70 vs. ~$50 current, 35% upside) as top pullback buying opportunities. Core thesis: AI isn't hype — it's generating real, tangible corporate financial returns.",
+        why: "AI 股的 9% 回調創造了一個有趣的分歧：基本面（台積電破紀錄、CoreWeave $21B 合約）和股價走勢背離。這種背離通常有兩種結局：要麼基本面最終推動股價回升，要麼估值修正更深。Micron 的 62% 潛在漲幅暗示市場低估了 AI 記憶體需求週期；Intel 的 35% 則是在賭其 AI 晶片轉型成功。風險在於：如果 AI 資本支出開始收縮，當前所有的「買點」敘事都會失效。",
+        whyEn: "AI stocks' 9% pullback creates an interesting divergence: fundamentals (TSMC records, CoreWeave $21B deal) versus price action diverging. This type of divergence has two endings: either fundamentals eventually drive stocks back up, or valuation correction runs deeper. Micron's 62% potential upside implies the market is underestimating the AI memory demand cycle; Intel's 35% bets on its AI chip transformation succeeding. The risk: if AI capex starts contracting, every current 'buying opportunity' narrative breaks down.",
+        source: "The Motley Fool",
+        url: "https://www.fool.com/investing/2026/04/14/the-artificial-intelligence-ai-hype-is-fading-and/",
+        time: "08:00 TST",
+      },
+    ],
+    market: "台積電財報驗證 AI 需求火熱、Nature 揭 AI 代理能力被嚴重高估、AI 股同時回調 9%——三條線索呈現出 2026 年 AI 市場最核心的矛盾：基礎設施端（算力、晶圓）需求無懈可擊，但應用端（AI 取代人類）的期待嚴重超前現實，股市也在反映這個落差。台積電的毛利率天花板說明算力稀缺是真的；Nature 的研究說明 AI 能力邊界也是真的。投資人必須區分「AI 基礎設施牛市」和「AI 應用泡沫」，這是完全不同的兩個賭注。",
+    marketEn: "TSMC earnings validate scorching AI demand, Nature reveals AI agents severely overestimated, AI stocks simultaneously pull back 9% — three threads expose the central contradiction of the 2026 AI market: infrastructure-side (compute, foundry) demand is unimpeachable, but application-side expectations (AI replacing humans) are dangerously ahead of reality, and stocks are pricing in the gap. TSMC's ceiling-level margins confirm compute scarcity is real; Nature's research confirms AI capability limits are also real. Investors must distinguish 'AI infrastructure bull market' from 'AI application bubble' — they are completely different bets.",
+  },
+  {
     date: "2026-04-14",
     items: [
       {
