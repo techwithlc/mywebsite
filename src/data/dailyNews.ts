@@ -38,6 +38,75 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-17",
+    items: [
+      {
+        title: "Gallup：美國 50% 員工已在工作中使用 AI，每日使用率創歷史新高",
+        titleEn: "Gallup: 50% of US Employees Now Use AI at Work, Daily Usage Hits All-Time High",
+        summary: "Gallup 2026 年調查顯示美國員工 AI 職場使用率首次突破 50% 大關，每日或每週多次使用比例達 28%（歷史新高）。65% 的使用者對 AI 對生產力的影響感到正面。然而，AI 採用率高的公司員工更容易同時感受到招聘增加和裁員——AI 在組織內引發的結構性人力重組正在加速。",
+        summaryEn: "Gallup's 2026 survey shows US employee AI workplace usage crossed 50% for the first time, with daily or weekly usage at a record 28%. 65% of users feel positive about AI's impact on productivity. However, employees at AI-adopting organizations are more likely to experience both hiring increases AND layoffs simultaneously — structural workforce reorganization driven by AI is accelerating.",
+        why: "50% 是一個心理和統計上的里程碑——意味著 AI 已從「早採用者工具」變成「主流職場基礎設施」。同時出現招聘和裁員的矛盾現象揭露了一個關鍵真相：AI 不是單純「搶走工作」或「創造工作」，而是在重組工作的結構。技能匹配的人被拉進來，不匹配的人被淘汰出去。對企業來說，「怎麼讓員工用好 AI」比「要不要用 AI」更重要；對個人來說，AI 使用能力正在成為就業的門檻，不是加分項。",
+        whyEn: "50% is a psychological and statistical milestone — AI has shifted from 'early adopter tool' to 'mainstream workplace infrastructure.' The paradox of simultaneous hiring and layoffs reveals a key truth: AI isn't simply 'taking jobs' or 'creating jobs' — it's restructuring the composition of work. Skill-matched workers are pulled in, mismatched workers are pushed out. For enterprises, 'how to help employees use AI well' matters more than 'whether to use AI'; for individuals, AI proficiency is becoming an employment threshold, not a bonus.",
+        source: "Gallup",
+        url: "https://www.gallup.com/workplace/704225/rising-adoption-spurs-workforce-changes.aspx",
+        time: "09:00 TST",
+      },
+      {
+        title: "阿里巴巴發布 HappyOyster：3D 開放世界模型，AI 競技場從影片生成升級到「造世界」",
+        titleEn: "Alibaba Releases HappyOyster: 3D Open-World Model — AI Arena Escalates from Video to 'World Generation'",
+        summary: "阿里巴巴旗下 ATH 創新部門在 4/16 發布 HappyOyster，一個支援即時 3D 世界創建與互動的開放世界模型，可生成遊戲、影視所需的三維環境和互動影像，同日騰訊也推出類似的世界模型產品。HappyOyster 採原生多模態架構，支援音視頻聯合生成，目前為限量早期存取。",
+        summaryEn: "Alibaba's ATH Innovation Division launched HappyOyster on 4/16 — an open-world model supporting real-time 3D world creation and interaction for gaming and film, generating 3D environments and interactive video. On the same day, Tencent announced a similar world model. HappyOyster uses a natively multimodal architecture with joint audio-video generation, currently in limited early access.",
+        why: "AI 戰場的升維——從「生成圖片」→「生成影片」→「生成可互動的 3D 世界」。阿里和騰訊在同一天推出同類產品，說明這是中國科技巨頭的下一個共識賽道。世界模型（World Model）的核心價值在於：它不只生成內容，而是建立一個有物理規律、可持續互動的虛擬環境，這是 AI 進入遊戲、機器人、自動駕駛等具身 AI 領域的基礎技術。對 Unity、Unreal 等遊戲引擎公司來說，這是最直接的顛覆性威脅。",
+        whyEn: "AI battlefield escalation — from 'image generation' → 'video generation' → 'generating interactive 3D worlds.' Alibaba and Tencent launching similar products on the same day signals this is the next consensus battleground for Chinese tech giants. World Model's core value: it doesn't just generate content, it creates a virtual environment with physical laws that supports continuous interaction — the foundational technology for AI entering gaming, robotics, and autonomous driving. For Unity, Unreal, and other game engine companies, this is the most direct disruptive threat.",
+        source: "Bloomberg",
+        url: "https://www.bloomberg.com/news/articles/2026-04-16/alibaba-releases-new-ai-model-for-gaming-development",
+        time: "07:00 TST",
+      },
+    ],
+    market: "Gallup 確認 AI 職場使用跨越 50% 里程碑、阿里騰訊同日發布世界模型——兩條線索指向 AI 滲透的兩個維度：「深度」（職場使用已是主流）和「廣度」（AI 能力邊界從內容生成擴展到世界建構）。AI 已不是新技術，而是正在重組社會和產業結構的基礎設施。周五的市場主旋律：能力在加速，但人力重組的陣痛也在加速。",
+    marketEn: "Gallup confirms AI workplace usage crosses 50% milestone, Alibaba and Tencent both launch world models on same day — two threads point to AI penetration's two dimensions: 'depth' (workplace use is now mainstream) and 'breadth' (AI capability frontier expands from content generation to world-building). AI is no longer a new technology — it's infrastructure reorganizing society and industry structure. Friday's market theme: capabilities accelerating, but workforce restructuring pain is accelerating equally.",
+  },
+  {
+    date: "2026-04-16",
+    items: [
+      {
+        title: "台積電 Q1 法說會：毛利率 66.2% 超預期，全年營收成長上調至 30%+",
+        titleEn: "TSMC Q1 Earnings Call: Gross Margin 66.2% Beats Guidance, Full-Year Revenue Growth Upgraded to 30%+",
+        summary: "台積電舉行 Q1 2026 法說會，公布實際毛利率 66.2%、營業利益率 58.1%，雙雙超越 63-65% 的指引上限。全年營收成長展望從「接近 30%」上調為「超過 30%」，資本支出預算維持 $520-560 億美元但傾向高端。3nm 製程佔晶圓營收 25%，AI 需求被形容為「極度強勁」。美股 ADR 盤前漲逾 2%。",
+        summaryEn: "TSMC held its Q1 2026 earnings call, reporting actual gross margin of 66.2% and operating margin of 58.1% — both exceeding the 63-65% guided range. Full-year revenue growth outlook upgraded from 'close to 30%' to 'above 30%,' with capex budget of $52-56B skewing toward the high end. 3nm accounted for 25% of wafer revenue; AI demand described as 'extremely robust.' US ADR rose over 2% in pre-market.",
+        why: "66.2% 毛利率超越自身指引是關鍵訊號——台積電連自己都沒預測到需求有這麼強。「超過 30%」的全年成長指引意味著下半年仍有加速空間，這與市場擔憂「AI 資本支出將在 H2 放緩」的論點直接矛盾。3nm 佔 25% 是 AI 晶片結構性需求的鐵證——這些都是 NVIDIA H-series 和 Apple 的高端訂單。對整個 AI 供應鏈來說，這是 2026 年最重要的財報之一：台積電說沒問題，就是沒問題。",
+        whyEn: "66.2% gross margin exceeding its own guidance is the key signal — TSMC itself didn't predict demand this strong. 'Above 30%' full-year guidance directly contradicts market fears that 'AI capex will slow in H2.' 3nm at 25% is iron-clad evidence of structural AI chip demand — these are NVIDIA H-series and Apple premium orders. For the entire AI supply chain, this is one of 2026's most important earnings: when TSMC says it's fine, it's fine.",
+        source: "Seeking Alpha",
+        url: "https://seekingalpha.com/article/4891129-taiwan-semiconductor-manufacturing-company-limited-tsm-q1-2026-earnings-call-transcript",
+        time: "14:30 TST",
+      },
+      {
+        title: "阿里巴巴 HappyHorse 匿名登頂全球影片 AI 排行榜，揭曉真實身分",
+        titleEn: "Alibaba's Mystery 'HappyHorse' Tops Global Video AI Leaderboard — Identity Revealed",
+        summary: "CNBC 揭露，此前以匿名方式在全球影片 AI 排行榜登頂的「HappyHorse」模型，正是阿里巴巴開發的影片生成模型。這是繼 DeepSeek 之後，中國 AI 實驗室再次以「隱身」方式先佔領排行榜、再公開身分的策略，引發業界對中國 AI 能力被系統性低估的討論。",
+        summaryEn: "CNBC revealed that 'HappyHorse,' an anonymous model that topped global video AI leaderboards, is Alibaba's video generation model. Following DeepSeek's similar strategy, this marks another case of a Chinese AI lab 'going incognito' to top benchmarks before revealing identity — sparking industry debate about systematic underestimation of Chinese AI capabilities.",
+        why: "這是中國 AI 策略的教科書案例：先用匿名模型測試市場反應、驗證能力，再用品牌公開收割。DeepSeek 用同樣手法震驚了整個西方 AI 圈。對美國和歐洲 AI 公司來說，這意味著競爭對手的真實能力可能一直被低估；對監管機構來說，這讓 AI 能力追蹤和出口管制更難實施；對投資人來說，這是中國 AI 公司「技術儲備深度超預期」的系統性訊號。",
+        whyEn: "This is a textbook Chinese AI strategy: use anonymous models to test market reactions and validate capabilities, then publicly claim credit with branding. DeepSeek used the exact same playbook and shocked the Western AI world. For US and European AI companies, this means competitors' true capabilities may be consistently underestimated; for regulators, it makes AI capability tracking and export controls harder to implement; for investors, it's a systemic signal of Chinese AI companies' 'deeper-than-expected tech reserves.'",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/10/alibaba-happyhorse-ai-video-model-benchmark-reveal.html",
+        time: "10:00 TST",
+      },
+      {
+        title: "AI 攻擊鏈升級：多模型協同自動化滲透測試成為新威脅",
+        titleEn: "AI Attack Chains Escalate: Multi-Model Coordinated Automated Penetration Testing Emerges as New Threat",
+        summary: "資安分析指出，AI 攻擊者已從「單一模型執行攻擊」升級為「多個 AI 模型協同作業」的攻擊鏈——一個模型偵察、一個模型生成攻擊代碼、一個模型執行滲透、一個模型清除痕跡。這種攻擊鏈的速度和精確度已遠超人類紅隊能力，且成本持續下降。Anthropic Project Glasswing 發現的漏洞數量印證了 AI 在攻防兩端的能力同步提升。",
+        summaryEn: "Security analysis reveals AI attackers have upgraded from 'single model executing attacks' to 'multi-AI-model coordinated attack chains' — one model for reconnaissance, one for generating attack code, one for penetration, one for covering tracks. These attack chains' speed and precision already far exceed human red team capabilities, with costs continuing to fall. Anthropic's Project Glasswing zero-day findings confirm AI capabilities on offense and defense are rising in tandem.",
+        why: "這是 AI 安全威脅從「理論討論」進入「實際作戰」的轉折點。多模型協同攻擊的出現意味著傳統的防禦週期（發現漏洞→打補丁→測試→上線）已經太慢——AI 攻擊鏈可以在幾分鐘內完成人類需要幾週的滲透測試。對企業資安來說，唯一的對抗方式是「以 AI 防 AI」；對政府和關鍵基礎設施來說，這是等級提升的國家安全議題；對 AI 安全新創來說，這是市場爆發的起點。",
+        whyEn: "This marks AI security threats transitioning from 'theoretical discussion' to 'actual combat.' Multi-model coordinated attacks mean traditional defense cycles (discover vulnerability→patch→test→deploy) are already too slow — AI attack chains can complete in minutes what human red teams need weeks for. For enterprise security, the only countermeasure is 'AI defending against AI'; for governments and critical infrastructure, this is a national security escalation; for AI security startups, this is the market explosion starting point.",
+        source: "JDSupra",
+        url: "https://www.jdsupra.com/legalnews/ai-today-in-5-april-16-2026-the-ai-at-23885/",
+        time: "08:00 TST",
+      },
+    ],
+    market: "台積電法說會超預期、阿里 HappyHorse 揭曉身分、AI 攻擊鏈升級——三條線索描繪 2026 年 AI 的三個面向：算力端持續超越預期（台積電毛利率 66.2%）、能力端被系統性低估（中國 AI 隱身策略）、風險端正在質變（多模型協同攻擊）。AI 的基礎設施牛市在財報季被再次確認，但競爭格局的複雜度和安全威脅的等級都在同步升維。這不是平靜的繁榮，這是高速行進中的產業重組。",
+    marketEn: "TSMC earnings beat, Alibaba's HappyHorse identity revealed, AI attack chains escalate — three threads paint AI's three faces in 2026: compute-side continues exceeding expectations (TSMC 66.2% margin), capability-side systematically underestimated (China's stealth AI strategy), risk-side undergoing qualitative change (multi-model coordinated attacks). The AI infrastructure bull market is reconfirmed in earnings season, but competitive complexity and security threat levels are simultaneously escalating. This isn't calm prosperity — it's high-speed industrial restructuring in motion.",
+  },
+  {
     date: "2026-04-15",
     items: [
       {
