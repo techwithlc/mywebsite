@@ -38,6 +38,64 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-04-21",
+    items: [
+      {
+        title: "Stanford AI Index 2026：中美 AI 差距縮至 2.7%，美國花費中國 23 倍研發費用",
+        titleEn: "Stanford AI Index 2026: US-China AI Gap Collapses to 2.7%, Despite US Spending 23x More",
+        summary: "Stanford HAI 發布年度 AI Index 報告。重點數據：美中頂尖模型性能差距從 2023 年的 17.5 個百分點急縮至 2.7%；美國私人 AI 投資（$2,859 億）是中國的 23 倍，但中國效率遠超預期。生成式 AI 三年內達到全球 53% 採用率，超越 PC 和網際網路的普及速度。模型透明度指數從 58 降至 40，業界在安全性和公平性披露上大幅倒退。",
+        summaryEn: "Stanford HAI released its annual AI Index report. Key data: US-China top model performance gap collapsed from 17.5 percentage points in 2023 to just 2.7%; US private AI investment ($285.9B) is 23x China's, yet China's efficiency far exceeds expectations. Generative AI hit 53% global adoption in three years — faster than PCs or the internet. Model Transparency Index dropped from 58 to 40, with industry significantly regressing on safety and fairness disclosures.",
+        why: "兩個數字最值得關注：「2.7%」和「23x」。美國花了 23 倍的錢，換來的技術領先只剩 2.7%——這意味著中國的 AI 研發效率正在快速逼近，出口管制對縮小差距的效果有限。同時，模型透明度指數從 58 跌到 40，說明隨著競爭加劇，業界在安全性披露上反而在退步——能力在加速，但護欄在弱化。這份報告是目前最全面的年度 AI 現況快照，直接影響政策、投資和監管方向。",
+        whyEn: "Two numbers matter most: '2.7%' and '23x.' The US spent 23x more money for only 2.7% technical lead — meaning China's AI R&D efficiency is rapidly converging, and export controls have limited effectiveness at maintaining the gap. Meanwhile, the Model Transparency Index dropped from 58 to 40: as competition intensifies, industry is actually regressing on safety disclosures — capabilities accelerating, guardrails weakening. This report is the most comprehensive annual AI state snapshot and directly shapes policy, investment, and regulatory directions.",
+        source: "Stanford HAI",
+        url: "https://hai.stanford.edu/ai-index/2026-ai-index-report",
+        time: "09:00 TST",
+      },
+      {
+        title: "Anthropic 宣布年化營收突破 $300 億，企業和消費者需求雙驅動",
+        titleEn: "Anthropic Announces $30B Annualized Revenue, Driven by Enterprise and Consumer Demand",
+        summary: "伴隨 Amazon 追加投資公告，Anthropic 披露年化營收已突破 $300 億美元，企業級 Claude 部署和消費者使用量「急劇上升」導致基礎設施出現「不可避免的壓力」，影響服務可靠性。公司表示新的 AWS 協議將快速擴充容量，年底前 Trainium2 和 Trainium3 晶片總容量將達近 1 GW。",
+        summaryEn: "Alongside Amazon's additional investment announcement, Anthropic disclosed annualized revenue has surpassed $30 billion, with enterprise Claude deployments and a 'sharp rise' in consumer usage creating 'inevitable strain' on infrastructure affecting service reliability. The company says the new AWS deal will rapidly expand capacity, with Trainium2 and Trainium3 chips reaching nearly 1GW total capacity by year-end.",
+        why: "$300 億年化營收意味著 Anthropic 從「燒錢的 AI 研究機構」正式轉型為「真實的科技巨頭」。更值得注意的是服務可靠性問題——高速成長反而暴露了基礎設施的脆弱。對於企業客戶來說，這是選型的隱性風險；對 AWS 來說，這是最好的廣告——Anthropic 需要你，而且需要得很緊迫。這筆投資本質上是把 Anthropic 的命運更深度地綁定在 AWS 生態上。",
+        whyEn: "$30B annualized revenue marks Anthropic's official transition from 'money-burning AI research lab' to 'genuine tech giant.' More notable is the reliability issue — hyper-growth exposed infrastructure fragility. For enterprise customers, this is hidden selection risk; for AWS, it's the best advertisement — Anthropic needs you, urgently. This investment fundamentally ties Anthropic's fate deeper into the AWS ecosystem.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/20/amazon-invest-up-to-25-billion-in-anthropic-part-of-ai-infrastructure.html",
+        time: "08:00 TST",
+      },
+    ],
+    market: "Stanford AI Index 2026 的發布和 Anthropic 的亮眼營收數字定調了這週的主旋律：AI 能力差距比所有人想象的更快縮小（中美只差 2.7%），而 AI 商業化正在高速落地（Anthropic $300 億年化營收）。能力在普及，錢在流動，但透明度在下降——這是 AI 業界同時加速的三條線。",
+    marketEn: "The Stanford AI Index 2026 release and Anthropic's impressive revenue numbers set this week's theme: AI capability gaps are closing faster than anyone imagined (US-China at 2.7%), while AI commercialization is landing at speed (Anthropic's $30B ARR). Capabilities spreading, money flowing, but transparency declining — three simultaneously accelerating trends in the AI industry.",
+  },
+  {
+    date: "2026-04-20",
+    items: [
+      {
+        title: "Amazon 追加投資 Anthropic 最高 $250 億，綁定 $1,000 億 AWS 十年採購協議",
+        titleEn: "Amazon Invests Up to $25B More in Anthropic, Tied to $100B AWS 10-Year Procurement Deal",
+        summary: "Amazon 宣布對 Anthropic 追加最高 $250 億美元投資：$50 億立即到位（按最新 $3,800 億估值），另外 $200 億綁定商業里程碑。作為對價，Anthropic 承諾未來十年在 AWS 上消費超過 $1,000 億，並使用 Amazon 自研 Trainium 晶片訓練 Claude。這是 Amazon 繼兩個月前承諾投資 OpenAI $500 億之後的第二場押注，美國雲端三巨頭在 AI 基礎設施賽道的卡位戰全面白熱化。",
+        summaryEn: "Amazon announced up to $25B additional investment in Anthropic: $5B immediately (at the latest $380B valuation), another $20B tied to commercial milestones. In return, Anthropic committed to spending over $100B on AWS over the next decade and using Amazon's proprietary Trainium chips to train Claude. This follows Amazon's $50B OpenAI commitment two months ago — the US cloud giants' battle for AI infrastructure positioning has fully intensified.",
+        why: "這筆交易的本質不是投資，而是雲端戰爭的新前線。Amazon 同時押注 OpenAI（$500 億）和 Anthropic（$250 億），不是因為它押寶哪個模型會贏，而是確保無論誰贏，算力都跑在 AWS 上。$1,000 億的十年採購協議讓 Anthropic 等同於 AWS 的長期錨定客戶——這是平台鎖定的最高形式。對 Google Cloud 和 Azure 來說，這是壓力；對 Anthropic 來說，這是安全網，也是枷鎖。",
+        whyEn: "This deal's essence isn't investment — it's a new front in the cloud wars. Amazon is simultaneously betting on OpenAI ($50B) and Anthropic ($25B), not because it's betting on which model wins, but ensuring that whoever wins, the compute runs on AWS. The $100B 10-year procurement deal makes Anthropic effectively AWS's long-term anchor client — the highest form of platform lock-in. For Google Cloud and Azure, this is pressure; for Anthropic, it's a safety net and a golden handcuff.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/04/20/amazon-invest-up-to-25-billion-in-anthropic-part-of-ai-infrastructure.html",
+        time: "10:00 TST",
+      },
+      {
+        title: "Stanford 2026 AI Index 預發布：生成式 AI 三年達 53% 全球採用率，超越 PC 和網際網路",
+        titleEn: "Stanford 2026 AI Index Pre-Release: Generative AI Hits 53% Global Adoption in 3 Years, Surpassing PC and Internet",
+        summary: "Stanford HAI 2026 AI Index 報告（4/20 預覽版）顯示：生成式 AI 從推出到 53% 全球人口採用只花了三年，遠快於個人電腦（約 20 年）和網際網路（約 10 年）。美國消費者使用生成式 AI 工具的年化價值已達 $1,720 億。59% 的人對 AI 感到樂觀（較去年上升 7%），但同時 52% 的人仍感到擔憂。",
+        summaryEn: "Stanford HAI 2026 AI Index (April 20 preview) shows generative AI reached 53% global population adoption in just three years — far faster than personal computers (~20 years) or the internet (~10 years). The annualized value of generative AI tools to US consumers reached $172B. 59% of people feel optimistic about AI (up 7% YoY), while 52% remain nervous.",
+        why: "「三年達 53%」是人類科技史上最快的大規模普及紀錄。這不只是數字，它意味著 AI 已跨越了「主流採用」的臨界點，進入自我強化的飛輪——越多人用，越多內容產生，越多人被吸引進來。同時 59% 樂觀、52% 擔憂的共存，揭示了一個心理現實：大多數人對 AI 的態度是「矛盾接受」，而非非此即彼。這對 AI 產品設計、政策溝通都有直接意義。",
+        whyEn: "' 53% adoption in three years' is the fastest large-scale technology adoption record in human history. This isn't just a number — it means AI has crossed the mainstream adoption tipping point into a self-reinforcing flywheel: more users → more content generated → more people attracted in. Meanwhile, 59% optimistic and 52% nervous coexisting reveals a psychological reality: most people's AI attitude is 'ambivalent acceptance,' not binary. This has direct implications for AI product design and policy communication.",
+        source: "Stanford HAI",
+        url: "https://hai.stanford.edu/ai-index/2026-ai-index-report",
+        time: "08:00 TST",
+      },
+    ],
+    market: "Amazon $250 億押注 Anthropic、Stanford AI Index 預告生成式 AI 已超過 53% 全球採用率——這兩則新聞在同一天出現不是巧合：資本在加速流入，用戶在加速採用，AI 基礎設施的戰略卡位正進入最後的視窗期。雲端巨頭知道這個市場的勝負在未來 12-18 個月定型，所以現在每一筆投資都是在搶奪那個定型的結果。",
+    marketEn: "Amazon's $25B bet on Anthropic and Stanford AI Index previewing 53%+ global adoption on the same day is no coincidence: capital is accelerating in, users are accelerating adoption, and the strategic positioning battle for AI infrastructure is entering its final window. Cloud giants know this market's outcome will crystallize in the next 12-18 months — every investment now is racing to shape that crystallization.",
+  },
+  {
     date: "2026-04-17",
     items: [
       {
