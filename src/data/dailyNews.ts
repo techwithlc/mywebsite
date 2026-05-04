@@ -38,6 +38,57 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-05-04",
+    items: [
+      {
+        title: "五角大廈與七大科技巨頭簽署 AI 軍事合約，Anthropic 被正式列為供應鏈風險",
+        titleEn: "Pentagon Signs AI Deals With 7 Tech Giants; Anthropic Formally Labeled Supply-Chain Risk",
+        summary: "美國國防部與 OpenAI、Google、Microsoft、Amazon、Oracle、Nvidia、SpaceX 及 Reflection AI 簽署 AI 協議，允許這些公司 AI 模型部署於機密軍事網路。Anthropic 被完全排除，國防部長 Pete Hegseth 直接稱 Anthropic CEO Dario Amodei 為「意識形態狂人」，認定 Anthropic 為「供應鏈風險」。同日超過 580 名 Google DeepMind 員工聯署公開信反對，但未能改變結果。",
+        summaryEn: "The DoD signed AI agreements with OpenAI, Google, Microsoft, Amazon, Oracle, Nvidia, SpaceX, and Reflection AI to deploy their models on classified military networks. Anthropic is completely excluded; Defense Secretary Pete Hegseth called Anthropic CEO Dario Amodei an 'ideological zealot' and designated Anthropic a 'supply-chain risk.' Over 580 Google DeepMind employees signed a protest letter the same day, to no effect.",
+        why: "這是史上規模最大的政府 AI 採購行動，同時也是 AI 倫理護欄首次被「供應鏈風險」標籤直接懲罰。Anthropic 因為設立安全邊界而被排除出軍事市場，而配合度高的廠商拿走所有訂單——這個訊號對未來所有 AI 公司的產品決策影響深遠。員工反彈力道也從 2018 年的 4,000 人（成功喊停）跌到今天的 580 人（毫無影響），說明科技公司倫理話語權已大幅衰退。",
+        whyEn: "This is the largest government AI procurement action in history, and the first time AI safety guardrails were directly punished via a 'supply-chain risk' label. Anthropic was excluded from the military market for maintaining safety limits, while compliant vendors captured all contracts — a signal with deep implications for every AI company's future product decisions. Employee pushback also dropped from 4,000 (successful in 2018) to 580 (zero impact today), revealing a dramatic erosion of tech worker ethical leverage.",
+        source: "gHacks / Fortune",
+        url: "https://www.ghacks.net/2026/05/04/pentagon-signs-ai-deals-with-openai-google-microsoft-nvidia-and-others-cutting-out-anthropic/",
+        time: "09:00 TST",
+      },
+      {
+        title: "Claude Mythos Preview 首通 32 步網路攻擊測試，AI 攻擊能力每四個月翻倍",
+        titleEn: "Claude Mythos Preview First AI to Pass 32-Step Cyberattack Simulation; Frontier Attack Capability Doubling Every 4 Months",
+        summary: "Anthropic 的 Claude Mythos Preview 成為首個完整通過 32 步端對端網路攻擊模擬的 AI 模型，OpenAI GPT-5.5 在三週後達成相同結果。英國 AI 安全研究院估計，前沿模型的網路攻擊能力每四個月翻倍一次，這是迄今最具量化性的 AI 攻擊能力加速曲線。",
+        summaryEn: "Anthropic's Claude Mythos Preview became the first AI to fully pass a 32-step end-to-end cyberattack simulation; OpenAI's GPT-5.5 matched it three weeks later. The UK AI Safety Institute estimates frontier model cyber-offensive capability is doubling every four months — the most quantified acceleration curve for AI attack capability to date.",
+        why: "「每四個月翻倍」這個數字讓資安業界的防禦規劃失去基準——你剛部署好的防禦方案，四個月後可能已經落後一個世代。AI 攻擊能力加速和 AI 安全能力加速之間的競賽，才是接下來十年最重要的技術賽局。對資安從業者的實際影響：紅隊測試的頻率要大幅提升，AI 輔助攻擊已從假設題變成當前題。",
+        whyEn: "The '4-month doubling' figure invalidates security planning baselines — defenses deployed today may already be a generation behind in four months. The race between AI offensive capability acceleration and AI defensive capability acceleration is the most critical tech contest of the next decade. Practical impact on security practitioners: red-team frequency must sharply increase; AI-assisted attacks have shifted from hypothetical to immediate.",
+        source: "LLM Stats / UK AI Safety Institute",
+        url: "https://llm-stats.com/ai-news",
+        time: "14:00 TST",
+      },
+      {
+        title: "四款中國開源 Coding 模型同期發布，成本不到 Claude Opus 三分之一",
+        titleEn: "Four Chinese Open-Source Coding Models Released Simultaneously, Cost Under One-Third of Claude Opus",
+        summary: "中國四家 AI 實驗室密集發布開源 coding 模型：Z.ai 的 GLM-5.1、MiniMax M2.7、Moonshot Kimi K2.6、DeepSeek V4。四款模型推論成本均低於 Claude Opus 4.7 的三分之一，DeepSeek V4 在數學與 coding benchmark 擊敗所有西方開源模型。",
+        summaryEn: "Four Chinese AI labs simultaneously released open-source coding models: Z.ai's GLM-5.1, MiniMax M2.7, Moonshot Kimi K2.6, and DeepSeek V4. All four have inference costs under one-third of Claude Opus 4.7; DeepSeek V4 beats all Western open-source models on math and coding benchmarks.",
+        why: "中國開源 AI 已形成規模效應：不是單點突破，而是多隊同步競爭。這種「集體發布」的節奏說明整個生態的成熟度在快速提升。對西方廠商而言，最大威脅不是某個模型的性能，而是整體成本壓力——當同等能力的模型成本只有三分之一，API 定價策略需要全面重估。",
+        whyEn: "Chinese open-source AI has reached scale: not a single breakthrough but multiple teams competing simultaneously. This 'collective release' cadence signals rapid ecosystem maturity. For Western vendors, the biggest threat isn't any single model's performance — it's the overall cost pressure. When equivalent-capability models cost one-third as much, API pricing strategies need complete reassessment.",
+        source: "LLM Stats",
+        url: "https://llm-stats.com/llm-updates",
+        time: "16:00 TST",
+      },
+      {
+        title: "Anthropic Q1 2026 LLM 營收全球第一：每用戶收入是 OpenAI 的 7 倍",
+        titleEn: "Anthropic Tops Global LLM Revenue in Q1 2026: Revenue Per User 7x OpenAI",
+        summary: "Counterpoint Research 數據：Anthropic 在 Q1 2026 以 31.4% 市佔率成為全球 LLM 營收第一，月活用戶約 1.34 億（vs. OpenAI 的 9 億），但每用戶平均營收達 $16.20，是 OpenAI $2.20 的 7.4 倍，年化營收接近 $19B。",
+        summaryEn: "Counterpoint Research data: Anthropic topped global LLM revenue in Q1 2026 with 31.4% market share, ~134M monthly active users (vs. OpenAI's 900M), but average revenue per user of $16.20 — 7.4x OpenAI's $2.20. Annualized revenue approaching $19B.",
+        why: "這是商業模式分化的最佳案例：OpenAI 靠走量、消費者市場；Anthropic 靠高客單價企業客戶。在被五角大廈排除的同一週，Anthropic 卻用企業市場數據證明自己的商業韌性。這個對比值得深思：倫理護欄讓 Anthropic 失去了軍事合約，但或許也正是這個定位吸引了高付費的企業客戶。",
+        whyEn: "This is the best case study of business model divergence: OpenAI on volume and consumer market; Anthropic on high-value enterprise customers. In the same week it was excluded from Pentagon deals, Anthropic proved its commercial resilience through enterprise data. The contrast is worth noting: safety guardrails cost Anthropic military contracts, but may be the exact positioning that attracts high-paying enterprise clients.",
+        source: "The Register / Counterpoint Research",
+        url: "https://www.theregister.com/2026/04/30/openai_anthropic_top_lines_research_counterpoint/",
+        time: "18:00 TST",
+      },
+    ],
+    market: "5/4 的核心主題是 AI 軍事化加速 vs. 商業模式分化。五角大廈掃貨行動把市場格局畫清楚了：配合者拿合約，Anthropic 拿企業客戶但丟軍事市場。與此同時，中國四款 coding 模型同步上線，成本戰全面升溫。AI 攻擊能力每四個月翻倍的數據，則提醒所有人：這場遊戲的速度已經超出人類決策的舒適圈。",
+    marketEn: "May 4's core theme: accelerating AI militarization vs. business model divergence. The Pentagon sweep clarified market structure: compliant vendors get contracts, Anthropic gets enterprise clients but loses military market. Meanwhile, four Chinese coding models launched simultaneously, intensifying cost-war pressure. The 4-month AI attack capability doubling data reminds everyone: this game's speed has exceeded human decision-making comfort zones.",
+  },
+  {
     date: "2026-04-29",
     items: [
       {
