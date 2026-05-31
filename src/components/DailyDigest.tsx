@@ -63,6 +63,61 @@ const t = {
 function DigestContent({ digest, language }: { digest: DailyDigestType; language: 'en' | 'zh' }) {
   return (
     <div className="space-y-3">
+      {digest.eventBanner && (
+        <div
+          className="rounded-lg overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #0d0d0b 0%, #0f1a08 100%)', border: '1px solid rgba(118,185,0,0.35)' }}
+        >
+          <div
+            className="flex items-center justify-between px-3 py-2.5"
+            style={{ borderBottom: '1px solid rgba(118,185,0,0.2)' }}
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1.5">
+                <div className="w-[3px] h-5 rounded-full" style={{ background: '#76b900' }} />
+                <span className="font-black text-sm tracking-[0.18em] uppercase" style={{ color: '#76b900' }}>
+                  {digest.eventBanner.logoText}
+                </span>
+              </div>
+              <span className="text-[10px] font-medium tracking-wider text-gray-500 uppercase">
+                {language === 'en' ? digest.eventBanner.dateRangeEn : digest.eventBanner.dateRange}
+              </span>
+            </div>
+            <a
+              href={digest.eventBanner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] flex items-center gap-1 hover:underline"
+              style={{ color: '#76b900' }}
+            >
+              {language === 'en' ? 'Official Site' : '官網'}
+              <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+          </div>
+          <div className="px-3 pt-2.5 pb-3">
+            <p className="text-sm font-bold text-white mb-0.5">
+              {language === 'en' ? (digest.eventBanner.titleEn ?? digest.eventBanner.title) : digest.eventBanner.title}
+            </p>
+            <p className="text-xs text-gray-500 mb-2.5">
+              {language === 'en' ? (digest.eventBanner.subtitleEn ?? digest.eventBanner.subtitle) : digest.eventBanner.subtitle}
+            </p>
+            <ul className="space-y-1.5">
+              {(language === 'en'
+                ? (digest.eventBanner.bulletsEn ?? digest.eventBanner.bullets)
+                : digest.eventBanner.bullets
+              ).map((bullet, k) => (
+                <li key={k} className="flex items-start gap-2 text-[11px] text-gray-400">
+                  <span
+                    className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-1"
+                    style={{ background: '#76b900' }}
+                  />
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
       <ol className="space-y-3">
         {digest.items.map((item, j) => (
           <li key={j} className="group flex items-start gap-3">

@@ -27,16 +27,351 @@ export interface Feature {
   items: FeatureItem[];
 }
 
+export interface EventBanner {
+  logoText: string;
+  title: string;
+  titleEn?: string;
+  subtitle: string;
+  subtitleEn?: string;
+  dateRange: string;
+  dateRangeEn?: string;
+  bullets: string[];
+  bulletsEn?: string[];
+  url: string;
+}
+
 export interface DailyDigest {
   date: string; // ISO "2026-03-12"
   items: NewsItem[];
   market?: string;
   marketEn?: string;
   feature?: Feature;
+  eventBanner?: EventBanner;
 }
 
 // Newest first.
 const digests: DailyDigest[] = [
+  {
+    date: "2026-06-01",
+    eventBanner: {
+      logoText: "GTC TAIPEI",
+      title: "NVIDIA GTC Taipei × COMPUTEX 2026",
+      titleEn: "NVIDIA GTC Taipei × COMPUTEX 2026",
+      subtitle: "Jensen Huang 親臨台北，台灣科技業年度最重要一週",
+      subtitleEn: "Jensen Huang in Taipei — the most important week for Taiwan's tech industry",
+      dateRange: "6/1–6/5 ｜ 台北",
+      dateRangeEn: "June 1–5 ｜ Taipei, Taiwan",
+      bullets: [
+        "6/1 Jensen Huang 主題演講 — 台北音樂中心上午 11:00 TST",
+        "Vera Rubin：「台灣有史以來最大產品發布」，150 家台灣供應鏈夥伴參與",
+        "NVIDIA N1X：與 MediaTek 聯合開發的 ARM 架構 Windows 筆電晶片首次亮相",
+        "COMPUTEX 6/2–6/5：Jensen Huang、Lisa Su 等全球 CEO 齊聚台北南港",
+        "NVIDIA 今年台灣採購額突破 1,000 億美元，Constellation 園區動工",
+      ],
+      bulletsEn: [
+        "6/1 Jensen Huang Keynote — Taipei Music Center, 11:00 AM TST",
+        "Vera Rubin: 'largest product launch probably in history of Taiwan,' 150 Taiwan ecosystem partners",
+        "NVIDIA N1X: first reveal of ARM-based Windows laptop chip co-developed with MediaTek",
+        "COMPUTEX June 2–5: Jensen Huang, Lisa Su, and global CEOs converge on Taipei Nangang",
+        "NVIDIA's Taiwan procurement crosses $100B this year; Constellation campus breaks ground",
+      ],
+      url: "https://www.nvidia.com/en-tw/gtc/taipei/",
+    },
+    items: [
+      {
+        title: "Jensen Huang GTC Taipei 主題演講：Vera Rubin 正式登場、N1X 筆電晶片首度亮相",
+        titleEn: "Jensen Huang GTC Taipei Keynote: Vera Rubin Goes Live, N1X Laptop Chip Debuts",
+        summary: "NVIDIA CEO Jensen Huang 於台北音樂中心發表 GTC Taipei 2026 主題演講，正式揭曉 Vera Rubin NVL72 完整規格，並首次展示 NVIDIA N1X——與 MediaTek 聯合開發的 ARM 架構筆電 SoC，搭載 20 核 CPU 與 6,144 CUDA 核心 Blackwell GPU。Huang 宣布 NVIDIA 今年在台採購額達 1,000 億美元，並透露神秘「驚喜產品」將於 Computex 期間揭曉。",
+        summaryEn: "NVIDIA CEO Jensen Huang delivered the GTC Taipei 2026 keynote at Taipei Music Center, officially unveiling Vera Rubin NVL72 full specs and debuting NVIDIA N1X — an ARM laptop SoC co-developed with MediaTek with a 20-core CPU paired with a 6,144-CUDA-core Blackwell GPU. Huang announced $100B in Taiwan procurement this year and hinted at a mystery 'surprise product' during Computex.",
+        why: "Jensen Huang 親自定調：Vera Rubin 是「台灣有史以來最大的產品發布」，涉及近 200 萬個零件和 150 個台灣生態系夥伴。NVIDIA 在台年採購從 5 年前的 100-150 億成長到今年 1,000 億，台積電、鴻海、廣達、緯創、仁寶全面受惠。N1X 進入 Windows 筆電市場，直接衝擊 Intel 和 AMD 的傳統領地。",
+        whyEn: "Jensen Huang sets the tone: Vera Rubin is 'the largest product launch probably in history of Taiwan,' involving nearly 2 million parts and 150 Taiwan ecosystem partners. NVIDIA's annual Taiwan procurement grew from $10-15B five years ago to $100B today — TSMC, Foxconn, Quanta, Wistron, and Compal all benefit. N1X entering the Windows laptop market directly challenges Intel and AMD's traditional territory.",
+        source: "NVIDIA / COMPUTEX",
+        url: "https://www.nvidia.com/en-tw/gtc/taipei/keynote/",
+        time: "11:00 TST",
+      },
+    ],
+    market: "GTC Taipei 2026 開幕：Jensen Huang 的演講為台灣科技業本週畫下戰略座標。Vera Rubin 供應鏈、N1X 平台、AI 工廠生態——三條主軸各有對應的受益族群。COMPUTEX 正式開幕前，今天的演講就是本週最重要的一份路線圖。",
+    marketEn: "GTC Taipei 2026 opens: Jensen Huang's keynote sets the strategic coordinates for Taiwan's tech industry this week. Vera Rubin supply chain, N1X platform, AI factory ecosystem — three axes, each with clear beneficiaries. Before COMPUTEX officially opens, today's keynote is the most important roadmap of the week.",
+  },
+  {
+    date: "2026-05-31",
+    items: [
+      {
+        title: "NVIDIA GTC Taipei 明日揭幕：Vera Rubin「台灣有史以來最大產品發布」倒數",
+        titleEn: "NVIDIA GTC Taipei Kicks Off Tomorrow: Vera Rubin Countdown — 'Largest Product Launch in Taiwan's History'",
+        summary: "Jensen Huang 今晚抵台，明日上午 11 時在台北音樂中心發表 GTC Taipei 2026 主題演講。Vera Rubin NVL72 預計正式亮相，規模被 Huang 形容為「台灣有史以來最大的產品發布」，涉及約 200 萬個零件、150 家台灣生態系夥伴。AMD CEO Lisa Su 同日抵台，COMPUTEX 6/2 正式開幕，Qualcomm、Intel 等主要 CEO 亦陸續抵台。",
+        summaryEn: "Jensen Huang arrives in Taiwan tonight, delivering the GTC Taipei 2026 keynote tomorrow at 11 AM at Taipei Music Center. Vera Rubin NVL72 expected to be formally unveiled — Huang describes this as 'probably the largest product launch in the history of Taiwan,' involving ~2 million parts and 150 Taiwan ecosystem partners. AMD CEO Lisa Su also arrives today; COMPUTEX officially opens June 2 with Qualcomm, Intel, and other major CEOs also arriving.",
+        why: "NVIDIA 今年在台採購額估計達 1,000 億美元，台積電、鴻海、廣達、緯創等台灣供應鏈進入最高速產能模式。Computex 對台灣股市的直接影響歷史上平均帶動相關指數上漲。明天的演講不只是產品發布，更是 NVIDIA 未來兩年技術路徑的公開聲明，也是台灣 AI 供應鏈的年度動員令。",
+        whyEn: "NVIDIA's estimated $100B Taiwan procurement puts TSMC, Foxconn, Quanta, and Wistron into peak-capacity mode. Computex historically lifts related indices. Tomorrow's keynote isn't just a product launch — it's a public declaration of NVIDIA's two-year technology roadmap and an annual mobilization call for Taiwan's AI supply chain.",
+        source: "NVIDIA / wccftech / VideoCardz",
+        url: "https://www.nvidia.com/en-tw/gtc/taipei/computex/",
+        time: "22:00 TST",
+      },
+      {
+        title: "Apple WWDC 2026 倒數 8 天：Siri 全面重建，首度整合 Google Gemini",
+        titleEn: "Apple WWDC 2026 in 8 Days: Siri Fully Rebuilt With Google Gemini Integration",
+        summary: "Apple WWDC 2026 將於 6/8 在 Apple Park 開幕。據多家媒體確認，Apple 已與 Google 簽署多年 AI 授權合約，以 Gemini 衍生模型全面重建 Siri。iOS 27 將引入系統層 AI 代理，使用者可指定 Google、Anthropic 等第三方 AI 作為 Apple Intelligence 推論後端，Apple 的設備 AI 路線將在 6/8 全面揭曉。",
+        summaryEn: "Apple WWDC 2026 opens June 8 at Apple Park. Multiple sources confirm Apple signed a multi-year AI licensing deal with Google, fully rebuilding Siri with a Gemini-derived model. iOS 27 will introduce OS-layer AI agents, with users able to designate Google, Anthropic, or other third-party AI as the Apple Intelligence inference backend. Apple's full device AI roadmap will be revealed on June 8.",
+        why: "Apple × Google Gemini 授權是商業史上罕見的架構性降服：全球最大消費電子品牌正式承認自家 AI 能力不足，引入外部核心。對 Anthropic 而言，成為 iOS 推論後端選項可能開啟比企業市場更大的 B2C 管道。WWDC 6/8 是今年最後一個頂級技術發布會，下週 GTC Taipei 之後，業界目光將轉向 Apple Park。",
+        whyEn: "Apple × Google Gemini licensing is a rare architectural capitulation in business history: the world's largest consumer electronics brand admitting its AI falls short and importing an external core. For Anthropic, becoming an iOS inference backend option could open a B2C channel larger than the enterprise market. WWDC June 8 is the year's last tier-one tech launch event; after GTC Taipei next week, all eyes shift to Apple Park.",
+        source: "Apple / Macworld / AppleInsider",
+        url: "https://developer.apple.com/wwdc26/",
+        time: "10:00 TST",
+      },
+    ],
+    market: "5/31 是兩大科技巨頭的前夜：NVIDIA 的 Vera Rubin 明天登場，Apple 的 WWDC 下週揭幕。台灣科技業進入史上最重要一週，而 Apple 的 Siri 重建則代表 AI 入口戰正式進入消費者設備層。兩件事都在爭奪同一個核心：誰是下一個十億用戶的 AI 接觸點。",
+    marketEn: "May 31 is the eve of two tech giants: NVIDIA's Vera Rubin debuts tomorrow; Apple's WWDC arrives next week. Taiwan's tech industry enters its most important week ever; Apple's Siri rebuild signals the AI portal war officially entering mainstream consumer devices. Both are competing for the same prize: the AI touchpoint for the next billion users.",
+  },
+  {
+    date: "2026-05-29",
+    items: [
+      {
+        title: "OpenAI 首次收購媒體公司 TBPN：矽谷每日科技節目進入 AI 公司版圖",
+        titleEn: "OpenAI Makes First Media Acquisition with TBPN: Silicon Valley Daily Tech Show Enters AI Company Portfolio",
+        summary: "OpenAI 以「低億美元級」金額收購 TBPN（Technology Business Programming Network），一個年營收 3,000 萬美元的矽谷每日科技脫口秀節目，成為 OpenAI 2026 年的第七筆收購。TBPN 保留完全編輯獨立性，在 OpenAI 策略部門下運作。這是 AI 公司首次大規模進入媒體資產領域。",
+        summaryEn: "OpenAI acquired TBPN (Technology Business Programming Network) in the 'low hundreds of millions' — a Silicon Valley daily tech talk show on track for $30M annual revenue and OpenAI's seventh acquisition of 2026. TBPN retains full editorial independence, operating within OpenAI's strategy organization. This marks the first major media asset acquisition by an AI company.",
+        why: "AI 公司進入媒體有清晰的戰略邏輯：控制科技敘事、建立直達開發者和創業者的分發管道、讓 OpenAI 的品牌從「工具」升格為「媒體生態」。這比買廣告更有長期複利效果。對整個 AI 業界，這預示未來媒體資產可能成為 AI 公司版圖競爭的一部分。",
+        whyEn: "AI companies entering media has clear strategic logic: controlling the tech narrative, building a direct distribution channel to developers and founders, and elevating OpenAI's brand from 'tool' to 'media ecosystem' — more durable than advertising. For the broader AI industry, this signals media assets may become part of AI company territorial competition.",
+        source: "Bloomberg / TechCrunch",
+        url: "https://openai.com/news/",
+        time: "10:00 TST",
+      },
+      {
+        title: "Anthropic Claude Code 定價翻車：靜默限縮後社群反彈，24 小時內撤回",
+        titleEn: "Anthropic Claude Code Pricing Backfire: Silent Restriction Triggers Developer Backlash, Reversed Within 24 Hours",
+        summary: "Anthropic 未預告地將 Claude Code 從 $20/月 Pro 方案移除，限制至 $100/月 Max 方案及以上。開發者社群強烈反彈，Anthropic 在數小時內撤回公開說明並承諾進一步溝通。此事引發對 Anthropic 定價透明度的廣泛討論，尤其在 Claude Code 被視為公司主要成長引擎的背景下格外敏感。",
+        summaryEn: "Anthropic silently moved Claude Code from the $20/month Pro plan to $100/month Max plan and above — without any announcement. Developer community backlash was immediate; Anthropic reversed the changes within hours and pledged further communication. The incident triggered widespread discussion of Anthropic's pricing transparency, particularly sensitive given Claude Code is viewed as the company's primary growth engine.",
+        why: "一家剛以 $965B 估值完成融資、主打「安全誠信」的公司，在核心產品定價上搞「靜默漲價」，是品牌一致性的重大傷害。這次翻車的真正教訓：開發者社群的信任比任何定價策略都更難重建，而且現在 AI 工具替代品選項比以往任何時候都多。",
+        whyEn: "A company that just closed a $965B-valuation round built on 'safety and honesty' doing a 'silent price hike' on its core product is a major brand consistency failure. The real lesson: developer community trust is harder to rebuild than any pricing strategy, and AI tool alternatives are more plentiful now than ever before.",
+        source: "VentureBeat / developer community",
+        url: "https://www.anthropic.com/pricing",
+        time: "14:00 TST",
+      },
+    ],
+    market: "5/29 兩件事都涉及 AI 公司的「可信任度」：OpenAI 用媒體收購展示擴張野心，Anthropic 用定價失誤暴露成長壓力。在估值接近兆元的前夜，商業決策的透明度比任何融資數字都更能說明一家公司的成熟度。",
+    marketEn: "May 29 is a 'trustworthiness' double-feature: OpenAI showing expansion ambition via media acquisition; Anthropic revealing growth pressure via pricing misstep. On the eve of near-trillion valuations, the quality and transparency of commercial decisions reveals more about a company's maturity than any funding number.",
+  },
+  {
+    date: "2026-05-28",
+    items: [
+      {
+        title: "Anthropic 完成 $650 億融資、估值 $9,650 億：正式超越 OpenAI 成全球最貴 AI 公司",
+        titleEn: "Anthropic Closes $65B at $965B Valuation: Officially Overtakes OpenAI as World's Most Valuable AI Company",
+        summary: "Anthropic 正式宣布完成 650 億美元 H 輪融資，融資後估值達 9,650 億美元，由 Altimeter Capital、Dragoneer、Greenoaks、Sequoia Capital 聯合領投。這幾乎是 2 月估值 3,800 億美元的三倍，正式超越 OpenAI 的 8,520 億美元估值，成為全球估值最高的私人 AI 公司。Q1 2026 營收 48 億美元，Q2 預測 109 億美元（季增 130%）。",
+        summaryEn: "Anthropic officially closed a $65B Series H at $965B post-money valuation, led by Altimeter Capital, Dragoneer, Greenoaks, and Sequoia Capital — nearly tripling its February $380B valuation and officially surpassing OpenAI's $852B to become the world's most valuable private AI company. Q1 2026 revenue: $4.8B; Q2 projection: $10.9B (+130% QoQ).",
+        why: "三個月前 Anthropic 估值 3,800 億，今天 9,650 億——這個增速反映的是 Claude Code 帶來的企業端爆發。130% 的季增營收意味著 Anthropic 即將進入史上成長最快的 AI 公司行列。Karpathy 加入、強大的預訓練路線圖、企業採購對「安全 AI」的溢價需求，三者共振正在把 Anthropic 推向兆元俱樂部。",
+        whyEn: "Three months ago Anthropic was worth $380B; today $965B — this velocity reflects Claude Code's enterprise explosion. 130% QoQ revenue growth puts Anthropic on track to be the fastest-growing AI company in history. Karpathy's addition, a strong pretraining roadmap, and enterprise premiums for 'safe AI' are converging to push Anthropic toward the trillion-dollar club.",
+        source: "Bloomberg / CNBC",
+        url: "https://www.cnbc.com/2026/05/28/anthropic-open-ai-startup-value.html",
+        time: "09:00 TST",
+      },
+      {
+        title: "Claude Opus 4.8 發布：首款欺騙率接近零的前沿模型，電腦操控能力世界第一",
+        titleEn: "Claude Opus 4.8 Released: First Frontier Model With Near-Zero Deception Rate, World's Best Computer-Use Agent",
+        summary: "Anthropic 發布 Claude Opus 4.8，誠實度與 Agent 能力雙線突破：首個在「未批判性回報有缺陷結果」得分 0% 的前沿模型；Online-Mind2Web 電腦操控基準 84%（超越 GPT-5.5 和 Opus 4.7）；Claude Code 導入動態工作流程，可處理超大規模任務；Fast Mode 速度 2.5 倍、成本降三分之一；定價與 Opus 4.7 相同。",
+        summaryEn: "Anthropic released Claude Opus 4.8 with dual breakthroughs in honesty and agentic capability: first frontier model to score 0% on 'uncritically reporting flawed results'; 84% on Online-Mind2Web computer-use benchmark (surpassing GPT-5.5 and Opus 4.7); Claude Code gains dynamic workflows for massive-scale tasks; Fast Mode 2.5x speed at one-third the cost; same pricing as Opus 4.7.",
+        why: "「欺騙率 0%」不只是 benchmark 數字，是 Anthropic 在 AI 治理層的核心差異化。在企業採購中，AI 的「可信賴性」正快速成為繼性能和成本之後的第三大決策因素。動態工作流程和電腦操控能力的提升，讓 Claude Code 在大型程式碼庫任務的競爭力大幅躍升，對 GitHub Copilot 構成直接壓力。",
+        whyEn: "A '0% deception rate' isn't just a benchmark — it's the core of Anthropic's governance-layer differentiation. In enterprise procurement, AI 'trustworthiness' is rapidly becoming the third decision factor after performance and cost. Dynamic workflows and improved computer-use capability make Claude Code dramatically more competitive on large-codebase tasks, directly pressuring GitHub Copilot.",
+        source: "Anthropic / 9to5Mac / The New Stack",
+        url: "https://www.anthropic.com/news/claude-opus-4-8",
+        time: "14:00 TST",
+      },
+    ],
+    market: "5/28 是 AI 業的歷史性分水嶺：Anthropic 超越 OpenAI 成為最高估值 AI 公司，同日發布新旗艦模型。估值躍升 + 技術發布的組合，正在將 Anthropic 從「有原則的挑戰者」轉型為「市場領導者」。Karpathy 的加入和 Opus 4.8 的誠實性突破都在說同一件事：Anthropic 押注「AI 治理品質」作為下一個競爭護城河。",
+    marketEn: "May 28 marks a historic AI inflection: Anthropic overtakes OpenAI as the highest-valued AI company and releases a new flagship model the same day. Valuation surge + technical release combined is transforming Anthropic from 'principled challenger' to 'market leader.' Karpathy's addition and Opus 4.8's honesty breakthrough both point the same direction: Anthropic is betting 'AI governance quality' as the next competitive moat.",
+  },
+  {
+    date: "2026-05-27",
+    items: [
+      {
+        title: "Apple WWDC 前搶先公開 8+ AI 無障礙升級：全平台 AI 布局提前預告",
+        titleEn: "Apple Pre-Announces 8+ AI Accessibility Upgrades Before WWDC: Full-Platform AI Push Previewed",
+        summary: "Apple 在 WWDC 2026 開幕前兩週，發布跨 iPhone、iPad、Mac、Apple Watch 的 8 項以上 AI 驅動無障礙功能，包括 AI 手語辨識、眼神追蹤操控增強、情境感知輔助等。業界解讀此舉為搶在 Google I/O 已主導輿論後，以社會責任面向重拾新聞週期，同時向開發者預告 iOS 27 AI API 的能力邊界。",
+        summaryEn: "Apple announced 8+ AI-powered accessibility upgrades spanning iPhone, iPad, Mac, and Apple Watch — including AI sign language recognition, enhanced eye-tracking control, and context-aware assistance — two weeks before WWDC 2026. Industry analysts read this as Apple reclaiming news cycles with a social responsibility angle after Google I/O dominated AI coverage, while previewing iOS 27 AI API boundaries for developers.",
+        why: "Apple 的無障礙 AI 升級是商業上的雙贏策略：正面輿論 + 向開發者預告 iOS 27 API 能力。更重要的是，Apple 的無障礙功能向來是技術滲透主流設備的前哨站——今天的無障礙功能，往往是明年的預設功能。這些更新也暗示 iOS 27 的 AI 深度將比外界預期的更廣。",
+        whyEn: "Apple's accessibility AI upgrades are a commercial double-win: positive coverage plus a preview of iOS 27 AI API capabilities for developers. More importantly, Apple's accessibility features have historically been a vanguard for technology reaching mainstream devices — today's accessibility feature often becomes next year's default. These updates also hint that iOS 27's AI depth will be broader than expected.",
+        source: "AppleInsider / Memeburn",
+        url: "https://appleinsider.com/articles/26/05/28/apple-doubling-down-on-on-device-ai-at-wwdc-2026",
+        time: "10:00 TST",
+      },
+      {
+        title: "Anthropic ARR 破歷史紀錄：$90 億到 $440 億不到三個月，每六週翻倍",
+        titleEn: "Anthropic ARR Breaks All Records: $9B to $44B in Under Three Months, Doubling Every Six Weeks",
+        summary: "MindStudio 追蹤資料顯示，Anthropic 的年化營收在 2026 年以每 6 週翻倍的速度成長，從年初的 $90 億躍升至 $440 億以上，超越 Zoom 疫情期間的成長速度，成為有史以來最快達到此量級的 B2B SaaS 公司。主要驅動力是 Claude Code——企業年付費超過 $100 萬的客戶在兩個月內從 500 家翻倍至逾 1,000 家。",
+        summaryEn: "MindStudio tracking data shows Anthropic's ARR doubling every six weeks in 2026, surging from ~$9B at year-start to $44B+ — surpassing Zoom's COVID-era growth and making it the fastest B2B SaaS company to reach this revenue scale in history. Primary driver: Claude Code, with enterprise clients paying $1M+ annually doubling from 500 to over 1,000 in just two months.",
+        why: "「每六週翻倍」在 SaaS 歷史上幾乎沒有先例。這種成長曲線意味著 Anthropic 的商業模式有強烈的自我強化效應：企業用戶導入 Claude Code 後，生產力提升使切換成本極高。對 OpenAI 和 Google 而言，這是長期企業端市佔的警報——習慣是最深的護城河，而 Claude Code 正在快速建立這道壁壘。",
+        whyEn: "ARR doubling 'every six weeks' is virtually unprecedented in SaaS history. This growth curve signals strong self-reinforcing dynamics: once enterprises deploy Claude Code, productivity gains make switching extremely costly. For OpenAI and Google, this is a long-term enterprise market share alarm — habit is the deepest moat, and Claude Code is building that moat rapidly.",
+        source: "MindStudio / PYMNTS",
+        url: "https://www.mindstudio.ai/blog/anthropic-arr-growth-9b-to-44b-2026",
+        time: "15:00 TST",
+      },
+    ],
+    market: "5/27 的訊號都指向同一個核心問題：AI 超級週期的入口在哪裡？Apple 在佈局設備層，Anthropic 在佔領企業代碼層。兩者的共同點是「高黏著度」——一旦用戶接入就很難離開。這種護城河邏輯，正在成為 AI 公司估值的主要支撐。",
+    marketEn: "May 27's signals all point to the same core question: where is the AI supercycle gateway? Apple occupies the device layer; Anthropic claims the enterprise code layer. Both share 'high stickiness' — once users are in, exit is hard. This moat logic is becoming the primary support for AI company valuations.",
+  },
+  {
+    date: "2026-05-26",
+    items: [
+      {
+        title: "NVIDIA 確認 Jensen Huang 親赴台北：GTC Taipei × COMPUTEX 2026 五大看點",
+        titleEn: "NVIDIA Confirms Jensen Huang in Taipei: Five Must-Watch Moments at GTC Taipei × COMPUTEX 2026",
+        summary: "NVIDIA 正式確認 Jensen Huang 將主持 6/1 GTC Taipei 主題演講（台北音樂中心，上午 11 時），AMD CEO Lisa Su 亦確認出席 COMPUTEX。GTC Taipei 於 6/2–6/4 在台北國際會議中心舉行，COMPUTEX 6/2–6/5 於南港展覽館登場。五大看點：Vera Rubin NVL72 完整規格、NVIDIA N1X 筆電晶片、Physical AI Days、DLSS 5、AI 工廠全棧策略，以及 Huang 透露的神秘「驚喜產品」。",
+        summaryEn: "NVIDIA confirmed Jensen Huang will deliver the June 1 GTC Taipei keynote (Taipei Music Center, 11 AM); AMD CEO Lisa Su also confirmed for COMPUTEX. GTC Taipei runs June 2-4 at TICC; COMPUTEX June 2-5 at Taipei Nangang. Five must-watch moments: Vera Rubin NVL72 full specs, NVIDIA N1X laptop chip, Physical AI Days, DLSS 5, full-stack AI factory strategy, plus the mystery 'surprise product' Huang hinted at.",
+        why: "這不只是產品發布會——是 NVIDIA 在台灣建立「AI 工廠生態」的年度宣告。NVIDIA 今年在台採購 1,000 億美元，正在台北興建「Constellation」園區容納 4,000 名員工。Jensen Huang 每年的 COMPUTEX 演講，已正式成為媲美 Apple WWDC 的技術產業儀式。台積電、廣達、鴻海、緯創的股價通常在演講後顯著反應。",
+        whyEn: "This isn't just a product launch — it's NVIDIA's annual declaration of its 'AI factory ecosystem' in Taiwan. $100B in Taiwan procurement this year and the under-construction 'Constellation' campus for 4,000 employees underscores the long-term commitment. Jensen Huang's annual COMPUTEX speech has become an industry ritual on par with Apple WWDC. TSMC, Quanta, Foxconn, and Wistron shares typically react significantly after the keynote.",
+        source: "NVIDIA / VideoCardz / COMPUTEX",
+        url: "https://www.nvidia.com/en-tw/gtc/taipei/computex/",
+        time: "10:00 TST",
+      },
+      {
+        title: "Gemini Spark 本週推出：Google AI Ultra 用戶率先體驗跨 App AI 個人代理",
+        titleEn: "Gemini Spark Launches This Week: Google AI Ultra Users Get First Cross-App AI Personal Agent",
+        summary: "Google 宣布 Gemini Spark——其 I/O 2026 發布的個人 AI 代理——將本週向美國 Google AI Ultra 訂閱用戶（$249.99/月）開放，可跨 Gmail、Google Docs、Chrome、Maps、第三方 app 代為執行任務。這是 Google 將 AI 從「回答問題」升級至「代替行動」的最重要產品里程碑。",
+        summaryEn: "Google announced Gemini Spark — its I/O 2026 personal AI agent — will launch this week for U.S. Google AI Ultra subscribers ($249.99/month), taking actions across Gmail, Google Docs, Chrome, Maps, and third-party apps. This is Google's most important product milestone upgrading AI from 'answering questions' to 'taking actions on your behalf.'",
+        why: "Gemini Spark 的定價策略很清晰：先在 $249.99 高階用戶中驗證，再快速下沉至 Workspace 企業版。對 OpenAI 而言，這是 GPT-5.5 之後最大的直接平台威脅——Google 用 Gmail/Docs/Drive 的深度整合來彌補模型能力差距。OS 層 AI 代理的大戰已正式開打，而 Google 掌控最廣泛的應用生態。",
+        whyEn: "Gemini Spark's pricing strategy is clear: validate at the $249.99 premium tier, then rapidly expand to enterprise Workspace. For OpenAI, this is the biggest direct platform threat since GPT-5.5 — Google uses Gmail/Docs/Drive deep integration to compensate for any model gaps. The OS-layer AI agent war has officially begun, and Google holds the broadest application ecosystem.",
+        source: "Google / Tom's Guide",
+        url: "https://blog.google/innovation-and-ai/technology/ai/google-io-2026-all-our-announcements/",
+        time: "14:00 TST",
+      },
+    ],
+    market: "5/26 兩條主線：NVIDIA 的硬體生態宣告（GTC Taipei 最終確認），Google 的軟體行動宣告（Gemini Spark 上線）。前者控制算力基礎設施，後者控制應用入口。下一個 AI 超級週期的地基，正在這一週的台北和矽谷同步打下。",
+    marketEn: "May 26 has two main threads: NVIDIA's hardware ecosystem declaration (GTC Taipei finalized) and Google's software action declaration (Gemini Spark goes live). One controls compute infrastructure; the other controls application gateway. The foundation of the next AI supercycle is being laid this week, simultaneously in Taipei and Silicon Valley.",
+  },
+  {
+    date: "2026-05-22",
+    items: [
+      {
+        title: "Microsoft Build 2026 完整議程公開：6/2 自家 AI 模型正式挑戰 OpenAI 寡占地位",
+        titleEn: "Microsoft Build 2026 Full Agenda Revealed: June 2 Homegrown AI Models Officially Challenge OpenAI Dominance",
+        summary: "Microsoft Build 2026 確認 6/2–6/3 在舊金山登場，完整議程揭示四大主軸：① 自家編程 AI 模型（目標成本低於 OpenAI Codex）強化 GitHub Copilot、② 語音/轉錄/推理/圖像生成多模態模型群、③ Azure AI Foundry 進階版（視覺化設計器 + RAG 管線）、④ Windows 本地 AI 完全離線推理。這是 Microsoft 有史以來最大規模的自有 AI 模型布局。",
+        summaryEn: "Microsoft Build 2026 confirmed June 2-3 in San Francisco, with the full agenda revealing four pillars: ① Homegrown coding AI model (targeting lower cost than OpenAI Codex) to power GitHub Copilot; ② Multi-modal model suite across voice, transcription, reasoning, and image generation; ③ Azure AI Foundry advanced with visual designer + RAG pipelines; ④ Windows local AI for fully offline inference. Microsoft's largest proprietary AI model push ever.",
+        why: "Microsoft 正在用自家模型替換 OpenAI API 的核心原因：成本控制和戰略自主性。每年向 OpenAI 支付巨額 API 費用，同時又是 OpenAI 最大股東——這個矛盾終須解決。自家模型的意義是：更大定價彈性、更強客製化能力、不受 OpenAI 政策變動影響。這也是 Anthropic 和 Google 的警訊：企業自建 AI 是長期的市場稀釋因子。",
+        whyEn: "Microsoft's core motivation for homegrown models: cost control and strategic independence. Paying enormous API fees to OpenAI while being its largest shareholder is a contradiction that had to be resolved. Proprietary models mean more pricing flexibility, stronger customization, and immunity from OpenAI policy changes. Also a warning for Anthropic and Google: enterprise self-built AI is a long-term market dilution factor.",
+        source: "gurufocus / WindowsForum / windowsnews.ai",
+        url: "https://windowsforum.com/threads/microsoft-build-2026-homegrown-ai-models-to-power-github-copilot.420887/",
+        time: "10:00 TST",
+      },
+      {
+        title: "企業 AI 換人潮加速：Intuit 裁員 17%，科技業「AI 效率替代人力」進入規模化",
+        titleEn: "Enterprise AI Workforce Wave Accelerates: Intuit Cuts 17%, Tech Industry 'AI Efficiency Replacing Headcount' Reaches Scale",
+        summary: "Intuit 宣布裁員 17%，直接點名 AI 效率提升為原因，加入 Salesforce（年度兩次裁員）、Microsoft、Google、Meta 的企業 AI 重組潮。業界分析師估計，2026 年上半年美國科技業因「AI 效率替代」裁減的職位已超過 10 萬，且速度還在加快。財務軟體、CRM、ERP 等「知識工作密集」行業首當其衝。",
+        summaryEn: "Intuit announced a 17% workforce reduction, explicitly citing AI efficiency improvements — joining Salesforce (two rounds this year), Microsoft, Google, and Meta in enterprise AI restructuring. Industry analysts estimate U.S. tech companies eliminated 100,000+ positions from 'AI efficiency replacement' in H1 2026, with acceleration ongoing. Financial software, CRM, and ERP — 'knowledge-work-intensive' industries — are being hit first.",
+        why: "這不是景氣循環的裁員，是結構性的。AI 讓每個員工的產出乘數提高，意味著同樣的業務量需要更少人力。對 AI 工具廠商而言，這是市場需求的強力印證；對科技業求職者而言，這是長期就業結構轉變的明確信號。下一批可能被重組的職位：法務、人資、客服——非工程職位。",
+        whyEn: "This isn't a cyclical layoff — it's structural. AI multiplies each employee's output, meaning the same business volume requires fewer people. For AI tool vendors, strong market demand validation; for tech job seekers, a clear signal of long-term employment structural change. Next wave of likely restructuring: legal, HR, customer service — non-engineering roles.",
+        source: "Reuters / Bloomberg",
+        url: "https://www.bloomberg.com/news/articles/2026-05-19/google-io-2026-ai-strategy",
+        time: "14:00 TST",
+      },
+    ],
+    market: "5/22 的市場訊號：AI 正在改寫兩個基本面。Microsoft 用自家模型重寫企業 AI 成本結構，Intuit 裁員 17% 是 AI 改寫就業成本結構的縮影。兩件事都是 AI 滲透「已有業務流程」的具體表現——不是「未來可能性」，是今天正在發生的結構性轉變。",
+    marketEn: "May 22's market signal: AI is rewriting two fundamentals. Microsoft's homegrown models rewrite enterprise AI cost structures; Intuit's 17% cuts exemplify AI rewriting employment cost structures. Both are concrete manifestations of AI penetrating existing business processes — not future possibilities, but structural transformation happening today.",
+  },
+  {
+    date: "2026-05-21",
+    items: [
+      {
+        title: "Anthropic Q2 預測 $109 億：季增 130%，AI 實驗室史上首個可能盈利的季度",
+        titleEn: "Anthropic Q2 Projected at $10.9B: +130% QoQ, Potentially First-Ever Profitable Quarter for an AI Lab",
+        summary: "CNBC 消息人士確認，Anthropic Q2 2026 營收預測達 109 億美元，季增 130%，若達標將超過去年全年營收。業界分析認為此為 Anthropic 首個可能實現正現金流的季度。ARR 已超 440 億美元，主要驅動力是 Claude Code 企業授權——年付費超過 $100 萬的客戶已超過 1,000 家。",
+        summaryEn: "CNBC sources confirmed Anthropic's Q2 2026 revenue projection at $10.9B, +130% QoQ — if achieved, this would surpass all of last year's revenue in a single quarter, potentially making it the first cash-flow-positive quarter for a major AI lab. ARR exceeds $44B, primarily driven by Claude Code enterprise licensing with over 1,000 clients paying $1M+ annually.",
+        why: "AI 公司估值長期以「潛力」定價，Anthropic 的 $109B Q2 預測是首次用硬數據支撐接近兆元估值的嘗試。對投資人而言，盈利路徑的能見度是估值溢價最重要的支撐；對競爭對手而言，這表示 Anthropic 的企業飛輪已不靠補貼就能自持，這種商業韌性是 Claude Code 的護城河體現。",
+        whyEn: "AI companies have long been valued on potential — Anthropic's $10.9B Q2 projection is the first attempt to back a near-trillion valuation with hard numbers. For investors, a visible profitability path is the most critical premium support; for competitors, it signals Anthropic's enterprise flywheel sustains itself without subsidies — commercial resilience is Claude Code's moat made visible.",
+        source: "CNBC",
+        url: "https://www.cnbc.com/2026/05/20/anthropic-revenue-explosive-growth-ipo-profitable-quarter.html",
+        time: "10:00 TST",
+      },
+      {
+        title: "Google AI Search 正式上線：25 年最大重構，AI 問答取代傳統十藍連結",
+        titleEn: "Google AI Search Goes Live: Biggest Redesign in 25 Years, AI Answers Replace Ten Blue Links",
+        summary: "繼 Google I/O 發表後，Google AI Search 新版正式向美國用戶逐步推出。全新搜尋框支援文字、圖片、影片、Chrome 標籤頁多模態輸入，AI 直接給出整合式答案，傳統「十個藍色連結」退居二線。Google 表示此為過去 25 年 Search 最大架構變化，Gemini 模型是核心推論引擎。",
+        summaryEn: "Following the Google I/O announcement, the new Google AI Search began rolling out to U.S. users. The redesigned search box supports text, images, videos, and Chrome tab inputs, with AI delivering integrated answers directly — traditional 'ten blue links' now secondary. Google calls this the biggest Search architecture change in 25 years, with Gemini as the core inference engine.",
+        why: "「十個藍色連結」的終結不只是 UX 變化，是整個 SEO 產業商業模式的根本挑戰。當 AI 直接整合答案，點擊流量可能大幅下降，對靠 Google 搜尋流量維生的內容網站、電商、媒體都是生死攸關的衝擊。同時，Google 讓 Gemini 成為全球最大流量入口的核心，是其 AI 商業化最關鍵的棋局。",
+        whyEn: "The end of 'ten blue links' isn't just a UX change — it fundamentally challenges the entire SEO industry's business model. When AI directly integrates answers, click-through traffic may drop dramatically, threatening content sites, e-commerce, and media that depend on Google search. Simultaneously, making Gemini the core of the world's largest traffic gateway is Google's most critical AI monetization move.",
+        source: "Google / 9to5Google",
+        url: "https://blog.google/products/search/google-io-2026-search-overhaul/",
+        time: "15:00 TST",
+      },
+    ],
+    market: "5/21 的核心訊號是 AI 的「真實落地」：Anthropic 的 $109B 預測說明 AI 商業化已進入正循環；Google AI Search 上線說明 AI 已開始重寫互聯網的流量架構。從技術演示到真實業務影響，這一週標誌著 AI 第二波浪潮正式開始。",
+    marketEn: "May 21's core signal: AI's 'real deployment.' Anthropic's $10.9B projection proves AI commercialization has entered a positive flywheel; Google AI Search proves AI is beginning to rewrite the internet's traffic architecture. From technical demos to real business impact, this week marks the official start of AI's second wave.",
+  },
+  {
+    date: "2026-05-20",
+    items: [
+      {
+        title: "Google I/O Day 2：Gemini Omni 正式亮相、AI 智慧眼鏡與三大時尚品牌合作公開",
+        titleEn: "Google I/O Day 2: Gemini Omni Debuts, AI Smart Glasses Revealed With Three Fashion Brands",
+        summary: "Google I/O Day 2 重磅發布：Gemini Omni 多模態創作模型上線，接受圖片、音訊、影片、文字輸入，輸出具真實世界物理知識的影片；Google 與 Samsung、Warby Parker、Gentle Monster 聯合發布 Android XR AI 智慧眼鏡，深度整合 Gemini 語音助理；Gemini 3.5 Pro 預告「下月推出」，性能超越 3.5 Flash。",
+        summaryEn: "Google I/O Day 2 major reveals: Gemini Omni multimodal creation model goes live, accepting image/audio/video/text and outputting videos grounded in real-world physics knowledge; Google partnered with Samsung, Warby Parker, and Gentle Monster to unveil Android XR AI smart glasses with deep Gemini voice integration; Gemini 3.5 Pro previewed as 'launching next month,' surpassing 3.5 Flash.",
+        why: "AI 眼鏡不是配件，是對 Apple Vision Pro 路線的正面宣戰。Google 選擇 Warby Parker、Gentle Monster 時尚品牌合作，說明吸取了 Google Glass 的教訓：AI 硬體必須兼顧時尚感。Gemini Omni 的影片生成能力若成熟，是對 OpenAI Sora 的直接競爭——多模態創作成為 2026 下半年 AI 競爭的新主戰場。",
+        whyEn: "AI glasses aren't accessories — they're a direct challenge to Apple's Vision Pro strategy. Google partnering with Warby Parker and Gentle Monster shows it learned from Google Glass: AI hardware must incorporate style. If Gemini Omni's video generation matures, it directly competes with OpenAI Sora — multimodal creation becomes the new AI battleground for H2 2026.",
+        source: "9to5Google / MacRumors / Google",
+        url: "https://www.macrumors.com/2026/05/19/google-io-2026-roundup/",
+        time: "10:00 TST",
+      },
+    ],
+    market: "Google I/O 兩天盤點：Gemini 3.5 Flash（即日可用）、Gemini Omni（影片生成）、Gemini Spark（個人 Agent）、AI 眼鏡、AI Search 重構——Google 在 48 小時內在模型、硬體、入口三個層面同時出擊。這是 Google 近年最全面的 AI 攻勢，也是 OpenAI 和 Anthropic 面臨的最複雜競爭格局。",
+    marketEn: "Google I/O two-day summary: Gemini 3.5 Flash (available now), Gemini Omni (video generation), Gemini Spark (personal agent), AI glasses, AI Search overhaul — Google struck across model, hardware, and gateway layers simultaneously in 48 hours. Google's most comprehensive AI offensive in years, and the most complex competitive landscape OpenAI and Anthropic have ever faced.",
+  },
+  {
+    date: "2026-05-19",
+    items: [
+      {
+        title: "Google I/O 2026 開幕：Gemini 3.5 Flash 即日發布，比 Gemini 3.1 Pro 更強快 4 倍",
+        titleEn: "Google I/O 2026 Opens: Gemini 3.5 Flash Released Today, Beats Gemini 3.1 Pro While 4x Faster",
+        summary: "Google I/O 2026 於加州 Shoreline Amphitheatre 開幕，Sundar Pichai 正式發布 Gemini 3.5 Flash——在 coding、agentic、多模態 benchmark 超越 Gemini 3.1 Pro，同時保持 Flash 系列速度，每秒輸出 Token 數為其他前沿模型 4 倍，即日向所有 API 和產品用戶開放。Gemini Spark 個人 AI 代理預告下週向 AI Ultra 訂閱者推出，可跨 app 代為執行任務。",
+        summaryEn: "Google I/O 2026 opened at Shoreline Amphitheatre, California. Sundar Pichai unveiled Gemini 3.5 Flash — surpassing Gemini 3.1 Pro on coding, agentic, and multimodal benchmarks while maintaining Flash-series speed at 4x more output tokens per second than other frontier models, available immediately across all APIs and products. Gemini Spark personal AI agent previewed for next-week release to AI Ultra subscribers, capable of executing tasks across apps.",
+        why: "Gemini 3.5 Flash 的「強且快」組合是 AI 成本方程式的重要進展：同等能力下速度 4 倍，意味著 API 成本大幅降低。對開發者和企業，更多應用場景的 ROI 變為正數。Google 選擇 I/O 同日直接發布而非「預告」，是對 OpenAI 的直接節奏施壓——而且這次 Google 同時在模型、Agent、搜尋、硬體四條線出擊。",
+        whyEn: "Gemini 3.5 Flash's 'strong and fast' combination is a significant advance in the AI cost equation: 4x speed at equivalent capability means dramatically lower API costs, making more use cases ROI-positive for developers and enterprises. Google choosing to release — not just announce — on I/O day is direct competitive rhythm pressure on OpenAI. And this time, Google struck simultaneously across models, agents, search, and hardware.",
+        source: "9to5Google / Google Developers Blog",
+        url: "https://9to5google.com/2026/05/19/google-io-2026-news/",
+        time: "01:00 TST",
+      },
+      {
+        title: "Andrej Karpathy 宣布加入 Anthropic：OpenAI 共同創辦人轉投，AI 人才戰進入新高峰",
+        titleEn: "Andrej Karpathy Joins Anthropic: OpenAI Co-Founder Defects, AI Talent War Reaches New Peak",
+        summary: "OpenAI 共同創辦人、前 Tesla Autopilot 負責人 Andrej Karpathy 在 X 上宣布加入 Anthropic 預訓練團隊，並同時領導一支用 Claude 加速預訓練研究的新團隊。Karpathy 表示「接下來幾年的前沿 LLM 研究格外關鍵」。這是繼 Ilya Sutskever 創立 SSI 後，OpenAI 最受矚目的人才流出事件，也是 Anthropic 迄今最高知名度的外部人才招募。",
+        summaryEn: "OpenAI co-founder and former Tesla Autopilot lead Andrej Karpathy announced on X that he's joining Anthropic's pre-training team, while also leading a new team using Claude to accelerate pretraining research itself. Karpathy cited 'the next few years at the LLM frontier as especially formative.' The most high-profile OpenAI talent departure since Ilya Sutskever founded SSI, and Anthropic's highest-profile external hire to date.",
+        why: "Karpathy 不是一般的技術人才——他是業界最具公信力的 AI 教育者，選擇 Anthropic 是對其技術路線的重大公開背書。更深的含義：他領導的新團隊使用「Claude 加速預訓練研究」，說明 Anthropic 在走「AI 研究 AI」的路線——這可能是下一代前沿模型的關鍵競爭優勢，也是 OpenAI 最難複製的資產流出。",
+        whyEn: "Karpathy isn't ordinary talent — he's the industry's most credible AI educator; his choice of Anthropic is a major public endorsement of their technical direction. The deeper implication: his new team uses 'Claude to accelerate pretraining research itself,' signaling Anthropic is pursuing 'AI researching AI' — potentially the key advantage for the next frontier generation, and the hardest asset for OpenAI to replace.",
+        source: "CNBC / TechCrunch / Axios",
+        url: "https://techcrunch.com/2026/05/19/openai-co-founder-andrej-karpathy-joins-anthropics-pre-training-team/",
+        time: "02:00 TST",
+      },
+    ],
+    market: "5/19 是 AI 2026 年的最大震盪日之一：Google 的 I/O 全面反擊讓 OpenAI 和 Anthropic 感受到平台壓力，Karpathy 加入 Anthropic 同日發生，讓人才版圖再度位移。這一天同時定義了 AI 的兩條未來戰線：誰能建更好的 AI 平台？誰能訓練更好的下一代模型？",
+    marketEn: "May 19 is one of 2026's biggest AI inflection days: Google's all-front I/O counterattack applies platform pressure on OpenAI and Anthropic; Karpathy joining Anthropic on the same day reshifts the talent landscape. This day simultaneously defines two AI battlefronts: who can build the better AI platform? Who can train the better next-generation models?",
+  },
+  {
+    date: "2026-05-16",
+    items: [
+      {
+        title: "Anthropic ARR 突破 $440 億：Claude Code 引爆企業採購飛輪，每六週翻倍",
+        titleEn: "Anthropic ARR Tops $44B: Claude Code Ignites Enterprise Adoption Flywheel, Doubling Every Six Weeks",
+        summary: "Anthropic 內部數據顯示，年化營收（ARR）已超過 440 億美元，增速每六週翻倍，超越 Zoom 疫情高峰成長速度，成為有史以來最快達到此量級的 B2B SaaS 公司。年付費超過 $100 萬美元的企業客戶從 500 家增至逾 1,000 家，僅花兩個月；主要驅動力為 Claude Code 企業授權，$44B ARR 中超過三分之二來自企業客戶。",
+        summaryEn: "Anthropic internal data reveals ARR exceeding $44B, doubling every six weeks — surpassing Zoom's COVID peak growth and making it the fastest B2B SaaS company to reach this scale in history. Enterprise clients paying $1M+ annually grew from 500 to over 1,000 in just two months; primary driver is Claude Code enterprise licensing, with over two-thirds of the $44B ARR from enterprise contracts.",
+        why: "「每六週翻倍」的 ARR 成長在 SaaS 歷史上前所未見。這種指數成長來自「企業一旦導入 Claude Code，生產力提升讓切換成本極高」的自我強化效應。對 OpenAI 和 Google 是直接的警告：企業 AI 工具市場的贏家可能比消費者市場更快確定，因為習慣護城河比技術護城河更難突破。",
+        whyEn: "ARR doubling 'every six weeks' is unprecedented in SaaS history. This exponential growth comes from the self-reinforcing effect of 'once enterprises deploy Claude Code, productivity gains make switching extremely costly.' A direct warning to OpenAI and Google: the enterprise AI tools market winner may be determined faster than the consumer market, because habit moats are harder to breach than technology moats.",
+        source: "MindStudio / VentureBeat",
+        url: "https://www.mindstudio.ai/blog/anthropic-arr-growth-9b-to-44b-2026",
+        time: "10:00 TST",
+      },
+      {
+        title: "Apple WWDC 2026 確認 6/8 開幕：Siri 全面重建、Apple × Google Gemini 多年授權合約確認",
+        titleEn: "Apple WWDC 2026 Confirmed for June 8: Siri Full Rebuild and Apple × Google Gemini Multi-Year License Confirmed",
+        summary: "Apple 正式宣布 WWDC 2026 於 6/8 開幕，6/8–12 在 Apple Park 舉行。消息人士確認 Apple 已與 Google 簽署多年 AI 授權合約，以 Google Gemini 衍生模型全面重建 Siri；iOS 27/iPadOS 27/macOS 27 將引入系統層 AI 代理，使用者可指定 Google、Anthropic 等第三方 AI 提供商作為 Apple Intelligence 推論後端。",
+        summaryEn: "Apple officially confirmed WWDC 2026 opening June 8, running June 8-12 at Apple Park. Sources confirmed Apple signed a multi-year AI licensing deal with Google, using a Gemini-derived model for a complete Siri rebuild; iOS 27/iPadOS 27/macOS 27 will introduce OS-layer AI agents, with users able to designate Google, Anthropic, or other third-party AI providers.",
+        why: "Apple × Google Gemini 的 AI 授權是歷史性的商業重組：全球最大消費電子品牌對第二大 AI 能力進行了結構性依賴確認。對 Anthropic 也是機遇——成為 iOS AI 第三方後端選項，可能開啟比企業市場更大規模的 B2C 管道。WWDC 成為今年最後一個頂級技術發布會，6/8 前的業界目光都會匯聚在 Apple Park。",
+        whyEn: "Apple × Google Gemini AI licensing is a historic commercial restructuring: the world's highest-market-cap tech company has structurally confirmed dependence on the second-largest AI capability. Also an opportunity for Anthropic — becoming an iOS AI third-party backend option could open a B2C channel larger than the enterprise market. WWDC becomes the year's final tier-one tech launch event; all industry eyes will converge on Apple Park before June 8.",
+        source: "Apple / Macworld / 9to5Mac",
+        url: "https://developer.apple.com/wwdc26/",
+        time: "15:00 TST",
+      },
+    ],
+    market: "5/16 兩個訊號代表 AI 商業版圖的兩種形態：Anthropic 的 $44B ARR 說明企業付費 AI 已到達逃逸速度；Apple × Google 的 Siri 重建計畫說明消費者 AI 的軍備競賽正在進入操作系統層。前者是現在進行式，後者是六月的預告片。",
+    marketEn: "May 16's two signals represent two forms of AI commercial landscape: Anthropic's $44B ARR proves enterprise paid AI has reached escape velocity; Apple × Google's Siri rebuild signals consumer AI's arms race entering the OS layer. The former is present tense; the latter is a June preview.",
+  },
   {
     date: "2026-05-15",
     items: [
@@ -1699,7 +2034,10 @@ const MONTH_LABELS_EN = ['January', 'February', 'March', 'April', 'May', 'June',
 
 export function getGroupedDigests(): MonthGroup[] {
   const now = new Date();
-  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  // If we already have entries for a future month, treat that as current so past months fold.
+  const newestEntryKey = digests.length > 0 ? digests[0].date.slice(0, 7) : todayKey;
+  const currentKey = newestEntryKey > todayKey ? newestEntryKey : todayKey;
 
   // Group by YYYY-MM
   const map = new Map<string, DailyDigest[]>();
