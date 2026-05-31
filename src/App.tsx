@@ -94,7 +94,7 @@ function App() {
         const controller = new AbortController();
         const timeout = window.setTimeout(() => controller.abort(), 8000);
         const resp = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw`,
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=UC_qQ8-E8YbRQU8cEOLHtOtw')}`,
           { signal: controller.signal }
         );
         window.clearTimeout(timeout);
