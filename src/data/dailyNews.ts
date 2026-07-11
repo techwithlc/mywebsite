@@ -52,48 +52,6 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
-    date: "2026-06-01",
-    eventBanner: {
-      logoText: "GTC TAIPEI",
-      title: "NVIDIA GTC Taipei × COMPUTEX 2026",
-      titleEn: "NVIDIA GTC Taipei × COMPUTEX 2026",
-      subtitle: "Jensen Huang 親臨台北，台灣科技業年度最重要一週",
-      subtitleEn: "Jensen Huang in Taipei — the most important week for Taiwan's tech industry",
-      dateRange: "6/1–6/5 ｜ 台北",
-      dateRangeEn: "June 1–5 ｜ Taipei, Taiwan",
-      bullets: [
-        "6/1 Jensen Huang 主題演講 — 台北音樂中心上午 11:00 TST",
-        "Vera Rubin：「台灣有史以來最大產品發布」，150 家台灣供應鏈夥伴參與",
-        "NVIDIA N1X：與 MediaTek 聯合開發的 ARM 架構 Windows 筆電晶片首次亮相",
-        "COMPUTEX 6/2–6/5：Jensen Huang、Lisa Su 等全球 CEO 齊聚台北南港",
-        "NVIDIA 今年台灣採購額突破 1,000 億美元，Constellation 園區動工",
-      ],
-      bulletsEn: [
-        "6/1 Jensen Huang Keynote — Taipei Music Center, 11:00 AM TST",
-        "Vera Rubin: 'largest product launch probably in history of Taiwan,' 150 Taiwan ecosystem partners",
-        "NVIDIA N1X: first reveal of ARM-based Windows laptop chip co-developed with MediaTek",
-        "COMPUTEX June 2–5: Jensen Huang, Lisa Su, and global CEOs converge on Taipei Nangang",
-        "NVIDIA's Taiwan procurement crosses $100B this year; Constellation campus breaks ground",
-      ],
-      url: "https://www.nvidia.com/en-tw/gtc/taipei/",
-    },
-    items: [
-      {
-        title: "Jensen Huang GTC Taipei 主題演講：Vera Rubin 正式登場、N1X 筆電晶片首度亮相",
-        titleEn: "Jensen Huang GTC Taipei Keynote: Vera Rubin Goes Live, N1X Laptop Chip Debuts",
-        summary: "NVIDIA CEO Jensen Huang 於台北音樂中心發表 GTC Taipei 2026 主題演講，正式揭曉 Vera Rubin NVL72 完整規格，並首次展示 NVIDIA N1X——與 MediaTek 聯合開發的 ARM 架構筆電 SoC，搭載 20 核 CPU 與 6,144 CUDA 核心 Blackwell GPU。Huang 宣布 NVIDIA 今年在台採購額達 1,000 億美元，並透露神秘「驚喜產品」將於 Computex 期間揭曉。",
-        summaryEn: "NVIDIA CEO Jensen Huang delivered the GTC Taipei 2026 keynote at Taipei Music Center, officially unveiling Vera Rubin NVL72 full specs and debuting NVIDIA N1X — an ARM laptop SoC co-developed with MediaTek with a 20-core CPU paired with a 6,144-CUDA-core Blackwell GPU. Huang announced $100B in Taiwan procurement this year and hinted at a mystery 'surprise product' during Computex.",
-        why: "Jensen Huang 親自定調：Vera Rubin 是「台灣有史以來最大的產品發布」，涉及近 200 萬個零件和 150 個台灣生態系夥伴。NVIDIA 在台年採購從 5 年前的 100-150 億成長到今年 1,000 億，台積電、鴻海、廣達、緯創、仁寶全面受惠。N1X 進入 Windows 筆電市場，直接衝擊 Intel 和 AMD 的傳統領地。",
-        whyEn: "Jensen Huang sets the tone: Vera Rubin is 'the largest product launch probably in history of Taiwan,' involving nearly 2 million parts and 150 Taiwan ecosystem partners. NVIDIA's annual Taiwan procurement grew from $10-15B five years ago to $100B today — TSMC, Foxconn, Quanta, Wistron, and Compal all benefit. N1X entering the Windows laptop market directly challenges Intel and AMD's traditional territory.",
-        source: "NVIDIA / COMPUTEX",
-        url: "https://www.nvidia.com/en-tw/gtc/taipei/keynote/",
-        time: "11:00 TST",
-      },
-    ],
-    market: "GTC Taipei 2026 開幕：Jensen Huang 的演講為台灣科技業本週畫下戰略座標。Vera Rubin 供應鏈、N1X 平台、AI 工廠生態——三條主軸各有對應的受益族群。COMPUTEX 正式開幕前，今天的演講就是本週最重要的一份路線圖。",
-    marketEn: "GTC Taipei 2026 opens: Jensen Huang's keynote sets the strategic coordinates for Taiwan's tech industry this week. Vera Rubin supply chain, N1X platform, AI factory ecosystem — three axes, each with clear beneficiaries. Before COMPUTEX officially opens, today's keynote is the most important roadmap of the week.",
-  },
-  {
     date: "2026-07-09",
     items: [
       {
@@ -298,6 +256,48 @@ const digests: DailyDigest[] = [
     ],
     market: "6/2 兩則新聞一軟一硬：NVIDIA 用新晶片擴大商業版圖，白宮則用行政命令劃出前沿 AI 的監管紅線。十天後（6/12）Anthropic 的出口管制危機，正是這道行政命令從紙本政策變成實際執行的第一個案例。",
     marketEn: "June 2's two stories are a hardware-policy pair: NVIDIA expanding its commercial footprint with a new chip, while the White House drew a regulatory line for frontier AI via executive order. Ten days later (June 12), Anthropic's export-control crisis became the first real-world test of that policy moving from paper to enforcement.",
+  },
+  {
+    date: "2026-06-01",
+    eventBanner: {
+      logoText: "GTC TAIPEI",
+      title: "NVIDIA GTC Taipei × COMPUTEX 2026",
+      titleEn: "NVIDIA GTC Taipei × COMPUTEX 2026",
+      subtitle: "Jensen Huang 親臨台北，台灣科技業年度最重要一週",
+      subtitleEn: "Jensen Huang in Taipei — the most important week for Taiwan's tech industry",
+      dateRange: "6/1–6/5 ｜ 台北",
+      dateRangeEn: "June 1–5 ｜ Taipei, Taiwan",
+      bullets: [
+        "6/1 Jensen Huang 主題演講 — 台北音樂中心上午 11:00 TST",
+        "Vera Rubin：「台灣有史以來最大產品發布」，150 家台灣供應鏈夥伴參與",
+        "NVIDIA N1X：與 MediaTek 聯合開發的 ARM 架構 Windows 筆電晶片首次亮相",
+        "COMPUTEX 6/2–6/5：Jensen Huang、Lisa Su 等全球 CEO 齊聚台北南港",
+        "NVIDIA 今年台灣採購額突破 1,000 億美元，Constellation 園區動工",
+      ],
+      bulletsEn: [
+        "6/1 Jensen Huang Keynote — Taipei Music Center, 11:00 AM TST",
+        "Vera Rubin: 'largest product launch probably in history of Taiwan,' 150 Taiwan ecosystem partners",
+        "NVIDIA N1X: first reveal of ARM-based Windows laptop chip co-developed with MediaTek",
+        "COMPUTEX June 2–5: Jensen Huang, Lisa Su, and global CEOs converge on Taipei Nangang",
+        "NVIDIA's Taiwan procurement crosses $100B this year; Constellation campus breaks ground",
+      ],
+      url: "https://www.nvidia.com/en-tw/gtc/taipei/",
+    },
+    items: [
+      {
+        title: "Jensen Huang GTC Taipei 主題演講：Vera Rubin 正式登場、N1X 筆電晶片首度亮相",
+        titleEn: "Jensen Huang GTC Taipei Keynote: Vera Rubin Goes Live, N1X Laptop Chip Debuts",
+        summary: "NVIDIA CEO Jensen Huang 於台北音樂中心發表 GTC Taipei 2026 主題演講，正式揭曉 Vera Rubin NVL72 完整規格，並首次展示 NVIDIA N1X——與 MediaTek 聯合開發的 ARM 架構筆電 SoC，搭載 20 核 CPU 與 6,144 CUDA 核心 Blackwell GPU。Huang 宣布 NVIDIA 今年在台採購額達 1,000 億美元，並透露神秘「驚喜產品」將於 Computex 期間揭曉。",
+        summaryEn: "NVIDIA CEO Jensen Huang delivered the GTC Taipei 2026 keynote at Taipei Music Center, officially unveiling Vera Rubin NVL72 full specs and debuting NVIDIA N1X — an ARM laptop SoC co-developed with MediaTek with a 20-core CPU paired with a 6,144-CUDA-core Blackwell GPU. Huang announced $100B in Taiwan procurement this year and hinted at a mystery 'surprise product' during Computex.",
+        why: "Jensen Huang 親自定調：Vera Rubin 是「台灣有史以來最大的產品發布」，涉及近 200 萬個零件和 150 個台灣生態系夥伴。NVIDIA 在台年採購從 5 年前的 100-150 億成長到今年 1,000 億，台積電、鴻海、廣達、緯創、仁寶全面受惠。N1X 進入 Windows 筆電市場，直接衝擊 Intel 和 AMD 的傳統領地。",
+        whyEn: "Jensen Huang sets the tone: Vera Rubin is 'the largest product launch probably in history of Taiwan,' involving nearly 2 million parts and 150 Taiwan ecosystem partners. NVIDIA's annual Taiwan procurement grew from $10-15B five years ago to $100B today — TSMC, Foxconn, Quanta, Wistron, and Compal all benefit. N1X entering the Windows laptop market directly challenges Intel and AMD's traditional territory.",
+        source: "NVIDIA / COMPUTEX",
+        url: "https://www.nvidia.com/en-tw/gtc/taipei/keynote/",
+        time: "11:00 TST",
+      },
+    ],
+    market: "GTC Taipei 2026 開幕：Jensen Huang 的演講為台灣科技業本週畫下戰略座標。Vera Rubin 供應鏈、N1X 平台、AI 工廠生態——三條主軸各有對應的受益族群。COMPUTEX 正式開幕前，今天的演講就是本週最重要的一份路線圖。",
+    marketEn: "GTC Taipei 2026 opens: Jensen Huang's keynote sets the strategic coordinates for Taiwan's tech industry this week. Vera Rubin supply chain, N1X platform, AI factory ecosystem — three axes, each with clear beneficiaries. Before COMPUTEX officially opens, today's keynote is the most important roadmap of the week.",
   },
   {
     date: "2026-05-31",
