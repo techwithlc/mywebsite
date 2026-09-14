@@ -343,7 +343,7 @@ function App() {
           </h2>
           <div className="space-y-5">
             {[
-              { period: 'Apr 2026 –', role: language === 'en' ? 'AI Cloud Operations Manager' : 'AI 雲端維運經理', org: 'Visionbay.ai' },
+              { period: 'Apr 2026 –', role: language === 'en' ? 'Senior AI Cloud Operation Engineer' : '資深 AI 雲端維運工程師', org: 'Visionbay.ai' },
               { period: 'Nov 2025 – Apr 2026', role: language === 'en' ? 'Independent Cloud Architect' : '獨立雲端架構師', org: language === 'en' ? 'Self-employed · APAC' : '自雇 · 亞太區' },
               { period: 'May – Oct 2025', role: language === 'en' ? 'Senior Site Reliability Engineer' : '資深 SRE 工程師', org: 'Cathay Financial Holdings · Taipei' },
               { period: 'Apr 2022 – Jul 2024', role: language === 'en' ? 'Cloud Support Engineer' : '雲端支援工程師', org: 'Amazon Web Services · Dublin' },
