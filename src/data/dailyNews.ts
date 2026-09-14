@@ -52,6 +52,71 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-09-03",
+    items: [
+      {
+        title: "OpenAI 發布 GPT-6 Astra，Greg Brockman 稱可能是 AGI 的到來",
+        titleEn: "OpenAI Releases GPT-6 Astra, Greg Brockman Says It May Mark the Arrival of AGI",
+        summary: "OpenAI 於 9 月 3 日先開放給核准用戶使用 GPT-6 Astra，隔天全面上線至 ChatGPT Plus／Pro／Business／Enterprise 與 API、AWS。新模型支援 105 萬 token 上下文、12.8 萬 token 輸出，在多項推理 benchmark 拿下接近滿分成績，超越前代 GPT-5.6 Sol 與 Anthropic 的 Claude Fable 5。OpenAI 總裁 Greg Brockman 稱其為「世代級躍進」，未來可能被視為 AGI 的起點；由於 7 月曾發生 Hugging Face 資安事件，這次上線也加了更多資安限制，對網路安全相關提問會拒答。",
+        summaryEn: "OpenAI rolled out GPT-6 Astra to approved users on September 3, with full availability the next day across ChatGPT Plus/Pro/Business/Enterprise, the API, and AWS. The model supports a 1.05M-token context window and 128K-token output, posting near-perfect scores on several reasoning benchmarks and beating both predecessor GPT-5.6 Sol and Anthropic's Claude Fable 5. OpenAI president Greg Brockman called it a 'generational leap' that may eventually be seen as the arrival of AGI. Following a July Hugging Face security incident, this rollout ships with tighter safeguards, including refusals on certain cybersecurity-related prompts.",
+        why: "「可能是 AGI」這種說法出自 OpenAI 二把手之口，本身就是一種行銷語言，但也反映前沿模型的推理能力確實在快速逼近人類專家水準。更值得注意的是資安限制的加碼——上一代模型才因外洩事件受挫，這次選擇「先限制、再逐步放寬」的上線策略，顯示廠商已經意識到能力越強、誤用風險也越高。",
+        whyEn: "Calling it 'possibly AGI' from OpenAI's president is itself marketing language, but it also reflects how quickly frontier reasoning capability is closing in on human-expert level. More notable is the added security restrictions — after the previous model was burned by a leak incident, choosing to 'restrict first, loosen later' on rollout shows vendors are recognizing that more capability also means more misuse risk.",
+        source: "Axios / CNBC / Al Jazeera / 9to5Mac",
+        url: "https://www.axios.com/2026/09/03/openai-astra-gpt-6-agi-brockman",
+        time: "09:00 TST",
+      },
+    ],
+    market: "GPT-6 Astra 上線的同一週，Anthropic 才剛發布 Fable 5.1／Mythos 5.1，前沿模型的競賽已經進入「幾乎每月見真章」的節奏。對開發者來說，重點不再是等待下一代模型，而是如何在快速迭代中挑對成本與能力的平衡點。",
+    marketEn: "GPT-6 Astra launched the same week Anthropic shipped Fable 5.1/Mythos 5.1 — frontier-model competition has entered an 'almost monthly showdown' rhythm. For developers, the priority is no longer waiting for the next model, but picking the right cost/capability tradeoff amid rapid iteration.",
+  },
+  {
+    date: "2026-09-01",
+    items: [
+      {
+        title: "Anthropic 發布 Claude Fable 5.1 與 Mythos 5.1，Cache 讀取降價 75%",
+        titleEn: "Anthropic Releases Claude Fable 5.1 and Mythos 5.1, Cuts Cache-Read Costs by 75%",
+        summary: "Anthropic 於 9 月 1 日發布 Claude Fable 5.1 與 Mythos 5.1（同一底層模型的兩種存取版本：Fable 5.1 是一般可用版，Mythos 5.1 開放給受信任的資安與生命科學機構使用較少限制的版本）。在 Terminal-Bench 4.0 拿下 55.8 分（前代 Fable 5 為 42.0），GDPval-AA v2 知識工作評測達 1,853 分，優於 Opus 5 的 1,824 與 Fable 5 的 1,723。基礎定價維持每百萬 token 輸入／輸出 $10／$50，但 cache 讀取成本降低 75%，一般工作流成本可省約 25%，高度使用 agent 的工作流最多省 45%。",
+        summaryEn: "Anthropic released Claude Fable 5.1 and Mythos 5.1 on September 1 — two access tiers of the same underlying model, with Fable 5.1 as the generally available version and Mythos 5.1 offered to vetted cybersecurity and life-sciences organizations under fewer restrictions. It scored 55.8 on Terminal-Bench 4.0 (versus 42.0 for the prior Fable 5) and 1,853 on GDPval-AA v2 for knowledge work, ahead of Opus 5's 1,824 and Fable 5's 1,723. Base pricing stays at $10/$50 per million input/output tokens, but cache-read costs drop 75%, cutting typical workflow costs by about 25% and heavily agentic workflows by up to 45%.",
+        why: "把同一顆模型拆成「一般版」與「受限機構專用版」，等於是 Anthropic 對「能力越強、越需要管控」問題的一種折衷解法——與其閹割模型能力，不如用存取權限分流風險使用場景。而 cache 讀取降價 75% 對重度使用長對話、長文件的企業客戶是實質成本利多，也是搶市佔的具體動作。",
+        whyEn: "Splitting one model into a 'general' tier and a 'vetted institutions only' tier is Anthropic's compromise on the 'more capability needs more control' problem — rather than lobotomizing the model, it segments risk by access rather than capability. The 75% cache-read discount is a real cost win for enterprise customers with long conversations or long documents, and a concrete move to win market share.",
+        source: "VentureBeat / Anthropic System Card / MacRumors / 9to5Mac",
+        url: "https://venturebeat.com/technology/anthropics-claude-fable-5-1-and-mythos-5-1-arrive-with-a-75-cost-reduction-for-fable-cache-reads",
+        time: "10:00 TST",
+      },
+    ],
+    market: "9/1 這次更新沒有換代號、沒有漲價，卻在成本與評測分數上都拿出實質進展，顯示 Anthropic 現在的策略是「小步快跑、持續優化」，而不是每次都要包裝成重大發布。",
+    marketEn: "This September 1 update kept the same model generation and pricing, yet delivered real gains in both cost and benchmark scores — a sign Anthropic is now favoring 'frequent small steps' over packaging every release as a major event.",
+  },
+  {
+    date: "2026-08-13",
+    items: [
+      {
+        title: "LiteLLM 供應鏈攻擊延燒：153GB 竊取憑證外流，衝擊 2,500 家企業",
+        titleEn: "LiteLLM Supply Chain Attack Fallout: 153GB of Stolen Credentials Leaked, Hitting 2,500+ Companies",
+        summary: "3 月間駭客組織 TeamPCP 透過竄改開源掃描工具 Trivy 竊得 LiteLLM 專案的 PyPI 發布權杖，進而上架兩個含惡意程式碼的 LiteLLM 版本（1.82.7、1.82.8）。8 月中，一份高達 153GB、內含雲端金鑰、AI 供應商 API 金鑰、SSH 金鑰與 Kubernetes token 的竊取資料現身，共牽連約 2,488 家企業網域、逾 43 萬個 CI/CD pipeline，受害名單包含 NVIDIA、微軟、思科、Deloitte、西門子等大型企業。研究單位發現，事發五個月後仍有大量憑證未失效、仍可使用。",
+        summaryEn: "In March, threat group TeamPCP compromised the open-source scanner Trivy to steal LiteLLM's PyPI publishing tokens, then published two malicious LiteLLM releases (1.82.7 and 1.82.8). In mid-August, a 153GB archive of stolen cloud keys, AI provider API keys, SSH keys, and Kubernetes tokens surfaced, tracing back to roughly 2,488 corporate domains and over 430,000 CI/CD pipelines — victims include NVIDIA, Microsoft, Cisco, Deloitte, and Siemens. Researchers found that five months after the breach, many of the exposed credentials were still valid and usable.",
+        why: "這起事件的可怕之處不是攻擊手法多新穎，而是「AI 閘道套件」已經變成企業基礎設施的信任核心，一旦供應鏈上游遭污染，就是直接繞過所有下游的存取控制。半年後憑證仍未輪替，更凸顯多數企業對 CI/CD 環境的金鑰管理與異常監控形同虛設。",
+        whyEn: "What makes this alarming isn't a novel attack technique — it's that 'AI gateway' packages have quietly become a trust anchor in enterprise infrastructure, so poisoning the upstream supply chain bypasses every downstream access control at once. That credentials remained unrotated five months later underscores how little real key-management and anomaly monitoring exists across most companies' CI/CD environments.",
+        source: "CloudSEK / Help Net Security / SecurityWeek / Trend Micro",
+        url: "https://www.helpnetsecurity.com/2026/08/13/litellm-breach-stolen-credentials-leak/",
+        time: "14:00 TST",
+      },
+      {
+        title: "DeepSeek V4-Pro 正式 GA：主打 Agent 能力，軟體工程 benchmark 大幅躍進",
+        titleEn: "DeepSeek V4-Pro Reaches General Availability, Targeting Agent Capability with a Big Software-Engineering Benchmark Jump",
+        summary: "DeepSeek 於 8 月 13 日將 V4-Pro（代號 V4-Pro-0813）從 4 月起的預覽版正式轉為 GA，全面開放 App、網頁與 API。主打多步驟工具呼叫與自主完成任務的 agent 能力，在 Terminal Bench 2.1 拿下 87.9 分、真實世界軟體工程評測 DeepSWE 達 62.7 分（較先前版本的 12.8 分大幅提升），支援 100 萬 token 上下文、最長 38.4 萬 token 輸出。同時 DeepSeek 也宣布 8 月 16 日起調漲 V4 系列價格，並導入離峰時段半價的分時計費機制。",
+        summaryEn: "On August 13, DeepSeek promoted V4-Pro (codename V4-Pro-0813) from its April preview to full general availability across app, web, and API. The release targets agentic capability — multi-step tool use and autonomous task completion — scoring 87.9 on Terminal Bench 2.1 and 62.7 on the real-world software-engineering benchmark DeepSWE (a sharp jump from an earlier 12.8), with a 1M-token context window and up to 384K-token output. DeepSeek also announced a price increase for the V4 family effective August 16, alongside a new time-of-day billing scheme with half-price off-peak rates.",
+        why: "DeepSeek 從「便宜的开源替代品」定位，逐漸往「agent 能力也能打」的方向靠攏，軟體工程 benchmark 從 12.8 衝到 62.7 分是相當誇張的進步幅度。分時計費的引入也代表中國廠商開始學習雲端服務常見的離峰定價策略，藉此更精細地管理 GPU 產能與成本。",
+        whyEn: "DeepSeek is shifting from a 'cheap open-source alternative' positioning toward 'agent capability that can actually compete' — jumping from 12.8 to 62.7 on a software-engineering benchmark is a dramatic leap. The new time-of-day billing also shows a Chinese lab adopting cloud-style off-peak pricing to more finely manage GPU capacity and cost.",
+        source: "Yahoo Tech / gHacks / Hugging Face Blog",
+        url: "https://www.ghacks.net/2026/08/17/deepseek-releases-v4-pro-with-higher-benchmarks-open-source-tooling-and-upcoming-price-increases/",
+        time: "09:00 TST",
+      },
+    ],
+    market: "8/13 同一天發生的兩件事恰好對照出 AI 產業的兩面：一邊是模型能力持續進步、價格策略越來越精細（DeepSeek），另一邊是底層供應鏈的信任基礎持續被攻破、代價要等半年後才真正曝光（LiteLLM）。能力與風險，一直是同步在長大的。",
+    marketEn: "The two stories from August 13 mirror two sides of the AI industry: capability keeps advancing with increasingly refined pricing (DeepSeek), while the trust foundation of the underlying supply chain keeps getting breached, with the true cost only surfacing months later (LiteLLM). Capability and risk have been growing in lockstep.",
+  },
+  {
     date: "2026-07-26",
     items: [
       {
