@@ -52,6 +52,78 @@ export interface DailyDigest {
 // Newest first.
 const digests: DailyDigest[] = [
   {
+    date: "2026-09-27",
+    items: [
+      {
+        title: "Citrix NetScaler 兩個 RCE 零日漏洞遭在野利用，CISA 火速列入必修清單",
+        titleEn: "Citrix NetScaler's Two RCE Zero-Days Actively Exploited in the Wild, CISA Fast-Tracks KEV Listing",
+        summary: "Citrix 於 9 月 27 日公告 NetScaler ADC／Gateway 共 8 個新漏洞，其中兩個嚴重遠端程式碼執行（RCE）漏洞 CVE-2026-88771 與 CVE-2026-88772 的 CVSSv4 評分皆達 9.5，且在正式公告前就已被攻擊者當作零日利用，最早攻擊行為可追溯至 9 月 24 日。CVE-2026-88771 只要是預設設定即可被未經驗證的攻擊者遠端執行任意指令；CISA 已在同一天將兩者列入「已知遭利用漏洞」（KEV）清單，要求聯邦機構限期修補。",
+        summaryEn: "Citrix disclosed eight new vulnerabilities in NetScaler ADC/Gateway on September 27, including two critical remote code execution flaws — CVE-2026-88771 and CVE-2026-88772 — both scoring 9.5 on CVSSv4. Both were already being exploited as zero-days before the public disclosure, with the earliest known attack traced back to September 24. CVE-2026-88771 lets an unauthenticated attacker run arbitrary commands even on a default configuration; CISA added both to its Known Exploited Vulnerabilities catalog the same day, requiring federal agencies to patch on a deadline.",
+        why: "NetScaler 是企業用來做遠端存取與負載平衡的關鍵閘道設備，一旦被攻破等於攻擊者直接拿到內網大門鑰匙——這類邊界設備漏洞近年一直是勒索軟體集團的最愛入侵點。攻擊者搶先在官方公告前三天就開始利用，也再次證明「零日視窗」對企業修補作業的殺傷力，光靠等官方通知已經來不及。",
+        whyEn: "NetScaler is the gateway appliance enterprises rely on for remote access and load balancing — compromise it and an attacker holds the keys to the internal network. Edge appliances like this have been ransomware groups' favorite entry point for years. Attackers began exploiting it three days before the official disclosure, another reminder of how lethal the 'zero-day window' is for patch operations — waiting for a vendor notice is already too late.",
+        source: "The Hacker News / BleepingComputer / CISA KEV / watchTowr",
+        url: "https://thehackernews.com/2026/09/warning-two-unpatched-citrix-netscaler.html",
+        time: "16:00 TST",
+      },
+    ],
+    market: "邊界設備零日漏洞的殺傷力年年沒變，但攻防節奏更快了——這次從實際攻擊到官方公告只隔 3 天。對企業資安團隊來說，重點已經從「有沒有裝修補程式」轉向「能不能在漏洞公開前就偵測到異常流量」。",
+    marketEn: "Edge-appliance zero-days remain just as lethal year after year, but the pace has tightened — this time only 3 days separated real-world exploitation from the official disclosure. For enterprise security teams, the priority has shifted from 'did you patch' to 'can you catch anomalous traffic before the vulnerability goes public.'",
+  },
+  {
+    date: "2026-09-23",
+    items: [
+      {
+        title: "Altman 與 Amodei 同台聯合國安理會，呼籲各國採用共通 AI 安全標準",
+        titleEn: "Altman and Amodei Jointly Address UN Security Council, Urge Countries to Adopt Shared AI Safety Standards",
+        summary: "OpenAI 執行長 Sam Altman 與 Anthropic 執行長 Dario Amodei 於 9 月 23 日出席聯合國安理會會議，呼籲 15 個會員國建立共通的 AI 安全標準。Altman 主張各國應統一「能力評估」與「失效通報」的衡量方式；Amodei 則提出範圍較窄但更具體的協議，聚焦在生物武器濫用防範與前沿系統能力測試。這場會議發生在 Google、OpenAI、Anthropic 三家公司籌組自律性安全機構「SAFA」（Standards Authority for Frontier AI，預計 2026 年底至 2027 年初上路）的背景之下。",
+        summaryEn: "OpenAI CEO Sam Altman and Anthropic CEO Dario Amodei addressed a UN Security Council session on September 23, urging the 15 member states to adopt shared AI safety standards. Altman argued for aligning how countries measure model capabilities and report failures; Amodei proposed a narrower but more concrete agreement focused on preventing bio-weapon misuse and testing frontier systems' capabilities. The session came against the backdrop of Google, OpenAI, and Anthropic jointly organizing a self-regulatory body called SAFA (Standards Authority for Frontier AI), targeted to launch by late 2026 or early 2027.",
+        why: "兩家理論上互為競爭對手的公司執行長同台向聯合國喊話，很難不讓人聯想這是「先自律、避免被硬性監管」的策略操作——業界自己畫規則，總比等各國政府各自立法要有利。但另一方面，AI 能力確實已經進展到連 CEO 自己都覺得需要外部監督機制的地步，這點也不完全是公關話術。",
+        whyEn: "Two CEOs who are nominally competitors sharing a stage at the UN is hard not to read as a 'self-regulate before being regulated' strategy — an industry writing its own rules beats waiting for each government to legislate separately. On the other hand, AI capability has genuinely advanced to a point where even the CEOs themselves see a need for outside oversight — that part isn't purely PR either.",
+        source: "CNN / Bloomberg / Newsweek",
+        url: "https://edition.cnn.com/2026/09/23/tech/altman-amodei-ai-safety-un-security-council",
+        time: "22:00 TST",
+      },
+    ],
+    market: "前沿 AI 三巨頭（OpenAI、Anthropic、Google）罕見地在安全議題上站到同一陣線，籌組自律機構 SAFA。這是產業從「各自競速」轉向「共同劃紅線」的訊號，但自律機構能否有效約束，還是得看後續有沒有實質稽核權力。",
+    marketEn: "The frontier-AI trio (OpenAI, Anthropic, Google) rarely align this publicly on safety, now jointly organizing the SAFA self-regulatory body. It's a signal the industry is shifting from 'racing separately' to 'drawing red lines together' — but whether self-regulation has real teeth depends on whether the body gets genuine audit power.",
+  },
+  {
+    date: "2026-09-22",
+    items: [
+      {
+        title: "Anthropic 發布 Claude Opus 5.5：降價 20% 同時刷新每項 benchmark",
+        titleEn: "Anthropic Releases Claude Opus 5.5: 20% Price Cut While Topping Every Benchmark",
+        summary: "Anthropic 於 9 月 22 日發布 Claude Opus 5.5，定價降至每百萬 token 輸入／輸出 $4／$20（較 Opus 5 的 $5／$25 降 20%），cache 讀取降到每百萬 token $0.20、且取消長上下文附加費。在 SWE-bench Pro 拿下 89.9%、Terminal-Bench 4.0 拿下 66.4%，是 Anthropic 公開評測中兩款模型裡分數最高的一款；Artificial Analysis 的智能指數也將其列為榜首（58 分）。Anthropic 表示一般工作流成本較 Opus 5 降低 40%，輸出速度提升逾 30%。同週 OpenAI 也發布 GPT-6 Luna／Sol，小米則推出 MiMo V2.6 系列。",
+        summaryEn: "Anthropic released Claude Opus 5.5 on September 22, cutting list pricing to $4/$20 per million input/output tokens (a 20% drop from Opus 5's $5/$25), with cache reads down to $0.20 per million and no long-context surcharge. It scored 89.9% on SWE-bench Pro and 66.4% on Terminal-Bench 4.0 — topping every benchmark Anthropic published for both models — and Artificial Analysis ranked it first on its Intelligence Index at 58. Anthropic says typical workflow costs drop 40% versus Opus 5, with output generated over 30% faster. The same week, OpenAI released GPT-6 Luna/Sol and Xiaomi launched its MiMo V2.6 lineup.",
+        why: "「降價還同時刷新分數」打破了 AI 模型「越強越貴」的直覺——這代表推理效率的進步已經開始反映在成本結構上，不只是單純堆算力。對企業客戶而言，這是採購決策上少見的「魚與熊掌兼得」案例，也讓 Opus 5 才發布兩個月就快速被自家新模型取代，凸顯前沿模型的迭代週期正被壓縮到以週計算。",
+        whyEn: "'Cheaper and higher-scoring at the same time' breaks the usual assumption that stronger models cost more — it signals inference-efficiency gains are now showing up directly in cost structure, not just raw compute scaling. For enterprise buyers, that's a rare 'have your cake and eat it too' moment, while Opus 5 itself getting superseded just two months after launch shows frontier iteration cycles compressing down to a matter of weeks.",
+        source: "TechRepublic / Digital Applied / Artificial Analysis",
+        url: "https://www.techrepublic.com/article/news-anthropic-claude-opus-5-5-pricing-performance/",
+        time: "11:00 TST",
+      },
+    ],
+    market: "9/22 這天三家廠商（Anthropic、OpenAI、小米）同步出手，讓「單週多款前沿模型齊發」變成新常態。對開發者來說，選型的決策成本正在上升——但至少 Opus 5.5 證明了「更便宜、更快、更強」三者同時達成是可能的。",
+    marketEn: "Three vendors (Anthropic, OpenAI, Xiaomi) all shipped on September 22 — 'multiple frontier models in one week' is becoming the new normal. Developers now face rising decision costs when choosing a model, but Opus 5.5 at least proves 'cheaper, faster, and stronger' can all be true at once.",
+  },
+  {
+    date: "2026-09-12",
+    items: [
+      {
+        title: "Amodei 發表〈We Must Pace the Frontier〉：呼籲放緩最前沿系統的開發速度",
+        titleEn: "Amodei Publishes 'We Must Pace the Frontier,' Calling to Slow Development of the Most Advanced Systems",
+        summary: "Anthropic 執行長 Dario Amodei 於 9 月 12 日發表一篇約 3,800 字的文章〈We Must Pace the Frontier〉，主張 AI 能力的進展速度已經超越產業理解與控制風險的能力，呼籲讓外部第三方評估機構取得近乎「員工等級」的持續存取權限，以便實質稽核前沿模型的安全性，而非只是形式審查。OpenAI 的 Sam Altman、Google 的 Demis Hassabis 等業界領袖公開表態支持這篇文章的主張，Altman 並表示 OpenAI 將把第三方評估者直接納入公司內部監督安全事務。",
+        summaryEn: "Anthropic CEO Dario Amodei published a roughly 3,800-word essay titled 'We Must Pace the Frontier' on September 12, arguing that AI capability is advancing faster than the industry's ability to understand and control its risks. He called for giving outside evaluators near-'employee-level' ongoing access to frontier labs so they can meaningfully audit model safety rather than perform pro-forma reviews. Industry leaders including OpenAI's Sam Altman and Google's Demis Hassabis publicly backed the essay's proposals, with Altman saying OpenAI would embed third-party evaluators directly inside the company to monitor safety.",
+        why: "由業界最積極催促「安全優先」的 Anthropic 執行長出面呼籲放緩腳步，某種程度上也是一種競爭策略——如果全行業都被迫放慢，就不會有人因為衝太快而甩開對手。但「讓外部人員取得員工等級存取權」這個提案如果真的落實，會是前沿實驗室罕見的透明化讓步，值得後續追蹤是否只是口頭表態。",
+        whyEn: "Having the CEO most vocal about 'safety first' call for slowing down is, to some extent, also a competitive move — if the whole industry is forced to slow together, no one gains an edge by racing ahead. But the proposal to give outside evaluators employee-level access, if actually implemented, would be a rare transparency concession from a frontier lab — worth watching whether it stays more than a statement.",
+        source: "Implicator.ai / CNN / Newsweek",
+        url: "https://www.implicator.ai/altman-amodei-un-ai-safety-standards/",
+        time: "09:00 TST",
+      },
+    ],
+    market: "9 月中旬這篇文章開啟了整個月「業界喊話安全治理」的主軸，最終在月底延伸到聯合國安理會演講與 SAFA 自律機構的籌組。安全論述正式成為前沿實驗室的公開競爭場域，不再只是產品發布會的附註。",
+    marketEn: "This mid-September essay kicked off the month's throughline of industry calls for safety governance, eventually extending to the UN Security Council address and the SAFA self-regulatory body by month's end. Safety discourse has become an explicit competitive arena for frontier labs — no longer just a footnote at product launches.",
+  },
+  {
     date: "2026-09-03",
     items: [
       {
