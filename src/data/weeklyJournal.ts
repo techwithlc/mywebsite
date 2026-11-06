@@ -500,7 +500,7 @@ export const infrastructureCopy = {
     "heroLine": "AI 的下一步，\n從基礎設施讀起。",
     "heroBody": "電力、晶片、散熱與資本。從工程現場出發，追蹤 AI 算力背後的實體世界與商業邏輯。",
     "heroByline": "Lawrence Chen / Visionbay.ai",
-    "diagram": "基建研究示意圖",
+    "diagram": "AI 基建五層立體概念圖：能源、晶片、基礎設施、模型與應用",
     "diagramNote": "概念示意，非實際機房配置。",
     "diagramTag": "研究視角",
     "diagramFooter": "能源 → 運算 → 服務 → 價值",
@@ -540,7 +540,7 @@ export const infrastructureCopy = {
     "heroLine": "The next chapter of AI\nstarts with infrastructure.",
     "heroBody": "Power, silicon, cooling, and capital. Following the physical systems and business decisions that turn AI compute into a service.",
     "heroByline": "Lawrence Chen / Visionbay.ai",
-    "diagram": "Infrastructure research schematic",
+    "diagram": "Five-layer AI infrastructure illustration: energy, chips, infrastructure, models, and applications",
     "diagramNote": "Conceptual illustration, not an actual facility layout.",
     "diagramTag": "Research perspectives",
     "diagramFooter": "ENERGY → COMPUTE → SERVICE → VALUE",
@@ -574,3 +574,46 @@ export const infrastructureCopy = {
     "sectionTag": "SEASON 01 / EDITORIAL PLAN"
   }
 };
+
+export const infrastructureLayers = [
+  {
+    "id": "05",
+    "title": "Applications",
+    "description": {
+      "zh": "產業應用",
+      "en": "Industry applications"
+    }
+  },
+  {
+    "id": "04",
+    "title": "Models",
+    "description": {
+      "zh": "模型與推論",
+      "en": "Models & inference"
+    }
+  },
+  {
+    "id": "03",
+    "title": "Infrastructure",
+    "description": {
+      "zh": "算力調度與網路隔離",
+      "en": "Compute & networking"
+    }
+  },
+  {
+    "id": "02",
+    "title": "Chips",
+    "description": {
+      "zh": "加速運算基礎",
+      "en": "Accelerated computing"
+    }
+  },
+  {
+    "id": "01",
+    "title": "Energy",
+    "description": {
+      "zh": "電力與散熱基礎",
+      "en": "Power & cooling"
+    }
+  }
+];

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ExternalLink, GraduationCap, Linkedin, Mail, Moon, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { deliveryChain, infrastructureCopy, journalArticles, journalIssues, journalSources, journalTopics, weeklyCopy } from '../data/weeklyJournal';
+import { deliveryChain, infrastructureCopy, infrastructureLayers, journalArticles, journalIssues, journalSources, journalTopics, weeklyCopy } from '../data/weeklyJournal';
 import '../weekly.css';
 
 function InfrastructureSchematic() {
@@ -10,27 +10,15 @@ function InfrastructureSchematic() {
   return (
     <figure className="wj-schematic">
       <div className="wj-schematic-top"><span>{v.diagramTag}</span><span aria-hidden="true">FIG. 01 / AI INFRA</span></div>
-      <svg viewBox="0 0 500 310" role="img" aria-label={v.diagram}>
-        <defs><pattern id="infra-grid" width="28" height="16" patternUnits="userSpaceOnUse" patternTransform="matrix(1 .45 -1 .45 250 120)"><path d="M28 0H0V16" fill="none" stroke="currentColor" strokeWidth=".5" opacity=".18" /></pattern></defs>
-        <rect width="500" height="310" fill="url(#infra-grid)" />
-        <g className="wj-svg-wires" fill="none" stroke="currentColor" strokeWidth="1.2">
-          <path d="M50 234 142 276 237 233M237 233 332 276 451 222M142 276 142 295M332 276 332 295M50 234V214M451 222V202" />
-          <path d="m90 91 157-73 165 75M90 91V73m322 20V75" strokeDasharray="4 6" />
-          <circle cx="50" cy="211" r="3" /><circle cx="451" cy="199" r="3" />
-        </g>
-        {[[87, 107], [203, 64], [319, 107]].map(([x, y], rack) => <g key={rack} transform={`translate(${x} ${y})`}>
-          <path className="wj-rack-top" d="m0 0 28-16 65 30-28 16Z" />
-          <path className="wj-rack-side" d="m65 30 28-16v131l-28 16Z" />
-          <path className="wj-rack-front" d="m0 0 65 30v131L0 131Z" />
-          {Array.from({ length: 7 }, (_, tray) => <g key={tray} transform={`translate(9 ${17 + tray * 15})`}>
-            <path className="wj-rack-slot" d="m0 0 47 22v9L0 9Z" />
-            <path className="wj-rack-led" d="m4 4 6 3" />
-            <path className="wj-rack-vent" d="m21 12 20 9" />
-          </g>)}
-          <path className="wj-rack-led" d="m65 30 28-16" />
-        </g>)}
-        <g className="wj-svg-annotations" fill="currentColor" fontSize="8" fontFamily="monospace"><text x="36" y="195">POWER</text><text x="218" y="41">COMPUTE</text><text x="424" y="185">COOLING</text></g>
-      </svg>
+      <div className="wj-schematic-scene">
+        <img className="wj-schematic-tower" src="/ai-infrastructure-tower-v2.png" alt={v.diagram} width="1097" height="1434" decoding="async" />
+        <ol className="wj-schematic-layers">
+          {infrastructureLayers.map(layer => <li key={layer.id}>
+            <span className="wj-layer-number">{layer.id}</span>
+            <div><strong>{layer.title}</strong><span>{layer.description[language]}</span></div>
+          </li>)}
+        </ol>
+      </div>
       <figcaption><span>{v.diagramFooter}</span><small>{v.diagramNote}</small></figcaption>
     </figure>
   );

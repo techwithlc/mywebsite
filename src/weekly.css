@@ -58,18 +58,18 @@
 .wj-button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; padding: 14px 20px; border: 1px solid var(--wj-accent); border-radius: 3px; background: var(--wj-accent); color: var(--wj-bg); font-size: 12px; font-weight: 600; }
 .wj-text-link { display: inline-flex; align-items: center; gap: 10px; color: var(--wj-accent); font-size: 12px; font-weight: 500; }
 .wj-text-link:hover, .wj-sources a:hover, .wj-inline-sources a:hover { text-decoration: underline; text-underline-offset: 5px; }
-.wj-schematic { position: relative; border: 1px solid var(--wj-line); background: var(--wj-panel); border-radius: 5px; overflow: hidden; }
+.wj-schematic {
+  position: relative; border: 1px solid var(--wj-line); background: var(--wj-panel); border-radius: 5px; overflow: hidden;
+}
 .wj-schematic-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 9px/1.8 var(--wj-mono); letter-spacing: .08em; padding: 17px 22px; border-bottom: 1px solid var(--wj-line); color: var(--wj-muted); }
-.wj-schematic svg { display: block; width: 100%; height: auto; }
-.wj-svg-wires { color: var(--wj-accent); opacity: .65; }
-.wj-schematic > svg { color: var(--wj-rack-stroke); }
-.wj-rack-front { fill: var(--wj-rack-front); stroke: var(--wj-rack-stroke); stroke-width: .8; }
-.wj-rack-side { fill: var(--wj-rack-side); stroke: var(--wj-rack-stroke); stroke-width: .8; }
-.wj-rack-top { fill: var(--wj-rack-top); stroke: var(--wj-rack-stroke); stroke-width: .8; }
-.wj-rack-slot { fill: var(--wj-rack-slot); stroke: var(--wj-rack-stroke); stroke-width: .5; }
-.wj-rack-led { fill: none; stroke: var(--wj-accent); stroke-width: 1.7; }
-.wj-rack-vent { stroke: var(--wj-rack-stroke); stroke-width: .7; }
-.wj-svg-annotations { color: var(--wj-muted); letter-spacing: .08em; }
+.wj-schematic-scene { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); aspect-ratio: 500 / 350; gap: 6px; padding: 14px 18px 12px 12px; background: var(--wj-panel); }
+.wj-schematic-tower { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.wj-schematic-layers { display: grid; grid-template-rows: repeat(5, minmax(0, 1fr)); min-width: 0; margin: 0; padding: 7% 0 4%; list-style: none; }
+.wj-schematic-layers li { position: relative; display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--wj-ink); }
+.wj-schematic-layers li::before { content: ''; width: 12px; height: 1px; background: var(--wj-line); flex-shrink: 0; }
+.wj-layer-number { font: 8px/1.5 var(--wj-mono); color: var(--wj-accent); }
+.wj-schematic-layers strong { display: block; font-size: 14px; line-height: 1.5; font-weight: 500; letter-spacing: -.035em; }
+.wj-schematic-layers li > div > span { display: block; font-size: 9px; line-height: 1.6; color: var(--wj-muted); margin-top: 4px; }
 .wj-schematic figcaption { display: flex; flex-direction: column; gap: 8px; padding: 16px 22px; border-top: 1px solid var(--wj-line); font: 9px/1.6 var(--wj-mono); color: var(--wj-accent); }
 .wj-schematic figcaption small { font: 9px/1.6 'Inter', sans-serif; color: var(--wj-muted); }
 .wj-research-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--wj-line); border-bottom: 1px solid var(--wj-line); margin-bottom: 60px; }
@@ -208,4 +208,13 @@
   .wj-chain { padding: 22px; }
   .wj-chain ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wj-planned-detail { padding: 24px; }
+}
+
+@media (max-width: 480px) {
+  .wj-schematic-scene { padding: 10px 12px 10px 7px; gap: 4px; }
+  .wj-schematic-layers li { gap: 6px; }
+  .wj-schematic-layers li::before { width: 7px; }
+  .wj-schematic-layers strong { font-size: 11px; }
+  .wj-schematic-layers li > div > span { font-size: 8px; margin-top: 3px; }
+  .wj-layer-number { font-size: 7px; }
 }
